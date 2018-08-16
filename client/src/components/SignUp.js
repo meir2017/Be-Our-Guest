@@ -1,0 +1,80 @@
+import React, { Component } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+class SignUp extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputText: "",
+            emailText: "",
+            passText: "",
+            passConfirm: "",
+        }
+    }
+    onChangeText = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+    onClickBtn = (e) => {
+        e.preventDefault();
+        this.props.userRegister(this.state);
+    }
+    BtnChange = (e) => {
+        this.props.ChangeOptions();
+    }
+    render() {
+        const { classes } = this.props;
+
+        return (
+            <div className="singUpForm">
+                <br /><br />
+                <br /><br /> <br />
+                <Grid container spacing={24}>
+                    <Grid item xs={3}>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Paper className="paperSingUp" >
+                            <Button variant="contained" variant="fab" style={{ width: "100px", height: "100px", top: "-50px" }} aria-label="Add" onClick={this.BtnChange} color="secondary" ><h2> go to Login</h2>  </Button>
+                            <br />
+                            <TextField
+                                id="User" label="User name" type="text"
+                                className="textField" defaultValue="" margin="normal"
+                                name="inputText"
+                                onChange={this.onChangeText} value={this.inputText}
+                            />
+                            <br />
+                            <TextField
+                                id="emil" label="Email" type="text"
+                                className="textField" defaultValue="" margin="normal"
+                                name="emailText"
+                                onChange={this.onChangeText} value={this.inputText}
+                            />
+                            <br />
+                            <TextField
+                                id="password-input" label="Password"
+                                type="password" className="textField" margin="normal"
+                                name="passText"
+                                onChange={this.onChangeText} value={this.passText}
+                            />
+                            <br />
+                            <TextField
+                                id="passConfirm" label="Confirm"
+                                type="password" className="textField" margin="normal"
+                                name="passConfirm"
+                                onChange={this.onChangeText} value={this.passText}
+                            />
+                            <br /><br />
+                            <Button variant="contained" onClick={this.onClickBtn} color="primary" >register  </Button>
+                            <br /><br />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={3}>
+                    </Grid>
+                </Grid>
+            </div>
+        );
+    }
+}
+
+export default SignUp;
