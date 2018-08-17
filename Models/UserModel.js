@@ -10,9 +10,9 @@ let userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    events: [{type: Schema.Types.ObjectId, ref: 'event'}],
-    guests: [{type: Schema.Types.ObjectId, ref: 'globalGuest'}],
-    categories: [{type: Schema.Types.ObjectId, ref: 'category'}]
+    events: [{ type: Schema.Types.ObjectId, ref: 'event' }],
+    guests: [{ type: Schema.Types.ObjectId, ref: 'globalGuest' }],
+    categories: [{ type: Schema.Types.ObjectId, ref: 'category' }]
 });
 
 let User = mongoose.model('user', userSchema);
