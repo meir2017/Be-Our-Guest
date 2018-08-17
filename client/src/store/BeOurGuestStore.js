@@ -4,7 +4,7 @@
 import { observable, action, computed, observer, reaction } from "mobx";
 
 class BeOurGuestStore {
-    user = {
+    @observable user = {
         username: "",
         password: "",
         email: "",
