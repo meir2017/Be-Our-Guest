@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
 const User = require('./models/UserModel')
+
 // app.get('/', (req, res) => res.send('Hello World!'))
 
 ////// emil send
@@ -49,7 +50,6 @@ app.get('/meir/:mytext', (req, res) => {
 })
 ////end
 //new user
-//{inputText: "meir", emailText: "66meir46", passText: "1212", passConfirm: "1212"}
 app.post('/beOurGuest/newUser', (req, res) => {
     let userinfo = req.body;
     let newUser = User({
@@ -65,6 +65,21 @@ app.post('/beOurGuest/newUser', (req, res) => {
         res.send(user.id);
     })
 });
+
+//login   To change get
+app.post('/beOurGuest/login', (req, res) => {
+    let userinfo = req.body;
+    User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }, function (error, user) {
+        if (error) {
+            return handleError(error);
+        }
+        res.send(user);
+        // console.log(user.email);
+
+    });
+});
+
+//add event
 app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     let event = req.body;
     let myEvent = new Event({
