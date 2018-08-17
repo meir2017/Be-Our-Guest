@@ -14,9 +14,10 @@ mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//modals
+//modals   
 const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
+const User = require('./models/UserModel')
 // app.get('/', (req, res) => res.send('Hello World!'))
 
 ////// emil send
@@ -47,70 +48,41 @@ app.get('/meir/:mytext', (req, res) => {
     res.send('swnd mail to  ' + req.params.mytext)
 })
 ////end
-
-
-
-
-app.get('/beOurGuest/addNewEvent', (req, res) => {
-    // Title: "",
-    // Date: "",
-    // Location: "",
-    // maxGuests: "",
-    // HostName: ""
-
-    // let event = req.params.EventInfo;
-    // myEvent = new Event({
-    //     Title: event.Title,
-    //     Date: event.Date,
-    //     Location: event.Location,
-    //     maxGuests: event.maxGuests,
-    //     HostName: event.HostName,
-    //     tables: [],
-    //     invitations: [],
-    //     guests: [],
-    // }) 
-    console.log("meir test")
-    // res.send("meir");
+//new user
+//{inputText: "meir", emailText: "66meir46", passText: "1212", passConfirm: "1212"}
+app.post('/beOurGuest/newUser', (req, res) => {
+    let userinfo = req.body;
+    let newUser = User({
+        username: userinfo.inputText,
+        password: userinfo.passText,
+        email: userinfo.emailText,
+        events: [],
+        guests: [],
+        categories: []
+    })
+    newUser.save(function (err, user) {
+        // console.log(user.id)
+        res.send(user.id);
+    })
+});
+app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
+    let event = req.body;
     let myEvent = new Event({
-        Title: "חתונה ",
-        Date: "20/02/2019",
-        Location: "תל אביב",
-        maxGuests: 280,
-        HostName: "מאיר",
+        Owner: req.params.UserId,
+        Title: event.Title,
+        Date: event.Date,
+        Location: event.Location,
+        maxGuests: event.maxGuests,
+        HostName: event.HostName,
         tables: [],
         invitations: [],
         guests: [],
     })
-
     myEvent.save(function (err, event) {
         console.log(event.id)
         res.send(event.id);
     })
 });
-
-
-
-// myEvent = new Event({
-//     Title: "חתונה ",
-//     Date: "20/02/2019",
-//     Location: "תל אביב",
-//     maxGuests: 280,
-//     HostName: "מאיר",
-//     tables: [],
-//     invitations: [],
-//     guests: [],
-// })
-
-// Title: String,
-// Date: Date,
-// Location: String,
-// maxGuests: Number,
-// HostName: String,
-// tables: [{ type: Schema.Types.ObjectId, ref: 'table' }],
-// invitations: [{ type: Schema.Types.ObjectId, ref: 'invitation' }],
-// guests: [{ type: Schema.Types.ObjectId, ref: 'guest' }],
-
-
 
 const port = process.env.PORT || 3001;
 app.listen(port, console.log('Server running on port', port));

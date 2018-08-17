@@ -26,30 +26,22 @@ class CreateEvent extends Component {
     onChangeText = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-    // onClickBtn = (e) => {
-    //     e.preventDefault();
-    //     this.props.userRegister(this.state);
-    // }
     toggle() {
         this.setState({
             modal: !this.state.modal
         });
     }
-    // axios.post('/api/weather/comments/add/', {
-    //     id: id,
-    //     comment: comment
-    //   })
+
     saveEven = (e) => {
         this.toggle();
         e.preventDefault();
-        // console.log(this.state)
-        // axios.get(`/meir/${this.state.inputText}`)
 
-        axios.get('/beOurGuest/addNewEvent')
+
+        axios.post('/beOurGuest/addNewEvent/' + this.props.UserId, this.state)
             .then(response => {
                 console.log((response.data))
             })
-            .catch(err => console.log('Error: cannot fetch data please check the input', err));
+            .catch(err => console.log('Error: ', err));
     }
     render() {
         return (
