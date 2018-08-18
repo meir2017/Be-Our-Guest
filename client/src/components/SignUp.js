@@ -39,30 +39,30 @@ class SignUp extends Component {
                             <br />
                             <TextField
                                 id="User" label="User name" type="text"
-                                className="textField" defaultValue="" margin="normal"
+                                className="textField" margin="normal"
                                 name="inputText"
-                                onChange={this.onChangeText} value={this.inputText}
+                                onChange={this.onChangeText} value={this.state.inputText}
                             />
                             <br />
                             <TextField
                                 id="emil" label="Email" type="text"
-                                className="textField" defaultValue="" margin="normal"
+                                className="textField" margin="normal"
                                 name="emailText"
-                                onChange={this.onChangeText} value={this.inputText}
+                                onChange={this.onChangeText} value={this.state.emailText}
                             />
                             <br />
                             <TextField
                                 id="password-input" label="Password"
                                 type="password" className="textField" margin="normal"
                                 name="passText"
-                                onChange={this.onChangeText} value={this.passText}
+                                onChange={this.onChangeText} value={this.state.passText}
                             />
                             <br />
                             <TextField
                                 id="passConfirm" label="Confirm"
                                 type="password" className="textField" margin="normal"
                                 name="passConfirm"
-                                onChange={this.onChangeText} value={this.passText}
+                                onChange={this.onChangeText} value={this.state.passConfirm}
                             />
                             <br /><br />
                             <Button variant="contained" onClick={this.onClickBtn} color="primary" >register  </Button>

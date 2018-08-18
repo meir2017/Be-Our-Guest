@@ -8,9 +8,10 @@ import 'bootstrap/dist/css/bootstrap.css'; //reactstrap
 
 import store from './store/BeOurGuestStore';
 
+
 import { Provider } from 'mobx-react';
 console.log(store)
-window.store = store;
+// window.store = store;
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();
 

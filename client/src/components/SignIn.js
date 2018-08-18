@@ -17,6 +17,7 @@ class SignIn extends Component {
     onClickBtn = (e) => {
         e.preventDefault();
         this.props.userLogin(this.state.inputText, this.state.passText);
+        this.setState({ inputText: "", passText: "" });
     }
     BtnChange = (e) => {
         this.props.ChangeOptions();
@@ -37,16 +38,16 @@ class SignIn extends Component {
                             <br /> <br /> <br />
                             <TextField
                                 id="uncontrolled" label="User name" type="text"
-                                className="textField" defaultValue="" margin="normal"
+                                className="textField" margin="normal"
                                 name="inputText"
-                                onChange={this.onChangeText} value={this.inputText}
+                                onChange={this.onChangeText} value={this.state.inputText}
                             />
                             <br /> <br /> <br />
                             <TextField
                                 id="password-input" label="Password"
                                 type="password" className="textField" margin="normal"
                                 name="passText"
-                                onChange={this.onChangeText} value={this.passText}
+                                onChange={this.onChangeText} value={this.state.passText}
                             />
                             <br />
                             <br /><br /> <br /> <br />

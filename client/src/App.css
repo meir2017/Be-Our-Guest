@@ -35,3 +35,8 @@
 .paperSingUp{
   background-color:lightsalmon !important
 }
+.btnEvent{
+  width: 320px;
+  height: 60px;
+  background-color:#90EE90;
+}

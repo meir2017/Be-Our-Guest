@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import MyModal from './Modal';
 
-
-
-import Modal2 from './Modal';
 
 class CreateEvent extends Component {
     constructor(props) {
@@ -32,14 +30,17 @@ class CreateEvent extends Component {
         });
     }
 
+    hndlerRemov = (e) => {
+        console.log("e.target.index " + e.target.name)
+        this.props.RemovEvent(e.target.name)
+    }
     saveEven = (e) => {
         this.toggle();
         e.preventDefault();
-
-
-        axios.post('/beOurGuest/addNewEvent/' + this.props.UserId, this.state)
+        axios.post('/beOurGuest/addNewEvent/' + this.props.myAccount.UserId, this.state)
             .then(response => {
-                console.log((response.data))
+                console.log((response.data._id))
+                this.props.AddEvent(response.data)
             })
             .catch(err => console.log('Error: ', err));
     }
@@ -47,8 +48,10 @@ class CreateEvent extends Component {
         return (
             <div>
                 <br /><br />
+
                 <Button color="danger" onClick={this.toggle}>new event</Button>
-                {this.state.modal && <Modal2 >
+                <br /> <br />
+                {this.state.modal && <MyModal >
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className="CreateNewEvent">
                         <ModalHeader toggle={this.toggle}>Create New Event</ModalHeader>
                         <ModalBody>
@@ -83,7 +86,16 @@ class CreateEvent extends Component {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                </Modal2>}
+                </MyModal>}
+                {this.props.myAccount.events.map((eve, index) => {
+                    return (
+                        <div key={eve.HostName + eve.Location} index={index} className="eventAll">
+                            <Button className="btnEvent" name={index} onClick={this.hndlerRemov} >{eve.Title} <b>In </b>   {eve.Location}</Button>
+                            <br /> <br />
+                        </div>
+                    )
+                })}
+
             </div>
         );
     }
