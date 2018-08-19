@@ -28,7 +28,6 @@ class SignIn extends Component {
                 if (response.data != "") {
                     console.log("user login  " + JSON.stringify(response.data))
                     this.props.store.updateUser(response.data)
-                    // this.props.userLogin();
                 } else {
                     console.log("no user Account ")
                 }
@@ -59,7 +58,7 @@ class SignIn extends Component {
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className="paperSingIn">
-                            <Button variant="contained" variant="fab" style={{ width: "100px", height: "100px", top: "-50px" }} aria-label="Add" onClick={this.BtnChange} color="secondary" ><h2> go to Register</h2>  </Button>
+                            <Button variant="contained" variant="fab" style={{ width: "100px", height: "100px", top: "-50px" }} aria-label="Add" onClick={this.BtnChange} color="secondary" ><h5> go to Register</h5>  </Button>
                             <br /> <br /> <br />
                             <TextField
                                 id="uncontrolled" label="User name" type="text"

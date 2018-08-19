@@ -27,7 +27,6 @@
 
 .textField {
   width: 200px;
-  color:green;
 }
 .paperSingIn{
   background-color: lightgreen !important
@@ -39,4 +38,9 @@
   width: 320px;
   height: 60px;
   background-color:#90EE90;
+}
+.navBarMain{
+  background-color: darkorange;
+  height: 60px;
+  
 }

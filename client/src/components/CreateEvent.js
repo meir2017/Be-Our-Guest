@@ -21,6 +21,7 @@ class CreateEvent extends Component {
             maxGuests: "",
             HostName: ""
         };
+        this.handlerSaveEven = this.handlerSaveEven.bind(this);
 
         this.toggle = this.toggle.bind(this);
     }
@@ -51,7 +52,8 @@ class CreateEvent extends Component {
     handlerSaveEven = (e) => {
         this.toggle();
         e.preventDefault();
-        axios.post('/beOurGuest/addNewEvent/' + this.props.store.UserId, this.state)
+        console.log(this.props.store.user.UserId)
+        axios.post('/beOurGuest/addNewEvent/' + this.props.store.user._Id, this.state)
             .then(response => {
                 debugger
                 console.log(" new event id  =" + response.data._id)
@@ -106,7 +108,7 @@ class CreateEvent extends Component {
                 {this.props.store.user.events.map((eve, index) => {
                     return (
                         <div key={eve.HostName + eve.Location} index={index} className="eventAll">
-                            <Button className="btnEvent" name={index} onClick={this.handlerRemoveEvent} >{eve.Title} <b>In </b>   {eve.Location}</Button>
+                            <Button className="btnEvent" name={index}  >{eve.Title} <b>In </b>   {eve.Location}</Button>
                             <br /> <br />
                         </div>
                     )

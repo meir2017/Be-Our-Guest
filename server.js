@@ -22,7 +22,6 @@ const User = require('./models/UserModel')
 // app.get('/', (req, res) => res.send('Hello World!'))
 
 ////// emil send
-
 app.get('/meir/:mytext', (req, res) => {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -48,7 +47,8 @@ app.get('/meir/:mytext', (req, res) => {
     });
     res.send('swnd mail to  ' + req.params.mytext)
 })
-////end
+
+
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
     let userinfo = req.body;
@@ -61,7 +61,6 @@ app.post('/beOurGuest/newUser', (req, res) => {
         categories: []
     })
     newUser.save(function (err, user) {
-        // console.log(user.id)
         res.send(user);
     })
 });
@@ -69,22 +68,20 @@ app.post('/beOurGuest/newUser', (req, res) => {
 //login   To change get
 app.post('/beOurGuest/login', (req, res) => {
     let userinfo = req.body;
-    User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }, function (error, user) {
-        if (error) {
-            return handleError(error);
-        }
-        console.log(user)
-        res.send(user);
-        // console.log(user.email);
-
-    });
+    User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }).
+        populate('events').
+        exec(function (err, user) {
+            if (err) return handleError(err);
+            res.send(user);
+            console.log('The events[0].Title is %s', user.events[0].Title);
+            // prints "The author is Ian Fleming"
+        });
 });
 
 //add event
 app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     let event = req.body;
     let myEvent = new Event({
-        Owner: req.params.UserId,
         Title: event.Title,
         Date: event.Date,
         Location: event.Location,
@@ -96,7 +93,15 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     })
     myEvent.save(function (err, event) {
         console.log(event.id)
-        res.send(event);
+        User.findById(req.params.UserId).
+            then(user => {
+                let listEvent = user.events.concat();
+                listEvent.push(event.id);
+                user.events = listEvent;
+                user.save();
+                res.send(event);
+            })
+
     })
 });
 

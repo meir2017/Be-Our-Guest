@@ -29,12 +29,10 @@ class SignUp extends Component {
                 .then(response => {
                     console.log((" new user " + response.data._id))
                     this.props.store.updateUser(response.data)
-                    // this.setState({ userLog: true })
                 })
         }
         else
             alert("Your passwords do not match")
-        // this.props.userRegister(this.state);
     }
     BtnChange = (e) => {
         this.props.ChangeOptions();
@@ -51,7 +49,7 @@ class SignUp extends Component {
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className="paperSingUp" >
-                            <Button variant="contained" variant="fab" style={{ width: "100px", height: "100px", top: "-50px" }} aria-label="Add" onClick={this.BtnChange} color="secondary" ><h2> go to Login</h2>  </Button>
+                            <Button variant="contained" variant="fab" style={{ width: "100px", height: "100px", top: "-50px" }} aria-label="Add" onClick={this.BtnChange} color="secondary" ><h5> go to Login</h5>  </Button>
                             <br />
                             <TextField
                                 id="User" label="User name" type="text"
