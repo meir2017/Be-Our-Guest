@@ -62,7 +62,7 @@ app.post('/beOurGuest/newUser', (req, res) => {
     })
     newUser.save(function (err, user) {
         // console.log(user.id)
-        res.send(user.id);
+        res.send(user);
     })
 });
 
@@ -73,6 +73,7 @@ app.post('/beOurGuest/login', (req, res) => {
         if (error) {
             return handleError(error);
         }
+        console.log(user)
         res.send(user);
         // console.log(user.email);
 
@@ -95,7 +96,7 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     })
     myEvent.save(function (err, event) {
         console.log(event.id)
-        res.send(event.id);
+        res.send(event);
     })
 });
 

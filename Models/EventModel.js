@@ -7,7 +7,6 @@ let Category = require('./CategoryModel');
 
 
 let eventSchema = new mongoose.Schema({
-    Owner: { type: Schema.Types.ObjectId, ref: 'user' },
     Title: String,
     Date: String,
     Location: String,

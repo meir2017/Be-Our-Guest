@@ -5,7 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import MyModal from './Modal';
 
+import { observer, inject } from 'mobx-react';
 
+
+@inject("store")
+@observer
 class CreateEvent extends Component {
     constructor(props) {
         super(props);
@@ -30,17 +34,29 @@ class CreateEvent extends Component {
         });
     }
 
-    hndlerRemov = (e) => {
-        console.log("e.target.index " + e.target.name)
-        this.props.RemovEvent(e.target.name)
+    handlerRemoveEvent = (e) => {
+
+        //console.log(JSON.stringify(itemEvent))
+        console.log((" Will be deleted  =" + e.target.name))
+        let index = e.target.name;
+        let eventId = this.props.store.user.events[index]._id;
+        axios.delete(`/beOurGuest/RemovEvent/${this.props.store.user._Id}/${eventId}/`)
+            .then(response => {
+                console.log((response.data))
+                this.store.RemovEvent(e.target.name)
+
+            })
+
     }
-    saveEven = (e) => {
+    handlerSaveEven = (e) => {
         this.toggle();
         e.preventDefault();
-        axios.post('/beOurGuest/addNewEvent/' + this.props.myAccount.UserId, this.state)
+        axios.post('/beOurGuest/addNewEvent/' + this.props.store.UserId, this.state)
             .then(response => {
-                console.log((response.data._id))
-                this.props.AddEvent(response.data)
+                debugger
+                console.log(" new event id  =" + response.data._id)
+                this.props.store.AddEvent(response.data)
+
             })
             .catch(err => console.log('Error: ', err));
     }
@@ -82,15 +98,15 @@ class CreateEvent extends Component {
                             <br />
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.saveEven}>Save event</Button>{' '}
+                            <Button color="primary" onClick={this.handlerSaveEven}>Save event</Button>{' '}
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
                 </MyModal>}
-                {this.props.myAccount.events.map((eve, index) => {
+                {this.props.store.user.events.map((eve, index) => {
                     return (
                         <div key={eve.HostName + eve.Location} index={index} className="eventAll">
-                            <Button className="btnEvent" name={index} onClick={this.hndlerRemov} >{eve.Title} <b>In </b>   {eve.Location}</Button>
+                            <Button className="btnEvent" name={index} onClick={this.handlerRemoveEvent} >{eve.Title} <b>In </b>   {eve.Location}</Button>
                             <br /> <br />
                         </div>
                     )

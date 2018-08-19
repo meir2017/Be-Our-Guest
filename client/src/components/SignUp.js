@@ -3,6 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
+
+import { observer, inject } from 'mobx-react';
+
+@inject("store")
+@observer
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +24,17 @@ class SignUp extends Component {
     }
     onClickBtn = (e) => {
         e.preventDefault();
-        this.props.userRegister(this.state);
+        if (this.state.passText == this.state.passConfirm) {
+            axios.post('/beOurGuest/newUser', this.state)
+                .then(response => {
+                    console.log((" new user " + response.data._id))
+                    this.props.store.updateUser(response.data)
+                    // this.setState({ userLog: true })
+                })
+        }
+        else
+            alert("Your passwords do not match")
+        // this.props.userRegister(this.state);
     }
     BtnChange = (e) => {
         this.props.ChangeOptions();

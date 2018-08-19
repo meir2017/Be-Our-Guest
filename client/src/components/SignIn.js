@@ -3,6 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+
+import { observer, inject } from 'mobx-react';
+import axios from 'axios';
+
+@inject("store")
+@observer
 class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -16,8 +22,27 @@ class SignIn extends Component {
     }
     onClickBtn = (e) => {
         e.preventDefault();
-        this.props.userLogin(this.state.inputText, this.state.passText);
+
+        axios.post('/beOurGuest/login', { name: this.state.inputText, pass: this.state.passText })
+            .then(response => {
+                if (response.data != "") {
+                    console.log("user login  " + JSON.stringify(response.data))
+                    this.props.store.updateUser(response.data)
+                    // this.props.userLogin();
+                } else {
+                    console.log("no user Account ")
+                }
+
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+
+
         this.setState({ inputText: "", passText: "" });
+
+
+
     }
     BtnChange = (e) => {
         this.props.ChangeOptions();
