@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-export class Table extends Component {
+export class CategoryManager extends Component {
     constructor(props) {
       super(props);
     }
+    //use react-checkbox-list package?
     render() {
         return (
             <div>
@@ -12,4 +13,4 @@ export class Table extends Component {
     }
 }
 
-export default Table;
+export default CategoryManager;
