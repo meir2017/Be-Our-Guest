@@ -4,47 +4,49 @@ import { Button } from 'reactstrap';
 
 import SignUp from './components/SignUp';
 
-export class SignIn extends Component {
-    constructor(props) {
-      super(props);
+//--->not to merge this file since Meir already did the sign-in component//
 
-      let defaultValue = null;
+// export class SignIn extends Component {
+//     constructor(props) {
+//       super(props);
 
-      this.state = {
-        userName: defaultValue,
-        email: null
-        };
+//       let defaultValue = null;
 
-    this._onChange = (e) => this.onChange(e);
-    }
+//       this.state = {
+//         userName: defaultValue,
+//         email: null
+//         };
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState !== this.state) {
-            this.props.onChange(this.state.userName, this.state.email);
-        }
-    }
+//     this._onChange = (e) => this.onChange(e);
+//     }
 
-    _onChange(e) {
-        let userNameValue = e.target.value;
-        let userEmail = e.target.value;
-        this.setState({userName: userNameValue, email: userEmail});
-    }
+//     componentDidUpdate(prevProps, prevState) {
+//         if (prevState !== this.state) {
+//             this.props.onChange(this.state.userName, this.state.email);
+//         }
+//     }
 
-    render() {
-        return (
-            <Popup>
-                <div className="container">
-                    <p>User Name:</p>
-                    <input type="text" placeholder="username" value={this.state.value} onChange={this.onChange} />
-                    <p>Email:</p>
-                    <input type="text" placeholder="example@gmail.com" value={this.state.input} onChange={this.onChange} />
-                    <Button color="primary">Sign in</Button>
-                    <p>don't have an account?</p>
-                    <SignUp />
-                </div>
-            </Popup>
-        );
-    }
-}
+//     _onChange(e) {
+//         let userNameValue = e.target.value;
+//         let userEmail = e.target.value;
+//         this.setState({userName: userNameValue, email: userEmail});
+//     }
 
-export default SignIn;
+//     render() {
+//         return (
+//             <Popup>
+//                 <div className="container">
+//                     <p>User Name:</p>
+//                     <input type="text" placeholder="username" value={this.state.value} onChange={this.onChange} />
+//                     <p>Email:</p>
+//                     <input type="text" placeholder="example@gmail.com" value={this.state.input} onChange={this.onChange} />
+//                     <Button color="primary">Sign in</Button>
+//                     <p>don't have an account?</p>
+//                     <SignUp />
+//                 </div>
+//             </Popup>
+//         );
+//     }
+// }
+
+// export default SignIn;
