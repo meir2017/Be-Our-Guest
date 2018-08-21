@@ -1,11 +1,12 @@
 "use strict";
 import React, { Component } from 'react';
 import './App.css';
-// import Meir from './TestMeir';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
+import Meir from './TestMeir';
+// import SignIn from './components/SignIn';
+// import SignUp from './components/SignUp';
+// import axios from 'axios';
+
 import CreateEvent from './components/CreateEvent';
-import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
 
@@ -18,7 +19,7 @@ class App extends Component {
       Options: true,
     }
   }
-  ChangeOptions = (user) => {
+  ChangeOptions = (user) => {  // remov this
 
     this.setState({ Options: !this.state.Options })   // login   or signup
 
@@ -27,14 +28,15 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-        {(!this.props.store.user.userLog && this.state.Options) && <SignIn ChangeOptions={this.ChangeOptions} />}
-        {(!this.props.store.user.userLog && !this.state.Options) && <SignUp ChangeOptions={this.ChangeOptions} />}
+
+        {!this.props.store.user.userLog && <Meir />}
         <br /><br />  <br /> <br />
 
         {this.props.store.user.userLog && <CreateEvent
           AddEvent={this.AddEvent}
           RemovEvent={this.RemovEvent} />}
 
+        {/* <Meir /> */}
       </div>
     );
   }
