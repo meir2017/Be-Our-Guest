@@ -1,11 +1,10 @@
-"use strict";
 import React, { Component } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 // import Meir from './TestMeir';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import CreateEvent from './components/CreateEvent';
-import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
 
@@ -19,23 +18,29 @@ class App extends Component {
     }
   }
   ChangeOptions = (user) => {
-
     this.setState({ Options: !this.state.Options })   // login   or signup
-
   }
+
   render() {
     return (
-      <div className="App">
-        <Navbar />
-        {(!this.props.store.user.userLog && this.state.Options) && <SignIn ChangeOptions={this.ChangeOptions} />}
-        {(!this.props.store.user.userLog && !this.state.Options) && <SignUp ChangeOptions={this.ChangeOptions} />}
-        <br /><br />  <br /> <br />
+      <React.Fragment>
+        <CssBaseline />
+        <div className="App">
+          <Navbar />
+          {(!this.props.store.user.userLog && this.state.Options) &&
+            <SignIn ChangeOptions={this.ChangeOptions} />}
+          {(!this.props.store.user.userLog && !this.state.Options) &&
+            <SignUp ChangeOptions={this.ChangeOptions} />}
+          <br /><br />  <br /> <br />
 
-        {this.props.store.user.userLog && <CreateEvent
-          AddEvent={this.AddEvent}
-          RemovEvent={this.RemovEvent} />}
+          {this.props.store.user.userLog &&
+            <CreateEvent
+              addEvent={this.addEvent}
+              removEvent={this.removEvent}
+            />}
 
-      </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

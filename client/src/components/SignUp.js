@@ -24,7 +24,7 @@ class SignUp extends Component {
     }
     onClickBtn = (e) => {
         e.preventDefault();
-        if (this.state.passText == this.state.passConfirm) {
+        if (this.state.passText === this.state.passConfirm) {
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
                     console.log((" new user " + response.data._id))

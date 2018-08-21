@@ -25,7 +25,7 @@ class SignIn extends Component {
 
         axios.post('/beOurGuest/login', { name: this.state.inputText, pass: this.state.passText })
             .then(response => {
-                if (response.data != "") {
+                if (response.data !== "") {
                     console.log("user login  " + JSON.stringify(response.data))
                     this.props.store.updateUser(response.data)
                 } else {
@@ -54,7 +54,7 @@ class SignIn extends Component {
                 <br /><br /> <br /> <br /><br />
 
                 <Grid container spacing={24}>
-                    <Grid item item xs={3}>
+                    <Grid item xs={3}>
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className="paperSingIn">
@@ -79,7 +79,7 @@ class SignIn extends Component {
                             <br /><br />
                         </Paper>
                     </Grid>
-                    <Grid item item xs={3}>
+                    <Grid item xs={3}>
                         {/* <Paper >xs</Paper> */}
                     </Grid>
                 </Grid>

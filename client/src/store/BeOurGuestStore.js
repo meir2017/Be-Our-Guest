@@ -1,7 +1,5 @@
-
-
-
-import { observable, action, computed, observer, reaction } from "mobx";
+// import { observable, action, computed, observer, reaction } from "mobx";
+import { observable, action } from "mobx";
 
 class BeOurGuestStore {
     @observable user = {
@@ -15,6 +13,7 @@ class BeOurGuestStore {
         categories: []
 
     }
+
     @action updateUser = (item) => {
         this.user.userLog = true;
         this.user._Id = item._id
@@ -25,12 +24,14 @@ class BeOurGuestStore {
         this.user.guests = item.guests;
         this.user.categories = item.categories;
     }
-    @action AddEvent = (newEvent) => {
+
+    @action addEvent = (newEvent) => {
         let listEvents = this.user.events.concat();
         listEvents.push(newEvent)
         this.user.events = listEvents;
     }
-    @action RemovEvent = (eventIndex) => {
+
+    @action removEvent = (eventIndex) => {
         let listEvents = this.user.events.concat();
         listEvents.splice(eventIndex, 1)
         this.user.events = listEvents;
