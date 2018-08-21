@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Popup from 'react-popup';
 import { Button } from 'reactstrap';
 
-import SignUp from './components/SignUp';
+// import SignUp from './components/SignUp';
 
 //--->not to merge this file since Meir already did the sign-in component//
 

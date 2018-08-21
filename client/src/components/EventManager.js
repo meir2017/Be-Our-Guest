@@ -6,9 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import CreateGuest from './components/CreateGuest';
-import TableManager from './components/TableManager';
-import InvitationManager from './components/InvitationManager';
+import CreateGuest from './CreateGuest';
+import TableList from './TableList';
+import InvitationManager from './InvitationManager';
 
 //tabs desgin
 function TabContainer(props) {
@@ -53,7 +53,7 @@ class EventManager extends React.Component {
           </Tabs>
         </AppBar>
         {value === 'one' && <TabContainer><CreateGuest /></TabContainer>}
-        {value === 'two' && <TabContainer><TableManager /></TabContainer>}
+        {value === 'two' && <TabContainer><TableList /></TabContainer>}
         {value === 'three' && <TabContainer><InvitationManager /></TabContainer>}
       </div>
     );
