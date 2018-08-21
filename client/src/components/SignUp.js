@@ -6,6 +6,8 @@ import { Button } from 'reactstrap';
 export class SignUp extends Component {
     constructor(props) {
       super(props);
+      
+      let defaultValue = null;
 
       this.state = {
         userName: defaultValue,

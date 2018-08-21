@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 
-import Invitation from './Invitation';
+import Invitation from './components/Invitation';
 
 
 export class InvitationManager extends Component {

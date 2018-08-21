@@ -1,49 +1,67 @@
-import React, { Component } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Button } from 'reactstrap';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
 
+import CreateGuest from './components/CreateGuest';
+import TableManager from './components/TableManager';
+import InvitationManager from './components/InvitationManager';
 
-import InvitationManager from './InvitationManager';
-import EasyPlace from './EasyPlace';
-import CategoryManager from './CategoryManager';
-import TableManager from './TableManager';
-import GuestManager from './GuestManager';
-import RSVP from './RSVP';
-
-export class EventManager extends Component {
-    constructor(props) {
-      super(props);
-    }
-
-    render() {
-        return (
-            <Tabs>
-                <TabList>
-                    <Tab>Easy Place</Tab>
-                    <Tab>Category Manager</Tab>
-                    <Tab>Guest Manager</Tab>
-                    <Tab>Table Manager</Tab>
-                    <Tab>Invitation Manager</Tab>
-                </TabList>
-                
-                <TabPanel>
-                    <EasyPlace />
-                </TabPanel>
-                <TabPanel>
-                    <CategoryManager />
-                </TabPanel>
-                <TabPanel>
-                     <GuestManager />
-                </TabPanel>
-                <TabPanel>
-                     <TableManager />
-                </TabPanel>
-                <TabPanel>
-                    <InvitationManager />
-                </TabPanel>
-            </Tabs>
-        );
-    }
+//tabs desgin
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
 }
 
-export default EventManager;
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
+
+class EventManager extends React.Component {
+  state = {
+    value: 'one',
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { value } = this.state;
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Tabs value={value} onChange={this.handleChange}>
+            <Tab value="one" label="Guests" />
+            <Tab value="two" label="Tables" />
+            <Tab value="three" label="Invitations" />
+          </Tabs>
+        </AppBar>
+        {value === 'one' && <TabContainer><CreateGuest /></TabContainer>}
+        {value === 'two' && <TabContainer><TableManager /></TabContainer>}
+        {value === 'three' && <TabContainer><InvitationManager /></TabContainer>}
+      </div>
+    );
+  }
+}
+
+EventManager.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(EventManager);

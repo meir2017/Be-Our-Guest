@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import SignIn from './SignIn';
-import CreateEvent from './CreateEvent';
-import EventManager from './EventManager';
+import SignIn from './components/SignIn';
+import CreateEvent from './components/CreateEvent';
+import EventManager from './components/EventManager';
 
 
 
@@ -15,7 +15,7 @@ class App extends Component {
         <div className="app-title">
           <SignIn />
           <EventManager />
-          <CreateEvent onClick={this.props}/>
+          <CreateEvent />
         </div>
         <div className="app-description">
           <h4>BeOurGuest Helps you to easily create and manage your event: invite guests, create and send invitations, track RSVPs, arrange guest seating, and much more!</h4>

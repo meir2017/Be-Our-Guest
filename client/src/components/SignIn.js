@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Popup from 'react-popup';
 import { Button } from 'reactstrap';
 
-import SignUp from './SignUp';
+import SignUp from './components/SignUp';
 
 export class SignIn extends Component {
     constructor(props) {
       super(props);
+
+      let defaultValue = null;
 
       this.state = {
         userName: defaultValue,
