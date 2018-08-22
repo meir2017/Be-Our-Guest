@@ -36,9 +36,35 @@ app.get('/meir/:mytext', (req, res) => {
         from: 'Be Our Guest ',
         to: req.params.mytext,
         subject: 'Sending Email using Node.js',
-        html: '<h1 style="color:lightskyblue">Welcome</h1><p>That was easy!</p>'
+        html: '<h1 style="color:lightskyblue">Welcome</h1><p>Be Our Guest</p>'
     };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    res.send('swnd mail to  ' + req.params.mytext)
+})
+//rsvp
+app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
 
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'BeOurGuestMail@gmail.com',
+            pass: 'guest2018'
+        }
+    });
+    // transporter.use('compile', inlineCss());
+    var mailOptions = {
+        from: 'Be Our Guest ',
+        to: req.params.email,
+        subject: 'be our guest',
+        html: '<h2 style="color:lightskyblue"><a href="http://localhost:3000/beuorguest/rsvp/:evntid/:guestid">enter to rsvp</a></h2><p>Be Our Guest</p>'
+    };
+    //http://localhost:3000/beuorguest/rsvp/:evntid/:guestid
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
