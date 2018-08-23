@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
-// import Meir from './TestMeir';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
+import Meir from './TestMeir';
+// import SignIn from './components/SignIn';
+// import SignUp from './components/SignUp';
+// import axios from 'axios';
+
 import CreateEvent from './components/CreateEvent';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
@@ -17,21 +19,18 @@ class App extends Component {
       Options: true,
     }
   }
-  ChangeOptions = (user) => {
+  ChangeOptions = (user) => {  // remov this
+
     this.setState({ Options: !this.state.Options })   // login   or signup
   }
 
   render() {
     return (
-      <React.Fragment>
-        <CssBaseline />
-        <div className="App">
-          <Navbar />
-          {(!this.props.store.user.userLog && this.state.Options) &&
-            <SignIn ChangeOptions={this.ChangeOptions} />}
-          {(!this.props.store.user.userLog && !this.state.Options) &&
-            <SignUp ChangeOptions={this.ChangeOptions} />}
-          <br /><br />  <br /> <br />
+      <div className="App">
+        <Navbar />
+
+        {!this.props.store.user.userLog && <Meir />}
+        <br /><br />  <br /> <br />
 
           {this.props.store.user.userLog &&
             <CreateEvent
@@ -39,8 +38,8 @@ class App extends Component {
               removEvent={this.removEvent}
             />}
 
-        </div>
-      </React.Fragment>
+        {/* <Meir /> */}
+      </div>
     );
   }
 }

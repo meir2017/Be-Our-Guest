@@ -23,6 +23,7 @@ const User = require('./models/UserModel')
 
 ////// emil send
 app.get('/meir/:mytext', (req, res) => {
+
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -48,7 +49,44 @@ app.get('/meir/:mytext', (req, res) => {
     res.send('swnd mail to  ' + req.params.mytext)
 })
 
+// Forgo tPassword  
+app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
+    User.findOne({ email: req.params.userEmail }).
+        then(user => {
+            console.log(req.params.userEmail)
 
+            console.log("user is=  " + user.email)
+            if (user != null) {
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'BeOurGuestMail@gmail.com',
+                        pass: 'guest2018'
+                    }
+                });
+                var mailOptions = {
+                    from: 'BeOurGuestMail@gmail.com',
+                    to: user.email,
+                    subject: 'Reset password',
+                    html: '<h3 > user name :' + user.username + '<br> password :' + user.password + ' </h3><p>Be Our Guest</p>'
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        res.send(error);
+                    } else {
+                        console.log('Email sent: ' + user.username);
+                        res.send('Your password is waiting for you by e-mail')
+
+                    }
+                });
+            } else {
+                console.log(' no user account');
+                res.send("There is no account for this email");
+            }
+
+        })
+})
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
     let userinfo = req.body;
@@ -65,7 +103,7 @@ app.post('/beOurGuest/newUser', (req, res) => {
     })
 });
 
-//login   To change get
+//login   and get user model
 app.post('/beOurGuest/login', (req, res) => {
     let userinfo = req.body;
     User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }).

@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^1.5.1",
+    "@material-ui/icons": "^2.0.3",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "eject": "0.0.4",
@@ -17,7 +19,9 @@
     "mongoose": "^5.2.8",
     "nodemailer": "^4.6.8",
     "nodemailer-juice": "^1.0.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.4",
+    "react-swipeable-views": "^0.12.16",
     "sendmail": "^1.4.1"
   },
   "devDependencies": {

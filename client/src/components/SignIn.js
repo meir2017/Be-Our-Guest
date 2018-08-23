@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import { Button, ModalBody, CardBody } from 'reactstrap';
+// import ForgotPassword from './components/ForgotPassword';
 
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
@@ -15,6 +14,7 @@ class SignIn extends Component {
         this.state = {
             inputText: "",
             passText: "",
+            ForgotPassword: false
         }
     }
     onChangeText = (e) => {
@@ -22,7 +22,6 @@ class SignIn extends Component {
     }
     onClickBtn = (e) => {
         e.preventDefault();
-
         axios.post('/beOurGuest/login', { name: this.state.inputText, pass: this.state.passText })
             .then(response => {
                 if (response.data !== "") {
@@ -31,60 +30,42 @@ class SignIn extends Component {
                 } else {
                     console.log("no user Account ")
                 }
-
-            }).catch(function (error) {
-                console.log(error);
-            });
-
-
-
+            }).catch(function (error) { console.log(error); });
         this.setState({ inputText: "", passText: "" });
-
-
-
     }
-    BtnChange = (e) => {
-        this.props.ChangeOptions();
+    forgot_password = () => {
+        this.setState({ ForgotPassword: true })
     }
     render() {
-        const { classes } = this.props;
-
         return (
-            <div className="singInForm">
-                <br /><br /> <br /> <br /><br />
+            <div>
+                <ModalBody state={{ textAlign: "center" }}>
+                    <TextField
+                        id="uncontrolled" label="User name" type="text"
+                        className="textField" margin="normal"
+                        name="inputText"
+                        onChange={this.onChangeText} value={this.state.inputText}
+                    />
+                    <br /> <br />
+                    <TextField
+                        id="password-input" label="Password"
+                        type="password" className="textField" margin="normal"
+                        name="passText"
+                        onChange={this.onChangeText} value={this.state.passText}
+                    />
+                    <br /> <br /><br />
+                    <Button variant="contained" onClick={this.onClickBtn} color="primary" >Login  </Button>
+                    <br /><br />
+                </ModalBody>
+                <CardBody>
+                    <div className="pas">
+                        <p>Forgot <a href="#" onClick={() => { this.props.BtnPassword() }} className="blue-text">Password?</a></p>
+                    </div>
 
-                <Grid container spacing={24}>
-                    <Grid item xs={3}>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className="paperSingIn">
-                            <Button variant="contained" variant="fab" style={{ width: "100px", height: "100px", top: "-50px" }} aria-label="Add" onClick={this.BtnChange} color="secondary" ><h5> go to Register</h5>  </Button>
-                            <br /> <br /> <br />
-                            <TextField
-                                id="uncontrolled" label="User name" type="text"
-                                className="textField" margin="normal"
-                                name="inputText"
-                                onChange={this.onChangeText} value={this.state.inputText}
-                            />
-                            <br /> <br /> <br />
-                            <TextField
-                                id="password-input" label="Password"
-                                type="password" className="textField" margin="normal"
-                                name="passText"
-                                onChange={this.onChangeText} value={this.state.passText}
-                            />
-                            <br />
-                            <br /><br /> <br /> <br />
-                            <Button variant="contained" onClick={this.onClickBtn} color="primary" >Login  </Button>
-                            <br /><br />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        {/* <Paper >xs</Paper> */}
-                    </Grid>
-                </Grid>
+                </CardBody>
             </div>
-        );
+
+        )
     }
 }
 

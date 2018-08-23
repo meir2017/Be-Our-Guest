@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^1.5.0",
+    "@material-ui/core": "^1.5.1",
+    "@material-ui/icons": "^2.0.3",
     "ajv": "^6.0.0",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
@@ -44,6 +45,7 @@
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.2",
     "react-scripts": "^1.1.4",
+    "react-swipeable-views": "^0.12.16",
     "reactstrap": "^6.4.0",
     "resolve": "1.6.0",
     "sendmail": "^1.4.1",

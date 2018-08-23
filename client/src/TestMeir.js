@@ -1,40 +1,56 @@
 
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import ForgotPassword from './components/ForgotPassword';
 
-import React, { Component } from 'react';
-import axios from 'axios';
 
-class Meir extends Component {
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, CardBody } from 'reactstrap';
+
+class ModalExample extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputText: "",
-            divText: ""
-        }
+            modal: true,
+            openLogin: true,
+            password: false
+        };
+        this.toggle = this.toggle.bind(this);
     }
-    onChangeText = (e) => {
-        this.setState({ inputText: e.target.value });
+
+    handlerRegister = () => {
+        this.setState({ openLogin: false });
     }
-    onClickBtn = (e) => {
-        e.preventDefault();
-        axios.get(`/meir/${this.state.inputText}`)
-            .then(response => {
-                this.setState({ divText: response.data });
-                this.setState({ inputText: "" });
-            })
-            .catch(err => console.log('Error: cannot fetch data please check the input', err));
+    handlerLogin = () => {
+        this.setState({ openLogin: true, password: false });
     }
+
+    forgot_password = () => {
+        this.setState({ password: true });
+    }
+    toggle() {
+        this.setState({ modal: !this.state.modal });
+    }
+
     render() {
         return (
             <div>
-                <input type="text" onChange={this.onChangeText} value={this.inputText} />
-                <br />                <br /><br /><br />
+                <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+                <Modal style={{ top: "120px" }} toggle={this.toggle} isOpen={this.state.modal} className={this.props.className}>
+                    <div className="maintop">
+                        <Button className="btnl " color="primary" onClick={this.handlerLogin}><i className="fas fa-user"> </i>  Login</Button>
+                        <Button className="btnr " color="primary" onClick={this.handlerRegister}><i className="fas fa-user-plus"></i>  Register</Button>
+                    </div>
+                    {(this.state.openLogin && !this.state.password) && <SignIn BtnPassword={this.forgot_password} />}
+                    {(this.state.openLogin && this.state.password) && <ForgotPassword BtnPassword={this.forgot_password} />}
+                    {!this.state.openLogin && <SignUp />}
+                    {/* {!this.state.openLogin && <SignUp />} */}
+                </Modal>
 
-                <input type="button" onClick={this.onClickBtn} value="Click" />
-                <br /><br /><br />
-                {this.state.divText}
             </div>
         );
     }
 }
 
-export default Meir;
+export default ModalExample;
