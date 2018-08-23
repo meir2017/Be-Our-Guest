@@ -24,7 +24,7 @@ class SignIn extends Component {
         e.preventDefault();
         axios.post('/beOurGuest/login', { name: this.state.inputText, pass: this.state.passText })
             .then(response => {
-                if (response.data != "") {
+                if (response.data !== "") {
                     console.log("user login  " + JSON.stringify(response.data))
                     this.props.store.openModalLogin();
                     this.props.store.updateUser(response.data)

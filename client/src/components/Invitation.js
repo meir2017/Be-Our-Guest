@@ -74,9 +74,8 @@ export class Invitation extends Component {
             <div className="container">
                 <h4>Write your invitation</h4>
                 <div className="invitation-body">
-                    <input type="text" className="title" placeholder="Email subject" onChange={this.handleTitleInput} value={this.state.titleInput} />
+                    <input type="text" className="title" placeholder="Title" onChange={this.handleTitleInput} value={this.state.titleInput} />
                     <input type="text" className="text" placeholder="Invitation text" onChange={this.handleEmailInput} value={this.state.emailInput} />
-                    <input type="color" name="" id="" />
                 </div>
                 <div className="display-invitation-input" type="text" style={{ border: '2px solid black' }}>
                     <h2>{this.state.titleInput}</h2>
