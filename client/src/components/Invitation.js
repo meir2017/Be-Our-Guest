@@ -3,12 +3,12 @@ import { Button } from 'reactstrap';
 
 export class Invitation extends Component {
     constructor(props) {
-      super(props);
-      this.state = {
-          titleInput: '',
-          emailInput: '',
-          guests: [],
-          files: [],
+        super(props);
+        this.state = {
+            titleInput: '',
+            emailInput: '',
+            guests: [],
+            files: [],
         }
 
         // const InvitationBodyStyle = [
@@ -39,22 +39,22 @@ export class Invitation extends Component {
     }
 
     handleTitleInput = (e) => {
-        this.setState({titleInput: e.target.value})
-        };
+        this.setState({ titleInput: e.target.value })
+    };
 
     handleEmailInput = (e) => {
-        this.setState({emailInput: e.target.value})
-        };
+        this.setState({ emailInput: e.target.value })
+    };
 
     handleGuests = () => {
         let prevState = '';
-        if(prevState.guests != this.state.guests){
-           //the function open pop up checklist guests
+        if (prevState.guests != this.state.guests) {
+            //the function open pop up checklist guests
         }
     }
 
     deleteFile = () => {
-           //the function delete the file from invitation
+        //the function delete the file from invitation
     }
 
     attachFile = () => {
@@ -74,8 +74,9 @@ export class Invitation extends Component {
             <div className="container">
                 <h4>Write your invitation</h4>
                 <div className="invitation-body">
-                    <input type="text" className="title" placeholder="Email subject" onChange={this.handleTitleInput} value={this.state.titleInput}/>
-                    <input type="text" className="text" placeholder="Invitation text" onChange={this.handleEmailInput} value={this.state.emailInput}/>
+                    <input type="text" className="title" placeholder="Email subject" onChange={this.handleTitleInput} value={this.state.titleInput} />
+                    <input type="text" className="text" placeholder="Invitation text" onChange={this.handleEmailInput} value={this.state.emailInput} />
+                    <input type="color" name="" id="" />
                 </div>
                 <div className="display-invitation-input" type="text" style={{ border: '2px solid black' }}>
                     <h2>{this.state.titleInput}</h2>
@@ -89,7 +90,7 @@ export class Invitation extends Component {
                     <Button color="primary" onClick={this.saveInvitation}>Save</Button>
                     <Button color="success" onClick={this.sendInvitation}>Send</Button>
                 </div>
-                
+
             </div>
         );
     }
