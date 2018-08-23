@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import CssBaseline from '@material-ui/core/CssBaseline';
-import './App.css';
-import Meir from './TestMeir';
-// import SignIn from './components/SignIn';
-// import SignUp from './components/SignUp';
-// import axios from 'axios';
+=======
 
+>>>>>>> f382d095deb534fdeec7b572439c70ef5ca73d30
+import './App.css';
+// import SignIn from './components/SignIn';
+import EventManager from './components/EventManager';
 import CreateEvent from './components/CreateEvent';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
+import LogIn from './components/LogIn';
+
 
 @inject("store")
 @observer
@@ -28,15 +31,22 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-
-        {!this.props.store.user.userLog && <Meir />}
+      
+        {!this.props.store.user.userLog && <LogIn />}
         <br /><br />  <br /> <br />
+<<<<<<< HEAD
 
           {this.props.store.user.userLog &&
             <CreateEvent
               addEvent={this.addEvent}
               removEvent={this.removEvent}
             />}
+=======
+        <EventManager />
+        {this.props.store.user.userLog && <CreateEvent
+          AddEvent={this.AddEvent}
+          RemovEvent={this.RemovEvent} />}
+>>>>>>> f382d095deb534fdeec7b572439c70ef5ca73d30
 
         {/* <Meir /> */}
       </div>

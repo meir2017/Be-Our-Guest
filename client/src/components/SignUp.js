@@ -14,7 +14,7 @@ class SignUp extends Component {
             inputText: "",
             emailText: "",
             passText: "",
-            passConfirm: "",
+            passConfirm: ""
         }
     }
     onChangeText = (e) => {

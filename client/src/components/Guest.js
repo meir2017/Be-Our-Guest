@@ -1,60 +1,72 @@
 import React, { Component } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
-import styled from 'styled-components'
 
+export class Guest extends Component {
+    constructor(props) {
+      super(props);
+      this.state= {
+        category: [],
+        numOfInvites: '',
+        status: '',        
+      }
+    }
 
-const Container = styled.div `
-    margin: 8px;
-    background-color: white;
-    width: auto;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')}
-`;
+    createGuest = () => {
+        //the function open the modal of guest-details
+    }
 
-const Wrapper = styled.div`
-    border: 1px solid lightgrey;
-    border-radius: 5px;
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-    width: 220px;
-    opacity: 1;
-`;
+    saveGuest = () => {
+        //the function create new guest and save it to guests[]
+        //call the displayGuest func
+    }
 
+    displayGuest = () => {
+        //display the added guest in new div
+    }
 
-class Guest extends Component {
+    handleGuestStatus = (e) => {
+        this.setState({status: e.target.value})
+    }
+
+    addCategory = () => {
+        //the function save new category in categories[]
+    }
+
+    editGuest = () => {
+        //the function open guest-details div
+    }
+
+    deleteGuest = () => {
+        //the function delete guest from guests[]
+    }
 
     render() {
         return (
-            <Draggable draggableId={this.props.guest.id} index={this.props.index}>
-                {(provided, snapshot) => (
-                    <Container
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        innerRef={provided.innerRef}
-                        isDragging={snapshot.isDragging}
-                    >
-                        <Wrapper>
-                            <div className="guest">
-                                <button
-                                    type="button"
-                                    className="btn-cus btn-sm btn"
-                                    onClick={()=> this.props.deleteGuest(this.props.guestId, this.props.tableId)}
-                                >
-                                    X
-                                </button>
-                                <div className="guest-info">
-                                    <p className="guest-name"><em><b>{this.props.guest.name}</b></em></p>
-                                    <p>Category: {this.props.guest.category}</p>
-                                    <p><b>+ </b>{this.props.guest.confirmed} confirmed (+ {this.props.guest.confirmed})</p>
-                                </div>
-                            </div>
-                        </Wrapper>
-                    </Container>
-                )}
-            </Draggable>
+            <div className="container">
+                <button onClick={this.createGuest}>Create guest</button>
+                {/* pressing Create guest button cause the guest-details to pop up */}
+                <div className="guest-details">
+                <h3>Guest Card</h3>
+                    <p>Name:</p>
+                    <input />
+                    <p>Email:</p>
+                    <input />
+                    <p>Phone:</p>
+                    <input />
+                    <p>Number of invites:</p>
+                    <input />
+                    <p>Categories:</p>
+                    <input />
+                    <p>Invites Status:</p>
+                    <input type="text" onChange={this.handleGuestStatus} value={this.state.status}/>
+                    <button onClick={this.saveGuest}>Save Guest</button>
+                </div>
+                
+                <div className="guest-buttons">
+                    <button onClick={this.addCategory}>Add Category</button>
+                    <button onClick={this.editGuest}>Edit Guest</button>
+                    <button onClick={this.deleteGuest}>Delete Guest</button>
+                </div>
+            </div>
         );
     }
 }
