@@ -4,12 +4,11 @@ import React, { Component } from 'react';
 import './App.css';
 // import SignIn from './components/SignIn';
 import EventManager from './components/EventManager';
-
-
-
 import CreateEvent from './components/CreateEvent';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
+import LogIn from './components/LogIn';
+
 
 @inject("store")
 @observer
@@ -30,7 +29,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
       
-        {!this.props.store.user.userLog && <Meir />}
+        {!this.props.store.user.userLog && <LogIn />}
         <br /><br />  <br /> <br />
         <EventManager />
         {this.props.store.user.userLog && <CreateEvent

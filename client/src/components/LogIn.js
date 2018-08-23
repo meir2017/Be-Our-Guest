@@ -1,14 +1,14 @@
 
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import ForgotPassword from './components/ForgotPassword';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import ForgotPassword from './ForgotPassword';
 
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, CardBody } from 'reactstrap';
 
-class ModalExample extends React.Component {
+class LogIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,4 +53,4 @@ class ModalExample extends React.Component {
     }
 }
 
-export default ModalExample;
+export default LogIn;
