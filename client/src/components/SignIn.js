@@ -26,6 +26,7 @@ class SignIn extends Component {
             .then(response => {
                 if (response.data != "") {
                     console.log("user login  " + JSON.stringify(response.data))
+                    this.props.store.openModalLogin();
                     this.props.store.updateUser(response.data)
                 } else {
                     console.log("no user Account ")
