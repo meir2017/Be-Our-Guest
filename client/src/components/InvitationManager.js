@@ -1,49 +1,45 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-
+import React, { Component } from 'react';
 import Invitation from './Invitation';
-
-const styles = theme => ({
-    button: {
-      margin: theme.spacing.unit,
-    },
-    input: {
-      display: 'none',
-    },
-  });
   
-function InvitationManager(props) {
-    const { classes } = props;
-    return (
-        <div className="container">
+export class InvitationManager extends Component {
+    constructor(props) {
+      super(props);
+      this.state={
+          invitations: [],
+      }
+    }
 
-            <Invitation />
-            
-            <div className="invites-list">
-                <h4>Invites</h4>
-                <p>Save the Date</p>
-                <p>Invitations Reminder</p>
+    displayInvitationFormats = () => {
+        //the function display modal checklist of exiting texts
+        //for this purpose we need to save in store example of texts like Save the Date
+    }
+
+    displayInvitationsList = () => {
+        //the function display invitations[]
+    }
+
+    render() {
+        return (
+            <div className="container">
+
+                <Invitation />
+
+                <div className="invitation-list">
+                    <h4>Your Invitation List</h4>
+                    {/* display invitations[] */}
+                </div>
+
+                {/* the invitation-formats div is pop up */}
+                <div className="invitation-formats">
+                    <button onClick={this.displayInvitationFormats}>Other Invitation Formats</button>
+                    {/* <p>Save the Date!</p> */}
+                    {/* <p>Attached this text to invitation {this.state.invitations['']}</p> */}
+                </div>    
+
             </div>
-            <div className="new-button">
-                <Button variant="outlined" color="primary" className={classes.button}>
-                New Invitation
-                </Button>
-            </div>
-            <input
-                accept="image/*"
-                className={classes.input}
-                id="outlined-button-file"
-                multiple
-                type="file"
-            />
-        </div>
-    );
+        );
+    }
 }
 
-InvitationManager.propTypes = {
-classes: PropTypes.object.isRequired,
-};
 
-export default withStyles(styles)(InvitationManager);  
+export default InvitationManager;  
