@@ -1,10 +1,11 @@
 "use strict";
 import React, { Component } from 'react';
+
 import './App.css';
-import Meir from './TestMeir';
 // import SignIn from './components/SignIn';
-// import SignUp from './components/SignUp';
-// import axios from 'axios';
+import EventManager from './components/EventManager';
+
+
 
 import CreateEvent from './components/CreateEvent';
 import { observer, inject } from 'mobx-react';
@@ -28,10 +29,10 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-
+      
         {!this.props.store.user.userLog && <Meir />}
         <br /><br />  <br /> <br />
-
+        <EventManager />
         {this.props.store.user.userLog && <CreateEvent
           AddEvent={this.AddEvent}
           RemovEvent={this.RemovEvent} />}
