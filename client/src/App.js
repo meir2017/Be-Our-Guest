@@ -1,4 +1,4 @@
-"use strict";
+
 import React, { Component } from 'react';
 import './App.css';
 import Meir from './TestMeir';
@@ -17,16 +17,20 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      resvfunc: false
+      rsvpfunc: false,
+      m1: true
     }///http://localhost:3000/beuorguest/rsvp/:evntid/:guestid   for  rsvp
   }
+
   Options = () => {
-    this.setState({ resvfunc: true })
+    this.setState({ rsvpfunc: true })
   }
   render() {
     return (
       <div className="App">
-        {!this.state.resvfunc && <Navbar />}
+        {!this.state.rsvpfunc && <Navbar Open1={this.Open1} />}
+
+
         {!this.props.store.user.userLog && <Meir />}
         <br /><br />  <br /> <br />
 

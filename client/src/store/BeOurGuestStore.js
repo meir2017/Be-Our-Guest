@@ -12,7 +12,8 @@ class BeOurGuestStore {
         email: "",
         events: [],
         guests: [],
-        categories: []
+        categories: [],
+        eventIndex: null
 
     }
     @action updateUser = (item) => {
