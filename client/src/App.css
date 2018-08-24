@@ -67,11 +67,12 @@
   padding-left: 160px;
 
 }
-.nva1{
-background-color: bisque;
-padding: 10px;
+.AppBar{
+  /* width: 800px;
+  color:red; */
+background-color: azure;
+text-align: center ;
+padding-left: 300px;
+margin-top: -50px
 
-}
-.nav3{
-  display: inline;
 }

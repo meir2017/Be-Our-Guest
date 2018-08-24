@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -9,8 +8,12 @@ import 'bootstrap/dist/css/bootstrap.css'; //reactstrap
 import store from './store/BeOurGuestStore';
 import { Provider } from 'mobx-react';
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(
+    <Provider
+        store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
 registerServiceWorker();
 
-// ReactDOM.render(<App />, document.getElementById('root'));
-// registerServiceWorker();

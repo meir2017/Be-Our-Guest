@@ -41,10 +41,10 @@ class CreateEvent extends Component {
         console.log((" Will be deleted  =" + e.target.name))
         let index = e.target.name;
         let eventId = this.props.store.user.events[index]._id;
-        axios.delete(`/beOurGuest/RemovEvent/${this.props.store.user._Id}/${eventId}/`)
+        axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/`)
             .then(response => {
                 console.log((response.data))
-                this.store.RemovEvent(e.target.name)
+                this.store.removEvent(e.target.name)
 
             })
 
@@ -57,7 +57,7 @@ class CreateEvent extends Component {
             .then(response => {
 
                 console.log(" new event id  =" + response.data._id)
-                this.props.store.AddEvent(response.data)
+                this.props.store.addEvent(response.data)
 
             })
             .catch(err => console.log('Error: ', err));

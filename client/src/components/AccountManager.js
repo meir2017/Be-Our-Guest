@@ -1,20 +1,13 @@
-// import React from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import React, { Component } from 'react';
-import classNames from 'classnames';
-import {
-    AppBar,
-    withStyles,
-    Toolbar,
-} from "@material-ui/core"   //AccountManager
+import { withStyles, MenuItem, Menu, IconButton } from "@material-ui/core"
 
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import OurMenu from './OurMenu';
-import AccountManager from './AccountManager';
+import LogIn from './LogIn';
+import { observer, inject } from 'mobx-react';
+import axios from 'axios';
+
+
 const styles = theme => ({
     root: {
         flexGrow: 1
@@ -54,8 +47,9 @@ const styles = theme => ({
         padding: 0,
     },
 });
-
-class Navbar extends Component {
+@inject("store")
+@observer
+class AccountManager extends Component {
     state = {
         anchorMenu: null,
         open: false,
@@ -63,19 +57,9 @@ class Navbar extends Component {
         expanded: null,
     };
 
-    handleClose = event => {
-        if (this.anchorEl.contains(event.target)) {
-            return;
-        }
-        this.setState({ open: false, expanded: false });
-    };
-
-    handleToggle = () => {
-        this.setState(state => ({ open: !state.open }));
-    };
-
     handleMenuAccount = event => {
         this.setState({ anchorMenuAccount: event.currentTarget });
+        this.props.store.openModalLogin();
 
     };
 
@@ -100,19 +84,40 @@ class Navbar extends Component {
         return (
 
             <div className={classes.root} >
-                <AppBar position="static">
-                    <Toolbar>
-                        <OurMenu />
-                        <AccountManager />
-                    </Toolbar>
-                </AppBar>
+                <IconButton
+                    aria-owns={openMenuAccount ? "menuAccount-appbar" : null}
+                    aria-haspopup="true"
+                    onClick={this.handleMenuAccount}
+                    className={classes.menuAccountButton}
+                    aria-label="Menu"
+                    color="inherit">
+                    <AccountCircle />
+                </IconButton>
+                <LogIn />
+                {/* <Menu
+                    id="menuAccount-appbar"
+                    anchorEl={anchorMenuAccount}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right"
+                    }}
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right"
+                    }}
+                    open={openMenuAccount}
+                    onClose={this.handleCloseMenuAccount}
+                >
+                    <MenuItem onClick={this.handleCloseMenuAccount}>Logout</MenuItem>
+                    <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleCloseMenuAccount}>My account</MenuItem>
+                </Menu> */}
             </div>
-
-
         );
     }
 }
 
 //export default Navbar;
 
-export default withStyles(styles)(Navbar);
+export default withStyles(styles)(AccountManager);
+

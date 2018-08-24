@@ -14,7 +14,7 @@ class SignUp extends Component {
             inputText: "",
             emailText: "",
             passText: "",
-            passConfirm: "",
+            passConfirm: ""
         }
     }
     onChangeText = (e) => {
@@ -22,9 +22,10 @@ class SignUp extends Component {
     }
     onClickBtn = (e) => {
         e.preventDefault();
-        if (this.state.passText == this.state.passConfirm) {
+        if (this.state.passText === this.state.passConfirm) {
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
+                    this.props.store.openModalLogin();
                     console.log((" new user " + response.data._id))
                     this.props.store.updateUser(response.data)
                 })
