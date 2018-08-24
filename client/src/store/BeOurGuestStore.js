@@ -10,8 +10,15 @@ class BeOurGuestStore {
         email: "",
         events: [],
         guests: [],
-        categories: []
+        categories: [],
+        eventindex: null,
 
+        ModalLogin: false
+
+
+    }
+    @action openModalLogin = () => {
+        this.user.ModalLogin = !this.user.ModalLogin;
     }
 
     @action updateUser = (item) => {

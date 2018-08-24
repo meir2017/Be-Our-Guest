@@ -25,6 +25,7 @@ class SignUp extends Component {
         if (this.state.passText === this.state.passConfirm) {
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
+                    this.props.store.openModalLogin();
                     console.log((" new user " + response.data._id))
                     this.props.store.updateUser(response.data)
                 })
