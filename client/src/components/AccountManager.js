@@ -30,6 +30,7 @@ const styles = theme => ({
     },
     paper: {
         width: 300,
+        zIndex: 200,
     },
     rootList: {
         width: '100%',
@@ -94,7 +95,7 @@ class AccountManager extends Component {
                     <AccountCircle />
                 </IconButton>
                 <LogIn />
-                {/* <Menu
+                <Menu
                     id="menuAccount-appbar"
                     anchorEl={anchorMenuAccount}
                     anchorOrigin={{
@@ -111,7 +112,7 @@ class AccountManager extends Component {
                     <MenuItem onClick={this.handleCloseMenuAccount}>Logout</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount}>My account</MenuItem>
-                </Menu> */}
+                </Menu>
             </div>
         );
     }
