@@ -27,7 +27,7 @@ class App extends Component {
         <Navbar />
         <EventManager />
         {/* {this.props.store.user.userLog && <CreateEvent
-          AddEvent={this.AddEvent}
+          addEvent={this.addEvent}
           RemovEvent={this.RemovEvent} />} */}
 
       </div>
