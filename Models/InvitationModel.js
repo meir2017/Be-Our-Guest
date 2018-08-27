@@ -4,9 +4,11 @@ let Schema = mongoose.Schema;
 
 
 let invitationSchema = new mongoose.Schema({
-    title: String,
-    text: String,
-    attachments: [String]
+    titleInput: String,
+    textInput: String,
+    background: String,
+    titleColor: String,
+    bodyText: String
 });
 
 let Invitation = mongoose.model('invitation', invitationSchema);

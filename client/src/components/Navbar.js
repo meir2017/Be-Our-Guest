@@ -1,18 +1,13 @@
 // import React from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import React, { Component } from 'react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import {
     AppBar,
     withStyles,
     Toolbar,
 } from "@material-ui/core"   //AccountManager
 
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import OurMenu from './OurMenu';
 import AccountManager from './AccountManager';
 const styles = theme => ({
@@ -93,10 +88,10 @@ class Navbar extends Component {
 
     render() {
         const { classes } = this.props;
-        const { anchorMenu, open, anchorMenuAccount, expanded } = this.state;
-        const openMenu = Boolean(anchorMenu);
-        const openMenuAccount = Boolean(anchorMenuAccount);
-        const openEvent = Boolean(expanded);
+        const { anchorMenu, anchorMenuAccount, expanded } = this.state;
+        // const openMenu = Boolean(anchorMenu);
+        // const openMenuAccount = Boolean(anchorMenuAccount);
+        // const openEvent = Boolean(expanded);
         return (
 
             <div className={classes.root} >

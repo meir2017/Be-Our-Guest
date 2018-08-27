@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //modals   
 const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
-const User = require('./models/UserModel')
+const User = require('./models/UserModel');
+const Invitation = require('./models/InvitationModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -136,8 +137,6 @@ app.post('/beOurGuest/login', (req, res) => {
         exec(function (err, user) {
             if (err) return handleError(err);
             res.send(user);
-            console.log('The events[0].Title is %s', user.events[0].Title);
-            // prints "The author is Ian Fleming"
         });
 });
 
@@ -167,6 +166,52 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
 
     })
 });
+
+
+// remov event
+app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
+    console.log("user id  +" + req.params.userId)
+    console.log("event id  +" + req.params.eventId)
+    User.findOne({ _id: req.params.userId })
+        .then(user => {
+            listEvents = user.events.concat();
+            listEvents.splice(req.params.index, 1);
+            user.events = listEvents;
+            user.save()
+                .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
+                .then(res.send("event delete"))
+        })
+    // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
+    //     .then(result => Event.findByIdAndRemove({ _id: req.params.eventId })
+    //         .then(res.send("event delete"))
+
+    //     );
+});
+
+// add new Invitation
+app.post('/beOurGuest/saveInvitation/:eventId/:eventIndex/', (req, res) => {
+    let vet = req.body;
+
+    vet = new Invitation({
+        titleInput: vet.titleInput,
+        textInput: vet.textInput,
+        background: vet.background,
+        titleColor: vet.titleColor,
+        bodyText: vet.bodyText
+    })
+    vet.save(function (err, newVet) {
+        console.log(newVet.id);
+        Event.findById(req.params.eventId, function (err, eve) {
+            if (err) return handleError(err);
+            console.log(eve)
+            console.log(eve[0])
+            eve.invitations.push(newVet.id);
+            eve.save(res.send(JSON.stringify(newVet)))
+        })
+    })
+});
+
+
 
 const port = process.env.PORT || 3001;
 app.listen(port, console.log('Server running on port', port));

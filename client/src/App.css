@@ -68,11 +68,18 @@
 
 }
 .AppBar{
-  /* width: 800px;
-  color:red; */
-background-color: azure;
-text-align: center ;
-padding-left: 300px;
-margin-top: -50px
 
+text-align: center ;
+margin-top: -55px
+}
+.itemEvent{
+/* color:black; */
+width: 114% !important;
+margin-left: -40px !important;
+}
+.divBtn{
+  margin: 5px;
+}
+.myColor{
+text-align: left
 }

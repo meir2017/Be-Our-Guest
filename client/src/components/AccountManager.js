@@ -30,6 +30,7 @@ const styles = theme => ({
     },
     paper: {
         width: 300,
+        zIndex: 200,
     },
     rootList: {
         width: '100%',
@@ -58,8 +59,10 @@ class AccountManager extends Component {
     };
 
     handleMenuAccount = event => {
-        this.setState({ anchorMenuAccount: event.currentTarget });
-        this.props.store.openModalLogin();
+        if (this.props.store.user.userLog)
+            this.setState({ anchorMenuAccount: event.currentTarget });
+        else
+            this.props.store.openModalLogin();
 
     };
 
@@ -72,7 +75,10 @@ class AccountManager extends Component {
             expanded: expanded ? panel : false,
         });
     };
-
+    handleLogout = (e) => {
+        this.props.store.LogoutUser();
+        this.handleCloseMenuAccount();
+    }
 
 
     render() {
@@ -94,7 +100,7 @@ class AccountManager extends Component {
                     <AccountCircle />
                 </IconButton>
                 <LogIn />
-                {/* <Menu
+                <Menu
                     id="menuAccount-appbar"
                     anchorEl={anchorMenuAccount}
                     anchorOrigin={{
@@ -108,10 +114,10 @@ class AccountManager extends Component {
                     open={openMenuAccount}
                     onClose={this.handleCloseMenuAccount}
                 >
-                    <MenuItem onClick={this.handleCloseMenuAccount}>Logout</MenuItem>
+                    <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleCloseMenuAccount}>My account</MenuItem>
-                </Menu> */}
+                    <MenuItem onClick={this.handleCloseMenuAccount} onClick={this.handleLogout} >My account</MenuItem>
+                </Menu>
             </div>
         );
     }

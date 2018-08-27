@@ -5,21 +5,27 @@ class BeOurGuestStore {
     @observable user = {
         userLog: false,
         _Id: "",
-        username: "meir",
+        username: "",
         password: "",
         email: "",
         events: [],
         guests: [],
         categories: [],
         eventindex: null,
-
         ModalLogin: false
+    }
 
-
+    @action LogoutUser = () => {
+        this.user.userLog = false;
+        console.log("user logout")
     }
     @action openModalLogin = () => {
         this.user.ModalLogin = !this.user.ModalLogin;
         console.log(this.user.ModalLogin)
+    }
+    @action eventindex = (index) => {
+        this.user.eventindex = index
+        console.log("event index is  " + index)
     }
 
     @action updateUser = (item) => {

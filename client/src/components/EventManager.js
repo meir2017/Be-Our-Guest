@@ -45,13 +45,19 @@ class EventManager extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar className="AppBar" position="static">
-          <Tabs className="tabs" value={value} onChange={this.handleChange}>
-            <Tab value="one" label="Guests" />
-            <Tab value="two" label="Tables" />
-            <Tab value="three" label="Invitations" />
-          </Tabs>
-        </AppBar>
+        <div className="row">
+          <div className="col-md-4"></div>
+          <div className="col-md-5 col-md-offset-3">
+            <AppBar className="AppBar" position="static">
+              <Tabs className="tabs" value={value} onChange={this.handleChange}>
+                <Tab value="one" label="Guests" />
+                <Tab value="two" label="Tables" />
+                <Tab value="three" label="Invitations" />
+              </Tabs>
+            </AppBar>
+          </div>
+        </div>
+
         {value === 'one' && <TabContainer><GuestManager /></TabContainer>}
         {value === 'two' && <TabContainer><TableManager /></TabContainer>}
         {value === 'three' && <TabContainer><InvitationManager /></TabContainer>}

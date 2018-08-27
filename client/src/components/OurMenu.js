@@ -1,41 +1,19 @@
 
 import React, { Component } from 'react';
-import classNames from 'classnames';
+import { observer, inject } from 'mobx-react';
+import CreateEvent from './CreateEvent';
+import axios from 'axios';
+
+// import classNames from 'classnames';
 import {
-    AppBar,
-    withStyles,
-    createMuiTheme,
-    ClickAwayListener,
-    MuiThemeProvider,
-    Toolbar,
-    Typography,
-    TextField,
-    Button,
-    Badge,
-    Grow,
-    Paper,
-    Popper,
-    Divider,
-    Menu,
-    MenuItem,
-    MenuList,
-    IconButton,
-    Icon,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    ExpansionPanelActions,
-    ListItem,
-    List,
-    ListItemText,
-    ListSubheader,
-    ListItemIcon,
-    ListItemSecondaryAction
+    withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
+    Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
+    ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
+
 } from "@material-ui/core"
 
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
@@ -78,14 +56,27 @@ const styles = theme => ({
     },
 });
 
+@inject("store")
+@observer
 class OurMenu extends Component {
-    state = {
-        anchorMenu: null,
-        open: false,
-        anchorMenuAccount: null,
-        expanded: null,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            anchorMenu: null,
+            open: false,
+            anchorMenuAccount: null,
+            expanded: null,
+            modalCreate: false,
+        };
 
+        // this.handlerRemoveEvent = this.handlerRemoveEvent.bind(this);
+    }
+
+
+    openModalCreate = (e) => {
+        this.setState({ modalCreate: !this.state.modalCreate });
+        // this.handleClose(e)
+    }
     handleClose = event => {
         if (this.anchorEl.contains(event.target)) {
             return;
@@ -94,7 +85,8 @@ class OurMenu extends Component {
     };
 
     handleToggle = () => {
-        this.setState(state => ({ open: !state.open }));
+        if (this.props.store.user.userLog)
+            this.setState(state => ({ open: !state.open }));
     };
 
     handleMenuAccount = event => {
@@ -111,15 +103,34 @@ class OurMenu extends Component {
             expanded: expanded ? panel : false,
         });
     };
+    handlerRemoveEvent = (e) => {
+        e.preventDefault();
+        // console.log((" Will be deleted  =" + e.target.id))
+        let index = e.target.id;
+        let eventId = this.props.store.user.events[index]._id;
+        axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/${index}/`)
+            .then(response => {
+                console.log((response.data))
+                this.props.store.removEvent(index)
+                this.handleClose(e)
+            })
+    }
+    handleEdit = (e) => {
+        e.preventDefault();
+        alert("e.target.id; " + e.target.id);
+    }
+    handleEvent = (index) => {
+        this.props.store.eventindex(index)
 
-
+    }
 
     render() {
         const { classes } = this.props;
-        const { anchorMenu, open, anchorMenuAccount, expanded } = this.state;
-        const openMenu = Boolean(anchorMenu);
-        const openMenuAccount = Boolean(anchorMenuAccount);
-        const openEvent = Boolean(expanded);
+        const { open, expanded } = this.state;
+        // const { anchorMenu, open, anchorMenuAccount, expanded } = this.state;
+        // const openMenu = Boolean(anchorMenu);
+        // const openMenuAccount = Boolean(anchorMenuAccount);
+        // const openEvent = Boolean(expanded);
         return (
 
             <div className={classes.root} >
@@ -146,38 +157,31 @@ class OurMenu extends Component {
                             <Paper className={classes.paper}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                     <MenuList>
-                                        <MenuItem onClick={this.handleClose} >Create Event</MenuItem>
+                                        <MenuItem onClick={this.handleClose} onClick={this.openModalCreate} >Create Event</MenuItem>
                                         <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                                 <Typography className={classes.heading}>Select Event</Typography>
                                             </ExpansionPanelSummary>
                                             <ExpansionPanelDetails>
                                                 <List className={classes.rootList} subheader={<li />}>
-                                                    {[0, 1, 2, 3, 4].map(sectionId => (
-                                                        <li key={`section-${sectionId}`} className={classes.listSection}>
-                                                            <ul className={classes.ul}>
-                                                                <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>
-                                                                {[0, 1, 2].map(item => (
+                                                    <ul>
+                                                        {this.props.store.user.events.map((eve, index) => {
+                                                            return <ListItem key={eve.HostName + eve.Location + index}
+                                                                name={index} className="itemEvent" button divider disableGutters>
 
-                                                                    <ListItem key={`item-${sectionId}-${item}`} button divider disableGutters>
+                                                                <ListItemText id={index} onClick={(e) => { this.handleEvent(index), this.handleClose(e) }} primary={eve.Title} />
 
-                                                                        <ListItemText primary={`Item ${item}`}>
-
-                                                                        </ListItemText>
-                                                                        <Divider />
-                                                                        <ListItemSecondaryAction>
-                                                                            <IconButton aria-label="Delete">
-                                                                                <DeleteIcon />
-                                                                            </IconButton>
-                                                                            <IconButton className={classes.button} aria-label="Edit">
-                                                                                <Icon>edit_icon</Icon>
-                                                                            </IconButton>
-                                                                        </ListItemSecondaryAction>
-                                                                    </ListItem>
-                                                                ))}
-                                                            </ul>
-                                                        </li>
-                                                    ))}
+                                                                <Divider />
+                                                                <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
+                                                                    <Icon onClick={this.handleEdit} id={index} >edit_icon</Icon>
+                                                                </IconButton>
+                                                                <IconButton aria-label="Delete">
+                                                                    <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
+                                                                </IconButton>
+                                                                {/* <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i> */}
+                                                            </ListItem>
+                                                        })}
+                                                    </ul>
                                                 </List>
 
                                             </ExpansionPanelDetails>
@@ -201,7 +205,8 @@ class OurMenu extends Component {
                     )}
                 </Popper>
 
-
+                <CreateEvent openModalCreate={this.openModalCreate}
+                    modalCreate={this.state.modalCreate} />
             </div>
         );
     }

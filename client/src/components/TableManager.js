@@ -5,7 +5,7 @@ import GuestsList from './GuestsList';
 
 export class TableManager extends Component {
     constructor(props) {
-      super(props);
+        super(props);
     }
     render() {
         return (

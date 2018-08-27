@@ -3,10 +3,10 @@ import { observable, action } from "mobx";
 class EventManagerStore {
     @observable guests = [];
     @observable tables = [];
-    @observable categories = [];
+    @observable categories = ["army", "work", "trip", "Studies", "young", "childhood friends"];
 
-    @action addGuest = (flavor ,color) => {
-    	this.guests.push({ flavor, color });
+    @action addGuest = (flavor, color) => {
+        this.guests.push({ flavor, color });
     }
 
     @action deleteGuest = (index) => {
@@ -17,8 +17,8 @@ class EventManagerStore {
         this.guests.splice(index, 1, guest);
     }
 
-    @action addTable = (flavor ,color) => {
-    	this.guests.push({ flavor, color });
+    @action addTable = (flavor, color) => {
+        this.guests.push({ flavor, color });
     }
 
     @action deleteTable = (index) => {
@@ -29,8 +29,8 @@ class EventManagerStore {
         this.iceCreams.splice(index, 1, table);
     }
 
-    @action addCategory = (flavor ,color) => {
-    	this.guests.push({ flavor, color });
+    @action addCategory = (newCategorie) => {
+        this.categories.push(newCategorie);
     }
 
     @action deleteCategory = (index) => {

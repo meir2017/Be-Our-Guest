@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Button, ModalBody, CardBody } from 'reactstrap';
+import { Button, ModalBody } from 'reactstrap';
 
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';

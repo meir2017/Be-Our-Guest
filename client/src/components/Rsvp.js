@@ -1,9 +1,8 @@
 
+
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Checkbox from "@material-ui/core/Checkbox";
-import TextField from '@material-ui/core/TextField';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form } from 'reactstrap';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -31,12 +30,12 @@ class Rsvp extends Component {
         console.log(this.state.checkedB);
     }
 
-    componentDidMount() {
-        this.props.Options();
-    }
+    // componentDidMount() {
+    //     this.props.Options();
+    // }
 
     render() {
-        const { match } = this.props
+        // const { match } = this.props
         return (
             <div>
                 <Form onSubmit={this.Submitfunc}>
