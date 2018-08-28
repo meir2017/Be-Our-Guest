@@ -66,3 +66,25 @@
 *{
   box-sizing: border-box;
 }
+/* login */
+.btnl ,.btnr{
+  width: 48%;
+  margin: 10px 4px;
+  
+}
+.maintop{
+  background-color: #0067D6;
+  border-radius:10px; 
+  width: 97%;
+  margin: 5px;
+  margin-top: -31px;
+}
+.modal-body{
+  text-align: center !important
+}
+.pas{
+  float: left;
+  position: relative;
+  padding-left: 160px;
+
+}
