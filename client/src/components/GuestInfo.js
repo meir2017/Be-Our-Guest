@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -19,53 +21,67 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
+// const rows = [
+//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+//   createData('Eclair', 262, 16.0, 24, 6.0),
+//   createData('Cupcake', 305, 3.7, 67, 4.3),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// ];
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
-function GuestInfo(props) {
-  const { classes } = props;
+@inject("store")
+@observer
+class GuestInfo extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell numeric>Calories</TableCell>
-            <TableCell numeric>Fat (g)</TableCell>
-            <TableCell numeric>Carbs (g)</TableCell>
-            <TableCell numeric>Protein (g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => {
-            return (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell numeric>{row.calories}</TableCell>
-                <TableCell numeric>{row.fat}</TableCell>
-                <TableCell numeric>{row.carbs}</TableCell>
-                <TableCell numeric>{row.protein}</TableCell>
+  createData = (id, name, email, phone, coming, undecided, notComing) => {
+    return { id, name, email, phone, coming, undecided, notComing };
+  }
+
+  rowData = (guest, index) => {
+    return (
+      this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing)
+    )
+  };
+
+  render() {
+    let guests = this.props.store.user.guests;
+    return (
+      <Paper className={this.props.classes.root}>
+        <Table className={this.props.classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell numeric>Coming</TableCell>
+              <TableCell numeric>Undecided</TableCell>
+              <TableCell numeric>Not coming</TableCell>
             </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </Paper>
-  );
+          </TableHead>
+          <TableBody>
+            {guests.map((guest, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    {guest.name}
+                  </TableCell>
+                  <TableCell>{guest.email}</TableCell>
+                  <TableCell>{guest.phone}</TableCell>
+                  <TableCell numeric>{guest.coming}</TableCell>
+                  <TableCell numeric>{guest.invited - guest.coming - guest.notComing}</TableCell>
+                  <TableCell numeric>{guest.notComing}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </Paper>
+    );
+  }
 }
 
 GuestInfo.propTypes = {

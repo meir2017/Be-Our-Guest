@@ -4,6 +4,7 @@ let Schema = mongoose.Schema;
 
 
 let invitationSchema = new mongoose.Schema({
+    invitationName: String,
     titleInput: String,
     textInput: String,
     background: String,

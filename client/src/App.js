@@ -30,7 +30,7 @@ class App extends Component {
     axios.post('/beOurGuest/login', { name: "user1", pass: "111" })
       .then(response => {
         if (response.data !== "") {
-          console.log("user login  " + JSON.stringify(response.data))
+          // console.log("user login  " + JSON.stringify(response.data))
           this.props.store.updateUser(response.data)
         } else {
           console.log("no user Account ")
@@ -43,7 +43,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-        {(this.props.store.user.eventindex != null && this.props.store.user.userLog) ? < EventManager /> : false}
+        {(this.props.store.eventindex != null && this.props.store.user.userLog) ? < EventManager /> : false}
         {/* {(this.props.store.user.eventindex && this.props.store.user.userLog) && < EventManager />} */}
 
         {/* <Test /> */}

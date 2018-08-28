@@ -9,6 +9,7 @@ export class Invitation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            invitationName: "",
             titleInput: '',
             textInput: '',
             background: "",
@@ -28,6 +29,7 @@ export class Invitation extends Component {
         e.preventDefault();
 
         let InvitationObj = {
+            invitationName: this.state.invitationName,
             titleInput: this.state.titleInput,
             textInput: this.state.textInput,
             background: this.state.background,
@@ -36,16 +38,16 @@ export class Invitation extends Component {
 
         }//_id
 
-        let indexEvent = this.props.store.user.eventindex;
+        let indexEvent = this.props.store.eventindex;
         let eventId = this.props.store.user.events[indexEvent]._id
 
         console.log("eventId  " + eventId)
         console.log("indexEvent  " + indexEvent)
-        axios.post(`/beOurGuest/saveInvitation/${eventId}/${indexEvent}/`, InvitationObj)
+        axios.post(`/beOurGuest/saveInvitation/${eventId}/`, InvitationObj)
             .then(response => {
                 console.log("save InvitationObj")
                 console.log((response.data))
-                // this.props.store.removEvent(index)
+                this.props.store.addInvitation(response.data)
                 // this.handleClose(e)
             })
     }
@@ -57,29 +59,34 @@ export class Invitation extends Component {
     render() {
         return (
             <div className="container">
-                <h4>Write your invitation</h4>
-                <div className="row">
-                    <div className="col-sm-6">
+                <h3>Write your invitation</h3>
+                <div className="row" style={{ textAlign: "left" }}>
+                    <div className="col-sm-8">
+                        <input type="text" name="invitationName" className="invitationName" placeholder="Invitation name" onChange={this.onChangeText} value={this.state.invitationName} />
+                        <br /><br />
+
                         <input type="text" name="titleInput" className="title" placeholder="Title" onChange={this.onChangeText} value={this.state.titleInput} />
                         <br /><br />
-                        <textarea name="textInput" onChange={this.onChangeText} value={this.state.textInput} />
-
-
+                        <textarea rows="4" cols="30" name="textInput" onChange={this.onChangeText} value={this.state.textInput} />
                     </div>
-                    <div className="col-sm-6">
+
+                    <div className="col-sm-4">
+                        <br />
+                        <br />
+                        <br />
                         <div className="myColor">
                             <div >
-                                <input type="color" onChange={this.onChangeText} id="background" name="background" />
+                                <input className="color" type="color" onChange={this.onChangeText} id="background" name="background" />
                                 <label htmlFor="background">background</label>
                             </div>
-
+                            <br />
                             <div>
-                                <input type="color" onChange={this.onChangeText} id="titleColor" name="titleColor" />
+                                <input className="color" type="color" onChange={this.onChangeText} id="titleColor" name="titleColor" />
                                 <label htmlFor="titleColor">title Color</label>
                             </div>
-
-                            <div>
-                                <input type="color" onChange={this.onChangeText} id="bodyText" name="bodyText" />
+                            <br />
+                            <div >
+                                <input className="color" type="color" onChange={this.onChangeText} id="bodyText" name="bodyText" />
                                 <label htmlFor="bodyText">body Text</label>
                             </div>
                         </div>
@@ -90,10 +97,10 @@ export class Invitation extends Component {
                 </div>
 
 
-                <div className="display-invitation-input" style={{ width: "600px", height: "300px", border: "solid red 2px", backgroundColor: `${this.state.background}` }}>
+                <div className="display-invitation-input" style={{ width: "600px", height: "300px", border: "solid grey 1px", backgroundColor: `${this.state.background}` }}>
 
                     <h2 style={{ color: `${this.state.titleColor}` }}>{this.state.titleInput}</h2>
-                    <h4 style={{ textAlign: "left", whiteSpace: "pre-wrap", color: `${this.state.bodyText}` }}>{this.state.textInput}</h4>
+                    <h4 style={{ textAlign: "left", whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyText}` }}>{this.state.textInput}</h4>
 
 
                 </div><br />

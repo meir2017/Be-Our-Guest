@@ -3,6 +3,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import AddIcon from '@material-ui/icons/Add';
+import axios from 'axios';
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -38,6 +40,27 @@ class Table extends Component {
         console.log("tableName  " + this.state.tableName + "    category " + this.state.category
             + "  tableSize " + this.state.tableSize + "   color " + this.state.color);
         this.handleClose();
+
+        // let infoTable = {
+        //     title: this.state.tableName,
+        //     number: Number,
+        //     maxGuests: this.state.tableSize,
+        //     categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
+        //     guests: []
+
+        // }
+
+        // axios.post('/beOurGuest/addTable', infoTable)
+        //     .then(response => {
+        //         if (response.data !== "") {
+        //             console.log("save table  " + JSON.stringify(response.data))
+        //         } else {
+        //             console.log("no user Account ")
+        //         }
+        //     }).catch(function (error) { console.log(error); });
+        // this.setState({ inputText: "", passText: "" });
+
+
         // if the Categorie is new i need to save thue
         // send  to save in store and  db
 

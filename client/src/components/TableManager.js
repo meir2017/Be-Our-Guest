@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import TableList from './TableList';
-import GuestsList from './GuestsList';
-
 
 export class TableManager extends Component {
     constructor(props) {
@@ -10,7 +8,6 @@ export class TableManager extends Component {
     render() {
         return (
             <div className="container">
-                <GuestsList />
                 <TableList />
             </div>
         );

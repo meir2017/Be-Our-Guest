@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import Invitation from './Invitation';
+import { observer, inject } from 'mobx-react';
 
-export class InvitationManager extends Component {
+
+@inject("store")
+@observer
+class InvitationManager extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,12 +23,22 @@ export class InvitationManager extends Component {
     }
 
     render() {
+
+        const item = this.props.store;
+        console.log(item.user.events[item.eventindex].invitations.length)
         return (
             <div className="container">
 
                 <div className="row">
                     <div className="col-sm-5">
-                        Your Invitation List
+                        You have {item.user.events[item.eventindex].invitations.length} invitations
+                            {/* Your Invitation List */}
+                        <br />
+                        <br />
+                        <br />
+                        {item.user.events[item.eventindex].invitations.map((vet, index) => {
+                            return <p key={index} nmae={vet.invitationName}>{vet.invitationName}</p>
+                        })}
                     </div>
                     <div className="col-sm-7">
                         <Invitation />

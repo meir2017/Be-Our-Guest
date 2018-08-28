@@ -133,8 +133,14 @@ app.post('/beOurGuest/newUser', (req, res) => {
 app.post('/beOurGuest/login', (req, res) => {
     let userinfo = req.body;
     User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }).
-        populate('events').
-        exec(function (err, user) {
+        // populate('events').
+        populate({
+            path: 'events',
+            populate: {
+                path: 'invitations'
+            }
+        })
+        .exec(function (err, user) {
             if (err) return handleError(err);
             res.send(user);
         });
@@ -168,7 +174,7 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
 });
 
 
-// remov event
+// remove event
 app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
     console.log("user id  +" + req.params.userId)
     console.log("event id  +" + req.params.eventId)
@@ -189,10 +195,11 @@ app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
 });
 
 // add new Invitation
-app.post('/beOurGuest/saveInvitation/:eventId/:eventIndex/', (req, res) => {
+app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
     let vet = req.body;
 
     vet = new Invitation({
+        invitationName: vet.invitationName,
         titleInput: vet.titleInput,
         textInput: vet.textInput,
         background: vet.background,
@@ -210,8 +217,8 @@ app.post('/beOurGuest/saveInvitation/:eventId/:eventIndex/', (req, res) => {
         })
     })
 });
-
-
+//remove new Invitation
+//app.post('/beOurGuest/saveInvitation/:eventId/:eventIndex/', (req, res) => {}
 
 const port = process.env.PORT || 3001;
 app.listen(port, console.log('Server running on port', port));
