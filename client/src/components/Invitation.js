@@ -38,7 +38,7 @@ export class Invitation extends Component {
 
         }//_id
 
-        let indexEvent = this.props.store.eventindex;
+        let indexEvent = this.props.store.eventIndex;
         let eventId = this.props.store.user.events[indexEvent]._id
 
         console.log("eventId  " + eventId)

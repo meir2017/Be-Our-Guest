@@ -25,18 +25,18 @@ class InvitationManager extends Component {
     render() {
 
         const item = this.props.store;
-        console.log(item.user.events[item.eventindex].invitations.length)
+        console.log(item.user.events[item.eventIndex].invitations.length)
         return (
             <div className="container">
 
                 <div className="row">
                     <div className="col-sm-5">
-                        You have {item.user.events[item.eventindex].invitations.length} invitations
+                        You have {item.user.events[item.eventIndex].invitations.length} invitations
                             {/* Your Invitation List */}
                         <br />
                         <br />
                         <br />
-                        {item.user.events[item.eventindex].invitations.map((vet, index) => {
+                        {item.user.events[item.eventIndex].invitations.map((vet, index) => {
                             return <p key={index} nmae={vet.invitationName}>{vet.invitationName}</p>
                         })}
                     </div>
