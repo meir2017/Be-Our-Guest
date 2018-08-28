@@ -27,10 +27,9 @@ class BeOurGuestStore {
     }
 
 
-    @observable eventIndex = 0;
 
     @action populateEvent = () => {
-        this.user.events[0] = {
+       /*  this.user.events[0] = {
             _id:"1", 
             maxGuests: 50,
             tables: [
@@ -42,7 +41,20 @@ class BeOurGuestStore {
                 {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
                 {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
             ]
-        }
+        } */
+    }
+
+    @observable eventIndex = null;
+
+
+    // evnte function
+    @action LogoutUser = () => {
+        this.user.userLog = false;
+        console.log("user logout")
+    }
+    @action openModalLogin = () => {
+        this.user.ModalLogin = !this.user.ModalLogin;
+        console.log(this.user.ModalLogin)
     }
 
     @action updateUser = (item) => {

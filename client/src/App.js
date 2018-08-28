@@ -17,9 +17,8 @@ import Rsvp from './components/Rsvp';
 import Test from './components/Test';
 
 
-
- @inject("store")
- @observer
+@inject("store")
+@observer
 class App extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +45,7 @@ class App extends Component {
   onDragEnd = result => {
     let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
 
-    if(result.destination === null)
+    if (result.destination === null)
       return;
 
     if (result.destination.droppableId === result.source.droppableId &&
@@ -95,7 +94,18 @@ class App extends Component {
     newTables[Number(result.destination.droppableId)] = newFinish;
 
     this.props.store.user.events[this.props.store.eventIndex].tables = newTables;
+  }
 
+  componentWillMount() {
+    axios.post('/beOurGuest/login', { name: "user1", pass: "111" })
+      .then(response => {
+        if (response.data !== "") {
+          // console.log("user login  " + JSON.stringify(response.data))
+          this.props.store.updateUser(response.data)
+        } else {
+          console.log("no user Account ")
+        }
+      }).catch(function (error) { console.log(error); });
   }
 
 
@@ -112,21 +122,18 @@ class App extends Component {
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-      <div className="App">
+        <div className="App">
 
+          <Navbar />
+          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
 
-        {/*   {(!this.props.store.user.userLog && this.state.Options) && <SignIn ChangeOptions={this.ChangeOptions} />}
-        {(!this.props.store.user.userLog && !this.state.Options) && <SignUp ChangeOptions={this.ChangeOptions} />} */}
-        <Navbar />
-        {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
-    
-        <BrowserRouter>
-          <Route
-            exact path="/beuorguest/rsvp/:evntid/:guestid"
-            render={(props) => <Rsvp {...props} Options={this.Options} />}
-          />
-        </BrowserRouter>
-      </div>
+          <BrowserRouter>
+            <Route
+              exact path="/beuorguest/rsvp/:evntid/:guestid"
+              render={(props) => <Rsvp {...props} Options={this.Options} />}
+            />
+          </BrowserRouter>
+        </div>
       </DragDropContext>
     );
   }
