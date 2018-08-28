@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Button, ModalBody, CardBody } from 'reactstrap';
+import { Button, ModalBody } from 'reactstrap';
 
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
@@ -37,7 +37,7 @@ class SignUp extends Component {
         this.props.ChangeOptions();
     }
     render() {
-        const { classes } = this.props;
+        // const { classes } = this.props;
 
         return (
             <div>

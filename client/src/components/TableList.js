@@ -3,10 +3,10 @@ import Table from './Table';
 
 export class TableList extends Component {
     constructor(props) {
-      super(props);
-      this.state={
-          tables: [],
-      }
+        super(props);
+        this.state = {
+            tables: [],
+        }
     }
 
     displayTables = () => {
@@ -20,7 +20,7 @@ export class TableList extends Component {
                 <div className="list-of-tables">
                     {/* displaying tables[] */}
                     {/* the user drag and drop guests from the GuestsList compoment into the div */}
-                    {this.displayTables}
+                    {/* {this.displayTables} */}
                 </div>
             </div>
         );

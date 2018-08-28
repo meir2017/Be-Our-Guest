@@ -7,9 +7,9 @@ let Category = require('./CategoryModel');
 
 
 let guestSchema = new mongoose.Schema({
-    globalGuest_id: {type: Schema.Types.ObjectId, ref: 'globalGuest'},
-    invitations:[{type: Schema.Types.ObjectId, ref: 'invitation'}],
-    categories: [{type: Schema.Types.ObjectId, ref: 'category'}],
+    globalGuest_id: { type: Schema.Types.ObjectId, ref: 'globalGuest' },
+    invitations: [{ type: Schema.Types.ObjectId, ref: 'invitation' }],
+    categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
     comment: String,
     numConfirmed: Number,
     numUndecided: Number,

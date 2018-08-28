@@ -40,12 +40,12 @@ class GuestInfo extends Component {
   createData = (id, name, email, phone, coming, undecided, notComing) => {
     return { id, name, email, phone, coming, undecided, notComing };
   }
-  
+
   rowData = (guest, index) => {
     return (
-      this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing )
+      this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing)
     )
-};
+  };
 
   render() {
     let guests = this.props.store.user.guests;
@@ -63,7 +63,7 @@ class GuestInfo extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {guests.map((guest,index) => {
+            {guests.map((guest, index) => {
               return (
                 <TableRow key={index}>
                   <TableCell component="th" scope="row">
@@ -74,7 +74,7 @@ class GuestInfo extends Component {
                   <TableCell numeric>{guest.coming}</TableCell>
                   <TableCell numeric>{guest.invited - guest.coming - guest.notComing}</TableCell>
                   <TableCell numeric>{guest.notComing}</TableCell>
-              </TableRow>
+                </TableRow>
               );
             })}
           </TableBody>

@@ -5,22 +5,26 @@ class BeOurGuestStore {
     @observable user = {
         userLog: false,
         _Id: "",
-        username: "meir",
+        username: "",
         password: "",
         email: "",
         events: [],
         guests: [],
         categories: [],
-        eventindex: null,
-
         ModalLogin: false
+    }
+    @observable eventindex = null;
 
 
+    // evnte function
+    @action LogoutUser = () => {
+        this.user.userLog = false;
+        console.log("user logout")
     }
     @action openModalLogin = () => {
         this.user.ModalLogin = !this.user.ModalLogin;
+        console.log(this.user.ModalLogin)
     }
-
     @action updateUser = (item) => {
         this.user.userLog = true;
         this.user._Id = item._id
@@ -30,6 +34,15 @@ class BeOurGuestStore {
         this.user.events = item.events;
         this.user.guests = item.guests;
         this.user.categories = item.categories;
+        console.log(JSON.stringify(this.user.events))
+    }
+
+    // user function
+
+
+    @action mYeventindex = (index) => {
+        this.eventindex = index
+        console.log("event index is  " + index)
     }
 
     @action addEvent = (newEvent) => {
@@ -37,12 +50,19 @@ class BeOurGuestStore {
         listEvents.push(newEvent)
         this.user.events = listEvents;
     }
-
     @action removEvent = (eventIndex) => {
         let listEvents = this.user.events.concat();
         listEvents.splice(eventIndex, 1)
         this.user.events = listEvents;
     }
+    // Invitation function
+    @action addInvitation = (newlistinvitations) => {
+        let listinvitations = this.user.events[this.eventindex].invitations.concat();
+        listinvitations.push(newlistinvitations)
+        this.user.events[this.eventindex].invitations = listinvitations;
+        console.log(" save  invitations in client  ")
+    }
+
 }
 
 const store = new BeOurGuestStore();
