@@ -13,7 +13,8 @@ let guestSchema = new mongoose.Schema({
     comment: String,
     numConfirmed: Number,
     numUndecided: Number,
-    numNotComing: Number
+    numNotComing: Number,
+    seated: Boolean
 });
 
 let Guest = mongoose.model('guest', guestSchema);

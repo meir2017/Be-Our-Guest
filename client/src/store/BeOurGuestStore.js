@@ -11,7 +11,7 @@ class BeOurGuestStore {
         events: [],
         guests: [],
         categories: [],
-        eventindex: null,
+        eventIndex: null,
 
         ModalLogin: false
 
@@ -71,7 +71,9 @@ class BeOurGuestStore {
             invitations: newGuest.invitations,
             categories: newGuest.categories,
             comment: newGuest.comment,
-            numUndecided: newGuest.numInvited
+            numConfirmed: newGuest.numConfirmed,
+            numUndecided: newGuest.numInvited,
+            numNotComing: newGuest.numNotComing
         };
 
         // Add guest to event's guest list

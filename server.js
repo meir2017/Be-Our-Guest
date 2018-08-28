@@ -178,7 +178,8 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
         comment: newGuest.comment,
         numConfirmed: 0,
         numUndecided: newGuest.numInvited,
-        numNotComing: 0
+        numNotComing: 0,
+        seated: false
       });
 
       Event.findById(req.params.eventId)
@@ -206,7 +207,10 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
             invitations: guest.invitations,
             categories: guest.categories,
             comment: guest.comment,
-            numUndecided: guest.numInvited
+            numConfirmed: guest.numConfirmed,
+            numUndecided: guest.numInvited,
+            numNotComing: guest.numNotComing,
+            seated: false
           };
 
           console.log(newGuest.id);
