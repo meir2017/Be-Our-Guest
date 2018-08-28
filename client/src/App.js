@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 
 import './App.css';
 import EventManager from './components/EventManager';
+import Navbar from './components/Navbar';
 
 import CreateEvent from './components/CreateEvent';
 import { observer, inject } from 'mobx-react';
-import Navbar from './components/Navbar';
 
 
 @inject("store")

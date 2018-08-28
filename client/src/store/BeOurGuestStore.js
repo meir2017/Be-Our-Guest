@@ -34,14 +34,56 @@ class BeOurGuestStore {
 
     @action addEvent = (newEvent) => {
         let listEvents = this.user.events.concat();
-        listEvents.push(newEvent)
+        listEvents.push(newEvent);
         this.user.events = listEvents;
     }
 
     @action removEvent = (eventIndex) => {
         let listEvents = this.user.events.concat();
-        listEvents.splice(eventIndex, 1)
+        listEvents.splice(eventIndex, 1);
         this.user.events = listEvents;
+    }
+
+    @action addGlobalGuest = (newGuest) => {
+        let guestList = this.user.guests.concat();
+        guestList.push(newGuest);
+        this.guests.events = guestList;
+    }
+
+    @action addGuest = (newGuest) => {
+        let globalGuest = {
+            _id: newGuest.globalGuestId,
+            name: newGuest.name,
+            email: newGuest.email,
+            phone: newGuest.phone
+        };
+
+        // Add globalGuest to global guest list
+        let guestList = this.user.guests.concat();
+        guestList.push(globalGuest);
+        this.user.guests = guestList;
+
+        let guest = {
+            _id: newGuest.guestId,
+            name: newGuest.name,
+            email: newGuest.email,
+            phone: newGuest.phone,
+            invitations: newGuest.invitations,
+            categories: newGuest.categories,
+            comment: newGuest.comment,
+            numUndecided: newGuest.numInvited
+        };
+
+        // Add guest to event's guest list
+        guestList = this.user.event[this.store.eventIndex].guests.concat();
+        guestList.push(guest);
+        this.user.event[this.store.eventIndex].guests = guestList;
+    }
+
+    @action removGuest = (guestIndex) => {
+        let guestList = this.user.events.concat();
+        guestList.splice(guestIndex, 1);
+        this.user.events = guestList;
     }
 }
 
