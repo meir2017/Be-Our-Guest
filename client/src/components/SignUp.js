@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Button, ModalBody, CardBody } from 'reactstrap';
+import { Button, ModalBody } from 'reactstrap';
 
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
@@ -22,9 +22,10 @@ class SignUp extends Component {
     }
     onClickBtn = (e) => {
         e.preventDefault();
-        if (this.state.passText == this.state.passConfirm) {
+        if (this.state.passText === this.state.passConfirm) {
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
+                    this.props.store.openModalLogin();
                     console.log((" new user " + response.data._id))
                     this.props.store.updateUser(response.data)
                 })
@@ -36,7 +37,7 @@ class SignUp extends Component {
         this.props.ChangeOptions();
     }
     render() {
-        const { classes } = this.props;
+        // const { classes } = this.props;
 
         return (
             <div>

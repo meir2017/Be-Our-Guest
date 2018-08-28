@@ -21,8 +21,6 @@ class CreateEvent extends Component {
             maxGuests: "",
             HostName: ""
         };
-        this.handlerSaveEven = this.handlerSaveEven.bind(this);
-
         this.toggle = this.toggle.bind(this);
     }
 
@@ -30,25 +28,23 @@ class CreateEvent extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
     toggle() {
-        this.setState({
-            modal: !this.state.modal
-        });
+        this.props.openModalCreate()
     }
 
-    handlerRemoveEvent = (e) => {
+    // handlerRemoveEvent = (e) => {
 
-        //console.log(JSON.stringify(itemEvent))
-        console.log((" Will be deleted  =" + e.target.name))
-        let index = e.target.name;
-        let eventId = this.props.store.user.events[index]._id;
-        axios.delete(`/beOurGuest/RemovEvent/${this.props.store.user._Id}/${eventId}/`)
-            .then(response => {
-                console.log((response.data))
-                this.store.RemovEvent(e.target.name)
+    //     //console.log(JSON.stringify(itemEvent))
+    //     console.log((" Will be deleted  =" + e.target.name))
+    //     let index = e.target.name;
+    //     let eventId = this.props.store.user.events[index]._id;
+    //     axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/`)
+    //         .then(response => {
+    //             console.log((response.data))
+    //             this.store.removEvent(e.target.name)
 
-            })
+    //         })
 
-    }
+    // }
     handlerSaveEven = (e) => {
         this.toggle();
         e.preventDefault();
@@ -57,7 +53,7 @@ class CreateEvent extends Component {
             .then(response => {
 
                 console.log(" new event id  =" + response.data._id)
-                this.props.store.AddEvent(response.data)
+                this.props.store.addEvent(response.data)
 
             })
             .catch(err => console.log('Error: ', err));
@@ -65,12 +61,8 @@ class CreateEvent extends Component {
     render() {
         return (
             <div>
-                <br /><br />
-
-                <Button color="danger" onClick={this.toggle}>new event</Button>
-                <br /> <br />
-                {this.state.modal && <MyModal >
-                    <Modal isOpen={this.state.modal} toggle={this.toggle} className="CreateNewEvent">
+                <MyModal >
+                    <Modal isOpen={this.props.modalCreate} toggle={this.toggle} className="CreateNewEvent">
                         <ModalHeader toggle={this.toggle}>Create New Event</ModalHeader>
                         <ModalBody>
                             <TextField
@@ -104,16 +96,7 @@ class CreateEvent extends Component {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                </MyModal>}
-                {this.props.store.user.events.map((eve, index) => {
-                    return (
-                        <div key={eve.HostName + eve.Location} index={index} className="eventAll">
-                            <Button className="btnEvent" name={index}  >{eve.Title} <b>In </b>   {eve.Location}</Button>
-                            <br /> <br />
-                        </div>
-                    )
-                })}
-
+                </MyModal>
             </div>
         );
     }

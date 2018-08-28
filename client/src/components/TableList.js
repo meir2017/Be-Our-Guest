@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css'
-import styled from 'styled-components'
+//import styled from 'styled-components'
 import Table from './Table';
-import PerfectScrollbar from 'perfect-scrollbar';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import { 
@@ -24,7 +23,7 @@ const styles = theme => ({
 
 });
 
-
+/* 
 const Container = styled.div`
 display: flex;
 flex-direction: column;
@@ -32,7 +31,7 @@ width: auto;
 transition: width 2s, height 4s;
 flex: 1;
 justify-content:space-around;
-`;
+`; */
 
 @inject("store")
 @observer

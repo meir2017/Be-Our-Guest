@@ -1,64 +1,15 @@
-
-
-// import React, { Component } from 'react';
-
-
-// class Navbar extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {}
-//     }
-//     render() {
-//         return (
-//             <div className="navBarMain">
-//                 <br />
-//                 navbar   navbar   navbar   navbar
-//             </div>
-//         );
-//     }
-// }
-
-// export default Navbar;
+// import React from 'react';
 
 import React, { Component } from 'react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import {
     AppBar,
     withStyles,
-    createMuiTheme,
-    ClickAwayListener,
-    MuiThemeProvider,
     Toolbar,
-    Typography,
-    TextField,
-    Button,
-    Badge,
-    Grow,
-    Paper,
-    Popper,
-    Divider,
-    Menu,
-    MenuItem,
-    MenuList,
-    IconButton,
-    Icon,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    ExpansionPanelActions,
-    ListItem,
-    List,
-    ListItemText,
-    ListSubheader,
-    ListItemIcon,
-    ListItemSecondaryAction
-} from "@material-ui/core"
+} from "@material-ui/core"   //AccountManager
 
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import OurMenu from './OurMenu';
+import AccountManager from './AccountManager';
 const styles = theme => ({
     root: {
         flexGrow: 1
@@ -120,6 +71,7 @@ class Navbar extends Component {
 
     handleMenuAccount = event => {
         this.setState({ anchorMenuAccount: event.currentTarget });
+
     };
 
     handleCloseMenuAccount = () => {
@@ -132,155 +84,26 @@ class Navbar extends Component {
         });
     };
 
-    // myList = (props) => {
-    //     const { classes } = this.props;
-    //     return (
-    //         <div>
-    //             <List className={classes.rootList} subheader={<li />}>
-    //                 {[0, 1, 2, 3, 4].map(sectionId => (
-    //                     <li key={`section-${sectionId}`} className={classes.listSection}>
-    //                         <ul className={classes.ul}>
-    //                             <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>
-    //                             {[0, 1, 2].map(item => (
-    //                                 <ListItem key={`item-${sectionId}-${item}`}>
-    //                                     <ListItemText primary={`Item ${item}`} > 
-    //                                         {/* <Divider /><IconButton className={classes.button} aria-label="Delete"
-    //                                             onClick={() => this.props.handleDeleteGuest(this.props.tableId, this.props.guestId)}>
-    //                                             <DeleteIcon />
-    //                                         </IconButton>
-    //                                         <IconButton className={classes.button} aria-label="Edit">
-    //                                             <Icon>edit_icon</Icon>
-    //                                         </IconButton> */}
-    //                                     </ListItemText>
-    //                                 </ListItem>
-    //                             ))}
-    //                         </ul>
-    //                     </li>
-    //                 ))}
-    //             </List>
-    //         </div>
 
-    //     );
-    // }
 
     render() {
         const { classes } = this.props;
-        const { anchorMenu, open, anchorMenuAccount, expanded } = this.state;
-        const openMenu = Boolean(anchorMenu);
-        const openMenuAccount = Boolean(anchorMenuAccount);
-        const openEvent = Boolean(expanded);
+        const { anchorMenu, anchorMenuAccount, expanded } = this.state;
+        // const openMenu = Boolean(anchorMenu);
+        // const openMenuAccount = Boolean(anchorMenuAccount);
+        // const openEvent = Boolean(expanded);
         return (
 
             <div className={classes.root} >
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton
-                            buttonRef={node => {
-                                this.anchorEl = node;
-                            }}
-                            aria-owns={open ? "mainMenu-appbar" : null}
-                            aria-haspopup="true"
-                            onClick={this.handleToggle}
-                            className={classes.menuButton}
-                            aria-label="Menu"
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
-                            {({ TransitionProps, placement }) => (
-                                <Grow
-                                    {...TransitionProps}
-                                    id="mainMenu-appbar"
-                                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}>
-                                    <Paper className={classes.paper}>
-                                        <ClickAwayListener onClickAway={this.handleClose}>
-                                            <MenuList>
-                                                <MenuItem onClick={this.handleClose} >Create Event</MenuItem>
-                                                <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-                                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                                        <Typography className={classes.heading}>Select Event</Typography>
-                                                    </ExpansionPanelSummary>
-                                                    <ExpansionPanelDetails>
-                                                        <List className={classes.rootList} subheader={<li />}>
-                                                            {[0, 1, 2, 3, 4].map(sectionId => (
-                                                                <li key={`section-${sectionId}`} className={classes.listSection}>
-                                                                    <ul className={classes.ul}>
-                                                                        <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>
-                                                                        {[0, 1, 2].map(item => (
-
-                                                                            <ListItem key={`item-${sectionId}-${item}`} button divider disableGutters>
-
-                                                                                <ListItemText primary={`Item ${item}`}>
-
-                                                                                </ListItemText>
-                                                                                <Divider />
-                                                                                <ListItemSecondaryAction>
-                                                                                    <IconButton aria-label="Delete">
-                                                                                        <DeleteIcon />
-                                                                                    </IconButton>
-                                                                                    <IconButton className={classes.button} aria-label="Edit">
-                                                                                        <Icon>edit_icon</Icon>
-                                                                                    </IconButton>
-                                                                                </ListItemSecondaryAction>
-                                                                            </ListItem>
-                                                                        ))}
-                                                                    </ul>
-                                                                </li>
-                                                            ))}
-                                                        </List>
-
-                                                    </ExpansionPanelDetails>
-                                                </ExpansionPanel>
-                                                <MenuItem onClick={this.handleClose} >Create Category</MenuItem>
-                                                <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-                                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                                        <Typography className={classes.heading}>Select Category</Typography>
-                                                    </ExpansionPanelSummary>
-                                                    <ExpansionPanelDetails>
-                                                        <Typography variant="title">
-                                                            any Category
-                                                        </Typography>
-                                                        {/* <myList props={classes} /> */}
-                                                    </ExpansionPanelDetails>
-                                                </ExpansionPanel>
-                                            </MenuList>
-                                        </ClickAwayListener>
-                                    </Paper>
-                                </Grow>
-                            )}
-                        </Popper>
-
-                        <IconButton
-                            aria-owns={openMenuAccount ? "menuAccount-appbar" : null}
-                            aria-haspopup="true"
-                            onClick={this.handleMenuAccount}
-                            className={classes.menuAccountButton}
-                            aria-label="Menu"
-                            color="inherit">
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menuAccount-appbar"
-                            anchorEl={anchorMenuAccount}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right"
-                            }}
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right"
-                            }}
-                            open={openMenuAccount}
-                            onClose={this.handleCloseMenuAccount}
-                        >
-                            <MenuItem onClick={this.handleCloseMenuAccount}>Logout</MenuItem>
-                            <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
-                            <MenuItem onClick={this.handleCloseMenuAccount}>My account</MenuItem>
-                        </Menu>
+                        <OurMenu />
+                        <AccountManager />
                     </Toolbar>
                 </AppBar>
             </div>
+
+
         );
     }
 }

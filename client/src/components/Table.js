@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../App.css'
-import styled from 'styled-components';
+//import styled from 'styled-components';
 import Guest from './Guest'
 import { Droppable } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
@@ -41,7 +41,7 @@ const styles = theme => ({
 
 });
 
-const Container = styled.div`
+/* const Container = styled.div`
 margin: 8px;
 width: 250px;
 height: 500px;
@@ -60,7 +60,7 @@ border: 3px solid lightgrey;
 border-radius: 2px;
 `;
 
-
+ */
 /* @inject("store")
 @observer
 class GuestContainer extends Component {

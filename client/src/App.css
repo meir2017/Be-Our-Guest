@@ -88,3 +88,22 @@
   padding-left: 160px;
 
 }
+.AppBar{
+
+text-align: center ;
+margin-top: -55px
+}
+.itemEvent{
+/* color:black; */
+width: 114% !important;
+margin-left: -40px !important;
+}
+.divBtn{
+  margin: 5px;
+}
+.myColor{
+text-align: left
+}
+.color{
+margin-right: 30px;
+}

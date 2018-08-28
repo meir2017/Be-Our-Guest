@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css'
-import styled from 'styled-components'
+//import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import { withStyles } from '@material-ui/core/styles';
@@ -15,14 +15,14 @@ const styles = theme => ({
     }
 
 });
-
+/* 
 const Container = styled.div`
   height: 30px;
   background-color: blue;
   width: 100%;
 `;
 
-
+ */
 @inject("store")
 @observer
 class Guest extends Component {

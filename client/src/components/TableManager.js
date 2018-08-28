@@ -20,11 +20,6 @@ export class TableManager extends Component {
         return (
             <div>
             <TableList />
-               {/* <Grid container className={classes.root} spacing={40}>
-                <Grid item xs={12}>
-                    <TableList />
-                </Grid>
-            </Grid> */}
             </div>
          
            

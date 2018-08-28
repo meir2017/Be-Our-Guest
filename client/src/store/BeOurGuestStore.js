@@ -1,19 +1,29 @@
-
-
-
-import { observable, action, computed, observer, reaction } from "mobx";
+// import { observable, action, computed, observer, reaction } from "mobx";
+import { observable, action } from "mobx";
 
 class BeOurGuestStore {
     @observable user = {
         userLog: false,
         _Id: "",
-        username: "meir",
+        username: "",
         password: "",
         email: "",
         events: [],
         guests: [],
-        categories: []
+        categories: [],
+        ModalLogin: false
+    }
+    @observable eventIndex = null;
 
+
+    // evnte function
+    @action LogoutUser = () => {
+        this.user.userLog = false;
+        console.log("user logout")
+    }
+    @action openModalLogin = () => {
+        this.user.ModalLogin = !this.user.ModalLogin;
+        console.log(this.user.ModalLogin)
     }
 
 
@@ -44,18 +54,34 @@ class BeOurGuestStore {
         this.user.events = item.events;
         this.user.guests = item.guests;
         this.user.categories = item.categories;
+        console.log(JSON.stringify(this.user.events))
     }
-    @action AddEvent = (newEvent) => {
+
+    // user function
+
+
+    @action mYeventindex = (index) => {
+        this.eventIndex = index
+        console.log("event index is  " + index)
+    }
+
+    @action addEvent = (newEvent) => {
         let listEvents = this.user.events.concat();
         listEvents.push(newEvent)
         this.user.events = listEvents;
     }
-    @action RemovEvent = (eventIndex) => {
+    @action removEvent = (eventIndex) => {
         let listEvents = this.user.events.concat();
         listEvents.splice(eventIndex, 1)
         this.user.events = listEvents;
     }
-
+    // Invitation function
+    @action addInvitation = (newlistinvitations) => {
+        let listinvitations = this.user.events[this.eventIndex].invitations.concat();
+        listinvitations.push(newlistinvitations)
+        this.user.events[this.eventIndex].invitations = listinvitations;
+        console.log(" save  invitations in client  ")
+    }
 
 }
 

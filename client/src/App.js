@@ -1,9 +1,10 @@
-"use strict";
+
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import './App.css';
-// import SignIn from './components/SignIn';
 import EventManager from './components/EventManager';
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import CreateEvent from './components/CreateEvent';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
@@ -12,6 +13,9 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import LogIn from './components/LogIn';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import Rsvp from './components/Rsvp';
+
+import Test from './components/Test';
 
 
 
@@ -21,14 +25,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Options: true,
-    }
+      rsvpfunc: false,
+    }///http://localhost:3000/beuorguest/rsvp/:evntid/:guestid   for  rsvp
   }
   ChangeOptions = (user) => {  // remov this
-
     this.setState({ Options: !this.state.Options })   // login   or signup
-
   }
+
+  componentWillMount() {
+    axios.post('/beOurGuest/login', { name: "111", pass: "111" })
+      .then(response => {
+        if (response.data !== "") {
+          // console.log("user login  " + JSON.stringify(response.data))
+          this.props.store.updateUser(response.data)
+        } else {
+          console.log("no user Account ")
+        }
+      }).catch(function (error) { console.log(error); });
+  }
+
   onDragEnd = result => {
     let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
 
@@ -99,20 +114,19 @@ class App extends Component {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
       <div className="App">
-        {/* <Navbar /> */}
 
 
-      {/*     {(!this.props.store.user.userLog && this.state.Options) && <SignIn ChangeOptions={this.ChangeOptions} />}
+        {/*   {(!this.props.store.user.userLog && this.state.Options) && <SignIn ChangeOptions={this.ChangeOptions} />}
         {(!this.props.store.user.userLog && !this.state.Options) && <SignUp ChangeOptions={this.ChangeOptions} />} */}
         <Navbar />
-      
-       {/*  {!this.props.store.user.userLog && <LogIn />}
-        <br /><br />  <br /> <br /> */}
-        <EventManager />
-        {this.props.store.user.userLog && <CreateEvent
-          AddEvent={this.AddEvent}
-          RemovEvent={this.RemovEvent} />}
-
+        {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
+    
+        <BrowserRouter>
+          <Route
+            exact path="/beuorguest/rsvp/:evntid/:guestid"
+            render={(props) => <Rsvp {...props} Options={this.Options} />}
+          />
+        </BrowserRouter>
       </div>
       </DragDropContext>
     );
