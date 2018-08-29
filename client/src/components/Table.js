@@ -1,142 +1,146 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
-import AddIcon from '@material-ui/icons/Add';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import '../App.css'
+//import styled from 'styled-components';
+import Guest from './Guest'
+import { Droppable } from 'react-beautiful-dnd';
+import { observer, inject } from 'mobx-react';
+import {
+    withStyles,
+    Grid,
+    Paper,
+    List,
+    ListItem,
+    ListItemText
+} from '@material-ui/core';
 
-class Table extends Component {
+
+
+
+const styles = theme => ({
+    paper: {
+
+    },
+    tableWrapper: {
+        margin: 8,
+        width: 250,
+        height: 500,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: 'blue',
+        // transition: width 2s, height 4s;
+        // transition: background-color 0.2s ease;
+        //backgroundColor: ${ props => (props.isDraggingOver ? '#4A6572' : '#4A6572') }
+        fontFamily: 'Roboto Slab, serif',
+        position: 'relative',
+        // justifyContent: '',
+        border: '3 solid lightgrey',
+        borderRadius: 2,
+    }
+
+});
+
+/* const Container = styled.div`
+margin: 8px;
+width: 250px;
+height: 500px;
+flex: 1;
+display: flex;
+flex-direction: column;
+// transition: width 2s, height 4s;
+// transition: background-color 0.2s ease;
+
+//background-color: ${props => (props.isDraggingOver ? '#4A6572' : '#4A6572')}
+background-color: blue,
+font-family: 'Roboto Slab', serif;
+position: relative;
+justifyContent: 'center';
+border: 3px solid lightgrey;
+border-radius: 2px;
+`;
+
+ */
+/* @inject("store")
+@observer
+class GuestContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tableSize: '',
-            category: "",
-            tableName: '',
-            listOfGuests: "",
-            anchorEl: null,
-            datalist: ["node.js", "Java", "JavaScript", "c", "c++", "html", "Component", "react"]
-
-        }
-    }
-
-
-    handleClick = event => {
-        this.setState({
-            anchorEl: event.currentTarget,
-        });
-    };
-
-    handleClose = () => {
-        this.setState({
-            anchorEl: null,
-        });
-    };
-    onChangeText = (e) => {
-        e.preventDefault();
-        this.setState({ [e.target.name]: e.target.value });
-
-    }
-    saveTable = (e) => {
-        console.log("tableName  " + this.state.tableName + "    category " + this.state.category
-            + "  tableSize " + this.state.tableSize + "   color " + this.state.color);
-        this.handleClose();
-
-        // let infoTable = {
-        //     title: this.state.tableName,
-        //     number: Number,
-        //     maxGuests: this.state.tableSize,
-        //     categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
-        //     guests: []
-
-        // }
-
-        // axios.post('/beOurGuest/addTable', infoTable)
-        //     .then(response => {
-        //         if (response.data !== "") {
-        //             console.log("save table  " + JSON.stringify(response.data))
-        //         } else {
-        //             console.log("no user Account ")
-        //         }
-        //     }).catch(function (error) { console.log(error); });
-        // this.setState({ inputText: "", passText: "" });
-
-
-        // if the Categorie is new i need to save thue
-        // send  to save in store and  db
-
-
-    }
-
-
-    displayTable = () => {
-        //display the added table in new div
-    }
-
-    deleteTable = () => {
-        //the function delete table from tables[]
-    }
-
-    editTable = () => {
-        //the function open table-details div
     }
 
     render() {
-        // const { classes } = this.props;
-        const { anchorEl } = this.state;
-        const open = Boolean(anchorEl);
+        const { classes } = this.props;
+        return (<Grid item xs={12}
+            innerRef={this.props.provided.innerRef}
+            {...this.props.provided.droppableProps}
+        >
+            <Paper className={classes.paper}>
+                <ListItem className={classes.listItem}>
+                    <ListItemText primary={this.props.table.title}/>
+                </ListItem>
+                {this.props.table.guests.map((guest, index) => (
+                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
+                ))}
+                {this.props.provided.placeholder}
+            </Paper>
+        </Grid>);
+    } */
+/*     render() {
+        return (<Container
+            innerRef={this.props.provided.innerRef}
+            {...this.props.provided.droppableProps}
+           >
+            {this.props.table.guests.map((guest, index) => (
+                <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
+            ))}
+            {this.props.provided.placeholder}
+        </Container>);
+    }
+ }*/
+
+@inject("store")
+@observer
+class Table extends Component {
+
+    render() {
+        const { classes } = this.props;
         return (
-            <div className="container">
-                <div className="table-details">
-                    <Button variant="fab" style={{ float: "left", backgroundColor: "#00b0ff", zIndex: "-10px" }}
-                        aria-label="Add"
-                        aria-owns={open ? 'simple-popper' : null}
-                        aria-haspopup="false"
-                        onClick={this.handleClick}
-                    >
-                        <AddIcon />
-                    </Button>
+            <Droppable droppableId={String(this.props.index)}>
+                {(provided) => (
+                    // <GuestContainer provided={provided}  table={this.props.table}/>
+                    <div
 
-                    <Popover
-                        id="simple-popper"
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={this.handleClose}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                    >
-                        <Typography style={{ padding: "20px" }}>
-                            <input name="tableName" onChange={this.onChangeText} value={this.state.tableName} placeholder=" Table Name" type="text" /><br /><br />
-                            <input name="tableSize" onChange={this.onChangeText} value={this.state.tableSize} placeholder="size" type="number" /><br /><br />
-                            <span >Color Table:  </span> <input style={{ marginLeft: "30px" }} type="color" name="color" onChange={this.onChangeText} id="" /><br /><br />
-                            <input className="awesomplete" name="category" placeholder="category" onSelect={this.onChangeText} list="mylist" /><br /> <br />
-                            <datalist id="mylist" >
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}>
+                        <Paper className={classes.tableWrapper}>
+                            <Paper className={classes.paper}>
+                                <List>
+                                    <ListItem className={classes.listItem} >
+                                        <ListItemText primary={this.props.table.title} />
+                                    </ListItem>
+                                    {/* {console.log(JSON.stringify(this.props.table.guests))} */}
+                                </List>
 
-                                {/* list of category */}
-                                {this.state.datalist.map((item, index) => {
-                                    return <option key={index + item}>{item} </option>
-                                })}
-                            </datalist>
-                            {/* <input name="" onChange={} value={this.state.} placeholder="List of guest" type="text" /> <br /><br /> */}
+                            </Paper>
+                            {this.props.table.guests.map((guest, index) => (
+                                <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
 
-                            <Button onClick={this.saveTable} variant="contained" size="medium" color="secondary">Save</Button>
-                        </Typography>
-                    </Popover>
-                </div>
+                            ))}
+                            {provided.placeholder}
+
+                        </Paper>
+
+                    </div>
 
 
-                {/* <div className="table-buttons">   
-                        <button onClick={this.editTable}>Edit Table</button>
-                        <button onClick={this.deleteTable}>Delete Table</button>
-                    </div> */}
-            </div>
+                )}
+            </Droppable>
         );
     }
 }
 
-export default Table;
+Table.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Table);

@@ -13,7 +13,8 @@ class Rsvp extends Component {
         super(props);
         this.state = {
             checkedB: false,
-            numGuest: 0
+            numGuest: 0,
+            myText: "",
         }
     }
     handleChange = name => event => {
@@ -30,14 +31,18 @@ class Rsvp extends Component {
         console.log(this.state.checkedB);
     }
 
-    // componentDidMount() {
-    //     this.props.Options();
-    // }
+    componentDidMount() {
+        // this.props.Options();
+
+    }
 
     render() {
         // const { match } = this.props
         return (
             <div>
+                <h3>evntid Param: {this.props.match.params.evntid}</h3>
+                <h3>topicId guestid: {this.props.match.params.guestid}</h3>
+
                 <Form onSubmit={this.Submitfunc}>
 
                     are you caming:   <Checkbox
