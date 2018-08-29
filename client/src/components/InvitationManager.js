@@ -25,7 +25,7 @@ class InvitationManager extends Component {
     render() {
 
         const item = this.props.store;
-        console.log(item.user.events[item.eventIndex].invitations.length)
+        // console.log(item.user.events[item.eventIndex].invitations.length)
         return (
             <div className="container">
 
