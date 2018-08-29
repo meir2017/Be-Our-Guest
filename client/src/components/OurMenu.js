@@ -120,7 +120,7 @@ class OurMenu extends Component {
         alert("e.target.id; " + e.target.id);
     }
     handleEvent = (index) => {
-        this.props.store.mYeventindex(index)
+        this.props.store.thisEventIndex(index)
 
     }
 
@@ -133,7 +133,7 @@ class OurMenu extends Component {
         // const openEvent = Boolean(expanded);
         return (
 
-            <div className={classes.root} >
+            <div className={classes.root}  id="x1">
 
                 <IconButton
                     buttonRef={node => {

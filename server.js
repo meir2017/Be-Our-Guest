@@ -289,21 +289,37 @@ app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
         textInput: vet.textInput,
         background: vet.background,
         titleColor: vet.titleColor,
-        bodyText: vet.bodyText
+        bodyColor: vet.bodyColor,
+        fontTitle: vet.fontTitle,
+        fontBody: vet.fontBody,
+        whenEvent: vet.whenEvent,
+        whereEvent: vet.whereEvent,
     })
     vet.save(function (err, newVet) {
         console.log(newVet.id);
         Event.findById(req.params.eventId, function (err, eve) {
             if (err) return handleError(err);
-            console.log(eve)
-            console.log(eve[0])
             eve.invitations.push(newVet.id);
             eve.save(res.send(JSON.stringify(newVet)))
         })
     })
 });
 //remove new Invitation
-//app.post('/beOurGuest/saveInvitation/:eventId/:eventIndex/', (req, res) => {}
+app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, res) => {
+
+    Event.findById(req.params.eventId, function (err, eve) {
+        if (err) return handleError(err);
+        eve.invitations.splice(req.params.index, 1)
+        eve.save(Invitation.findByIdAndRemove({ _id: req.params.eventId })
+            .then(res.send("delete invitation")))
+
+
+
+
+
+
+    })
+})
 
 const port = process.env.PORT || 3001;
 app.listen(port, console.log('Server running on port', port));
