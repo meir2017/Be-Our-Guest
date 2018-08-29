@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color:lightslategray;
+  /* background-color:lightslategray; */
   min-height: 710px;
 }
 
@@ -40,8 +40,9 @@
   background-color:#90EE90;
 }
 .navBarMain{
-  background-color: darkorange;
+  /* background-color: darkorange; */
   height: 60px;
+  position:fixed;
   
 }
 
@@ -102,8 +103,53 @@ margin-left: -40px !important;
   margin: 5px;
 }
 .myColor{
-text-align: left
+text-align: left;
+margin: 2px;
+
 }
 .color{
-margin-right: 30px;
+margin-right: 10px;
+margin: 10px;
+border-radius: 5px;
 }
+
+.display_result{
+width: 100%;
+height: 300px;
+border: solid grey 1px;
+
+}
+.iteminvitations{
+  float: left;
+  width: 80%;
+  border: solid 1px #3d5afe;
+padding: 15px;
+background-color: #00b0ff;
+z-index: 8;
+color: white;
+font-size: 16px;
+margin: 10px;
+border-radius: 10px;
+}
+.iteminvitations:hover { 
+  background-color: #1de9b6;
+  border-color: #14a37f;
+  font-size: 26px;
+  box-shadow: 5px 10px #888888; 
+}
+/* .btnicon{
+  padding-left: 12px
+} */
+.btnicon i{
+  padding-left: 20px
+}
+.btnicon i:hover{
+color: black;
+}
+.addTable{
+  position: fixed;
+}
+/* #x3 {
+  position: fixed;
+} */
+

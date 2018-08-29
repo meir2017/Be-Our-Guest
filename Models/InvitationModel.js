@@ -9,7 +9,11 @@ let invitationSchema = new mongoose.Schema({
     textInput: String,
     background: String,
     titleColor: String,
-    bodyText: String
+    bodyColor: String,
+    fontTitle: String,
+    fontBody: String,
+    whenEvent: String,
+    whereEvent: String
 });
 
 let Invitation = mongoose.model('invitation', invitationSchema);

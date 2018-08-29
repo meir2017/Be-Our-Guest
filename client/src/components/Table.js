@@ -109,23 +109,30 @@ class Table extends Component {
                 {(provided) => (
                     // <GuestContainer provided={provided}  table={this.props.table}/>
                     <div
+
                         ref={provided.innerRef}
                         {...provided.droppableProps}>
                         <Paper className={classes.tableWrapper}>
                             <Paper className={classes.paper}>
                                 <List>
-                                    <ListItem className={classes.listItem}>
+                                    <ListItem className={classes.listItem} >
                                         <ListItemText primary={this.props.table.title} />
                                     </ListItem>
+                                    {/* {console.log(JSON.stringify(this.props.table.guests))} */}
                                 </List>
+
                             </Paper>
                             {this.props.table.guests.map((guest, index) => (
                                 <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
+
                             ))}
                             {provided.placeholder}
 
                         </Paper>
+
                     </div>
+
+
                 )}
             </Droppable>
         );
