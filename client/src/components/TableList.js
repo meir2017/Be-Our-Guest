@@ -1,30 +1,59 @@
 import React, { Component } from 'react';
+import '../App.css'
+//import styled from 'styled-components'
 import Table from './Table';
+import { DragDropContext } from 'react-beautiful-dnd';
+import { observer, inject } from 'mobx-react';
+import { 
+    withStyles,
+    Grid
+} from '@material-ui/core';
 
-export class TableList extends Component {
+
+
+const styles = theme => ({
+    tableListWrapper: {
+        width: 'auto',
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "flex-start",
+        flexWrap: 'nowrap',
+    }
+
+});
+
+/* 
+const Container = styled.div`
+display: flex;
+flex-direction: column;
+width: auto;
+transition: width 2s, height 4s;
+flex: 1;
+justify-content:space-around;
+`; */
+
+@inject("store")
+@observer
+class TableList extends Component {
     constructor(props) {
-      super(props);
-      this.state={
-          tables: [],
-      }
+        super(props);
+        this.props.store.populateEvent();
     }
 
-    displayTables = () => {
-        //the function display the tables[] in colomuns
-    }
 
     render() {
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        const { classes } = this.props;
         return (
-            <div className="container">
-                <Table />
-                <div className="list-of-tables">
-                    {/* displaying tables[] */}
-                    {/* the user drag and drop guests from the GuestsList compoment into the div */}
-                    {this.displayTables}
-                </div>
+            <div className={classes.tableListWrapper}>
+                {currentEvent.tables.map((table, index) => (
+                    <Table table={table} index={index} key={table._id} />
+                ))}
             </div>
+
         );
     }
 }
 
-export default TableList;
+export default  withStyles(styles)(TableList);

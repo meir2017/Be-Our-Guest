@@ -1,74 +1,52 @@
 import React, { Component } from 'react';
+import '../App.css'
+//import styled from 'styled-components'
+import { Draggable } from 'react-beautiful-dnd';
+import { observer, inject } from 'mobx-react';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
-export class Guest extends Component {
-    constructor(props) {
-      super(props);
-      this.state= {
-        category: [],
-        numOfInvites: '',
-        status: '',        
-      }
+
+const styles = theme => ({
+    paper: {
+        height: 140,
+        width: 100,
     }
 
-    createGuest = () => {
-        //the function open the modal of guest-details
-    }
+});
+/* 
+const Container = styled.div`
+  height: 30px;
+  background-color: blue;
+  width: 100%;
+`;
 
-    saveGuest = () => {
-        //the function create new guest and save it to guests[]
-        //call the displayGuest func
-    }
-
-    displayGuest = () => {
-        //display the added guest in new div
-    }
-
-    handleGuestStatus = (e) => {
-        this.setState({status: e.target.value})
-    }
-
-    addCategory = () => {
-        //the function save new category in categories[]
-    }
-
-    editGuest = () => {
-        //the function open guest-details div
-    }
-
-    deleteGuest = () => {
-        //the function delete guest from guests[]
-    }
+ */
+@inject("store")
+@observer
+class Guest extends Component {
 
     render() {
+        const { classes } = this.props;
         return (
-            <div className="container">
-                <button onClick={this.createGuest}>Create guest</button>
-                {/* pressing Create guest button cause the guest-details to pop up */}
-                <div className="guest-details">
-                <h3>Guest Card</h3>
-                    <p>Name:</p>
-                    <input />
-                    <p>Email:</p>
-                    <input />
-                    <p>Phone:</p>
-                    <input />
-                    <p>Number of invites:</p>
-                    <input />
-                    <p>Categories:</p>
-                    <input />
-                    <p>Invites Status:</p>
-                    <input type="text" onChange={this.handleGuestStatus} value={this.state.status}/>
-                    <button onClick={this.saveGuest}>Save Guest</button>
-                </div>
-                
-                <div className="guest-buttons">
-                    <button onClick={this.addCategory}>Add Category</button>
-                    <button onClick={this.editGuest}>Edit Guest</button>
-                    <button onClick={this.deleteGuest}>Delete Guest</button>
-                </div>
-            </div>
+            <Draggable draggableId={this.props.guest._id} index={this.props.index}>
+                {(provided) => (
+                    <div className="guest-container"
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}>
+                        <Grid item xs={12} >
+                            <Paper>
+                                {this.props.guest.name}
+                            </Paper>
+                        </Grid>
+
+                    </div>
+                )}
+            </Draggable>
         );
     }
 }
 
-export default Guest;
+export default withStyles(styles)(Guest);
