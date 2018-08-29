@@ -4,7 +4,7 @@ import '../App.css'
 import Table from './Table';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
-import { 
+import {
     withStyles,
     Grid
 } from '@material-ui/core';
@@ -38,7 +38,7 @@ justify-content:space-around;
 class TableList extends Component {
     constructor(props) {
         super(props);
-        this.props.store.populateEvent();
+        // this.props.store.populateEvent();
     }
 
 
@@ -56,4 +56,4 @@ class TableList extends Component {
     }
 }
 
-export default  withStyles(styles)(TableList);
+export default withStyles(styles)(TableList);
