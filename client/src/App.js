@@ -43,8 +43,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-        {(this.props.store.eventindex != null && this.props.store.user.userLog) ? < EventManager /> : false}
-        {/* {(this.props.store.user.eventindex && this.props.store.user.userLog) && < EventManager />} */}
+        {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
 
         {/* <Test /> */}
         <BrowserRouter>

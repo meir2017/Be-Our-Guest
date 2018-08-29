@@ -120,7 +120,7 @@ class OurMenu extends Component {
         alert("e.target.id; " + e.target.id);
     }
     handleEvent = (index) => {
-        this.props.store.mYeventindex(index)
+        this.props.store.thisEventIndex(index)
 
     }
 

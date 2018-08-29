@@ -13,7 +13,8 @@ class BeOurGuestStore {
         categories: [],
         ModalLogin: false
     }
-    @observable eventindex = null;
+    @observable eventIndex = null;
+    @observable invitationIndex = null;
 
 
     // evnte function
@@ -40,8 +41,8 @@ class BeOurGuestStore {
     // user function
 
 
-    @action mYeventindex = (index) => {
-        this.eventindex = index
+    @action thisEventIndex = (index) => {
+        this.eventIndex = index
         console.log("event index is  " + index)
     }
 
@@ -57,12 +58,21 @@ class BeOurGuestStore {
     }
     // Invitation function
     @action addInvitation = (newlistinvitations) => {
-        let listinvitations = this.user.events[this.eventindex].invitations.concat();
+        let listinvitations = this.user.events[this.eventIndex].invitations.concat();
         listinvitations.push(newlistinvitations)
-        this.user.events[this.eventindex].invitations = listinvitations;
+        this.user.events[this.eventIndex].invitations = listinvitations;
         console.log(" save  invitations in client  ")
     }
 
+    @action theInvitationIndex = (index) => {
+        this.invitationIndex = index
+        console.log("theInvitationIndex   " + index)
+    }
+    @action removeInvitation = (index) => {
+        let listInvitations = this.user.events[this.eventIndex].invitations.concat();
+        listInvitations.splice(index, 1);
+        this.user.events[this.eventIndex].invitations = listInvitations;
+    }
 }
 
 const store = new BeOurGuestStore();
