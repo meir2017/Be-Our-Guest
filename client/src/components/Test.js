@@ -1,38 +1,67 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-import React, { Component } from 'react';
+const styles = theme => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    formControl: {
+        margin: theme.spacing.unit,
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing.unit * 2,
+    },
+});
 
-//// test  Awesomplete
-class Test extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            labal: null,
-            datalist: ["node.js", "Java", "JavaScript", "c", "c++", "html", "Component", "react"]
-        }
-    }
-    handleChange = (e) => {
-        e.preventDefault();
-        this.setState({ labal: e.target.value })
-        console.log(e.target.value)
+class SimpleSelect extends React.Component {
+    state = {
+        age: '',
+        name: 'hai',
+    };
 
-    }
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
 
     render() {
+        const { classes } = this.props;
 
         return (
-            <div>
-
-                <input className="awesomplete" onSelect={this.handleChange} list="mylist" />
-                <datalist id="mylist" >
-                    {this.state.datalist.map((item, index) => {
-                        return <option key={index + item}>{item} </option>
-                    })}
-                </datalist>
-
-
-            </div>
+            <form className={classes.root} autoComplete="off">
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="age-simple">Age</InputLabel>
+                    <Select
+                        value={this.state.age}
+                        onChange={this.handleChange}
+                        inputProps={{
+                            name: 'age',
+                            id: 'age-simple',
+                        }}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                </FormControl>
+            </form>
         );
     }
 }
 
-export default Test;
+SimpleSelect.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SimpleSelect);
