@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
+import CategoryManager from './CategoryManager';
+
 import axios from 'axios';
 
 // import classNames from 'classnames';
@@ -186,7 +188,7 @@ class OurMenu extends Component {
 
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
-                                        <MenuItem onClick={this.handleClose} >Create Category</MenuItem>
+                                        <MenuItem onClick={this.handleClose} onClick={this.openModalCreate} >Create Category</MenuItem>
                                         <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                                 <Typography className={classes.heading}>Select Category</Typography>
@@ -206,6 +208,8 @@ class OurMenu extends Component {
                 </Popper>
 
                 <CreateEvent openModalCreate={this.openModalCreate}
+                    modalCreate={this.state.modalCreate} />
+                <CategoryManager openModalCreate={this.openModalCreate}
                     modalCreate={this.state.modalCreate} />
             </div>
         );
