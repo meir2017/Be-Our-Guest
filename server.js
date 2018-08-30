@@ -173,7 +173,6 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     })
 });
 
-
 // remove event
 app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
     console.log("user id  +" + req.params.userId)
@@ -187,10 +186,11 @@ app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
                 .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
                 .then(res.send("event delete"))
         })
-    // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
-    //     .then(result => Event.findByIdAndRemove({ _id: req.params.eventId })
-    //         .then(res.send("event delete"))
 
+    // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
+    //     .then(result =>
+    //         Event.findByIdAndRemove({ _id: req.params.eventId })
+    //             .then(res.send("event delete"))
     //     );
 });
 
@@ -227,14 +227,49 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
         eve.invitations.splice(req.params.index, 1)
         eve.save(Invitation.findByIdAndRemove({ _id: req.params.eventId })
             .then(res.send("delete invitation")))
-
-
-
-
-
-
     })
 })
 
+app.post('/beOurGuest/rsvpGuest/', (req, res) => {
+    let item = req.body
+    console.log(item.vetId);
+    Invitation.findById(item.vetId, function (err, vet) {
+        if (err) return handleError(err);
+        res.send(vet);
+    })
+})
+app.post('/beOurGuest/rsvp/Answer/', (req, res) => {
+
+
+    // Event.
+    //     findById(req.body.eventID).
+    //     populate({
+    //         path: 'guests',
+    //         populate: {
+    //             path: 'invitations'
+    //         }
+    //     }).
+    //     exec(function (err, story) {
+    //         if (err) return handleError(err);
+
+    //     });
+
+    /////////////////////////////
+    // Event.
+    //     findById(req.body.eventID).
+    //     populate({
+    //         path: 'guests',
+    //         populate: {
+    //             path: 'invitations'
+    //         },
+    //         match: { _Id: { $$eq: req.body.gestID } }
+    //     }).
+    //     exec(function (err, eve) {
+    //         if (err) return handleError(err);
+    //         eve.guests[0].invitations
+    //     });
+
+
+})
 const port = process.env.PORT || 3001;
 app.listen(port, console.log('Server running on port', port));

@@ -55,7 +55,7 @@ class InvitationManager extends Component {
         let vetId = vet._id;
         let guestId = "temid"
 
-        let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/:${vetId}/:${event._id}/:${guestId}/`
+        let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
 
         console.log("event._id: " + event._id);
         console.log("vetId: " + vetId);
@@ -68,7 +68,7 @@ class InvitationManager extends Component {
         let when = vet.whenEvent;
         let Where = vet.whereEvent;
         let userSend = item.user.username;
-        // let linkRsvp = `http://localhost:3000/beuorguest/rsvp/:${vetId}/:${event._id}/:${when}/:${Where}/:${userSend}/:${guestName}/`
+        // let linkRsvp = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/:${when}/:${Where}/:${userSend}/:${guestName}/`
 
         // console.log("name gusest: " + guestName);
         // console.log("name email_gusest: " + email_gusest);
