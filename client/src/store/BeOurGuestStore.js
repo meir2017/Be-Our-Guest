@@ -11,7 +11,6 @@ class BeOurGuestStore {
         events: [],
         guests: [],
         categories: [],
-        eventIndex: null,
 
         ModalLogin: false
     }
@@ -130,9 +129,9 @@ class BeOurGuestStore {
         };
 
         // Add guest to event's guest list
-        guestList = this.user.event[this.store.eventIndex].guests.concat();
+        guestList = this.user.events[this.eventIndex].guests.concat();
         guestList.push(guest);
-        this.user.event[this.store.eventIndex].guests = guestList;
+        this.user.events[this.eventIndex].guests = guestList;
     }
 
     @action removGuest = (guestIndex) => {

@@ -139,14 +139,21 @@ app.post('/beOurGuest/newUser', (req, res) => {
 //login   and get user model
 app.post('/beOurGuest/login', (req, res) => {
     let userinfo = req.body;
-    User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }).
+    User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] })
         // populate('events').
-        populate({
-            path: 'events',
-            populate: {
-                path: 'invitations'
-            }
+        .populate({
+          path: 'events',
+          populate: {
+              path: 'invitations'
+          }
         })
+        .populate({
+          path: 'events',
+          populate: {
+              path: 'guests'
+          }
+        })
+        .populate('guests')
         .exec(function (err, user) {
             if (err) return handleError(err);
             res.send(user);
@@ -210,9 +217,9 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
         invitations:[],
         categories: newGuest.categories,
         comment: newGuest.comment,
-        numConfirmed: 0,
-        numUndecided: newGuest.numInvited,
-        numNotComing: 0,
+        numConfirmed: newGuest.coming,
+        numUndecided: newGuest.invited - newGuest.coming - newGuest.notComing,
+        numNotComing: newGuest.notComing,
         seated: false
       });
 

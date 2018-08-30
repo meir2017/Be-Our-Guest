@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import MyModal from './Modal';
@@ -19,23 +19,23 @@ class CreateGuest extends Component {
       name: "",
       email: "",
       phone: "",
-      coming: 0,
       invited: 0,
+      coming: 0,
       notComing: 0
     };
   }
 
-  @action onChangeText = (e) => {
+  onChangeText = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  @action toggle = () => {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal
     });
   }
 
-  @action handleRemoveGuest = (e) => {
+  handleRemoveGuest = (e) => {
     //console.log(JSON.stringify(itemguest))
     console.log(("Guest " + e.target.name + " will be deleted"))
     let index = e.target.name;
@@ -47,13 +47,14 @@ class CreateGuest extends Component {
     })
   }
 
-  @action handleSaveGuest = (e) => {
+  handleSaveGuest = (e) => {
     this.toggle();
     e.preventDefault();
     console.log(this.props.store.user.UserId)
     // app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     axios.post(
-      '/beOurGuest/addNewGuest/' + this.props.store.user._Id + '/' + this.props.store.eventIndex,
+      '/beOurGuest/addNewGuest/' + this.props.store.user._Id +
+        '/' + this.props.store.user.events[this.props.store.eventIndex]._id,
       this.state)
     .then(response => {
       if (response === null) {
@@ -71,9 +72,7 @@ class CreateGuest extends Component {
   render() {
     return (
       <div>
-        <br /><br />
-
-        <Button color="danger" onClick={this.toggle}>New Guest</Button>
+        <Button onClick={this.toggle}><AddIcon /></Button>
         <br /> <br />
         {this.state.modal &&
           <MyModal >
@@ -96,22 +95,22 @@ class CreateGuest extends Component {
                 />
                 <br />
                 <TextField
+                  id="invited" label="Invited" type="number" className="textField"
+                    name="invited" onChange={this.onChangeText} value={this.inputText}
+                />
+                <br />
+                <TextField
                     id="coming" label="Coming" type="number" className="textField"
                     name="coming" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
-                  id="not-coming" label="Not coming" type="number" className="textField"
-                    name="not-coming" onChange={this.onChangeText} value={this.inputText}
-                />
-                <br />
-                <TextField
-                  id="invited" label="Invited" type="number" className="textField"
-                    name="invited" onChange={this.onChangeText} value={this.inputText}
+                  id="notComing" label="Not coming" type="number" className="textField"
+                    name="notComing" onChange={this.onChangeText} value={this.inputText}
                 />
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.handlerSaveEven}>Save Guest</Button>{' '}
+                <Button color="primary" onClick={this.handleSaveGuest}>Save Guest</Button>{' '}
                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
               </ModalFooter>
             </Modal>
