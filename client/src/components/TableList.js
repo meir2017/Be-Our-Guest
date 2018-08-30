@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css'
 //import styled from 'styled-components'
 import Table from './Table';
+import Table0 from './Table0';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import { 
@@ -19,6 +20,7 @@ const styles = theme => ({
         flexDirection: 'row',
         justifyContent: "flex-start",
         flexWrap: 'nowrap',
+        overflow: 'auto',
     }
 
 });
@@ -45,8 +47,16 @@ class TableList extends Component {
     render() {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
         const { classes } = this.props;
+        /* let table0 = { _id: "0", category:this.props.store.user.categories[0], title:this.props.store.user.categories[0].name, 
+        guests:[{ name: "Shlomo Steinitz", _id: "44", categories:[1,2] },
+         { name: "Akiva Stern", _id: "45" ,categories:[0] },
+         { name: "Akiva Stern", _id: "46" ,categories:[0] },
+         { name: "Akiva Stern", _id: "47" ,categories:[0] },{ name: "Akiva Stern", _id: "30" ,categories:[0] }
+        ,{ name: "Akiva Stern", _id: "48" ,categories:[0] }, { name: "Akiva Stern", _id: "31" ,categories:[0] }, 
+        { name: "Akiva Stern", _id: "49" ,categories:[0] } ] } */
         return (
             <div className={classes.tableListWrapper}>
+            <Table0  index={-1}/>
                 {currentEvent.tables.map((table, index) => (
                     <Table table={table} index={index} key={table._id} />
                 ))}

@@ -43,7 +43,15 @@ const styles = theme => ({
         // backgroundColor: 
         fontFamily: 'Roboto Slab, serif',
         position: 'relative',
-        // justifyContent: '',
+        // justifyContent: '', 
+        borderRadius: 5,
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderColor: 'black',
+       /*  position: 'fixed',
+        zIndex:2, */
+        overflow:'hidden',
+
 
 
 
@@ -51,6 +59,8 @@ const styles = theme => ({
 
     tableHeader: {
         padding: 5,
+        color: 'white',
+        backgroundColor: 'black'
 
     },
 
@@ -59,9 +69,7 @@ const styles = theme => ({
         width: 60,
         color: 'black',
         marginBottom: 5,
-        //   borderRadius: 2,
-        /*         borderWidth:2,
-                borderStyle:'solid', */
+
         fontSize: 18
 
     },
@@ -76,8 +84,16 @@ const styles = theme => ({
         height: 20,
         width: 20,
 
-    }
+    },
 
+    whiteTypography: {
+        color: 'white',
+    },
+
+    guestListWrapper: {
+        paddingTop:5,
+        overflowY: 'scroll',
+    }
 
 
 });
@@ -88,11 +104,12 @@ const styles = theme => ({
 
 @inject("store")
 @observer
-class Table extends Component {
+class Table0 extends Component {
 
     render() {
         const { classes } = this.props;
-        let tableNum = this.props.index + 1;
+        let store = this.props.store;
+        let currentEvent = store.user.events[store.eventIndex];
         return (
 
             <Droppable droppableId={String(this.props.index)}>
@@ -108,38 +125,24 @@ class Table extends Component {
                                         <IconButton aria-label="Edit" className={classes.iconButton} >
                                             <EditIcon className={classes.icon} />
                                         </IconButton>
-                                        <IconButton aria-label="Delete" className={classes.iconButton} >
-                                            <ClearIcon className={classes.icon} />
-                                        </IconButton>
+
                                     </Grid>
                                     <Grid item xs={12} align="center">
-                                        <Typography variant="caption" gutterBottom align="center">
-                                            Table {this.props.index + 1}
+    
+                                        <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
+                                            Unseated Guests
                                         </Typography>
-                                        <Typography variant="title" gutterBottom align="center" >
-                                            {this.props.table.title}
-                                        </Typography>
-                                        <Avatar className={classes.tableAvatar} style={{ backgroundColor: this.props.table.category.colorCode }}>10/12</Avatar>
-
-
-
-                                        {/*  <List >
-                                            <ListItem className={classes.listItem}>
-                                                <Grid container spacing={24}>
-                                                    <Grid item xs={12}>
-                                                        <ListItemText primary={this.props.table.title} />
-                                                    </Grid>
-                                                </Grid>
-                                            </ListItem>
-                                        </List> */}
+                                        <Avatar className={classes.tableAvatar}>
+                                         {currentEvent.guests.length} / {currentEvent.guests.length}
+                                        </Avatar>
                                     </Grid>
                                 </Grid>
 
 
                             </Paper>
-                            <div style={{ paddingTop: 5 }}>
-                                {this.props.table.guests.map((guest, index) => (
-                                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
+                            <div className={classes.guestListWrapper}>
+                                {currentEvent.guests.map((guest, index) => (
+                                    <Guest index={index} key={guest._id} guest={guest} />
                                 ))}
                             </div>
 
@@ -155,11 +158,11 @@ class Table extends Component {
     }
 }
 
-Table.propTypes = {
+Table0.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Table);
+export default withStyles(styles)(Table0);
 /* @inject("store")
 @observer
 class GuestContainer extends Component {

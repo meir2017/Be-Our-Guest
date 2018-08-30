@@ -53,6 +53,13 @@ class App extends Component {
       return;
     }
 
+
+    //TODO
+    if(result.source.droppableId === "-1" || result.destination.droppableId === "-1" ) {
+      console.log("onDragEnd with TABLE0");
+      return;
+    }
+
     const start = currentEvent.tables[Number(result.source.droppableId)];
     const finish = currentEvent.tables[Number(result.destination.droppableId)];
 

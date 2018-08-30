@@ -4,15 +4,40 @@ import '../App.css'
 import { Draggable } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import ClearIcon from '@material-ui/icons/Clear';
+import {
+    Grid,
+    Paper,
+    Chip,
+    Avatar,
+    IconButton
+} from '@material-ui/core';
+
 
 
 const styles = theme => ({
+    guestWrapper: {
+       // zIndex: 10,
+    },
     paper: {
         height: 140,
         width: 100,
-    }
+    },
+
+    categoryAvatar: {
+        height: 10,
+        width: 10,
+        marginTop: 5
+    },
+    iconButton: {
+        height: 20,
+        width: 20
+    },
+    icon: {
+        height: 15,
+        width: 15,
+
+    },
 
 });
 /* 
@@ -29,17 +54,43 @@ class Guest extends Component {
 
     render() {
         const { classes } = this.props;
+        console.log(this.props.store.user.catagories);
         return (
             <Draggable draggableId={this.props.guest._id} index={this.props.index}>
                 {(provided) => (
-                    <div className="guest-container"
+                    <div className={classes.guestWrapper}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                         {...provided.draggableProps}>
-                        <Grid item xs={12} >
-                            <Paper>
-                                {this.props.guest.name}
-                            </Paper>
+                        <Grid container spacing={0} style={{ paddingBottom: 5 }}>
+                            <Grid item xs={12}>
+                                <Paper>
+                                    <Grid container spacing={0} style={{ padding: 10 }}>
+                                        <Grid item xs={1}>
+                                            {this.props.guest.categories.map((category, index) => (
+                                                <Avatar key={this.props.store.user.categories[category]._id} className={classes.categoryAvatar}
+                                                    style={{ backgroundColor: this.props.store.user.categories[category].colorCode }} />
+                                            ))}
+
+
+                                        </Grid>
+                                        <Grid item xs={10}>
+                                            <Chip
+                                                avatar={<Avatar>3/5</Avatar>}
+                                                label={this.props.guest.name}
+                                                className={classes.chip}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={1}>
+                                            <IconButton aria-label="Delete" className={classes.iconButton} >
+                                                <ClearIcon className={classes.icon} />
+                                            </IconButton>
+                                        </Grid>
+
+                                    </Grid>
+                                </Paper>
+                            </Grid>
                         </Grid>
 
                     </div>

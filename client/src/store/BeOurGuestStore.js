@@ -26,22 +26,34 @@ class BeOurGuestStore {
         console.log(this.user.ModalLogin)
     }
 
+    @action getRandomColor() {
+        var color = Math.floor(0x1000000 * Math.random()).toString(16);
+        return '#' + ('000000' + color).slice(-6);
 
+    }
 
     @action populateEvent = () => {
-       /*  this.user.events[0] = {
-            _id:"1", 
-            maxGuests: 50,
-            tables: [
-                { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
-                {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
-                {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
-                {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
-                {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
-                {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
-                {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
-            ]
-        } */
+        this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor() },
+        { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
+        { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
+        { name: "Groom Friends", colorCode: this.getRandomColor(), _id: '3' }
+        ];
+        this.user.events[0].guests = [{ name: "Shlomo Steinitz", _id: "44", categories: [1, 2] },
+        { name: "Akiva Stern", _id: "45", categories: [0] },
+        { name: "Rivki and Yoel Ben David", _id: "46", categories: [1] },
+        { name: "Tzvi Stern", _id: "47", categories: [2] }, { name: "Akiva Stern", _id: "30", categories: [0, 2] }
+            , { name: "Shana Stern", _id: "48", categories: [3] }, { name: "Akiva Stern", _id: "31", categories: [2, 3] },
+        { name: "Joshua Stern", _id: "49", categories: [3] }];
+
+        this.user.events[0].tables = [
+            { _id: "1", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Yocheved & Shimon Steinitz", _id: "1", categories: [1, 2] }, { name: "Dror", _id: "2", categories: [0] }] },
+            { _id: "2", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Shimon", _id: "3", categories: [1] }, { name: "Rachel", _id: "4", categories: [1, 2] }] },
+            { _id: "3", category: this.user.categories[1], title: this.user.categories[1].name, guests: [{ name: "tal", _id: "5", categories: [3] }, { name: "Meir", _id: "6", categories: [1, 2, 3] }] },
+            { _id: "4", category: this.user.categories[1], title: this.user.categories[1].name, guests: [{ name: "tal", _id: "51", categories: [1, 2] }, { name: "Meir", _id: "62", categories: [3] }] },
+            { _id: "5", category: this.user.categories[2], title: this.user.categories[2].name, guests: [{ name: "tal", _id: "53", categories: [0, 1, 2] }, { name: "Meir", _id: "64", categories: [1, 2] }] },
+            { _id: "6", category: this.user.categories[2], title: this.user.categories[2].name, guests: [{ name: "tal", _id: "55", categories: [2] }, { name: "Meir", _id: "66", categories: [1, 2] }] },
+            { _id: "7", category: this.user.categories[3], title: this.user.categories[3].name, guests: [{ name: "tal", _id: "57", categories: [1] }, { name: "Meir", _id: "68", categories: [2] }] }
+        ]
     }
 
     @observable eventIndex = null;
