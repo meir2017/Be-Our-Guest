@@ -31,8 +31,7 @@ class App extends Component {
   }
 
   componentWillMount() {
- 
-    axios.post('/beOurGuest/login', { name: "yehdua", pass: "1234" })
+    axios.post('/beOurGuest/login', { name: "111", pass: "111" })
       .then(response => {
         if (response.data !== "") {
           // console.log("user login  " + JSON.stringify(response.data))
