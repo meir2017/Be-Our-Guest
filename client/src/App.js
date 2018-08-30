@@ -119,18 +119,26 @@ class App extends Component {
     console.log("update");
   }
 
+  ChangeToRsvpPage = (e) => {
+    this.setState({ rsvpfunc: true })
+  }
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <div className="App">
 
-          <Navbar />
+          {!this.state.rsvpfunc && <Navbar />}
+          {/* <Navbar /> */}
           {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
 
           <BrowserRouter>
             <Route
-              exact path="/beuorguest/rsvp/:evntid/:guestid"
-              render={(props) => <Rsvp {...props} Options={this.Options} />}
+
+              //`http://localhost:3000/beuorguest/rsvp/:${vetId}/:${event._id}/:${guestId}/`
+              //              exact path="/beuorguest/rsvp/:guestName/:eventName/:when/:Where/:userSend/:guestName/"
+
+              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+              render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
             />
           </BrowserRouter>
         </div>

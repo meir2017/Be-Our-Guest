@@ -29,22 +29,35 @@ class Rsvp extends Component {
         e.preventDefault();
         console.log(this.state.numGuest);
         console.log(this.state.checkedB);
+        //send the info to evntid,gustid
     }
 
     componentDidMount() {
-        // this.props.Options();
-
+        this.props.ChangeToRsvpPage();
+        // get the vet, 
     }
 
     render() {
         // const { match } = this.props
+        //              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+
         return (
             <div>
-                <h3>evntid Param: {this.props.match.params.evntid}</h3>
-                <h3>topicId guestid: {this.props.match.params.guestid}</h3>
+                <h3>vetId Param: {this.props.match.params.vetId}</h3>
+                <h3>eventId Param: {this.props.match.params.eventId}</h3>
+                <h3>vetId Param: {this.props.match.params.guestId}</h3>
 
                 <Form onSubmit={this.Submitfunc}>
 
+                    <br /><br /><br />
+                    שלום לך  name user
+                    <br />
+                    את מוזמן name of event
+                    <br />
+                    שיתקיים    when and whre
+                    <br />
+                    שנמשח לראותך
+                    <br /><br />
                     are you caming:   <Checkbox
                         checked={this.state.checkedB}
                         onChange={this.handleChange("checkedB")}

@@ -86,9 +86,6 @@ class Invitation extends Component {
             })
     }
 
-    sendInvitation = () => {
-        //the function send invitation to selected guests emails
-    }
 
     render() {
         // this.props.vet != null ? this.renderpage() : false
