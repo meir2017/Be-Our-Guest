@@ -42,6 +42,42 @@ class InvitationManager extends Component {
         this.setState({ num: this.state.num + 1 })
     }
 
+
+    sendInvitations = (e) => {
+        //the function send invitation to selected guests emails
+        //   let getAllGuest=this.props.store.events[this.store.eventIndex].guests// lest all guest
+
+        let item = this.props.store
+        let e_index = item.eventIndex;
+        let i_Index = e.target.id;
+        let event = item.user.events[e_index];
+        let vet = event.invitations[i_Index];
+        let vetId = vet._id;
+        let guestId = "temid"
+
+        let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/:${vetId}/:${event._id}/:${guestId}/`
+
+        console.log("event._id: " + event._id);
+        console.log("vetId: " + vetId);
+        console.log("vetId: " + guestId);
+        console.log("linkRsvp2: " + linkRsvp2);
+
+        let guestName = "meir"; //globalGuest_id.name
+        let email_gusest = "66meir46@gmail.com";   //globalGuest_id.email
+        let eventName = vet.invitationName;
+        let when = vet.whenEvent;
+        let Where = vet.whereEvent;
+        let userSend = item.user.username;
+        // let linkRsvp = `http://localhost:3000/beuorguest/rsvp/:${vetId}/:${event._id}/:${when}/:${Where}/:${userSend}/:${guestName}/`
+
+        // console.log("name gusest: " + guestName);
+        // console.log("name email_gusest: " + email_gusest);
+        // console.log("name eventName: " + eventName);
+        // console.log("name when: " + when);
+        // console.log("name Where: " + Where);
+        // console.log("name userSend: " + userSend);
+        // console.log("name linkRsvp: " + linkRsvp);
+    }
     render() {
 
         const item = this.props.store;
