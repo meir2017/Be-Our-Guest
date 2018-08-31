@@ -300,7 +300,7 @@ app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
   //     );
 });
 
-// add new Invitation
+// add  Invitation
 app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
   let vet = req.body;
 
@@ -325,7 +325,7 @@ app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
     })
   })
 });
-//remove new Invitation
+//remove  Invitation
 app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, res) => {
 
   Event.findById(req.params.eventId, function (err, eve) {
@@ -337,6 +337,8 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
   })
 })
 
+
+//createTable
 app.post('/beOurGuest/createTable/:eventId/', (req, res) => {
   let newTable = new Table({
     title: req.body.title,
