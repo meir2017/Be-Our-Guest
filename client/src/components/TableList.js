@@ -69,8 +69,7 @@ class TableList extends Component {
 
     }
     saveTable = (e) => {
-        console.log("title  " + this.state.title + "    maxGuests " + this.state.maxGuests
-            + "  category " + this.state.category)
+        console.log("title  " + this.state.title + "    maxGuests " + this.state.maxGuests + "  category " + this.state.category)
 
 
         let tableInfo = {
