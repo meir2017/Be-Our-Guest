@@ -274,7 +274,7 @@ app.post('/beOurGuest/rsvp/Answer/', (req, res) => {
 
 })
 
-// 
+// createTable
 app.post('/beOurGuest/createTable/:eventId/', (req, res) => {
   let newTable = new Table({
     title: req.body.title,
