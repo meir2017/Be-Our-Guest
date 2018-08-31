@@ -62,12 +62,14 @@ class Rsvp extends Component {
     }
     getUserInfo = () => {
 
-        let infoEvent = {
-            vetId: this.props.match.params.vetId,
-            eventId: this.props.match.params.eventId,
-            guestId: this.props.match.params.guestId
-        }
-        axios.post('/beOurGuest/rsvpGuest/', infoEvent)
+        // let infoEvent = {
+        //     vetId: this.props.match.params.vetId,
+        //     eventId: this.props.match.params.eventId,
+        //     guestId: this.props.match.params.guestId
+        // }
+
+        let vetId = this.props.match.params.vetId;
+        axios.get(`/beOurGuest/rsvpGuest/${vetId}`)
             .then(response => {
                 console.log("rsvpGuest")
                 let item = response.data;
@@ -90,57 +92,50 @@ class Rsvp extends Component {
     }
 
     render() {
-        // const { match } = this.props
-        //              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
         return (
             <div>
-                {/* <h3>vetId Param: {this.props.match.params.vetId}</h3>
-                <h3>eventId Param: {this.props.match.params.eventId}</h3>
-                <h3>vetId Param: {this.props.match.params.guestId}</h3> */}
-
                 <div className="row">
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6" >
                         <br /><br />
-                        {this.state.display_rsvp &&
-                            <Form className="display_rsvp" onSubmit={this.Submitfunc} style={{ backgroundColor: `${this.state.background}` }} >
-                                <div  >
-                                    <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
-                                    <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
-                                        <h4 >{this.state.textInput}</h4>
-                                    </div>
-                                    <p>{this.state.whenEvent}  <br />  {this.state.whereEvent}</p>
+                        <Form className="display_rsvp" onSubmit={this.Submitfunc} style={{ backgroundColor: `${this.state.background}` }} >
+                            <div  >
+                                <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
+                                <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
+                                    <h4 >{this.state.textInput}</h4>
                                 </div>
-                                are you caming:   <Checkbox
-                                    checked={this.state.checkedB}
-                                    onChange={this.handleChange("checkedB")}
-                                    value="checkedB"
-                                    color="primary"
-                                />
-                                <br /><br />
+                                <p>{this.state.whenEvent}  <br />  {this.state.whereEvent}</p>
+                            </div>
+                            are you caming:   <Checkbox
+                                checked={this.state.checkedB}
+                                onChange={this.handleChange("checkedB")}
+                                value="checkedB"
+                                color="primary"
+                            />
+                            <br /><br />
 
-                                <FormControl>
-                                    How many will you come?  <InputLabel htmlFor="age-native-simple"></InputLabel>
-                                    <Select
-                                        native
-                                        value={this.state.age}
-                                        onChange={this.handleChangeGuest('numGuest')}  >
-                                        <option value="" />
-                                        <option value={1}>1</option>
-                                        <option value={2}>2</option>
-                                        <option value={3}>3</option>
-                                        <option value={4}>4</option>
-                                        <option value={5}>5</option>
-                                        <option value={6}>6</option>
-                                    </Select>
-                                </FormControl>
-                                <br />
-                                <br />
-                                <br />
-                                <Button>Submit</Button>
-                                <br />
-                                <br />
-                            </Form>}
+                            <FormControl>
+                                How many will you come?  <InputLabel htmlFor="age-native-simple"></InputLabel>
+                                <Select
+                                    native
+                                    value={this.state.age}
+                                    onChange={this.handleChangeGuest('numGuest')}  >
+                                    <option value="" />
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
+                                </Select>
+                            </FormControl>
+                            <br />
+                            <br />
+                            <br />
+                            <Button>Submit</Button>
+                            <br />
+                            <br />
+                        </Form>
                     </div>
                     <div className="col-sm-3"></div>
                 </div>

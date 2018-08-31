@@ -11,6 +11,7 @@ class BeOurGuestStore {
         events: [],
         guests: [],
         categories: [],
+
         ModalLogin: false
     }
     @observable eventIndex = null;
@@ -64,8 +65,6 @@ class BeOurGuestStore {
 
     }
 
-    @observable eventIndex = null;
-
 
     // evnte function
 
@@ -78,7 +77,9 @@ class BeOurGuestStore {
         this.user.events = item.events;
         this.user.guests = item.guests;
         this.user.categories = item.categories;
-        console.log(JSON.stringify(this.user.events))
+        // console.log(JSON.stringify(this.user.events))
+        console.log(JSON.stringify(this.user.events[0].tables))
+
         // this.populateEvent();
     }
 
@@ -92,13 +93,48 @@ class BeOurGuestStore {
 
     @action addEvent = (newEvent) => {
         let listEvents = this.user.events.concat();
-        listEvents.push(newEvent)
+        listEvents.push(newEvent);
         this.user.events = listEvents;
     }
     @action removEvent = (eventIndex) => {
         let listEvents = this.user.events.concat();
-        listEvents.splice(eventIndex, 1)
+        listEvents.splice(eventIndex, 1);
         this.user.events = listEvents;
+    }
+
+    @action addGuest = (newGuest) => {
+        let globalGuest = {
+            _id: newGuest.globalGuestId,
+            name: newGuest.name,
+            email: newGuest.email,
+            phone: newGuest.phone
+        };
+
+        // Add globalGuest to global guest list
+        let guestList = this.user.guests.concat();
+        guestList.push(globalGuest);
+        this.user.guests = guestList;
+
+        let guest = {
+            globalGuest_id: globalGuest,
+            invitations: newGuest.invitations,
+            categories: newGuest.categories,
+            comment: newGuest.comment,
+            numConfirmed: newGuest.numConfirmed,
+            numUndecided: newGuest.numInvited,
+            numNotComing: newGuest.numNotComing
+        };
+
+        // Add guest to event's guest list
+        guestList = this.user.events[this.eventIndex].guests.concat();
+        guestList.push(guest);
+        this.user.events[this.eventIndex].guests = guestList;
+    }
+
+    @action removGuest = (guestIndex) => {
+        let guestList = this.user.events.concat();
+        guestList.splice(guestIndex, 1);
+        this.user.events = guestList;
     }
     // Invitation function
     @action addInvitation = (newlistinvitations) => {

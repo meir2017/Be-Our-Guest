@@ -16,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //modals   
 const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
-const User = require('./models/UserModel');
+const User = require('./models/UserModel')
+const GlobalGuest = require('./models/GlobalGuestModel')
+const Guest = require('./models/GuestModel')
 const Invitation = require('./models/InvitationModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
@@ -45,12 +47,47 @@ app.get('/meir/:mytext', (req, res) => {
       console.log('Email sent: ' + info.response);
     }
   });
-  res.send('swnd mail to  ' + req.params.mytext)
+
+  res.send('Mail sent to ' + req.params.mytext)
 })
+
+// Forgot tPassword  
+app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
+  User.findOne({ email: req.params.userEmail })
+    .then(user => {
+      console.log(req.params.userEmail)
+
+      console.log("user is=  " + user.email)
+      if (user != null) {
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'BeOurGuestMail@gmail.com',
+            pass: 'guest2018'
+          }
+        });
+        // transporter.use('compile', inlineCss());
+        var mailOptions = {
+          from: 'Be Our Guest ',
+          to: req.params.mytext,
+          subject: 'Sending Email using Node.js',
+          html: '<h1 style="color:lightskyblue">Welcome</h1><p>Be Our Guest</p>'
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+        res.send('swnd mail to  ' + req.params.mytext)
+      }
+    });
+})
+
 //rsvp
 app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
-
-  var transporter = nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'BeOurGuestMail@gmail.com',
@@ -58,7 +95,7 @@ app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
     }
   });
   // transporter.use('compile', inlineCss());
-  var mailOptions = {
+  let mailOptions = {
     from: 'Be Our Guest ',
     to: req.params.email,
     subject: 'be our guest',
@@ -68,51 +105,19 @@ app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
+      res.send(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log('Email sent: ' + user.username);
+      res.send('Your password is waiting for you by e-mail')
     }
   });
-  res.send('swnd mail to  ' + req.params.mytext)
+  // } else {
+  //   console.log(' no user account');
+  //   res.send("There is no account for this email");
+  // }
+  // })
 })
 
-// Forgo tPassword  
-app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
-  User.findOne({ email: req.params.userEmail }).
-    then(user => {
-      console.log(req.params.userEmail)
-
-      console.log("user is=  " + user.email)
-      if (user != null) {
-        var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'BeOurGuestMail@gmail.com',
-            pass: 'guest2018'
-          }
-        });
-        var mailOptions = {
-          from: 'BeOurGuestMail@gmail.com',
-          to: user.email,
-          subject: 'Reset password',
-          html: '<h3 > user name :' + user.username + '<br> password :' + user.password + ' </h3><p>Be Our Guest</p>'
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-            res.send(error);
-          } else {
-            console.log('Email sent: ' + user.username);
-            res.send('Your password is waiting for you by e-mail')
-
-          }
-        });
-      } else {
-        console.log(' no user account');
-        res.send("There is no account for this email");
-      }
-
-    })
-})
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
   let userinfo = req.body;
@@ -140,6 +145,27 @@ app.post('/beOurGuest/login', (req, res) => {
         path: 'invitations'
       }
     })
+    .populate({
+      path: 'events',
+      populate: {
+        path: 'tables',
+      }
+    })
+    .populate({
+      path: 'events',
+      populate: {
+        path: 'guests', populate: {
+          path: 'globalGuest_id'
+        }
+      }
+    })
+
+    // post.deepPopulate('comments.user', function (err, _post) {
+    //   // _post is the same instance as post and provided for convenience
+    // });
+
+
+    .populate('guests')
     .exec(function (err, user) {
       if (err) return handleError(err);
       res.send(user);
@@ -159,7 +185,8 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     invitations: [],
     guests: [],
   })
-  myEvent.save(function (err, event) {
+
+  myEvent.save((err, event) => {
     console.log(event.id)
     User.findById(req.params.UserId).
       then(user => {
@@ -168,9 +195,86 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
         user.events = listEvent;
         user.save();
         res.send(event);
-      })
-
+      });
   })
+});
+
+//add guest
+app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
+  let newGuest = req.body;
+  let myGlobalGuest = new GlobalGuest({
+    name: newGuest.name,
+    email: newGuest.email,
+    phone: newGuest.phone
+  })
+
+  User.findById(req.params.userId)
+    .then(user => {
+      if (user === null) {
+        res.send(user);
+      }
+
+      myGlobalGuest.save()
+        .then(globalGuest => {
+          // Add guest to user's globalGuest list
+          let guestList = user.guests.concat();
+          guestList.push(globalGuest._id);
+          user.guests = guestList;
+          user.save();
+          console.log('GlobalGuest ' + globalGuest._id + ' saved to user list');
+
+          // Create guest object
+          let myGuest = new Guest({
+            globalGuest_id: globalGuest._id,
+            invitations: [],
+            categories: newGuest.categories,
+            comment: newGuest.comment,
+            numConfirmed: newGuest.coming,
+            numUndecided: newGuest.invited - newGuest.coming - newGuest.notComing,
+            numNotComing: newGuest.notComing,
+            seated: false
+          });
+
+          Event.findById(req.params.eventId)
+            .then(event => {
+              if (event === null) {
+                res.send(event);
+              }
+
+              // Add guest to event's guest list
+              myGuest.save()
+                .then(guest => {
+                  let guestList = event.guests.concat();
+                  guestList.push(guest._id);
+                  event.guests = guestList;
+                  event.save();
+                  console.log('Guest ' + guest._id + ' saved to event list');
+
+                  let newGuest = {
+                    globalGuestId: globalGuest._id,
+                    name: globalGuest.name,
+                    email: globalGuest.email,
+                    phone: globalGuest.phone,
+
+                    guestId: guest._id,
+                    invitations: guest.invitations,
+                    categories: guest.categories,
+                    comment: guest.comment,
+                    numConfirmed: guest.numConfirmed,
+                    numUndecided: guest.numInvited,
+                    numNotComing: guest.numNotComing,
+                    seated: false
+                  };
+
+                  console.log(newGuest.id);
+                  res.send(newGuest);
+                });
+            });
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    })
 });
 
 // remove event
@@ -186,15 +290,14 @@ app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
         .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
         .then(res.send("event delete"))
     })
-
   // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
-  //     .then(result =>
-  //         Event.findByIdAndRemove({ _id: req.params.eventId })
-  //             .then(res.send("event delete"))
+  //     .then(result => Event.findByIdAndRemove({ _id: req.params.eventId })
+  //         .then(res.send("event delete"))
+
   //     );
 });
 
-// add new Invitation
+// add  Invitation
 app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
   let vet = req.body;
 
@@ -219,7 +322,7 @@ app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
     })
   })
 });
-//remove new Invitation
+//remove  Invitation
 app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, res) => {
 
   Event.findById(req.params.eventId, function (err, eve) {
@@ -230,15 +333,86 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
   })
 })
 
-//rsvpGuest  to send email
-app.post('/beOurGuest/rsvpGuest/', (req, res) => {
-  let item = req.body
+// get rsvp page
+app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
+  let item = req.params
   console.log(item.vetId);
   Invitation.findById(item.vetId, function (err, vet) {
     if (err) return handleError(err);
     res.send(vet);
   })
 })
+
+/// send rsvp to email
+app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
+  let item = req.body
+  let vetId = req.params.vetId;
+  let eventId = req.params.eventId;
+
+  Guest.
+    find({}).
+    populate({ path: 'globalGuest_id', select: 'email' }).
+    exec(function (err, mYguest) {
+      if (err) return handleError(err);
+      mYguest.forEach(guest => {
+        console.log(guest.globalGuest_id.email)
+
+        /////
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'BeOurGuestMail@gmail.com',
+            pass: 'guest2018'
+          }
+        });
+        // transporter.use('compile', inlineCss());
+        var mailOptions = {
+          from: 'Be Our Guest ',
+          to: guest.globalGuest_id.email,
+          subject: item.titleInput,
+          html: `<div style="background-color:${item.background};padding:20px">
+          <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
+          <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
+          <h3>${item.textInput}</h3>
+          </div>
+          <p>${item.whenEvent}<br>
+          ${item.whereEvent}</p>
+          <button style="background-color:#91ff35;border-radius: 10px">
+          <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest.globalGuest_id._id}/">Confirm your arrival</a>
+          </button>
+
+          <br>
+        </div>  `
+
+          // html: '<h1 style="color:'+sadas+'">Welcome</h1><p>Be Our Guest</p>'
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+        ////
+      });
+      res.send(JSON.stringify(mYguest))
+    });
+
+
+
+
+  // console.log(x++)
+  // console.log(element.globalGuest_id.email)
+
+
+  // console.log("vetId  "+item.vetId);
+
+  // Invitation.findById(item.vetId, function (err, vet) {
+  //   if (err) return handleError(err);
+  //   res.send(vet);
+  // })
+})
+
 // guest return Answer
 app.post('/beOurGuest/rsvp/Answer/', (req, res) => {
 
@@ -270,11 +444,11 @@ app.post('/beOurGuest/rsvp/Answer/', (req, res) => {
   //         if (err) return handleError(err);
   //         eve.guests[0].invitations
   //     });
-
-
 })
 
-// createTable
+
+//  Table //////
+//createTable
 app.post('/beOurGuest/createTable/:eventId/', (req, res) => {
   let newTable = new Table({
     title: req.body.title,
@@ -296,6 +470,8 @@ app.post('/beOurGuest/createTable/:eventId/', (req, res) => {
   })
 
 })
+
+
 const port = process.env.PORT || 3001;
 app.listen(port, console.log('Server running on port', port));
 
