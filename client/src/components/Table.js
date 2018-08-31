@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../App.css'
 //import styled from 'styled-components';
-import 'typeface-roboto'
+//import 'typeface-roboto'
 import Guest from './Guest'
 import { Droppable } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';

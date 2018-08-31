@@ -3,6 +3,7 @@ import '../App.css'
 //import styled from 'styled-components'
 import Table from './Table';
 import Table0 from './Table0';
+import AddTableModal from './AddTableModal'
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import { 
@@ -56,7 +57,9 @@ class TableList extends Component {
         { name: "Akiva Stern", _id: "49" ,categories:[0] } ] } */
         return (
             <div className={classes.tableListWrapper}>
+              <AddTableModal></AddTableModal>
             <Table0  index={-1}/>
+          
                 {currentEvent.tables.map((table, index) => (
                     <Table table={table} index={index} key={table._id} />
                 ))}
