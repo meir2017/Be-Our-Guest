@@ -81,12 +81,12 @@ class CreateEvent extends Component {
                             />
                             <br />
                             <TextField
-                                id="maxGuests" label="maxGuests" type="number" className="textField"
+                                id="maxGuests" label="Max guests" type="number" className="textField"
                                 name="maxGuests" onChange={this.onChangeText} value={this.inputText}
                             />
                             <br />
                             <TextField
-                                id="HostName" label="HostName" type="text" className="textField"
+                                id="HostName" label="Host name" type="text" className="textField"
                                 name="HostName" onChange={this.onChangeText} value={this.inputText}
                             />
                             <br />

@@ -79,7 +79,9 @@ class BeOurGuestStore {
         this.user.events = item.events;
         this.user.guests = item.guests;
         this.user.categories = item.categories;
-        console.log(JSON.stringify(this.user.events))
+        // console.log(JSON.stringify(this.user.events))
+        console.log(JSON.stringify(this.user.events[0].tables))
+
         // this.populateEvent();
     }
 
@@ -116,10 +118,7 @@ class BeOurGuestStore {
         this.user.guests = guestList;
 
         let guest = {
-            _id: newGuest.guestId,
-            name: newGuest.name,
-            email: newGuest.email,
-            phone: newGuest.phone,
+            globalGuest_id: globalGuest,
             invitations: newGuest.invitations,
             categories: newGuest.categories,
             comment: newGuest.comment,

@@ -44,12 +44,10 @@ class TableList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableSize: '',
-            category: "",
-            tableName: '',
-            listOfGuests: "",
+            title: '',
+            maxGuests: '',
+            category: '',
             anchorEl: null,
-            datalist: ["node.js", "Java", "JavaScript", "c", "c++", "html", "Component", "react"]
         }
         // this.props.store.populateEvent();
     }
@@ -71,13 +69,30 @@ class TableList extends Component {
 
     }
     saveTable = (e) => {
-        console.log("tableName  " + this.state.tableName + "    category " + this.state.category
-            + "  tableSize " + this.state.tableSize + "   color " + this.state.color);
+        console.log("title  " + this.state.title + "    maxGuests " + this.state.maxGuests
+            + "  category " + this.state.category)
+
+
+        let tableInfo = {
+            title: this.state.title,
+            maxGuests: this.state.maxGuests,
+            category: this.state.category,
+
+        }
+        let indexEvent = this.props.store.eventIndex;
+        let eventId = this.props.store.user.events[indexEvent]._id
+        axios.post(`/beOurGuest/createTable/${eventId}/`, tableInfo)
+            .then(response => {
+                console.log((response.data))
+                // this.props.store.addTable(response.data)
+            })
         this.handleClose();
     }
 
     render() {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        // console.log(currentEvent.tables)
+
         const { classes } = this.props;
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
@@ -115,17 +130,19 @@ class TableList extends Component {
                             }}
                         >
                             <Typography style={{ padding: "20px" }}>
-                                <input name="tableName" onChange={this.onChangeText} value={this.state.tableName} placeholder=" Table Name" type="text" /><br /><br />
-                                <input name="tableSize" onChange={this.onChangeText} value={this.state.tableSize} placeholder="size" type="number" /><br /><br />
-                                <span >Color Table:  </span> <input style={{ marginLeft: "30px" }} type="color" name="color" onChange={this.onChangeText} id="" /><br /><br />
-                                <input className="awesomplete" name="category" placeholder="category" onSelect={this.onChangeText} list="mylist" /><br /> <br />
-                                <datalist id="mylist" >
+                                <input name="title" onChange={this.onChangeText} value={this.state.title} placeholder=" Table Name" type="text" /><br /><br />
+                                <input name="maxGuests" onChange={this.onChangeText} value={this.state.maxGuests} placeholder="Max guests" type="number" /><br /><br />
+                                <input name="category" onChange={this.onChangeText} value={this.state.category} placeholder="Category" type="text" /><br /><br />
 
-                                    {/* list of category */}
+                                {/* <input className="awesomplete" name="category" placeholder="categories" onSelect={this.onChangeText} list="mylist" /><br /> <br /> */}
+                                {/* <datalist id="mylist" >
+                                    
                                     {this.state.datalist.map((item, index) => {
                                         return <option key={index + item}>{item} </option>
                                     })}
-                                </datalist>
+                                </datalist> */}
+
+
                                 {/* <input name="" onChange={} value={this.state.} placeholder="List of guest" type="text" /> <br /><br /> */}
 
                                 <Button onClick={this.saveTable} variant="contained" size="medium" color="secondary">Save</Button>
@@ -148,5 +165,11 @@ class TableList extends Component {
         );
     }
 }
+
+// title: String,
+// maxGuests: Number,
+// categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
+// guests: [{ type: Schema.Types.ObjectId, ref: 'guests' }]
+
 
 export default withStyles(styles)(TableList);
