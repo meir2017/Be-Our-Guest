@@ -34,12 +34,12 @@ class GuestInfo extends Component {
   }
 
   openModalCreate = (e) => {
-    this.setState({ modalCreate: ! this.state.modalCreate });
+    this.setState({ modalCreate: !this.state.modalCreate });
   }
 
   handleClose = event => {
     if (this.anchorEl.contains(event.target)) {
-        return;
+      return;
     }
     this.setState({ open: false });
   };
@@ -47,12 +47,12 @@ class GuestInfo extends Component {
   createData = (id, name, email, phone, coming, undecided, notComing) => {
     return { id, name, email, phone, coming, undecided, notComing };
   }
-  
+
   rowData = (guest, index) => {
     return (
-      this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing )
+      this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing)
     )
-};
+  };
 
   render() {
 
@@ -61,10 +61,10 @@ class GuestInfo extends Component {
 
       <div className="container">
         <div className="addGuest">
-            <CreateGuest
-              openModalCreate={this.openModalCreate}
-              modalCreate={this.state.modalCreate}
-            />
+          <CreateGuest
+            openModalCreate={this.openModalCreate}
+            modalCreate={this.state.modalCreate}
+          />
         </div>
 
         <Paper className={this.props.classes.root}>
@@ -84,14 +84,14 @@ class GuestInfo extends Component {
                 return (
                   <TableRow key={index}>
                     <TableCell component="th" scope="row">
-                      {guest.name}
+                      {guest.globalGuest_id.name}
                     </TableCell>
-                    <TableCell>{guest.email}</TableCell>
-                    <TableCell>{guest.phone}</TableCell>
-                    <TableCell numeric>{guest.coming}</TableCell>
-                    <TableCell numeric>{guest.notComing}</TableCell>
-                    <TableCell numeric>{guest.undecided}</TableCell>
-                </TableRow>
+                    <TableCell>{guest.globalGuest_id.email}</TableCell>
+                    <TableCell>{guest.globalGuest_id.phone}</TableCell>
+                    <TableCell >{guest.numConfirmed}</TableCell>
+                    <TableCell >{guest.numNotComing}</TableCell>
+                    <TableCell >{guest.numUndecided}</TableCell>
+                  </TableRow>
                 );
               })}
             </TableBody>
