@@ -33,6 +33,7 @@ class Rsvp extends Component {
             checkedB: false,
             numGuest: 0,
             myText: "",
+
             display_rsvp: false
         }
     }
@@ -49,11 +50,17 @@ class Rsvp extends Component {
         console.log(this.state.numGuest);
         console.log(this.state.checkedB);
         //send the info to evntid,gustid
-        // let objInfo={
-
-        // }
-        // app.post('/beOurGuest/rsvp/Answer/', objInfo)
-        // .then()
+        let objRsvp = {
+            checkedB: this.state.checkedB,
+            numGuest: this.state.numGuest,
+            guestId: this.props.match.params.guestId
+        }
+        console.log(this.props.match.params.guestId)
+        axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
+            .then(response => {
+                console.log((response.data))
+                // this.props.store.addInvitation(response.data)
+            })
     }
 
     componentWillMount = () => {
@@ -118,7 +125,7 @@ class Rsvp extends Component {
                                 How many will you come?  <InputLabel htmlFor="age-native-simple"></InputLabel>
                                 <Select
                                     native
-                                    value={this.state.age}
+                                    value={this.state.numGuest}
                                     onChange={this.handleChangeGuest('numGuest')}  >
                                     <option value="" />
                                     <option value={1}>1</option>
@@ -127,6 +134,9 @@ class Rsvp extends Component {
                                     <option value={4}>4</option>
                                     <option value={5}>5</option>
                                     <option value={6}>6</option>
+                                    {/* {this.props.store.user.categories.map((item, index) => {
+                                     return   <option key={item._id} value={1}>{item.name}</option>
+                                    })} */}
                                 </Select>
                             </FormControl>
                             <br />
