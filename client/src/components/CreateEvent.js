@@ -48,7 +48,6 @@ class CreateEvent extends Component {
     handlerSaveEven = (e) => {
         this.toggle();
         e.preventDefault();
-        console.log(this.props.store.user.UserId)
         axios.post('/beOurGuest/addNewEvent/' + this.props.store.user._Id, this.state)
             .then(response => {
 

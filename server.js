@@ -20,10 +20,11 @@ const User = require('./models/UserModel')
 const GlobalGuest = require('./models/GlobalGuestModel')
 const Guest = require('./models/GuestModel')
 const Invitation = require('./models/InvitationModel');
+const Category = require('./models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
 
-////// emil send
+////// emil send example
 app.get('/meir/:mytext', (req, res) => {
 
   var transporter = nodemailer.createTransport({
@@ -85,7 +86,7 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
     });
 })
 
-//rsvp
+//rsvp test
 app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -111,11 +112,6 @@ app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
       res.send('Your password is waiting for you by e-mail')
     }
   });
-  // } else {
-  //   console.log(' no user account');
-  //   res.send("There is no account for this email");
-  // }
-  // })
 })
 
 //new user
@@ -138,7 +134,7 @@ app.post('/beOurGuest/newUser', (req, res) => {
 app.post('/beOurGuest/login', (req, res) => {
   let userinfo = req.body;
   User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }).
-    // populate('events').
+    // populate('events').  categories
     populate({
       path: 'events',
       populate: {
@@ -151,6 +147,7 @@ app.post('/beOurGuest/login', (req, res) => {
         path: 'tables',
       }
     })
+    .populate("categories")
     .populate({
       path: 'events',
       populate: {
@@ -378,7 +375,7 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
           <p>${item.whenEvent}<br>
           ${item.whereEvent}</p>
           <button style="background-color:#91ff35;border-radius: 10px">
-          <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest.globalGuest_id._id}/">Confirm your arrival</a>
+          <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
           </button>
 
           <br>
@@ -414,38 +411,23 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
 })
 
 // guest return Answer
-app.post('/beOurGuest/rsvp/Answer/', (req, res) => {
 
-
-  // Event.
-  //     findById(req.body.eventID).
-  //     populate({
-  //         path: 'guests',
-  //         populate: {
-  //             path: 'invitations'
-  //         }
-  //     }).
-  //     exec(function (err, story) {
-  //         if (err) return handleError(err);
-
-  //     });
-
-  /////////////////////////////
-  // Event.
-  //     findById(req.body.eventID).
-  //     populate({
-  //         path: 'guests',
-  //         populate: {
-  //             path: 'invitations'
-  //         },
-  //         match: { _Id: { $$eq: req.body.gestID } }
-  //     }).
-  //     exec(function (err, eve) {
-  //         if (err) return handleError(err);
-  //         eve.guests[0].invitations
-  //     });
+app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
+  // checkedB    numGuest   guestId 
+  let item = req.body
+  Guest.findById(req.body.guestId).
+    then(guest => {
+      console.log(guest)
+      console.log("numConfirmed  " + guest.numConfirmed);
+      console.log("numUndecided  " + guest.numUndecided);
+      // guest.numNotComing
+      // guest.numConfirmed
+      // gest.numUndecided
+      guest.save();
+      console.log("rsvp Change")
+      res.send()
+    })
 })
-
 
 //  Table //////
 //createTable
@@ -470,6 +452,27 @@ app.post('/beOurGuest/createTable/:eventId/', (req, res) => {
   })
 
 })
+
+//createCtgory
+app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
+  let item = req.body;
+  let newCategory = new Category({
+    name: item.name,
+    colorCode: item.colorCode,
+  })
+
+  newCategory.save((err, category) => {
+    User.findById(req.params.UserId).
+      then(user => {
+        let listCategory = user.categories.concat();
+        listCategory.push(category.id);
+        user.categories = listCategory;
+        user.save();
+        res.send(category);
+      });
+  })
+});
+
 
 
 const port = process.env.PORT || 3001;

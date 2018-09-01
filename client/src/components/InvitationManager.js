@@ -66,13 +66,11 @@ class InvitationManager extends Component {
             .then(response => {
                 console.log("send all email ")
                 console.log((response.data))
-                // this.props.store.addInvitation(response.data)
             })
     }
     render() {
 
         const item = this.props.store;
-        // console.log(item.user.events[item.eventIndex].invitations.length)
         return (
             <div className="container">
 
