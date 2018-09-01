@@ -114,9 +114,11 @@ class BeOurGuestStore {
         let guestList = this.user.guests.concat();
         guestList.push(globalGuest);
         this.user.guests = guestList;
+        console.log(JSON.stringify(this.user.guests));
 
         let guest = {
             _id: newGuest.guestId,
+            // The name, email & phone are saved here too
             name: newGuest.name,
             email: newGuest.email,
             phone: newGuest.phone,
@@ -132,6 +134,7 @@ class BeOurGuestStore {
         guestList = this.user.events[this.eventIndex].guests.concat();
         guestList.push(guest);
         this.user.events[this.eventIndex].guests = guestList;
+        console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
     }
 
     @action removGuest = (guestIndex) => {

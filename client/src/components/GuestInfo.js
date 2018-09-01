@@ -3,13 +3,19 @@ import { observer, inject } from 'mobx-react';
 
 import CreateGuest from './CreateGuest.js';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import {
+  withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
+  Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
+  ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
+
+} from "@material-ui/core"
+import axios from 'axios';
 
 const styles = theme => ({
   root: {
@@ -37,12 +43,24 @@ class GuestInfo extends Component {
     this.setState({ modalCreate: ! this.state.modalCreate });
   }
 
-  handleClose = event => {
-    if (this.anchorEl.contains(event.target)) {
-        return;
-    }
-    this.setState({ open: false });
-  };
+  handleRemoveGuest = (e) => {
+    e.preventDefault();
+    // console.log((" Will be deleted  =" + e.target.id))
+    let index = e.target.id;
+    let guestId = this.props.store.user.events[this.props.store.eventIndex].guests[index]._id;
+    axios.delete(
+      '/beOurGuest/removeGuest/' + this.props.store.user._Id + '/' +
+        this.props.store.user.events[this.props.store.eventIndex]._id + '/' + guestId)
+        .then(response => {
+          console.log((response.data))
+          this.props.store.removGuest(index)
+        })
+  }
+
+  handleEdit = (e) => {
+    e.preventDefault();
+    alert("e.target.id; " + e.target.id);
+  }
 
   createData = (id, name, email, phone, coming, undecided, notComing) => {
     return { id, name, email, phone, coming, undecided, notComing };
@@ -52,13 +70,11 @@ class GuestInfo extends Component {
     return (
       this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing )
     )
-};
+  };
 
   render() {
 
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
-    let guestName = guests[0].globalGuest_id.name;
-    console.log('guestName', guestName);
     return (
 
       <div className="container">
@@ -81,6 +97,7 @@ class GuestInfo extends Component {
                 <TableCell numeric>Not coming</TableCell>
                 <TableCell numeric>Undecided</TableCell>
                 <TableCell>Comment</TableCell>
+                <TableCell>Edit/Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -97,6 +114,14 @@ class GuestInfo extends Component {
                     <TableCell numeric>{guest.numNotComing}</TableCell>
                     <TableCell numeric>{guest.numUndecided}</TableCell>
                     <TableCell>{guest.comment}</TableCell>
+                    <TableCell>
+                      <i className="material-icons" id={index} onClick={this.handleEdit}>
+                        border_color
+                      </i>
+                      <i className="material-icons" id={index} onClick={this.handleRemoveGuest}>
+                        delete
+                      </i>
+                    </TableCell>
                 </TableRow>
                 );
               })}
