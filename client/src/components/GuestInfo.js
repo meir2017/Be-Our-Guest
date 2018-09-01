@@ -57,6 +57,8 @@ class GuestInfo extends Component {
   render() {
 
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
+    let guestName = guests[0].globalGuest_id.name;
+    console.log('guestName', guestName);
     return (
 
       <div className="container">
@@ -74,9 +76,11 @@ class GuestInfo extends Component {
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Phone</TableCell>
+                <TableCell>Categoty</TableCell>
                 <TableCell numeric>Coming</TableCell>
                 <TableCell numeric>Not coming</TableCell>
                 <TableCell numeric>Undecided</TableCell>
+                <TableCell>Comment</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -88,9 +92,11 @@ class GuestInfo extends Component {
                     </TableCell>
                     <TableCell>{guest.email}</TableCell>
                     <TableCell>{guest.phone}</TableCell>
-                    <TableCell numeric>{guest.coming}</TableCell>
-                    <TableCell numeric>{guest.notComing}</TableCell>
-                    <TableCell numeric>{guest.undecided}</TableCell>
+                    <TableCell>{guest.categories[0]}</TableCell>
+                    <TableCell numeric>{guest.numConfirmed}</TableCell>
+                    <TableCell numeric>{guest.numNotComing}</TableCell>
+                    <TableCell numeric>{guest.numUndecided}</TableCell>
+                    <TableCell>{guest.comment}</TableCell>
                 </TableRow>
                 );
               })}
