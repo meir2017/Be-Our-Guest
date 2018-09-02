@@ -108,7 +108,7 @@ class AddTableModal extends Component {
     //     this.props.handleAddTable(tableInfo);
     //     this.handleClose();
 
-    // }    
+   //  }    
 
     // categoryReference = elem => {
     //     this.inputElem = elem;
