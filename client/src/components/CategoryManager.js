@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
+
 import axios from 'axios';
+
 import MyModal from './Modal';
 
 import { observer, inject } from 'mobx-react';
@@ -41,6 +43,7 @@ class CategoryManager extends Component {
     //         })
 
     // }
+
     handlerSaveCate = (e) => {
         this.toggle();
         e.preventDefault();
@@ -66,10 +69,12 @@ class CategoryManager extends Component {
                                 name="Title" onChange={this.onChangeText} value={this.inputText}
                             />
                             <br />
-                            <TextField
+                            {/* <TextField
                                 id="Color" label="Color" type="text" className="textField"
                                 name="Color" onChange={this.onChangeText} value={this.inputText}
-                            />
+                            /> */}
+                            <input className="color" type="color" onChange={this.onChangeText} id="color" value={this.state.color} name="color" />
+                            <label htmlFor="background">background</label>
                             <br />
                         </ModalBody>
                         <ModalFooter>
