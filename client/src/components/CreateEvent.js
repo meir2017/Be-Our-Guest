@@ -48,7 +48,6 @@ class CreateEvent extends Component {
     handlerSaveEven = (e) => {
         this.toggle();
         e.preventDefault();
-        console.log(this.props.store.user.UserId)
         axios.post('/beOurGuest/addNewEvent/' + this.props.store.user._Id, this.state)
             .then(response => {
 
@@ -81,12 +80,12 @@ class CreateEvent extends Component {
                             />
                             <br />
                             <TextField
-                                id="maxGuests" label="maxGuests" type="number" className="textField"
+                                id="maxGuests" label="Max guests" type="number" className="textField"
                                 name="maxGuests" onChange={this.onChangeText} value={this.inputText}
                             />
                             <br />
                             <TextField
-                                id="HostName" label="HostName" type="text" className="textField"
+                                id="HostName" label="Host name" type="text" className="textField"
                                 name="HostName" onChange={this.onChangeText} value={this.inputText}
                             />
                             <br />

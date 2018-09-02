@@ -94,7 +94,7 @@
 text-align: center ;
 margin-top: -55px
 }
-.itemEvent{
+.itemEvent , .itemcategories{
 /* color:black; */
 width: 114% !important;
 margin-left: -40px !important;
@@ -119,6 +119,11 @@ height: 300px;
 border: solid grey 1px;
 
 }
+/* .display_rsvp{
+ width: 80%;
+height: 300px;
+border: solid grey 1px;
+} */
 .iteminvitations{
   float: left;
   width: 80%;
@@ -148,6 +153,11 @@ color: black;
 }
 .addTable{
   position: fixed;
+}
+
+
+.btnSend{
+  margin-left: 40px
 }
 /* #x3 {
   position: fixed;
