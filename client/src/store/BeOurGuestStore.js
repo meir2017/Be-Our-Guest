@@ -86,15 +86,12 @@ class BeOurGuestStore {
 
         let guest = {
             _id: newGuest.guestId,
-            // The name, email & phone are saved here too
-            name: newGuest.name,
-            email: newGuest.email,
-            phone: newGuest.phone,
+            globalGuest_id: newGuest.globalGuestId,
             invitations: newGuest.invitations,
             categories: newGuest.categories,
             comment: newGuest.comment,
-            numConfirmed: newGuest.numConfirmed,
-            numUndecided: newGuest.numInvited,
+            numComing: newGuest.numComing,
+            numInvited: newGuest.numInvited,
             numNotComing: newGuest.numNotComing
         };
 

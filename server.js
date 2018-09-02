@@ -226,8 +226,8 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
             invitations: [],
             categories: newGuest.categories,
             comment: newGuest.comment,
+            numInvited: newGuest.invited,
             numConfirmed: newGuest.coming,
-            numUndecided: newGuest.invited - newGuest.coming - newGuest.notComing,
             numNotComing: newGuest.notComing,
             seated: false
           });
@@ -257,8 +257,8 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
                     invitations: guest.invitations,
                     categories: guest.categories,
                     comment: guest.comment,
+                    numInvited: guest.numInvited,
                     numConfirmed: guest.numConfirmed,
-                    numUndecided: guest.numInvited,
                     numNotComing: guest.numNotComing,
                     seated: false
                   };
