@@ -4,6 +4,8 @@ import { withStyles, MenuItem, Menu, IconButton } from "@material-ui/core"
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogIn from './LogIn';
+import Profile from './Profile';
+
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
 
@@ -118,6 +120,7 @@ class AccountManager extends Component {
                     <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount} onClick={this.handleLogout} >My account</MenuItem>
                 </Menu>
+                <Profile handleCloseMenuAccount={this.handleCloseMenuAccount} />
             </div>
         );
     }

@@ -98,7 +98,7 @@ class App extends Component {
 
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
-    console.log(user.username)
+    // console.log(user.username)
     if (user != null)
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
         .then(response => {
