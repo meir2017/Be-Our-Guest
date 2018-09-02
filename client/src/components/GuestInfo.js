@@ -28,7 +28,6 @@ const styles = theme => ({
   },
 });
 
-
 @inject("store")
 @observer
 class GuestInfo extends Component {
@@ -107,12 +106,12 @@ class GuestInfo extends Component {
                     <TableCell component="th" scope="row">
                       {guest.globalGuest_id.name}
                     </TableCell>
-                    <TableCell>{guest.email}</TableCell>
-                    <TableCell>{guest.phone}</TableCell>
+                    <TableCell>{guest.globalGuest_id.email}</TableCell>
+                    <TableCell>{guest.globalGuest_id.phone}</TableCell>
                     <TableCell>{guest.categories[0]}</TableCell>
-                    <TableCell numeric>{guest.numConfirmed}</TableCell>
+                    <TableCell numeric>{guest.numComing}</TableCell>
                     <TableCell numeric>{guest.numNotComing}</TableCell>
-                    <TableCell numeric>{guest.numUndecided}</TableCell>
+                    <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
                     <TableCell>{guest.comment}</TableCell>
                     <TableCell>
                       <i className="material-icons" id={index} onClick={this.handleEdit}>
