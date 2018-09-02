@@ -28,7 +28,6 @@ const Container = styled.div`
 class Guest extends Component {
 
     render() {
-        const { classes } = this.props;
         return (
             <Draggable draggableId={this.props.guest._id} index={this.props.index}>
                 {(provided) => (

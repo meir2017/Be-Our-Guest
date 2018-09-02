@@ -58,17 +58,12 @@ class CreateCategory extends Component {
               <br />
               <label htmlFor="colorCode" style={{ padding: "20px" }}>color: </label>
 
-              <input type="color" onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
-
-              {/* <TextField
-                  id="colorCode" type="color" className="colorInput"
-                  name="colorCode" onChange={this.onChangeText} value={this.colorCode}
-              /> */}
+              <input type="color" onChange={this.onChangeText} value={this.colorCode} name="colorCode" id="colorCode" />
 
               <br />
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={this.handlerSaveCategory}>Save event</Button>{' '}
+              <Button color="primary" onClick={this.handlerSaveCategory}>Save category</Button>{' '}
               <Button color="secondary" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
           </Modal>

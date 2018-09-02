@@ -8,13 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
-import {
-  withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
-  Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
-  ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
-
-} from "@material-ui/core"
+import { withStyles, Paper } from "@material-ui/core"
 import axios from 'axios';
 
 const styles = theme => ({
@@ -47,12 +41,12 @@ class GuestInfo extends Component {
     // console.log((" Will be deleted  =" + e.target.id))
     let index = e.target.id;
     let guestId = this.props.store.user.events[this.props.store.eventIndex].guests[index]._id;
+    let eventId = this.props.store.user.events[this.props.store.eventIndex]._id;
     axios.delete(
-      '/beOurGuest/removeGuest/' + this.props.store.user._Id + '/' +
-        this.props.store.user.events[this.props.store.eventIndex]._id + '/' + guestId)
+      '/beOurGuest/removeGuest/' + eventId + '/' + guestId + '/' + index)
         .then(response => {
-          console.log((response.data))
-          this.props.store.removGuest(index)
+          console.log((response.data));
+          this.props.store.removeGuest(index);
         })
   }
 
@@ -108,7 +102,7 @@ class GuestInfo extends Component {
                     </TableCell>
                     <TableCell>{guest.globalGuest_id.email}</TableCell>
                     <TableCell>{guest.globalGuest_id.phone}</TableCell>
-                    <TableCell>{guest.categories[0]}</TableCell>
+                    <TableCell>{guest.categories.name}</TableCell>
                     <TableCell numeric>{guest.numComing}</TableCell>
                     <TableCell numeric>{guest.numNotComing}</TableCell>
                     <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>

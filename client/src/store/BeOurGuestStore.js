@@ -90,8 +90,8 @@ class BeOurGuestStore {
             invitations: newGuest.invitations,
             categories: newGuest.categories,
             comment: newGuest.comment,
-            numComing: newGuest.numComing,
             numInvited: newGuest.numInvited,
+            numComing: newGuest.numComing,
             numNotComing: newGuest.numNotComing
         };
 
@@ -102,7 +102,7 @@ class BeOurGuestStore {
         console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
     }
 
-    @action removGuest = (guestIndex) => {
+    @action removeGuest = (guestIndex) => {
         let guestList = this.user.events.concat();
         guestList.splice(guestIndex, 1);
         this.user.events = guestList;
@@ -112,14 +112,14 @@ class BeOurGuestStore {
     // Invitation function
     @action addInvitation = (newlistinvitations) => {
         let listinvitations = this.user.events[this.eventIndex].invitations.concat();
-        listinvitations.push(newlistinvitations)
+        listinvitations.push(newlistinvitations);
         this.user.events[this.eventIndex].invitations = listinvitations;
-        console.log(" save  invitations in client  ")
+        console.log(" save  invitations in client  ");
     }
 
     @action theInvitationIndex = (index) => {
-        this.invitationIndex = index
-        console.log("theInvitationIndex   " + index)
+        this.invitationIndex = index;
+        console.log("theInvitationIndex   " + index);
     }
     @action removeInvitation = (index) => {
         let listInvitations = this.user.events[this.eventIndex].invitations.concat();
@@ -133,7 +133,7 @@ class BeOurGuestStore {
         let listCategory = this.user.categories.concat();
         listCategory.push(newCategory);
         this.user.categories = listCategory;
-
+        console.log("New category " + newCategory._id);
     }
 
     @action populateEvent = () => {
