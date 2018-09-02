@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 
+import CreateGuest from './CreateGuest.js';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import {
+  withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
+  Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
+  ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
+
+} from "@material-ui/core"
+import axios from 'axios';
 
 const styles = theme => ({
   root: {
@@ -21,20 +28,37 @@ const styles = theme => ({
   },
 });
 
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
-
-
 @inject("store")
 @observer
 class GuestInfo extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalCreate: false
+    };
+  }
+
+  openModalCreate = (e) => {
+    this.setState({ modalCreate: !this.state.modalCreate });
+  }
+
+  handleRemoveGuest = (e) => {
+    e.preventDefault();
+    // console.log((" Will be deleted  =" + e.target.id))
+    let index = e.target.id;
+    let guestId = this.props.store.user.events[this.props.store.eventIndex].guests[index]._id;
+    axios.delete(
+      '/beOurGuest/removeGuest/' + this.props.store.user._Id + '/' +
+        this.props.store.user.events[this.props.store.eventIndex]._id + '/' + guestId)
+        .then(response => {
+          console.log((response.data))
+          this.props.store.removGuest(index)
+        })
+  }
+
+  handleEdit = (e) => {
+    e.preventDefault();
+    alert("e.target.id; " + e.target.id);
   }
 
   createData = (id, name, email, phone, coming, undecided, notComing) => {
@@ -48,38 +72,63 @@ class GuestInfo extends Component {
   };
 
   render() {
-    let guests = this.props.store.user.guests;
+
+    let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
     return (
-      <Paper className={this.props.classes.root}>
-        <Table className={this.props.classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell numeric>Coming</TableCell>
-              <TableCell numeric>Undecided</TableCell>
-              <TableCell numeric>Not coming</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {guests.map((guest, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {guest.name}
-                  </TableCell>
-                  <TableCell>{guest.email}</TableCell>
-                  <TableCell>{guest.phone}</TableCell>
-                  <TableCell numeric>{guest.coming}</TableCell>
-                  <TableCell numeric>{guest.invited - guest.coming - guest.notComing}</TableCell>
-                  <TableCell numeric>{guest.notComing}</TableCell>
+
+      <div className="container">
+        <div className="addGuest">
+          <CreateGuest
+            openModalCreate={this.openModalCreate}
+            modalCreate={this.state.modalCreate}
+          />
+        </div>
+
+        <Paper className={this.props.classes.root}>
+          <Table className={this.props.classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Categoty</TableCell>
+                <TableCell numeric>Coming</TableCell>
+                <TableCell numeric>Not coming</TableCell>
+                <TableCell numeric>Undecided</TableCell>
+                <TableCell>Comment</TableCell>
+                <TableCell>Edit/Delete</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {guests.map((guest, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {guest.globalGuest_id.name}
+                    </TableCell>
+                    <TableCell>{guest.globalGuest_id.email}</TableCell>
+                    <TableCell>{guest.globalGuest_id.phone}</TableCell>
+                    <TableCell>{guest.categories[0]}</TableCell>
+                    <TableCell numeric>{guest.numComing}</TableCell>
+                    <TableCell numeric>{guest.numNotComing}</TableCell>
+                    <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
+                    <TableCell>{guest.comment}</TableCell>
+                    <TableCell>
+                      <i className="material-icons" id={index} onClick={this.handleEdit}>
+                        border_color
+                      </i>
+                      <i className="material-icons" id={index} onClick={this.handleRemoveGuest}>
+                        delete
+                      </i>
+                    </TableCell>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Paper>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Paper>
+
+      </div>
     );
   }
 }
@@ -89,92 +138,3 @@ GuestInfo.propTypes = {
 };
 
 export default withStyles(styles)(GuestInfo);
-
-// @inject("store")
-// @observer
-// class GuestInfo extends Component {
-//     createSortHandler = property => event => {
-//         this.props.onRequestSort(event, property);
-//     };
-
-//     rowData = (guest, index) => {
-//         return (
-//             <tr key={index}>
-//                 <td>{guest.name}</td>
-//                 <td>{guest.email}</td>
-//                 <td>{guest.phone}</td>
-//                 <td>{guest.numConfirmed}</td>
-//                 <td>{guest.numUndecided}</td>
-//                 <td>{guest.numNotComing}</td>
-//             </tr>
-//         )
-//     };
-
-//     render() {
-//         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
-//         let guests = this.props.store.user.guests;
-//         return (
-//             <TableHead>
-//                 <TableRow>
-//                     <TableCell padding="checkbox">
-//                         <Checkbox
-//                             indeterminate={numSelected > 0 && numSelected < rowCount}
-//                             checked={numSelected === rowCount}
-//                             onChange={onSelectAllClick}
-//                         />
-//                     </TableCell>
-//                     {rows.map(row => {
-//                         return (
-//                             <TableCell
-//                                 key={row.id}
-//                                 numeric={row.numeric}
-//                                 padding={row.disablePadding ? 'none' : 'default'}
-//                                 sortDirection={orderBy === row.id ? order : false}
-//                             >
-//                                 <Tooltip
-//                                     title="Sort"
-//                                     placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-//                                     enterDelay={300}
-//                                 >
-//                                 <TableSortLabel
-//                                     active={orderBy === row.id}
-//                                     direction={order}
-//                                     onClick={this.createSortHandler(row.id)}
-//                                 >
-//                                     {row.label}
-//                                 </TableSortLabel>
-//                                 </Tooltip>
-//                             </TableCell>
-//                         );
-//                     }, this)}
-//                 </TableRow>
-//             </TableHead>
-//         );
-
-//         return (
-//             <Table striped bordered condensed hover>
-//                 <thead>
-//                     <tr>
-//                         <th>#</th>
-//                         <th>Name</th>
-//                         <th>Email</th>
-//                         <th>Phone #</th>
-//                         <th>Confirmed</th>
-//                         <th>Undecided</th>
-//                         <th>Not Coming</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {guests.map((guest,index) => 
-//                         <tr key={index}>
-//                             {this.rowData(guest, index)}
-//                         </tr>
-//                     )}
-//                 </tbody>
-//             </Table>
-//         );
-//     }
-// }
-
-// export default GuestInfo;

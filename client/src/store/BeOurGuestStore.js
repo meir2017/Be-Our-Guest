@@ -11,13 +11,14 @@ class BeOurGuestStore {
         events: [],
         guests: [],
         categories: [],
+
         ModalLogin: false
     }
     @observable eventIndex = null;
     @observable invitationIndex = null;
 
 
-    // evnte function
+    // user function
     @action LogoutUser = () => {
         this.user.userLog = false;
         console.log("user logout")
@@ -27,7 +28,113 @@ class BeOurGuestStore {
         console.log(this.user.ModalLogin)
     }
 
+    @action updateUser = (item) => {
+        this.user.userLog = true;
+        this.user._Id = item._id
+        this.user.username = item.username;
+        this.user.password = item.password;
+        this.user.email = item.email;
+        this.user.events = item.events;
+        this.user.guests = item.guests;
+        this.user.categories = item.categories;
+        // console.log(JSON.stringify(this.user.events))
+        console.log(JSON.stringify(this.user.categories))
 
+        let user = {
+            username: item.username,
+            password: item.password
+        }
+
+        localStorage.setItem("beOurGuestUser", JSON.stringify(user));
+
+        // this.populateEvent();
+    }
+    //****************************************************** */
+
+    // evnte function
+    @action thisEventIndex = (index) => {
+        this.eventIndex = index
+        console.log("event index is  " + index)
+    }
+
+    @action addEvent = (newEvent) => {
+        let listEvents = this.user.events.concat();
+        listEvents.push(newEvent);
+        this.user.events = listEvents;
+    }
+    @action removEvent = (eventIndex) => {
+        let listEvents = this.user.events.concat();
+        listEvents.splice(eventIndex, 1);
+        this.user.events = listEvents;
+    }
+    //****************************************************** */
+
+    /// Guest  function
+    @action addGuest = (newGuest) => {
+        let globalGuest = {
+            _id: newGuest.globalGuestId,
+            name: newGuest.name,
+            email: newGuest.email,
+            phone: newGuest.phone
+        };
+
+        // Add globalGuest to global guest list
+        let guestList = this.user.guests.concat();
+        guestList.push(globalGuest);
+        this.user.guests = guestList;
+        console.log(JSON.stringify(this.user.guests));
+
+        let guest = {
+            _id: newGuest.guestId,
+            globalGuest_id: newGuest.globalGuestId,
+            invitations: newGuest.invitations,
+            categories: newGuest.categories,
+            comment: newGuest.comment,
+            numComing: newGuest.numComing,
+            numInvited: newGuest.numInvited,
+            numNotComing: newGuest.numNotComing
+        };
+
+        // Add guest to event's guest list
+        guestList = this.user.events[this.eventIndex].guests.concat();
+        guestList.push(guest);
+        this.user.events[this.eventIndex].guests = guestList;
+        console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
+    }
+
+    @action removGuest = (guestIndex) => {
+        let guestList = this.user.events.concat();
+        guestList.splice(guestIndex, 1);
+        this.user.events = guestList;
+    }
+    //****************************************************** */
+
+    // Invitation function
+    @action addInvitation = (newlistinvitations) => {
+        let listinvitations = this.user.events[this.eventIndex].invitations.concat();
+        listinvitations.push(newlistinvitations)
+        this.user.events[this.eventIndex].invitations = listinvitations;
+        console.log(" save  invitations in client  ")
+    }
+
+    @action theInvitationIndex = (index) => {
+        this.invitationIndex = index
+        console.log("theInvitationIndex   " + index)
+    }
+    @action removeInvitation = (index) => {
+        let listInvitations = this.user.events[this.eventIndex].invitations.concat();
+        listInvitations.splice(index, 1);
+        this.user.events[this.eventIndex].invitations = listInvitations;
+    }
+    //****************************************************** */
+
+    /// Category  function
+    @action addCategory = (newCategory) => {
+        let listCategory = this.user.categories.concat();
+        listCategory.push(newCategory);
+        this.user.categories = listCategory;
+
+    }
 
     @action populateEvent = () => {
         /*  this.user.events[0] = {
@@ -64,59 +171,6 @@ class BeOurGuestStore {
 
     }
 
-    @observable eventIndex = null;
-
-
-    // evnte function
-
-    @action updateUser = (item) => {
-        this.user.userLog = true;
-        this.user._Id = item._id
-        this.user.username = item.username;
-        this.user.password = item.password;
-        this.user.email = item.email;
-        this.user.events = item.events;
-        this.user.guests = item.guests;
-        this.user.categories = item.categories;
-        console.log(JSON.stringify(this.user.events))
-        // this.populateEvent();
-    }
-
-    // user function
-
-
-    @action thisEventIndex = (index) => {
-        this.eventIndex = index
-        console.log("event index is  " + index)
-    }
-
-    @action addEvent = (newEvent) => {
-        let listEvents = this.user.events.concat();
-        listEvents.push(newEvent)
-        this.user.events = listEvents;
-    }
-    @action removEvent = (eventIndex) => {
-        let listEvents = this.user.events.concat();
-        listEvents.splice(eventIndex, 1)
-        this.user.events = listEvents;
-    }
-    // Invitation function
-    @action addInvitation = (newlistinvitations) => {
-        let listinvitations = this.user.events[this.eventIndex].invitations.concat();
-        listinvitations.push(newlistinvitations)
-        this.user.events[this.eventIndex].invitations = listinvitations;
-        console.log(" save  invitations in client  ")
-    }
-
-    @action theInvitationIndex = (index) => {
-        this.invitationIndex = index
-        console.log("theInvitationIndex   " + index)
-    }
-    @action removeInvitation = (index) => {
-        let listInvitations = this.user.events[this.eventIndex].invitations.concat();
-        listInvitations.splice(index, 1);
-        this.user.events[this.eventIndex].invitations = listInvitations;
-    }
 }
 
 const store = new BeOurGuestStore();
