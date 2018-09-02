@@ -42,10 +42,35 @@ class InvitationManager extends Component {
         this.setState({ num: this.state.num + 1 })
     }
 
+
+    sendInvitations = (e) => {
+        this.props.store.theInvitationIndex(e.target.id)
+        let item = this.props.store
+        let e_index = item.eventIndex;
+        let i_Index = e.target.id;
+        let event = item.user.events[e_index];
+        let vet = event.invitations[i_Index];
+        let vetId = vet._id;
+        let guestId = "temid"
+        let getAllGuest = event.guests
+
+        console.log(JSON.stringify(getAllGuest))
+        let invet = event.invitations[i_Index];
+        console.log(invet.fontBody)
+        console.log(JSON.stringify(invet))
+        let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
+        console.log(linkRsvp2)
+        // let linkRsvp = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/`
+
+        axios.post(`/beOurGuest/rsvpEmail/${vetId}/${event._id}/`, invet)
+            .then(response => {
+                console.log("send all email ")
+                console.log((response.data))
+            })
+    }
     render() {
 
         const item = this.props.store;
-        // console.log(item.user.events[item.eventIndex].invitations.length)
         return (
             <div className="container">
 

@@ -67,10 +67,10 @@ class CreateGuest extends Component {
     let index = e.target.name;
     let guestId = this.props.store.user.guests[index]._id;
     axios.delete(`/beOurGuest/removeGuest/${this.props.store.user._Id}/${guestId}/`)
-    .then(response => {
-      console.log((response.data))
-      this.store.removGuest(e.target.name)
-    })
+      .then(response => {
+        console.log((response.data))
+        this.store.removGuest(e.target.name)
+      })
   }
 
   handleSaveGuest = (e) => {
@@ -80,19 +80,19 @@ class CreateGuest extends Component {
     // app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     axios.post(
       '/beOurGuest/addNewGuest/' + this.props.store.user._Id +
-        '/' + this.props.store.user.events[this.props.store.eventIndex]._id,
+      '/' + this.props.store.user.events[this.props.store.eventIndex]._id,
       this.state)
-    .then(response => {
-      if (response === null) {
-        console.log("Failed to add new guest!");
-      }
-      else {
-        console.log("New globalGuest " + response.data.globalGuestId + " added");
-        console.log("New guest " + response.data.guestId + " added");
-        this.props.store.addGuest(response.data)
-      }
-    })
-    .catch(err => console.log('Error: ', err));
+      .then(response => {
+        if (response === null) {
+          console.log("Failed to add new guest!");
+        }
+        else {
+          console.log("New globalGuest " + response.data.globalGuestId);
+          console.log("New guest " + response.data.guestId);
+          this.props.store.addGuest(response.data)
+        }
+      })
+      .catch(err => console.log('Error: ', err));
   }
 
   categoryListElement = () => {
@@ -114,18 +114,18 @@ class CreateGuest extends Component {
               <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
               <ModalBody>
                 <TextField
-                    id="name" label="Name" type="text" className="textField"
-                    name="name" onChange={this.onChangeText} value={this.inputText}
+                  id="name" label="Name" type="text" className="textField"
+                  name="name" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
-                    id="email" label="Email" type="email" className="textField"
-                    name="email" onChange={this.onChangeText} value={this.inputText}
+                  id="email" label="Email" type="email" className="textField"
+                  name="email" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
-                    id="phone" label="Phone" type="text" className="textField"
-                    name="phone" onChange={this.onChangeText} value={this.inputText}
+                  id="phone" label="Phone" type="text" className="textField"
+                  name="phone" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
 
@@ -148,17 +148,17 @@ class CreateGuest extends Component {
 
                 <TextField
                   id="invited" label="Invited" type="number" className="textField"
-                    name="invited" onChange={this.onChangeText} value={this.inputText}
+                  name="invited" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
-                    id="coming" label="Coming" type="number" className="textField"
-                    name="coming" onChange={this.onChangeText} value={this.inputText}
+                  id="coming" label="Coming" type="number" className="textField"
+                  name="coming" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
                   id="notComing" label="Not coming" type="number" className="textField"
-                    name="notComing" onChange={this.onChangeText} value={this.inputText}
+                  name="notComing" onChange={this.onChangeText} value={this.inputText}
                 />
               </ModalBody>
               <ModalFooter>
