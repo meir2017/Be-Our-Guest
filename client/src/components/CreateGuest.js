@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-// import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 import axios from 'axios';
 import MyModal from './Modal';
 
@@ -33,20 +28,6 @@ class CreateGuest extends Component {
     };
   }
 
-  // const styles = theme => ({
-  //   root: {
-  //     display: 'flex',
-  //     flexWrap: 'wrap',
-  //   },
-  //   formControl: {
-  //     margin: theme.spacing.unit,
-  //     minWidth: 120,
-  //   },
-  //   selectEmpty: {
-  //     marginTop: theme.spacing.unit * 2,
-  //   },
-  // });
-  
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -95,10 +76,10 @@ class CreateGuest extends Component {
       .catch(err => console.log('Error: ', err));
   }
 
-  categoryListElement = () => {
+  categoryListElements = () => {
     this.props.store.user.categories.map((caterory, index) => {
       return (
-        <MenuItem value={(index + 1) * 10}>{caterory.name}</MenuItem>
+        <MenuItem value={index}>{caterory.name}</MenuItem>
       )
     })
   }
@@ -128,23 +109,21 @@ class CreateGuest extends Component {
                   name="phone" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
+                <br />
 
-                <form autoComplete="off">
-                  <FormControl>
-                    <InputLabel htmlFor="category-helper">Category</InputLabel>
-                    <Select
-                      value={this.state.category}
-                      onChange={this.handleChange}
-                      input={<Input name="category" id="category-helper" />}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {this.categoryListElement()}
-                    </Select>
-                    <FormHelperText>Please select from list of categories</FormHelperText>
-                  </FormControl>
-                </form>
+                <InputLabel htmlFor="category">Category</InputLabel>
+                <Select
+                  native
+                  label="Category" 
+                  value={this.state.category}
+                  name="category"
+                  onChange={this.handleChange} >
+                  <option value="Category" />
+                  {this.props.store.user.categories.map((item, index) => {
+                    return <option key={item._id} value={item._id}>{item.name}</option>
+                  })}
+                </Select>
+                <br />
 
                 <TextField
                   id="invited" label="Invited" type="number" className="textField"

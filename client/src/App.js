@@ -4,18 +4,11 @@ import axios from 'axios';
 
 import './App.css';
 import EventManager from './components/EventManager';
-import { BrowserRouter, Route, Link } from 'react-router-dom'
-import CreateEvent from './components/CreateEvent';
+import { BrowserRouter, Route } from 'react-router-dom'
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
-import TableList from './components/TableList';
 import { DragDropContext } from 'react-beautiful-dnd';
-import LogIn from './components/LogIn';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
 import Rsvp from './components/Rsvp';
-import Test from './components/Test';
-
 
 @inject("store")
 @observer
@@ -31,15 +24,21 @@ class App extends Component {
   }
 
   componentWillMount() {
-    axios.post('/beOurGuest/login', { username: "user1", password: "111" })
-      .then(response => {
-        if (response.data !== "") {
-          // console.log("user login  " + JSON.stringify(response.data))
-          this.props.store.updateUser(response.data)
-        } else {
-          console.log("no user Account ")
-        }
-      }).catch(function (error) { console.log(error); });
+    let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
+    if (user !== null) {
+      console.log(user.username);
+      axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
+        .then(response => {
+          if (response.data !== "") {
+            // console.log("user login  " + JSON.stringify(response.data))
+            this.props.store.updateUser(response.data);
+          }
+          else {
+            console.log("no user Account ")
+          }
+        })
+        .catch(function (error) { console.log(error); });
+    }
   }
 
   onDragEnd = result => {
@@ -96,20 +95,6 @@ class App extends Component {
     this.props.store.user.events[this.props.store.eventIndex].tables = newTables;
   }
 
-  componentWillMount() {
-    let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
-    console.log(user.username)
-    if (user != null)
-      axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
-        .then(response => {
-          if (response.data !== "") {
-            // console.log("user login  " + JSON.stringify(response.data))
-            this.props.store.updateUser(response.data)
-          } else {
-            console.log("no user Account ")
-          }
-        }).catch(function (error) { console.log(error); });
-  }
 
 
 

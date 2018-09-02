@@ -133,9 +133,9 @@ app.post('/beOurGuest/newUser', (req, res) => {
 //login   and get user model
 app.post('/beOurGuest/login', (req, res) => {
   let userinfo = req.body;
-  User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] }).
+  User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] })
     // populate('events').  categories
-    populate({
+    .populate({
       path: 'events',
       populate: {
         path: 'invitations'
@@ -224,13 +224,14 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
           let myGuest = new Guest({
             globalGuest_id: globalGuest._id,
             invitations: [],
-            categories: newGuest.categories,
+            categories: [],
             comment: newGuest.comment,
             numInvited: newGuest.invited,
-            numConfirmed: newGuest.coming,
+            numComing: newGuest.coming,
             numNotComing: newGuest.notComing,
             seated: false
           });
+          myGuest.categories.push(newGuest.category);
 
           Event.findById(req.params.eventId)
             .then(event => {
@@ -258,7 +259,7 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
                     categories: guest.categories,
                     comment: guest.comment,
                     numInvited: guest.numInvited,
-                    numConfirmed: guest.numConfirmed,
+                    numComing: guest.numComing,
                     numNotComing: guest.numNotComing,
                     seated: false
                   };
@@ -274,10 +275,24 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     })
 });
 
+// remove guest
+app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
+  Event.findOne({ _id: req.params.eventId })
+    .then(user => {
+      listGuests = user.guests.concat();
+      listGuests.splice(req.params.index, 1);
+      user.guests = listGuests;
+      user.save()
+        .then(() => Guest.findByIdAndRemove({ _id: req.params.guestId }))
+        .then(res.send("guest deleted"))
+    })
+});
+
+
 // remove event
 app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
-  console.log("user id  +" + req.params.userId)
-  console.log("event id  +" + req.params.eventId)
+  console.log("user id + " + req.params.userId)
+  console.log("event id + " + req.params.eventId)
   User.findOne({ _id: req.params.userId })
     .then(user => {
       listEvents = user.events.concat();
@@ -285,7 +300,7 @@ app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
       user.events = listEvents;
       user.save()
         .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
-        .then(res.send("event delete"))
+        .then(res.send("event deleted"))
     })
   // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
   //     .then(result => Event.findByIdAndRemove({ _id: req.params.eventId })
