@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
+// import PropTypes from 'prop-types';
+// import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import MyModal from './Modal';
 
-import { observable, action } from "mobx";
 import { observer, inject } from 'mobx-react';
 
 
@@ -19,12 +26,31 @@ class CreateGuest extends Component {
       name: "",
       email: "",
       phone: "",
+      category: "",
       invited: 0,
       coming: 0,
       notComing: 0
     };
   }
 
+  // const styles = theme => ({
+  //   root: {
+  //     display: 'flex',
+  //     flexWrap: 'wrap',
+  //   },
+  //   formControl: {
+  //     margin: theme.spacing.unit,
+  //     minWidth: 120,
+  //   },
+  //   selectEmpty: {
+  //     marginTop: theme.spacing.unit * 2,
+  //   },
+  // });
+  
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  
   onChangeText = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -69,6 +95,14 @@ class CreateGuest extends Component {
       .catch(err => console.log('Error: ', err));
   }
 
+  categoryListElement = () => {
+    this.props.store.user.categories.map((caterory, index) => {
+      return (
+        <MenuItem value={(index + 1) * 10}>{caterory.name}</MenuItem>
+      )
+    })
+  }
+
   render() {
     return (
       <div>
@@ -94,6 +128,24 @@ class CreateGuest extends Component {
                   name="phone" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
+
+                <form autoComplete="off">
+                  <FormControl>
+                    <InputLabel htmlFor="category-helper">Category</InputLabel>
+                    <Select
+                      value={this.state.category}
+                      onChange={this.handleChange}
+                      input={<Input name="category" id="category-helper" />}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {this.categoryListElement()}
+                    </Select>
+                    <FormHelperText>Please select from list of categories</FormHelperText>
+                  </FormControl>
+                </form>
+
                 <TextField
                   id="invited" label="Invited" type="number" className="textField"
                   name="invited" onChange={this.onChangeText} value={this.inputText}
@@ -120,13 +172,5 @@ class CreateGuest extends Component {
     );
   }
 }
-// {this.props.store.user.guests.map((eve, index) => {
-//   return (
-//     <div key={eve.HostName + eve.Location} index={index} className="guestAll">
-//       <Button className="btnguest" name={index}  >{eve.Title} <b>In </b>   {eve.Location}</Button>
-//       <br /> <br />
-//     </div>
-//   )
-// })}
 
 export default CreateGuest;
