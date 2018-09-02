@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
 import axios from 'axios';
+import ClearIcon from '@material-ui/icons/Clear';
 
 // import classNames from 'classnames';
 import {
@@ -53,6 +54,14 @@ const styles = theme => ({
     ul: {
         backgroundColor: 'inherit',
         padding: 0,
+    },
+    icon: {
+        height: 20,
+        width: 20,
+    },
+    iconButton: {
+        height: 35,
+        width: 35,
     },
 });
 
@@ -175,10 +184,14 @@ class OurMenu extends Component {
                                                                 <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
                                                                     <Icon onClick={this.handleEdit} id={index} >edit_icon</Icon>
                                                                 </IconButton>
-                                                                <IconButton aria-label="Delete">
+                                                                <IconButton aria-label="Delete" className={classes.iconButton} id={index} onClick={this.handlerRemoveEvent} >
+                                                                    <ClearIcon className={classes.icon} />
+                                                                </IconButton>
+                                                                
+                                                                {/* <IconButton aria-label="Delete">
                                                                     <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
                                                                 </IconButton>
-                                                                {/* <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i> */}
+                                                                 <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i> */}
                                                             </ListItem>
                                                         })}
                                                     </ul>
