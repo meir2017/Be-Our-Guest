@@ -108,10 +108,10 @@ text-align: left
 margin-right: 30px;
 }
 
-/* width */
+/* width
 ::-webkit-scrollbar {
   width: 5px;
-}
+} */
 
 /* Track */
 /* ::-webkit-scrollbar-track {
@@ -122,16 +122,16 @@ margin-right: 30px;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background: #888;
   width: 2px
-}
+} */
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: #555;
   width: 5px
-} 
+}  */
 
 
 

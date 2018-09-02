@@ -11,43 +11,33 @@ import {
 import OurMenu from './OurMenu';
 import AccountManager from './AccountManager';
 const styles = theme => ({
-    root: {
-        flexGrow: 1
+    root: {        
+        display: 'flex',       
     },
-    flex: {
-        flexGrow: 1
+    menu: {
+        flexGrow: 1,        
+        // justifyContent: 'flex-start',
+        // display: 'flex',
+        // flexDirection: 'row',
+        // flexWrap: 'nowrap',
+       // justifyContent: 'space-between',
     },
     menuButton: {
-        marginLeft: -12,
-        marginRight: 20
+        // justifyContent: 'flex-start',
+        flexGrow: 1,
+        // position: 'absolute',
+        // top: 10,
+        // left:10,
+        // marginLeft: -120,
+        // marginRight: 20
     },
-    menuAccountButton: {
-        float: 'right',
-        //marginRight: 1520,
-        marginLeft: 1150,
+    space: {
+        flexGrow: 6,
     },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-    },
-    paper: {
-        width: 300,
-    },
-    rootList: {
-        width: '100%',
-        maxWidth: 260,
-        backgroundColor: theme.palette.background.paper,
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 300,
-    },
-    listSection: {
-        backgroundColor: 'inherit',
-    },
-    ul: {
-        backgroundColor: 'inherit',
-        padding: 0,
-    },
+    account:{
+        // flexGrow: 1,        
+        justifyContent: 'flex-end',
+    }
 });
 
 class Navbar extends Component {
@@ -85,7 +75,6 @@ class Navbar extends Component {
     };
 
 
-
     render() {
         const { classes } = this.props;
         const { anchorMenu, anchorMenuAccount, expanded } = this.state;
@@ -96,9 +85,9 @@ class Navbar extends Component {
 
             <div className={classes.root} >
                 <AppBar position="static">
-                    <Toolbar>
-                        <OurMenu />
-                        <AccountManager />
+                    <Toolbar className={classes.menu}>
+                        <OurMenu className={classes.menuButton} />
+                        <AccountManager className={classes.account} />
                     </Toolbar>
                 </AppBar>
             </div>

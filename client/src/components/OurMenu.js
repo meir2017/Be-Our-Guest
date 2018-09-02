@@ -19,20 +19,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
     root: {
-        flexGrow: 1
-    },
-    flex: {
-        flexGrow: 1
-    },
+        flexGrow: 1,
+        display: 'flex',  
+        justifyContent: 'flex-start',
+    },    
     menuButton: {
-        marginLeft: -12,
-        marginRight: 20
-    },
-    menuAccountButton: {
-        float: 'right',
-        //marginRight: 1520,
-        marginLeft: 1150,
-    },
+        // marginLeft: -12,
+        // marginRight: 20
+    },    
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
