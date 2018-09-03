@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   /* background-color:lightslategray; */
-  min-height: 710px;
+  min-height: 100%;
 }
 
 .App-logo {
@@ -17,6 +17,11 @@
 
 .App-intro {
   font-size: large;
+}
+
+body{
+overflow-y: hidden;
+overflow-x: hidden;
 }
 
 @keyframes App-logo-spin {
@@ -46,23 +51,7 @@
   
 }
 
-.tables-container{
-  display: flex;
-  flex-direction: row;
-  height: 500px;
-  width: 100%;
-  background-color: rgb(48, 47, 47);
-  position: relative;
-  overflow: hidden;
-}
 
-.guest-container{
- padding:10px;
- background-color: black;
- border-color: rgb(164, 164, 168);
- border-width: 2px;
- border-style: solid;
-}
 
 *{
   box-sizing: border-box;

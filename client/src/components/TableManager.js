@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TableList from './TableList';
-import AddTableButton from './AddTableButton';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 

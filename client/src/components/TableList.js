@@ -52,7 +52,7 @@ class TableList extends Component {
             category: '',
             anchorEl: null,
         }
-         //this.props.store.populateEvent();
+         this.props.store.populateEvent();
     }
 
     handleClick = event => {
@@ -86,7 +86,7 @@ class TableList extends Component {
         axios.post(`/beOurGuest/createTable/${eventId}/`, tableInfo)
             .then(response => {
                 console.log((response.data))
-                // this.props.store.addTable(response.data)
+                 this.props.store.addTable(response.data)
             })
         this.handleClose();
     }

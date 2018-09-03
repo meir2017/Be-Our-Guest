@@ -48,8 +48,8 @@ const styles = theme => ({
         borderWidth: 2,
         borderStyle: 'solid',
         borderColor: 'black',
-       /*  position: 'fixed',
-        zIndex:2, */
+         /* position: 'fixed',
+        zIndex:2,  */
         overflow:'hidden',
 
 
@@ -93,6 +93,8 @@ const styles = theme => ({
     guestListWrapper: {
         paddingTop:5,
         overflowY: 'scroll',
+        height:'100%'
+        
     }
 
 
@@ -110,6 +112,18 @@ class Table0 extends Component {
         const { classes } = this.props;
         let store = this.props.store;
         let currentEvent = store.user.events[store.eventIndex];
+        let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
+        let sumTotalInvities = 0;
+        let sumNotSeated = 0;
+
+        for (let i=0; i<currentEvent.guests.length; i++){
+            sumTotalInvities += (currentEvent.guests[i].numInvited - currentEvent.guests[i].numNotComing ) 
+        }
+        for (let i=0; i<unseatedGuests.length; i++){
+            sumNotSeated += (unseatedGuests[i].numInvited - unseatedGuests[i].numNotComing ) 
+        }
+
+        console.log(currentEvent.guests);
         return (
 
             <Droppable droppableId={String(this.props.index)}>
@@ -121,19 +135,17 @@ class Table0 extends Component {
                         <Paper className={classes.tableWrapper} >
                             <Paper className={classes.tableHeader} >
                                 <Grid container spacing={0}>
-                                    <Grid item xs={12} align="right" spacing={0}>
+                                    <Grid item xs={12} align="right">
                                         <IconButton aria-label="Edit" className={classes.iconButton} >
                                             <EditIcon className={classes.icon} />
                                         </IconButton>
-
                                     </Grid>
                                     <Grid item xs={12} align="center">
-    
                                         <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
                                             Unseated Guests
                                         </Typography>
                                         <Avatar className={classes.tableAvatar}>
-                                         {currentEvent.guests.length} / {currentEvent.guests.length}
+                                         {sumNotSeated}/{sumTotalInvities}
                                         </Avatar>
                                     </Grid>
                                 </Grid>
@@ -141,7 +153,7 @@ class Table0 extends Component {
 
                             </Paper>
                             <div className={classes.guestListWrapper}>
-                                {currentEvent.guests.map((guest, index) => (
+                                {currentEvent.guests.filter(guest => guest.seated === false).map((guest, index) => (
                                     <Guest index={index} key={guest._id} guest={guest} />
                                 ))}
                             </div>

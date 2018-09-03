@@ -53,7 +53,7 @@ const Container = styled.div`
 class Guest extends Component {
 
     render() {
-        const { classes } = this.props;
+        const { classes, guest } = this.props;
         console.log(this.props.store.user.catagories);
         return (
             <Draggable draggableId={this.props.guest._id} index={this.props.index}>
@@ -76,8 +76,8 @@ class Guest extends Component {
                                         </Grid>
                                         <Grid item xs={10}>
                                             <Chip
-                                                avatar={<Avatar>3/5</Avatar>}
-                                                label={this.props.guest.name}
+                                                avatar={<Avatar>{guest.numConfirmed}/{guest.numInvited - guest.numNotComing}</Avatar>}
+                                                label={guest.name}
                                                 className={classes.chip}
                                             />
                                         </Grid>

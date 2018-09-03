@@ -76,6 +76,10 @@ const styles = theme => ({
         height: 20,
         width: 20,
 
+    },
+    guestListWrapper: {
+        paddingTop: 5,
+        overflowY: 'scroll',
     }
 
 
@@ -92,50 +96,63 @@ class Table extends Component {
 
     render() {
         const { classes } = this.props;
-        let tableNum = this.props.index + 1;
+        const colorCode = this.props.store.user.categories.find(
+            category => category._id === this.props.table.category).colorCode;
+        let guests = this.props.table.guests;
+        let sumGuests = 0;
+        for( let i=0; i<guests.length; i++){
+            sumGuests += (guests[i].numInvited - guests[i].numNotComing);
+        }
+
+
         return (
 
-            <Droppable droppableId={String(this.props.index)}>
-                {(provided) => (
-                    <div style={{ height: '100%' }}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}>
+            <div>
 
-                        <Paper className={classes.tableWrapper} >
-                            <Paper className={classes.tableHeader} >
-                                <Grid container spacing={0}>
-                                    <Grid item xs={12} align="right" spacing={0}>
-                                        <IconButton aria-label="Edit" className={classes.iconButton} >
-                                            <EditIcon className={classes.icon} />
-                                        </IconButton>
-                                        <IconButton aria-label="Delete" className={classes.iconButton} >
-                                            <ClearIcon className={classes.icon} />
-                                        </IconButton>
-                                    </Grid>
-                                    <Grid item xs={12} align="center">
-                                        <Typography variant="caption" gutterBottom align="center">
-                                            Table {this.props.index + 1}
-                                        </Typography>
-                                        <Typography variant="title" gutterBottom align="center" >
-                                            {this.props.table.title}
-                                        </Typography>
-                                        <Avatar className={classes.tableAvatar} style={{ backgroundColor: this.props.table.category.colorCode }}>10/12</Avatar>
-                                    </Grid>
-                                </Grid>
+                <Paper className={classes.tableWrapper} >
+                    <Paper className={classes.tableHeader} >
+                        <Grid container spacing={0}>
+                            <Grid item xs={12} align="right">
+                                <IconButton aria-label="Edit" className={classes.iconButton} >
+                                    <EditIcon className={classes.icon} />
+                                </IconButton>
+                                <IconButton aria-label="Delete" className={classes.iconButton} >
+                                    <ClearIcon className={classes.icon} />
+                                </IconButton>
+                            </Grid>
+                            <Grid item xs={12} align="center">
+                                <Typography variant="caption" gutterBottom align="center">
+                                    Table {this.props.index + 1}
+                                </Typography>
+                                <Typography variant="title" gutterBottom align="center" >
+                                    {this.props.table.title}
+                                </Typography>
+                                <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
+                                {sumGuests}/{this.props.table.maxGuests}</Avatar>
+                            </Grid>
+                        </Grid>
 
 
-                            </Paper>
-                            <div style={{ paddingTop: 5 }}>
+                    </Paper>
+                    <Droppable droppableId={String(this.props.index)}>
+                        {(provided) => (
+                            <div style={{ height: '100%' }}
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className={classes.guestListWrapper}>
+
                                 {this.props.table.guests.map((guest, index) => (
                                     <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
                                 ))}
+                                 {provided.placeholder}
                             </div>
 
-                            {provided.placeholder}
-                        </Paper>
-                    </div>
-                )}
-            </Droppable>
+                           
+                    )}
+                        </Droppable>
+                </Paper>
+            </div>
+
 
 
 

@@ -116,7 +116,7 @@ class AddTableModal extends Component {
         .then(response => {
     
           console.log(" new Table ->id  =" + response.data._id)
-          this.props.store.addTable(response.data)
+          this.props.store.addTable(response.data);
     
         })
         .catch(err => console.log('Error: ', err));
@@ -170,7 +170,7 @@ class AddTableModal extends Component {
                                 label="Max number of guests"
                                 type="number"
                                 value={this.state.tableSize}
-                                placeholder="Enter number of pleces"
+                                placeholder="Enter number of places"
                                 onChange={this.handleTextChange}
                                 className={classes.textField}
                                 InputLabelProps={{
