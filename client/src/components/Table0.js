@@ -108,6 +108,10 @@ const styles = theme => ({
 @observer
 class Table0 extends Component {
 
+    handleOnClick = (guestIndex) => {
+
+    }
+
     render() {
         const { classes } = this.props;
         let store = this.props.store;
@@ -126,7 +130,7 @@ class Table0 extends Component {
         console.log(currentEvent.guests);
         return (
 
-            <Droppable droppableId={String(this.props.index)}>
+            <Droppable droppableId={"-1"}>
                 {(provided) => (
                     <div style={{ height: '100%' }}
                         ref={provided.innerRef}
@@ -154,7 +158,7 @@ class Table0 extends Component {
                             </Paper>
                             <div className={classes.guestListWrapper}>
                                 {currentEvent.guests.filter(guest => guest.seated === false).map((guest, index) => (
-                                    <Guest index={index} key={guest._id} guest={guest} />
+                                    <Guest index={index} key={guest._id} guest={guest} handleOneClick={this.handleOnClick}/>
                                 ))}
                             </div>
 

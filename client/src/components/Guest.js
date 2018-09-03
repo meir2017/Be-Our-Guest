@@ -83,7 +83,7 @@ class Guest extends Component {
                                         </Grid>
 
                                         <Grid item xs={1}>
-                                            <IconButton aria-label="Delete" className={classes.iconButton} >
+                                            <IconButton aria-label="Delete" className={classes.iconButton} onClick={(e)=>{this.props.handleOnClick(this.props.index)}} >
                                                 <ClearIcon className={classes.icon} />
                                             </IconButton>
                                         </Grid>

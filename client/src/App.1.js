@@ -54,12 +54,9 @@ class App extends Component {
     }
 
 
-   
 
     if (result.source.droppableId === "-1") {
-      const destinationIndex = currentEvent.tables.findIndex(table => table._id === result.destination.droppableId);
-
-      let finish = currentEvent.tables[destinationIndex];
+      let finish = currentEvent.tables[Number(result.destination.droppableId)];
       let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
       let myGuest = unseatedGuests[result.source.index];
       let guestSourceIndex = currentEvent.guests.findIndex(guest => guest._id === myGuest._id);
@@ -76,7 +73,7 @@ class App extends Component {
       //TODO update to db
 
       let newTables = currentEvent.tables.splice(0);
-      newTables[destinationIndex] = newFinish;
+      newTables[Number(result.destination.droppableId)] = newFinish;
 
       this.props.store.updateTables(newTables);
       this.props.store.updateGuests(newGuests);
@@ -84,8 +81,7 @@ class App extends Component {
     }
 
     if (result.destination.droppableId === "-1") {
-      const sourceIndex = currentEvent.tables.findIndex(table => table._id === result.source.droppableId);
-      let start = Object.assign(currentEvent.tables[sourceIndex]);
+      let start = Object.assign(currentEvent.tables[Number(result.source.droppableId)]);
       const newGuests = Array.from(start.guests);
       let myGuest = newGuests.splice(result.source.index, 1);
       let index = currentEvent.guests.findIndex(guest => myGuest[0]._id === guest._id);
@@ -97,10 +93,10 @@ class App extends Component {
       //TODO update to db
 
       let newTables = Array.from(currentEvent.tables);
-      newTables[sourceIndex] = start;
+      newTables[Number(result.source.droppableId)] = start;
 
 
-      this.props.store.updateTable(start, sourceIndex);
+      this.props.store.updateTable(start, Number(result.source.droppableId));
       //this.props.store.updateTables(newTables);
       this.props.store.updateGuests(eventGuests);
 
@@ -109,11 +105,11 @@ class App extends Component {
     }
 
 
-    const sourceIndex = currentEvent.tables.findIndex(table => table._id === result.source.droppableId);
-    const destinationIndex = currentEvent.tables.findIndex(table => table._id === result.destination.droppableId);
 
-    const start = currentEvent.tables[sourceIndex];
-    const finish = currentEvent.tables[destinationIndex];
+
+
+    const start = currentEvent.tables[Number(result.source.droppableId)];
+    const finish = currentEvent.tables[Number(result.destination.droppableId)];
 
     if (start === finish) {
       const newGuests = Array.from(start.guests);
@@ -127,7 +123,7 @@ class App extends Component {
       };
 
       let newTables = Array.from(currentEvent.tables);
-      newTables[sourceIndex] = newTable;
+      newTables[Number(result.source.droppableId)] = newTable;
 
       this.props.store.updateTables(newTables);
       return;
@@ -149,8 +145,8 @@ class App extends Component {
     }
 
     let newTables = Array.from(currentEvent.tables);
-    newTables[sourceIndex] = newStart;
-    newTables[destinationIndex] = newFinish;
+    newTables[Number(result.source.droppableId)] = newStart;
+    newTables[Number(result.destination.droppableId)] = newFinish;
 
     this.props.store.updateTables(newTables);
   }

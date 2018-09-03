@@ -93,6 +93,43 @@ const styles = theme => ({
 @inject("store")
 @observer
 class Table extends Component {
+    handleOnClick = (guestIndex) => {
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        let tables = currentEvent.tables.splice(0);
+        let guests = currentEvent.guests.splice(0);
+
+        let myTable = tables.find(table => this.props.table._id === table._id);
+        let myGuest = myTable.guests.splice(guestIndex, 1);
+
+        let theGuest = guests.find(guest => guest._id === myGuest[0]._id);
+        theGuest.seated = false;
+
+        this.props.store.updateGuests(guests);
+        this.props.store.updateTables(tables);
+
+    }
+
+    handleDeleteTable = () => {
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        let tables = currentEvent.tables.splice(0);
+        let guests = currentEvent.guests.splice(0);
+
+        let myTable = tables.find(table => this.props.table._id === table._id);
+        let tableIndex = tables.findIndex(table => this.props.table._id === table._id)
+
+
+        for (let i = 0; i < myTable.guests.length; i++) {
+            let guestIndex = guests.findIndex(guest => guest._id === myTable.guests[i]._id);
+            guests[guestIndex].seated = false;
+        }
+
+        tables.splice(tableIndex,1);
+
+        this.props.store.updateGuests(guests);
+        this.props.store.updateTables(tables);
+
+
+    }
 
     render() {
         const { classes } = this.props;
@@ -100,15 +137,13 @@ class Table extends Component {
             category => category._id === this.props.table.category).colorCode;
         let guests = this.props.table.guests;
         let sumGuests = 0;
-        for( let i=0; i<guests.length; i++){
+        for (let i = 0; i < guests.length; i++) {
             sumGuests += (guests[i].numInvited - guests[i].numNotComing);
         }
 
 
         return (
-
             <div>
-
                 <Paper className={classes.tableWrapper} >
                     <Paper className={classes.tableHeader} >
                         <Grid container spacing={0}>
@@ -116,7 +151,7 @@ class Table extends Component {
                                 <IconButton aria-label="Edit" className={classes.iconButton} >
                                     <EditIcon className={classes.icon} />
                                 </IconButton>
-                                <IconButton aria-label="Delete" className={classes.iconButton} >
+                                <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleDeleteTable} >
                                     <ClearIcon className={classes.icon} />
                                 </IconButton>
                             </Grid>
@@ -128,13 +163,13 @@ class Table extends Component {
                                     {this.props.table.title}
                                 </Typography>
                                 <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
-                                {sumGuests}/{this.props.table.maxGuests}</Avatar>
+                                    {sumGuests}/{this.props.table.maxGuests}</Avatar>
                             </Grid>
                         </Grid>
 
 
                     </Paper>
-                    <Droppable droppableId={String(this.props.index)}>
+                    <Droppable droppableId={this.props.table._id}>
                         {(provided) => (
                             <div style={{ height: '100%' }}
                                 ref={provided.innerRef}
@@ -142,14 +177,14 @@ class Table extends Component {
                                 className={classes.guestListWrapper}>
 
                                 {this.props.table.guests.map((guest, index) => (
-                                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
+                                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} handleOnClick={this.handleOnClick} />
                                 ))}
-                                 {provided.placeholder}
+                                {provided.placeholder}
                             </div>
 
-                           
-                    )}
-                        </Droppable>
+
+                        )}
+                    </Droppable>
                 </Paper>
             </div>
 
