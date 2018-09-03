@@ -18,6 +18,7 @@
     "eject": "0.0.4",
     "express": "^4.16.3",
     "mongoose": "^5.2.8",
+    "mongoose-deep-populate": "^3.1.1",
     "nodemailer": "^4.6.8",
     "nodemailer-juice": "^1.0.0",
     "react-beautiful-dnd": "^9.0.2",

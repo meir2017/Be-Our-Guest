@@ -31,7 +31,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    axios.post('/beOurGuest/login', { name: "111", pass: "111" })
+    axios.post('/beOurGuest/login', { username: "user1", password: "111" })
       .then(response => {
         if (response.data !== "") {
           // console.log("user login  " + JSON.stringify(response.data))
@@ -104,15 +104,18 @@ class App extends Component {
   }
 
   componentWillMount() {
-    axios.post('/beOurGuest/login', { name: "user1", pass: "111" })
-      .then(response => {
-        if (response.data !== "") {
-          // console.log("user login  " + JSON.stringify(response.data))
-          this.props.store.updateUser(response.data)
-        } else {
-          console.log("no user Account ")
-        }
-      }).catch(function (error) { console.log(error); });
+    let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
+    console.log(user.username)
+    if (user != null)
+      axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
+        .then(response => {
+          if (response.data !== "") {
+            // console.log("user login  " + JSON.stringify(response.data))
+            this.props.store.updateUser(response.data)
+          } else {
+            console.log("no user Account ")
+          }
+        }).catch(function (error) { console.log(error); });
   }
 
 
@@ -126,18 +129,21 @@ class App extends Component {
     console.log("update");
   }
 
+  ChangeToRsvpPage = (e) => {
+    this.setState({ rsvpfunc: true })
+  }
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <div className="App">
 
-          <Navbar />
+          {!this.state.rsvpfunc && <Navbar />}
           {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
 
           <BrowserRouter>
             <Route
-              exact path="/beuorguest/rsvp/:evntid/:guestid"
-              render={(props) => <Rsvp {...props} Options={this.Options} />}
+              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+              render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
             />
           </BrowserRouter>
         </div>

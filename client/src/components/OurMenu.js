@@ -15,6 +15,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CreateCategory from './CreateCategory';
 
 const styles = theme => ({
     root: {
@@ -67,6 +68,7 @@ class OurMenu extends Component {
             anchorMenuAccount: null,
             expanded: null,
             modalCreate: false,
+            modalCategory: false,
         };
 
         // this.handlerRemoveEvent = this.handlerRemoveEvent.bind(this);
@@ -75,6 +77,10 @@ class OurMenu extends Component {
 
     openModalCreate = (e) => {
         this.setState({ modalCreate: !this.state.modalCreate });
+        // this.handleClose(e)
+    }
+    openModalCategory = (e) => {
+        this.setState({ modalCategory: !this.state.modalCategory });
         // this.handleClose(e)
     }
     handleClose = event => {
@@ -120,7 +126,7 @@ class OurMenu extends Component {
         alert("e.target.id; " + e.target.id);
     }
     handleEvent = (index) => {
-        this.props.store.mYeventindex(index)
+        this.props.store.thisEventIndex(index)
 
     }
 
@@ -133,7 +139,7 @@ class OurMenu extends Component {
         // const openEvent = Boolean(expanded);
         return (
 
-            <div className={classes.root} >
+            <div className={classes.root} id="x1">
 
                 <IconButton
                     buttonRef={node => {
@@ -178,7 +184,6 @@ class OurMenu extends Component {
                                                                 <IconButton aria-label="Delete">
                                                                     <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
                                                                 </IconButton>
-                                                                {/* <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i> */}
                                                             </ListItem>
                                                         })}
                                                     </ul>
@@ -186,16 +191,28 @@ class OurMenu extends Component {
 
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
-                                        <MenuItem onClick={this.handleClose} >Create Category</MenuItem>
+                                        <MenuItem onClick={this.handleClose} onClick={this.openModalCategory}  >List of categories</MenuItem>
                                         <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                                 <Typography className={classes.heading}>Select Category</Typography>
                                             </ExpansionPanelSummary>
                                             <ExpansionPanelDetails>
-                                                <Typography variant="title">
-                                                    any Category
-                                                        </Typography>
-                                                {/* <myList props={classes} /> */}
+                                                <List className={classes.rootList} subheader={<li />}>
+                                                    <ul>
+                                                        {this.props.store.user.categories.map((item, index) => {
+                                                            return <ListItem key={item._id}
+                                                                name={index} className="itemcategories" button divider disableGutters>
+
+                                                                <ListItemText id={index} onClick={(e) => { this.handleClose(e) }} primary={item.name} />
+
+                                                                <Divider />
+                                                                <IconButton onClick={this.handleClose} className={classes.button} >
+                                                                    <i className="fas fa-circle" style={{ color: item.colorCode }}></i>
+                                                                </IconButton>
+                                                            </ListItem>
+                                                        })}
+                                                    </ul>
+                                                </List>
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
                                     </MenuList>
@@ -207,6 +224,8 @@ class OurMenu extends Component {
 
                 <CreateEvent openModalCreate={this.openModalCreate}
                     modalCreate={this.state.modalCreate} />
+                <CreateCategory openModalCategory={this.openModalCategory}
+                    modalCategory={this.state.modalCategory} />
             </div>
         );
     }

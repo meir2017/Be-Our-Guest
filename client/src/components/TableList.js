@@ -6,11 +6,16 @@ import Table0 from './Table0';
 import AddTableModal from './AddTableModal'
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
-import { 
+import {
     withStyles,
     Grid
-} from '@material-ui/core';
-
+}
+    from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
+import AddIcon from '@material-ui/icons/Add';
+import axios from 'axios';
 
 
 const styles = theme => ({
@@ -41,32 +46,77 @@ justify-content:space-around;
 class TableList extends Component {
     constructor(props) {
         super(props);
-        this.props.store.populateEvent();
+        this.state = {
+            title: '',
+            maxGuests: '',
+            category: '',
+            anchorEl: null,
+        }
+         //this.props.store.populateEvent();
     }
 
+    handleClick = event => {
+        this.setState({
+            anchorEl: event.currentTarget,
+        });
+    };
+
+    handleClose = () => {
+        this.setState({
+            anchorEl: null,
+        });
+    };
+    onChangeText = (e) => {
+        e.preventDefault();
+        this.setState({ [e.target.name]: e.target.value });
+
+    }
+    saveTable = (e) => {
+        console.log("title  " + this.state.title + "    maxGuests " + this.state.maxGuests + "  category " + this.state.category)
+
+
+        let tableInfo = {
+            title: this.state.title,
+            maxGuests: this.state.maxGuests,
+            category: this.state.category,
+
+        }
+        let indexEvent = this.props.store.eventIndex;
+        let eventId = this.props.store.user.events[indexEvent]._id
+        axios.post(`/beOurGuest/createTable/${eventId}/`, tableInfo)
+            .then(response => {
+                console.log((response.data))
+                // this.props.store.addTable(response.data)
+            })
+        this.handleClose();
+    }
 
     render() {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        // console.log(currentEvent.tables)
         const { classes } = this.props;
-        /* let table0 = { _id: "0", category:this.props.store.user.categories[0], title:this.props.store.user.categories[0].name, 
-        guests:[{ name: "Shlomo Steinitz", _id: "44", categories:[1,2] },
-         { name: "Akiva Stern", _id: "45" ,categories:[0] },
-         { name: "Akiva Stern", _id: "46" ,categories:[0] },
-         { name: "Akiva Stern", _id: "47" ,categories:[0] },{ name: "Akiva Stern", _id: "30" ,categories:[0] }
-        ,{ name: "Akiva Stern", _id: "48" ,categories:[0] }, { name: "Akiva Stern", _id: "31" ,categories:[0] }, 
-        { name: "Akiva Stern", _id: "49" ,categories:[0] } ] } */
+        const { anchorEl } = this.state;
+        const open = Boolean(anchorEl);
         return (
-            <div className={classes.tableListWrapper}>
-              <AddTableModal></AddTableModal>
-            <Table0  index={-1}/>
-          
-                {currentEvent.tables.map((table, index) => (
-                    <Table table={table} index={index} key={table._id} />
-                ))}
+            <div>
+                <div className={classes.tableListWrapper}>
+                    <AddTableModal></AddTableModal>
+                    <Table0 index={-1} />
+                    {currentEvent.tables.map((table, index) => (
+                        <Table table={table} index={index} key={table._id} />
+                    ))}
+                </div>
+               
             </div>
 
         );
     }
 }
 
-export default  withStyles(styles)(TableList);
+// title: String,
+// maxGuests: Number,
+// categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
+// guests: [{ type: Schema.Types.ObjectId, ref: 'guests' }]
+
+
+export default withStyles(styles)(TableList);

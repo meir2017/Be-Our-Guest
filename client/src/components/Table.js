@@ -120,18 +120,6 @@ class Table extends Component {
                                             {this.props.table.title}
                                         </Typography>
                                         <Avatar className={classes.tableAvatar} style={{ backgroundColor: this.props.table.category.colorCode }}>10/12</Avatar>
-
-
-
-                                        {/*  <List >
-                                            <ListItem className={classes.listItem}>
-                                                <Grid container spacing={24}>
-                                                    <Grid item xs={12}>
-                                                        <ListItemText primary={this.props.table.title} />
-                                                    </Grid>
-                                                </Grid>
-                                            </ListItem>
-                                        </List> */}
                                     </Grid>
                                 </Grid>
 

@@ -20,7 +20,9 @@ import {
     NavigationIcon,
     Divider,
     MenuItem,
-    TextField
+    TextField,
+    Select
+
 } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -54,7 +56,7 @@ const styles = theme => ({
         // margin: theme.spacing.unit,
         width: 160,
         fontSize: 13,
-    },   
+    },
     iconSmall: {
         fontSize: 15,
     }
@@ -72,7 +74,7 @@ class AddTableModal extends Component {
         this.state = {
             tableName: '',
             tableSize: '',
-            categories: [],           
+            categories: [],
             Guests: [],
             open: false,
             datalist: ["node.js", "Java", "JavaScript", "c", "c++", "html", "Component", "react"],
@@ -87,7 +89,7 @@ class AddTableModal extends Component {
         this.setState({
             tableName: '',
             tableSize: "",
-            categories: [],
+            category: '',
             Guests: [],
             open: false
         });
@@ -97,18 +99,31 @@ class AddTableModal extends Component {
         this.setState({ [event.target.id]: event.target.value })
     }
 
-    // addTable = () => {
-    //     let tableInfo = {
-    //         id: 'table-' + counter++,
-    //         tableName: this.state.tableName,
-    //         tableSize: this.state.tableSize,
-    //         category: this.state.category,
-    //         guests: this.state.guests
-    //     }
-    //     this.props.handleAddTable(tableInfo);
-    //     this.handleClose();
+    onChangeCategory = e => {
+        this.setState({ [e.target.id]: e.target.value})
+       // this.setState({ tableName: e.target.value })
+    }
 
-   //  }    
+    addTable = () => {
+        let store = this.props.store;
+        let tableInfo = {
+            title : this.state.tableName,
+            maxGuests: this.state.tableSize,
+            category: this.state.category,
+        }
+
+        axios.post('/beOurGuest/addTable/' + store.user.events[store.eventIndex]._id, tableInfo)
+        .then(response => {
+    
+          console.log(" new Table ->id  =" + response.data._id)
+          this.props.store.addTable(response.data)
+    
+        })
+        .catch(err => console.log('Error: ', err));
+        ;
+        this.handleClose();
+
+    }
 
     // categoryReference = elem => {
     //     this.inputElem = elem;
@@ -140,7 +155,7 @@ class AddTableModal extends Component {
                     </DialogTitle>
                     <Divider></Divider>
                     <DialogContent>
-                        <form className={classes.container} noValidate autoComplete="off">
+                        <form className={classes.container} noValidate autoComplete="off" align="center">
                             <TextField
                                 id="tableName"
                                 label="Table name"
@@ -152,7 +167,7 @@ class AddTableModal extends Component {
                                 margin="normal" />
                             <TextField
                                 id="tableSize"
-                                label="Number of pleces"
+                                label="Max number of guests"
                                 type="number"
                                 value={this.state.tableSize}
                                 placeholder="Enter number of pleces"
@@ -162,29 +177,17 @@ class AddTableModal extends Component {
                                     shrink: true,
                                 }}
                                 margin="normal" />
-                            <TextField
-                                required
-                                select
-                                id="Category"
-                                label="Table Category"
-                                type="text"
-                                className={classes.textField}
+                            <Select
+                                native
                                 value={this.state.category}
-                                placeholder="Select category"
-                                onChange={this.categoryChange}
-                                SelectProps={{
-                                    MenuProps: {
-                                        className: classes.menu,
-                                    },
-                                }}
-                                margin="normal">
-                                {this.state.datalist
-                                    .sort().map((category, index) =>
-                                        <MenuItem key={index} value={category}>
-                                            {category}
-                                        </MenuItem>
-                                    )}
-                            </TextField>
+                                id="category"
+                                onChange={this.onChangeCategory} >
+                                <option value="Category" />
+                                {this.props.store.user.categories.map((item, index) => {
+                                    return <option key={item._id} value={item._id} 
+                                    onClick={()=> { this.setState({tableName: item.name})}}>{item.name}</option>
+                                })}
+                            </Select>
                         </form>
                     </DialogContent>
                     <Divider></Divider>
