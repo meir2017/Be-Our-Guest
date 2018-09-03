@@ -446,13 +446,8 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
 
 //  Table //////
 //createTable
-app.post('/beOurGuest/createTable/:eventId/', (req, res) => {
-  let newTable = new Table({
-    title: req.body.title,
-    maxGuests: req.body.maxGuests,
-    category: req.body.category,
-    guests: []
-  })
+app.post('/beOurGuest/addTable/:eventId/', (req, res) => {
+  let newTable = new Table(req.body)
   console.log(JSON.stringify(newTable))
   newTable.save((err, table) => {
     console.log(table.id)

@@ -27,6 +27,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    height:'100%'
   },
   button: {
     // margin: theme.spacing.unit,

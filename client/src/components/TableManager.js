@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import TableList from './TableList';
-import GuestsList from './GuestsList';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+
 
 const styles = theme => ({
     root: {
@@ -20,6 +20,7 @@ export class TableManager extends Component {
         return (
             <div>
             <TableList />
+           {/*  <AddTableButton/> */}
             </div>
          
            

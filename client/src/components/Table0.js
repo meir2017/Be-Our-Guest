@@ -43,7 +43,15 @@ const styles = theme => ({
         // backgroundColor: 
         fontFamily: 'Roboto Slab, serif',
         position: 'relative',
-        // justifyContent: '',
+        // justifyContent: '', 
+        borderRadius: 5,
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderColor: 'black',
+         /* position: 'fixed',
+        zIndex:2,  */
+        overflow:'hidden',
+
 
 
 
@@ -51,6 +59,8 @@ const styles = theme => ({
 
     tableHeader: {
         padding: 5,
+        color: 'white',
+        backgroundColor: 'black'
 
     },
 
@@ -59,9 +69,7 @@ const styles = theme => ({
         width: 60,
         color: 'black',
         marginBottom: 5,
-        //   borderRadius: 2,
-        /*         borderWidth:2,
-                borderStyle:'solid', */
+
         fontSize: 18
 
     },
@@ -77,11 +85,17 @@ const styles = theme => ({
         width: 20,
 
     },
-    guestListWrapper: {
-        paddingTop: 5,
-        overflowY: 'scroll',
-    }
 
+    whiteTypography: {
+        color: 'white',
+    },
+
+    guestListWrapper: {
+        paddingTop:5,
+        overflowY: 'scroll',
+        height:'100%'
+        
+    }
 
 
 });
@@ -92,67 +106,63 @@ const styles = theme => ({
 
 @inject("store")
 @observer
-class Table extends Component {
+class Table0 extends Component {
 
     render() {
         const { classes } = this.props;
-        const colorCode = this.props.store.user.categories.find(
-            category => category._id === this.props.table.category).colorCode;
-        let guests = this.props.table.guests;
-        let sumGuests = 0;
-        for( let i=0; i<guests.length; i++){
-            sumGuests += (guests[i].numInvited - guests[i].numNotComing);
+        let store = this.props.store;
+        let currentEvent = store.user.events[store.eventIndex];
+        let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
+        let sumTotalInvities = 0;
+        let sumNotSeated = 0;
+
+        for (let i=0; i<currentEvent.guests.length; i++){
+            sumTotalInvities += (currentEvent.guests[i].numInvited - currentEvent.guests[i].numNotComing ) 
+        }
+        for (let i=0; i<unseatedGuests.length; i++){
+            sumNotSeated += (unseatedGuests[i].numInvited - unseatedGuests[i].numNotComing ) 
         }
 
-
+        console.log(currentEvent.guests);
         return (
 
-            <div>
+            <Droppable droppableId={String(this.props.index)}>
+                {(provided) => (
+                    <div style={{ height: '100%' }}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}>
 
-                <Paper className={classes.tableWrapper} >
-                    <Paper className={classes.tableHeader} >
-                        <Grid container spacing={0}>
-                            <Grid item xs={12} align="right">
-                                <IconButton aria-label="Edit" className={classes.iconButton} >
-                                    <EditIcon className={classes.icon} />
-                                </IconButton>
-                                <IconButton aria-label="Delete" className={classes.iconButton} >
-                                    <ClearIcon className={classes.icon} />
-                                </IconButton>
-                            </Grid>
-                            <Grid item xs={12} align="center">
-                                <Typography variant="caption" gutterBottom align="center">
-                                    Table {this.props.index + 1}
-                                </Typography>
-                                <Typography variant="title" gutterBottom align="center" >
-                                    {this.props.table.title}
-                                </Typography>
-                                <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
-                                {sumGuests}/{this.props.table.maxGuests}</Avatar>
-                            </Grid>
-                        </Grid>
+                        <Paper className={classes.tableWrapper} >
+                            <Paper className={classes.tableHeader} >
+                                <Grid container spacing={0}>
+                                    <Grid item xs={12} align="right">
+                                        <IconButton aria-label="Edit" className={classes.iconButton} >
+                                            <EditIcon className={classes.icon} />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item xs={12} align="center">
+                                        <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
+                                            Unseated Guests
+                                        </Typography>
+                                        <Avatar className={classes.tableAvatar}>
+                                         {sumNotSeated}/{sumTotalInvities}
+                                        </Avatar>
+                                    </Grid>
+                                </Grid>
 
 
-                    </Paper>
-                    <Droppable droppableId={String(this.props.index)}>
-                        {(provided) => (
-                            <div style={{ height: '100%' }}
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                className={classes.guestListWrapper}>
-
-                                {this.props.table.guests.map((guest, index) => (
-                                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
+                            </Paper>
+                            <div className={classes.guestListWrapper}>
+                                {currentEvent.guests.filter(guest => guest.seated === false).map((guest, index) => (
+                                    <Guest index={index} key={guest._id} guest={guest} />
                                 ))}
-                                 {provided.placeholder}
                             </div>
 
-                           
-                    )}
-                        </Droppable>
-                </Paper>
-            </div>
-
+                            {provided.placeholder}
+                        </Paper>
+                    </div>
+                )}
+            </Droppable>
 
 
 
@@ -160,11 +170,11 @@ class Table extends Component {
     }
 }
 
-Table.propTypes = {
+Table0.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Table);
+export default withStyles(styles)(Table0);
 /* @inject("store")
 @observer
 class GuestContainer extends Component {
