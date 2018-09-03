@@ -48,6 +48,7 @@ const styles = theme => ({
         backgroundColor: 'inherit',
         padding: 0,
     },
+    
 });
 
 class Navbar extends Component {
