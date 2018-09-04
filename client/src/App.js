@@ -6,7 +6,6 @@ import './App.css';
 import EventManager from './components/EventManager';
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import CreateEvent from './components/CreateEvent';
-import YouLoginAs from './components/YouLoginAs';
 import { observer, inject } from 'mobx-react';
 import Navbar from './components/Navbar';
 import TableList from './components/TableList';
@@ -134,7 +133,6 @@ class App extends Component {
           {!this.state.rsvpfunc && <Navbar />}
           {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
           {/* once logged "Hello {item.user}" show up */}
-          {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
 
           <BrowserRouter>
             <Route

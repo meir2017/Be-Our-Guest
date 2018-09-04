@@ -9,7 +9,12 @@ import {
 } from "@material-ui/core"   //AccountManager
 
 import OurMenu from './OurMenu';
+import YouLoginAs from './YouLoginAs';
 import AccountManager from './AccountManager';
+
+import { observer, inject } from 'mobx-react';
+import axios from 'axios';
+
 const styles = theme => ({
     root: {
         flexGrow: 1
@@ -50,6 +55,8 @@ const styles = theme => ({
     },
 });
 
+@inject("store")
+@observer
 class Navbar extends Component {
     state = {
         anchorMenu: null,
@@ -98,6 +105,7 @@ class Navbar extends Component {
                 <AppBar position="static">
                     <Toolbar>
                         <OurMenu />
+                        {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
                         <AccountManager />
                     </Toolbar>
                 </AppBar>

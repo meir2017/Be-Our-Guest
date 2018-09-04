@@ -120,7 +120,7 @@ class AccountManager extends Component {
                     <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount} onClick={this.handleLogout} >My account</MenuItem>
                 </Menu>
-                <Profile handleCloseMenuAccount={this.handleCloseMenuAccount} />
+                {/* {(this.props.store.user.userLog) ? <Profile /> : false} */}
             </div>
         );
     }

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 
-// import axios from 'axios';
+import { observer, inject } from 'mobx-react';
+import axios from 'axios';
 
-// import { observer, inject } from 'mobx-react';
-
-// @inject("store")
-// @observer
-
+@inject("store")
+@observer
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -14,13 +12,16 @@ class Profile extends Component {
     }
     render(){
 
-        const item = this.props.store;
+        // const item = this.props.store;
         return(
             <div className="profile-container">
-                <h3>{item.user}</h3>
-                <h5 className="far fa-user" name={this.props.state.inputText}>Username: {this.state.inputText}</h5>
-                <h5 className="far fa-envelope" name={this.props.state.emailText}>Email: {this.state.emailText}</h5>
-                <h5 className="fas fa-key" name={this.props.state.passText}>Password: {this.state.passText}</h5>
+                <h3>{this.props.store.user.username} Profile</h3>
+                <h5 className="far fa-user">Username: {this.props.store.user.username}</h5>
+                <br /><br />
+                <h5 className="far fa-envelope">Email: {this.props.store.user.email}</h5>
+                <br /><br />
+                <h5 className="fas fa-key">Password: {this.props.store.user.password}</h5>
+                <br /><br />
             </div>
         );
     }
