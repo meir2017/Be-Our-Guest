@@ -19,6 +19,12 @@ import {
     Typography,
     IconButton,
     Avatar,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Button
 
 } from '@material-ui/core';
 
@@ -32,7 +38,7 @@ const styles = theme => ({
     tableWrapper: {
         margin: 8,
         width: 280,
-        height: 500,
+        minHeight: 500,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -79,7 +85,8 @@ const styles = theme => ({
     },
     guestListWrapper: {
         paddingTop: 5,
-        overflowY: 'scroll',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
     }
 
 
@@ -93,6 +100,20 @@ const styles = theme => ({
 @inject("store")
 @observer
 class Table extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { openDeleteTable: false };
+    }
+
+    handleOpenDeleteTable = () => {
+        this.setState({ openDeleteTable: true });
+    };
+
+    handleCloseDeleteTable = () => {
+        this.setState({ openDeleteTable: false });
+    };
+
+
     handleOnClick = (guestIndex) => {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
         let tables = currentEvent.tables.splice(0);
@@ -110,6 +131,7 @@ class Table extends Component {
     }
 
     handleDeleteTable = () => {
+        this.setState({ openDeleteTable: false });
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
         let tables = currentEvent.tables.splice(0);
         let guests = currentEvent.guests.splice(0);
@@ -123,7 +145,7 @@ class Table extends Component {
             guests[guestIndex].seated = false;
         }
 
-        tables.splice(tableIndex,1);
+        tables.splice(tableIndex, 1);
 
         this.props.store.updateGuests(guests);
         this.props.store.updateTables(tables);
@@ -144,6 +166,26 @@ class Table extends Component {
 
         return (
             <div>
+                <Dialog
+                    open={this.state.openDeleteTable}
+                    onClose={this.handleCloseDeleteTable}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to remove this table?
+            </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCloseDeleteTable} color="primary">
+                            Cancel
+            </Button>
+                        <Button onClick={this.handleDeleteTable} color="primary" autoFocus>
+                            Remove
+            </Button>
+                    </DialogActions>
+                </Dialog>
                 <Paper className={classes.tableWrapper} >
                     <Paper className={classes.tableHeader} >
                         <Grid container spacing={0}>
@@ -151,7 +193,7 @@ class Table extends Component {
                                 <IconButton aria-label="Edit" className={classes.iconButton} >
                                     <EditIcon className={classes.icon} />
                                 </IconButton>
-                                <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleDeleteTable} >
+                                <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleOpenDeleteTable} >
                                     <ClearIcon className={classes.icon} />
                                 </IconButton>
                             </Grid>
@@ -171,7 +213,7 @@ class Table extends Component {
                     </Paper>
                     <Droppable droppableId={this.props.table._id}>
                         {(provided) => (
-                            <div style={{ height: '100%' }}
+                            <div style={{ minHeight: 290 }}
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                                 className={classes.guestListWrapper}>
@@ -186,6 +228,7 @@ class Table extends Component {
                         )}
                     </Droppable>
                 </Paper>
+
             </div>
 
 

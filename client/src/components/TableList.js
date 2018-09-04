@@ -26,7 +26,8 @@ const styles = theme => ({
         flexDirection: 'row',
         justifyContent: "flex-start",
         flexWrap: 'nowrap',
-        overflow: 'auto',
+        overflowX: 'scroll',
+        overflowY: 'hidden',
     }
 
 });
@@ -52,7 +53,7 @@ class TableList extends Component {
             category: '',
             anchorEl: null,
         }
-        this.props.store.populateEvent();
+        //this.props.store.populateEvent();
     }
 
     handleClick = event => {
