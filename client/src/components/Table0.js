@@ -19,6 +19,7 @@ import {
     Typography,
     IconButton,
     Avatar,
+    Tooltip,
 
 } from '@material-ui/core';
 
@@ -145,9 +146,11 @@ class Table0 extends Component {
                                 <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
                                     Unseated Guests
                                         </Typography>
-                                <Avatar className={classes.tableAvatar}>
-                                    {sumNotSeated}/{sumTotalInvities}
-                                </Avatar>
+                                <Tooltip title="# guests not seated / # guests invited">
+                                    <Avatar className={classes.tableAvatar}>
+                                        {sumNotSeated}/{sumTotalInvities}
+                                    </Avatar>
+                                </Tooltip>
                             </Grid>
                         </Grid>
 
@@ -159,7 +162,7 @@ class Table0 extends Component {
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                                 className={classes.guestListWrapper}
-                                >
+                            >
 
                                 {currentEvent.guests.filter(guest => guest.seated === false).map((guest, index) => (
                                     <Guest index={index} key={guest._id} guest={guest} handleOnClick={this.handleOnClick} />
@@ -179,5 +182,5 @@ Table0.propTypes = {
 };
 
 export default withStyles(styles)(Table0);
-     
+
 

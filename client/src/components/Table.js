@@ -25,7 +25,8 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Button
+    Button,
+    Tooltip
 
 } from '@material-ui/core';
 
@@ -155,25 +156,25 @@ class Table extends Component {
             let myGuests = guests.find(guest => guest._id === myTable.guests[i]);
             myGuests.seated = false;
         }
-        
+
         tables.splice(tableIndex, 1);
-        
-        
+
+
         this.props.store.updateGuests(guests);
         this.props.store.updateTables(tables);
 
-    
 
-        axios.post('/beOurGuest/deleteTable/' + currentEvent._id, {_id: this.props.table._id})
-        .then(response => {
-            console.log(response);
-        }).then(res => {
-            axios.post('/beOurGuest/updateGuests/', guests)
-                .then(res1 => {
-                    console.log(res1);
-                });
-        })
-        .catch(err => console.log('Error: ', err));
+
+        axios.post('/beOurGuest/deleteTable/' + currentEvent._id, { _id: this.props.table._id })
+            .then(response => {
+                console.log(response);
+            }).then(res => {
+                axios.post('/beOurGuest/updateGuests/', guests)
+                    .then(res1 => {
+                        console.log(res1);
+                    });
+            })
+            .catch(err => console.log('Error: ', err));
 
     }
 
@@ -234,8 +235,10 @@ class Table extends Component {
                                 <Typography variant="title" gutterBottom align="center" >
                                     {this.props.table.title}
                                 </Typography>
-                                <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
-                                    {sumGuests}/{this.props.table.maxGuests}</Avatar>
+                                <Tooltip title= "# guests seated here / Maximum guests in table">
+                                    <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
+                                        {sumGuests}/{this.props.table.maxGuests}</Avatar>
+                                </Tooltip>
                             </Grid>
                         </Grid>
 

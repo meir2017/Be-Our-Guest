@@ -65,6 +65,12 @@ class GuestInfo extends Component {
     )
   };
 
+  // displayCategoryName = guest => {
+  //   let categoryInfo = this.props.store.user.categories.find(category =>
+  //     category._id === guest.categories[0]._Id);
+  //   return categoryInfo.name;
+  // }
+
   render() {
 
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
@@ -85,11 +91,11 @@ class GuestInfo extends Component {
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Phone</TableCell>
-                <TableCell>Categoty</TableCell>
+                {/* <TableCell>Categoty</TableCell> */}
                 <TableCell numeric>Coming</TableCell>
                 <TableCell numeric>Not coming</TableCell>
                 <TableCell numeric>Undecided</TableCell>
-                <TableCell>Comment</TableCell>
+                {/* <TableCell>Comment</TableCell> */}
                 <TableCell>Edit/Delete</TableCell>
               </TableRow>
             </TableHead>
@@ -102,11 +108,11 @@ class GuestInfo extends Component {
                     </TableCell>
                     <TableCell>{guest.globalGuest_id.email}</TableCell>
                     <TableCell>{guest.globalGuest_id.phone}</TableCell>
-                    <TableCell>{guest.categories.name}</TableCell>
+                    {/* <TableCell>{guest.categories[0].name}</TableCell> */}
                     <TableCell numeric>{guest.numComing}</TableCell>
                     <TableCell numeric>{guest.numNotComing}</TableCell>
                     <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
-                    <TableCell>{guest.comment}</TableCell>
+                    {/* <TableCell>{guest.comment}</TableCell> */}
                     <TableCell>
                       <i className="material-icons" id={index} onClick={this.handleEdit}>
                         border_color

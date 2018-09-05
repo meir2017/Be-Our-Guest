@@ -23,7 +23,8 @@ import {
     TextField,
     Select,
     FormControl,
-    InputLabel
+    InputLabel,
+    Tooltip
 
 } from '@material-ui/core';
 
@@ -61,6 +62,16 @@ const styles = theme => ({
     },
     iconSmall: {
         fontSize: 15,
+    },
+    addButton: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 10,
+        right: theme.spacing.unit * 8,
+       
+        zIndex:10
+    },
+    addIcon: {
+        marginRight: theme.spacing.unit,
     }
 });
 
@@ -105,8 +116,8 @@ class AddTableModal extends Component {
         this.setState({ category: e.target.value });
         let category = this.props.store.user.categories.find(category => category._id === e.target.value);
         this.setState({ tableName: category.name });
-       /*  let index = e.target.selectedIndex;
-        this.setState({ tableName: e.target[index].text }) */
+        /*  let index = e.target.selectedIndex;
+         this.setState({ tableName: e.target[index].text }) */
         // this.setState({ tableName: e.target.value })
     }
 
@@ -126,7 +137,7 @@ class AddTableModal extends Component {
 
             })
             .catch(err => console.log('Error: ', err));
-        
+
         this.handleClose();
 
     }
@@ -218,11 +229,15 @@ class AddTableModal extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div> <div>
-            <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                <AddIcon />
-            </Button>
-        </div>
+            <div>
+                <div>
+                    <Tooltip title="Add new table">
+                    <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}>
+                        <AddIcon className={classes.addIcon}/>
+                        Add Table
+                    </Button>
+                    </Tooltip>
+                </div>
                 {this.dialogChildren()}
             </div>
         );

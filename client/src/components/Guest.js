@@ -10,7 +10,8 @@ import {
     Paper,
     Chip,
     Avatar,
-    IconButton
+    IconButton,
+    Tooltip
 } from '@material-ui/core';
 
 
@@ -91,11 +92,13 @@ class Guest extends Component {
 
                                         </Grid>
                                         <Grid item xs={10}>
+                                        <Tooltip title={guest.numComing + "/" + (guest.numInvited - guest.numNotComing) + " confirmed"}>
                                             <Chip
                                                 avatar={<Avatar>{guest.numComing}/{guest.numInvited - guest.numNotComing}</Avatar>}
                                                 label={guest.globalGuest_id.name}
                                                 className={classes.chip}
                                             />
+                                            </Tooltip>
                                         </Grid>
 
                                         <Grid item xs={1}>
