@@ -179,39 +179,5 @@ Table0.propTypes = {
 };
 
 export default withStyles(styles)(Table0);
-            /* @inject("store")
-            @observer
-class GuestContainer extends Component {
-                    constructor(props) {
-                super(props);
-            }
-        
-    render() {
-        const {classes} = this.props;
-        return (<Grid item xs={12}
-                    innerRef={this.props.provided.innerRef}
-                    {...this.props.provided.droppableProps}
-                >
-                    <Paper className={classes.paper}>
-                        <ListItem className={classes.listItem}>
-                            <ListItemText primary={this.props.table.title} />
-                        </ListItem>
-                        {this.props.table.guests.map((guest, index) => (
-                            <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-                        ))}
-                        {this.props.provided.placeholder}
-                    </Paper>
-                </Grid>);
-            } */
-/*     render() {
-        return (<Container
-                    innerRef={this.props.provided.innerRef}
-                    {...this.props.provided.droppableProps}
-                >
-                    {this.props.table.guests.map((guest, index) => (
-                        <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-                    ))}
-                    {this.props.provided.placeholder}
-                </Container>);
-            }
-         }*/
+     
+

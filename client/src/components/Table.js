@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../App.css'
+import '../App.css';
+import axios from 'axios';
 //import styled from 'styled-components';
 //import 'typeface-roboto'
 import Guest from './Guest'
@@ -114,17 +115,27 @@ class Table extends Component {
     };
 
 
-    handleOnClick = (guestIndex) => {
+    handleRemoveGuestClick = (guestIndex) => {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-        let tables = currentEvent.tables.splice(0);
-        let guests = currentEvent.guests.splice(0);
+        let tables = Array.from(currentEvent.tables);
+        let guests = Array.from(currentEvent.guests);
 
         let myTable = tables.find(table => this.props.table._id === table._id);
         let myGuest = myTable.guests.splice(guestIndex, 1);
 
-        let theGuest = guests.find(guest => guest._id === myGuest[0]._id);
+        let theGuest = guests.find(guest => guest._id === myGuest[0]);
         theGuest.seated = false;
 
+        axios.post('/beOurGuest/updateGuestsInTable/', myTable)
+            .then(response => {
+                console.log(response);
+            }).then(res => {
+                axios.post('/beOurGuest/updateEventGuest/', theGuest)
+                    .then(res1 => {
+                        console.log(res1);
+                    });
+            })
+            .catch(err => console.log('Error: ', err));
         this.props.store.updateGuests(guests);
         this.props.store.updateTables(tables);
 
@@ -133,36 +144,55 @@ class Table extends Component {
     handleDeleteTable = () => {
         this.setState({ openDeleteTable: false });
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-        let tables = currentEvent.tables.splice(0);
-        let guests = currentEvent.guests.splice(0);
+        let tables = Array.from(currentEvent.tables);
+        let guests = Array.from(currentEvent.guests);
 
         let myTable = tables.find(table => this.props.table._id === table._id);
         let tableIndex = tables.findIndex(table => this.props.table._id === table._id)
 
 
         for (let i = 0; i < myTable.guests.length; i++) {
-            let guestIndex = guests.findIndex(guest => guest._id === myTable.guests[i]._id);
-            guests[guestIndex].seated = false;
+            let myGuests = guests.find(guest => guest._id === myTable.guests[i]);
+            myGuests.seated = false;
         }
-
+        
         tables.splice(tableIndex, 1);
-
+        
+        
         this.props.store.updateGuests(guests);
         this.props.store.updateTables(tables);
 
+    
+
+        axios.post('/beOurGuest/deleteTable/' + currentEvent._id, {_id: this.props.table._id})
+        .then(response => {
+            console.log(response);
+        }).then(res => {
+            axios.post('/beOurGuest/updateGuests/', guests)
+                .then(res1 => {
+                    console.log(res1);
+                });
+        })
+        .catch(err => console.log('Error: ', err));
 
     }
 
     render() {
         const { classes } = this.props;
-        const colorCode = this.props.store.user.categories.find(
-            category => category._id === this.props.table.category).colorCode;
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        console.log(this.props.table);
+        console.log(this.props.table.category);
+        console.log(this.props.store.user.categories);
+        const myCategory = this.props.store.user.categories
+            .find(category => category._id == this.props.table.category);
+        console.log(myCategory);
+        let colorCode = myCategory.colorCode;
         let guests = this.props.table.guests;
         let sumGuests = 0;
         for (let i = 0; i < guests.length; i++) {
-            sumGuests += (guests[i].numInvited - guests[i].numNotComing);
+            let guest = currentEvent.guests.find(guest => guest._id === guests[i]);
+            sumGuests += (guest.numInvited - guest.numNotComing);
         }
-
 
         return (
             <div>
@@ -218,9 +248,13 @@ class Table extends Component {
                                 {...provided.droppableProps}
                                 className={classes.guestListWrapper}>
 
-                                {this.props.table.guests.map((guest, index) => (
-                                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} handleOnClick={this.handleOnClick} />
-                                ))}
+                                {this.props.table.guests.map((guest_id, index) => {
+                                    let guest = currentEvent.guests.find(gst => gst._id === guest_id);
+                                    /*  console.log(guest_id);
+                                     console.log(currentEvent.guests);
+                                     console.log(guest); */
+                                    return <Guest table={this.props.table} index={index} key={guest._id} guest={guest} handleOnClick={this.handleRemoveGuestClick} />
+                                })}
                                 {provided.placeholder}
                             </div>
 

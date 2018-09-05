@@ -187,12 +187,16 @@ class BeOurGuestStore {
     }
     @action updateTable = (table, index) => {
         this.user.events[this.eventIndex].tables[index] = table;
+        debugger;
         console.log(table);
+        debugger;
     }
 
     @action updateTables = (newTables) => {
         this.user.events[this.eventIndex].tables = newTables;
-        console.log(newTables)
+        debugger;
+        console.log(newTables);
+        debugger;
     }
 
     @action updateGuests = (newGuests) => {

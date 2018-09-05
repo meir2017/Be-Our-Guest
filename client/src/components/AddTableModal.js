@@ -126,7 +126,7 @@ class AddTableModal extends Component {
 
             })
             .catch(err => console.log('Error: ', err));
-        ;
+        
         this.handleClose();
 
     }
@@ -221,9 +221,6 @@ class AddTableModal extends Component {
             <div> <div>
             <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
                 <AddIcon />
-            </Button>
-            <Button  color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                Display by Category
             </Button>
         </div>
                 {this.dialogChildren()}
