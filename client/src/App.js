@@ -23,6 +23,9 @@ class App extends Component {
     this.setState({ Options: !this.state.Options })   // login   or signup
   }
 
+  updateTablesInDb = () => {
+
+  }
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
     if (user !== null) {
@@ -41,117 +44,6 @@ class App extends Component {
     }
   }
 
-  onDragEnd = result => {
-    let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-
-    if (result.destination === null)
-      return;
-
-    if ((result.destination.droppableId === result.source.droppableId &&
-      result.destination.index === result.source.index) ||
-      (result.source.droppableId === "-1" && result.destination.droppableId === "-1")) {
-      return;
-    }
-
-
-
-    if (result.source.droppableId === "-1") {
-      let finish = currentEvent.tables[Number(result.destination.droppableId)];
-      let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
-      let myGuest = unseatedGuests[result.source.index];
-      let guestSourceIndex = currentEvent.guests.findIndex(guest => guest._id === myGuest._id);
-      let newGuests = currentEvent.guests.splice(0);
-      newGuests[guestSourceIndex].seated = true;
-
-      const finishGuests = Array.from(finish.guests);
-      finishGuests.splice(result.destination.index, 0, newGuests[guestSourceIndex]);
-      const newFinish = {
-        ...finish,
-        guests: finishGuests
-      }
-
-      //TODO update to db
-
-      let newTables = currentEvent.tables.splice(0);
-      newTables[Number(result.destination.droppableId)] = newFinish;
-
-      this.props.store.updateTables(newTables);
-      this.props.store.updateGuests(newGuests);
-      return;
-    }
-
-    if (result.destination.droppableId === "-1") {
-      let start = Object.assign(currentEvent.tables[Number(result.source.droppableId)]);
-      const newGuests = Array.from(start.guests);
-      let myGuest = newGuests.splice(result.source.index, 1);
-      let index = currentEvent.guests.findIndex(guest => myGuest[0]._id === guest._id);
-      let eventGuests = currentEvent.guests.splice(0);
-      eventGuests[index].seated = false;
-      start.guests = newGuests
-
-
-      //TODO update to db
-
-      let newTables = Array.from(currentEvent.tables);
-      newTables[Number(result.source.droppableId)] = start;
-
-
-      this.props.store.updateTable(start, Number(result.source.droppableId));
-      //this.props.store.updateTables(newTables);
-      this.props.store.updateGuests(eventGuests);
-
-      console.log(currentEvent.tables);
-      return;
-    }
-
-
-
-
-
-    const start = currentEvent.tables[Number(result.source.droppableId)];
-    const finish = currentEvent.tables[Number(result.destination.droppableId)];
-
-    if (start === finish) {
-      const newGuests = Array.from(start.guests);
-      let myGuest = newGuests.splice(result.source.index, 1);
-      newGuests.splice(result.destination.index, 0, myGuest[0]);
-
-
-      const newTable = {
-        ...start,
-        guests: newGuests
-      };
-
-      let newTables = Array.from(currentEvent.tables);
-      newTables[Number(result.source.droppableId)] = newTable;
-
-      this.props.store.updateTables(newTables);
-      return;
-    }
-
-    //moving from one column to another
-    const startGuests = Array.from(start.guests);
-    let myGuest = startGuests.splice(result.source.index, 1);
-    const newStart = {
-      ...start,
-      guests: startGuests
-    }
-
-    const finishGuests = Array.from(finish.guests);
-    finishGuests.splice(result.destination.index, 0, myGuest[0]);
-    const newFinish = {
-      ...finish,
-      guests: finishGuests
-    }
-
-    let newTables = Array.from(currentEvent.tables);
-    newTables[Number(result.source.droppableId)] = newStart;
-    newTables[Number(result.destination.droppableId)] = newFinish;
-
-    this.props.store.updateTables(newTables);
-  }
-
-
 
 
 
@@ -168,20 +60,21 @@ class App extends Component {
   }
   render() {
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <div className="App">
 
-          {!this.state.rsvpfunc && <Navbar />}
-          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
 
-          <BrowserRouter>
-            <Route
-              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
-              render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
-            />
-          </BrowserRouter>
-        </div>
-      </DragDropContext>
+      <div className="App" >
+
+        {!this.state.rsvpfunc && <Navbar />}
+        {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
+          < EventManager /> : false}
+
+        <BrowserRouter>
+          <Route
+            exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+            render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
+          />
+        </BrowserRouter>
+      </div>
     );
   }
 }
