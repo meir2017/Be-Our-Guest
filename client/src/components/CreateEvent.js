@@ -91,7 +91,7 @@ class CreateEvent extends Component {
                             <br />
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.handlerSaveEven}>Save event</Button>{' '}
+                            <Button color="primary" onClick={this.handlerSaveEven}>Save</Button>{' '}
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>

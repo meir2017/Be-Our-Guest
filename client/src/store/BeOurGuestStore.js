@@ -1,5 +1,5 @@
-// import { observable, action, computed, observer, reaction } from "mobx";
-import { observable, action } from "mobx";
+ import { observable, action, computed, observer, reaction } from "mobx";
+
 
 class BeOurGuestStore {
   @observable user = {
@@ -44,6 +44,33 @@ class BeOurGuestStore {
       username: item.username,
       password: item.password
     }
+
+    // @action populateEvent = () => {
+      /*   this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor(), _id:'0'},
+        { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
+        { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
+        { name: "Groom Friends", colorCode: this.getRandomColor(), _id: '3' }
+        ]; */
+      //   this.user.events[this.eventIndex].guests =
+      //    [{ name: "Shlomo Steinitz", _id: "44", categories: [1, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 },
+      //   { name: "Akiva Stern", _id: "45", categories: [0] ,seated:false,  numInvited:2, numConfirmed:2, numNotComing:0},
+      //   { name: "Rivki and Yoel Ben David", _id: "46", categories: [1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
+      //   { name: "Tzvi Stern", _id: "47", categories: [2], seated:false,  numInvited:4, numConfirmed:3, numNotComing:0 },
+      //    { name: "Akiva Stern", _id: "30", categories: [0, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 }, 
+      //    { name: "Shana Stern", _id: "48", categories: [0], seated:false,  numInvited:1, numConfirmed:1, numNotComing:0 },
+      //   { name: "Akiva Stern", _id: "31", categories: [2, 1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
+      //   { name: "Joshua Stern", _id: "49", categories: [1], seated:false, numInvited:5, numConfirmed:4 , numNotComing:0}];
+
+      //  /*  this.user.events[0].tables = [
+    //         { _id: "1", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Yocheved & Shimon Steinitz", _id: "1", categories: [1, 2] }, { name: "Dror", _id: "2", categories: [0] }] },
+    //         { _id: "2", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Shimon", _id: "3", categories: [1] }, { name: "Rachel", _id: "4", categories: [1, 2] }] },
+    //         { _id: "3", category: this.user.categories[1], title: this.user.categories[1].name, guests: [{ name: "tal", _id: "5", categories: [3] }, { name: "Meir", _id: "6", categories: [1, 2, 3] }] },
+    //         { _id: "4", category: this.user.categories[1], title: this.user.categories[1].name, guests: [{ name: "tal", _id: "51", categories: [1, 2] }, { name: "Meir", _id: "62", categories: [3] }] },
+    //         { _id: "5", category: this.user.categories[2], title: this.user.categories[2].name, guests: [{ name: "tal", _id: "53", categories: [0, 1, 2] }, { name: "Meir", _id: "64", categories: [1, 2] }] },
+    //         { _id: "6", category: this.user.categories[2], title: this.user.categories[2].name, guests: [{ name: "tal", _id: "55", categories: [2] }, { name: "Meir", _id: "66", categories: [1, 2] }] },
+    //         { _id: "7", category: this.user.categories[3], title: this.user.categories[3].name, guests: [{ name: "tal", _id: "57", categories: [1] }, { name: "Meir", _id: "68", categories: [2] }] }
+    //     ] */
+    // }
 
     localStorage.setItem("beOurGuestUser", JSON.stringify(user));
 
@@ -183,6 +210,31 @@ class BeOurGuestStore {
     // }
 
   // }
+    /// Table function
+    @action addTable = (newTable) => {
+        let tables = this.user.events[this.eventIndex].tables.push(newTable);
+        console.log(this.user.events[this.eventIndex].tables);
+
+    }
+    @action updateTable = (table, index) => {
+        this.user.events[this.eventIndex].tables[index] = table;
+        debugger;
+        console.log(table);
+        debugger;
+    }
+
+    @action updateTables = (newTables) => {
+        this.user.events[this.eventIndex].tables = newTables;
+        debugger;
+        console.log(newTables);
+        debugger;
+    }
+
+    @action updateGuests = (newGuests) => {
+        this.user.events[this.eventIndex].guests = newGuests;
+        console.log(newGuests);
+    }
+  
 }
 
 const store = new BeOurGuestStore();
