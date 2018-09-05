@@ -163,9 +163,20 @@ app.post('/beOurGuest/login', (req, res) => {
 
 
     .populate('guests')
-    .exec(function (err, user) {
+    .exec((err, user) => {
       if (err) return handleError(err);
-      res.send(user);
+      if (user == null) return user;
+
+      Category.find({}).select('name').exec()
+      .then(categories => {
+        let userCategories = [];
+        categories.forEach(category => 
+          userCategories.push({ _id: category._id, name: category.name }));
+
+          let userInfo = { user: user, userCategories: userCategories };
+          res.send(userInfo);
+        })
+      // res.send(user);
     });
 });
 
@@ -224,7 +235,7 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
           let myGuest = new Guest({
             globalGuest_id: globalGuest._id,
             invitations: [],
-            categories: [],
+            categories: newGuest.categories,
             comment: newGuest.comment,
             numInvited: newGuest.invited,
             numComing: newGuest.coming,
@@ -248,7 +259,7 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
                   event.save();
                   console.log('Guest ' + guest._id + ' saved to event list');
 
-                  let newGuest = {
+                  let resultGuest = {
                     globalGuestId: globalGuest._id,
                     name: globalGuest.name,
                     email: globalGuest.email,
@@ -256,7 +267,7 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
 
                     guestId: guest._id,
                     invitations: guest.invitations,
-                    categories: guest.categories,
+                    categories: [{ _id: guest.categories[0], name: newGuest.categoryName }],
                     comment: guest.comment,
                     numInvited: guest.numInvited,
                     numComing: guest.numComing,
@@ -264,8 +275,8 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
                     seated: false
                   };
 
-                  console.log(newGuest.id);
-                  res.send(newGuest);
+                  console.log(resultGuest.id);
+                  res.send(resultGuest);
                 });
             });
         });
@@ -362,9 +373,9 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
   let eventId = req.params.eventId;
 
   Guest.
-    find({}).
-    populate({ path: 'globalGuest_id', select: 'email' }).
-    exec(function (err, mYguest) {
+    find({})
+    .populate({ path: 'globalGuest_id', select: 'email' })
+    .exec(function (err, mYguest) {
       if (err) return handleError(err);
       mYguest.forEach(guest => {
         console.log(guest.globalGuest_id.email)
@@ -430,8 +441,8 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
 app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
   // checkedB    numGuest   guestId 
   let item = req.body
-  Guest.findById(req.body.guestId).
-    then(guest => {
+  Guest.findById(req.body.guestId)
+    .then(guest => {
       console.log(guest)
       console.log("numConfirmed  " + guest.numConfirmed);
       console.log("numUndecided  " + guest.numUndecided);
@@ -477,8 +488,8 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
   })
 
   newCategory.save((err, category) => {
-    User.findById(req.params.UserId).
-      then(user => {
+    User.findById(req.params.UserId)
+      .then(user => {
         let listCategory = user.categories.concat();
         listCategory.push(category.id);
         user.categories = listCategory;

@@ -29,14 +29,13 @@ class BeOurGuestStore {
     }
 
     @action updateUser = (item) => {
+        let userInfo = item.user;
         this.user.userLog = true;
-        this.user._Id = item._id
-        this.user.username = item.username;
-        this.user.password = item.password;
-        this.user.email = item.email;
-        this.user.events = item.events;
-        this.user.guests = item.guests;
-        this.user.categories = item.categories;
+        this.user._Id = userInfo._id
+        this.user.username = userInfo.username;
+        this.user.events = userInfo.events;
+        this.user.guests = userInfo.guests;
+        this.user.categories = item.userCategories;
         // console.log(JSON.stringify(this.user.events))
         console.log(JSON.stringify(this.user.categories))
 
@@ -44,6 +43,10 @@ class BeOurGuestStore {
             username: item.username,
             password: item.password
         }
+
+        // Update Event-guest's categories
+        this.populateEventCategories();
+        
 
         localStorage.setItem("beOurGuestUser", JSON.stringify(user));
 
@@ -86,14 +89,32 @@ class BeOurGuestStore {
 
         let guest = {
             _id: newGuest.guestId,
-            globalGuest_id: newGuest.globalGuestId,
+            globalGuest_id: globalGuest,
             invitations: newGuest.invitations,
-            categories: newGuest.categories,
+            categories: [{ _id: newGuest.categories[0]._id, name: newGuest.categories[0].name }],
             comment: newGuest.comment,
             numInvited: newGuest.numInvited,
             numComing: newGuest.numComing,
             numNotComing: newGuest.numNotComing
         };
+
+        // let globalGuest = {
+        //     _id: newGuest.globalGuest.globalGuestId,
+        //     name: newGuest.globalGuest.name,
+        //     email: newGuest.globalGuest.email,
+        //     phone: newGuest.globalGuest.phone
+        // };
+
+        // let guest = {
+        //     _id: newGuest.guest.guestId,
+        //     globalGuest_id: newGuest.guest.globalGuestId,
+        //     invitations: newGuest.guest.invitations,
+        //     categories: newGuest.guest.categories,
+        //     comment: newGuest.guest.comment,
+        //     numInvited: newGuest.guest.numInvited,
+        //     numComing: newGuest.guest.numComing,
+        //     numNotComing: newGuest.guest.numNotComing
+        // };
 
         // Add guest to event's guest list
         guestList = this.user.events[this.eventIndex].guests.concat();
@@ -103,9 +124,9 @@ class BeOurGuestStore {
     }
 
     @action removeGuest = (guestIndex) => {
-        let guestList = this.user.events.concat();
+        let guestList = this.user.events[this.eventIndex].guests.concat();
         guestList.splice(guestIndex, 1);
-        this.user.events = guestList;
+        this.user.events[this.eventIndex].guests = guestList;
     }
     //****************************************************** */
 
@@ -136,19 +157,19 @@ class BeOurGuestStore {
         console.log("New category " + newCategory._id);
     }
 
-    @action populateEvent = () => {
+    // @action populateEvent = () => {
         /*  this.user.events[0] = {
-             _id:"1", 
-             maxGuests: 50,
-             tables: [
-                 { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
-                 {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
-                 {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
-                 {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
-                 {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
-                 {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
-                 {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
-             ]
+            _id:"1", 
+            maxGuests: 50,
+            tables: [
+                { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
+                {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
+                {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
+                {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
+                {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
+                {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
+                {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
+            ]
          } */
 
         //  this.user.events[0] = {
@@ -167,8 +188,16 @@ class BeOurGuestStore {
         //     ]
         // }
 
+    // }
 
-
+    @action populateEventCategories = () => {
+        let self = this;
+        this.user.events.forEach((event, eventIx) => {
+            event.guests.forEach((guest, guestIx) => {
+                let guestCategory = self.user.categories.find(category => category.id === guest.categories[0].id);
+                self.user.events[eventIx].guests[guestIx].categories = [{ _id: guestCategory._id, name: guestCategory.name }];
+            });
+        })
     }
 
 }

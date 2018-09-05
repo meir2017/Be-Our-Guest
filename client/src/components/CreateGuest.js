@@ -22,6 +22,7 @@ class CreateGuest extends Component {
       email: "",
       phone: "",
       category: "",
+      categoryName: "",
       invited: 0,
       coming: 0,
       notComing: 0
@@ -29,7 +30,10 @@ class CreateGuest extends Component {
   }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      [event.target.id]: event.target.value,
+      [event.target.name]: event.target.selectedOptions[0].innerText
+    });
   };
   
   onChangeText = (e) => {
@@ -84,11 +88,15 @@ class CreateGuest extends Component {
     })
   }
 
+  displayCategoryName = guest => {
+    let category = this.props.store.user.categories.find(category => category.id === guest.categories[0].id);
+    return category.name;
+  }
+
   render() {
     return (
       <div>
         <Button onClick={this.toggle}><AddIcon /></Button>
-        <br /> <br />
         {this.state.modal &&
           <MyModal >
             <Modal isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
@@ -116,11 +124,12 @@ class CreateGuest extends Component {
                   native
                   label="Category" 
                   value={this.state.category}
-                  name="category"
+                  id="category"
+                  name="categoryName"
                   onChange={this.handleChange} >
                   <option value="Category" />
                   {this.props.store.user.categories.map((item, index) => {
-                    return <option key={item._id} value={item._id}>{item.name}</option>
+                    return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
                   })}
                 </Select>
                 <br />
