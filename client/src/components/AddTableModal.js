@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css'
-//import styled from 'styled-components'
 import Table from './Table';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
@@ -32,36 +31,21 @@ import axios from 'axios';
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const styles = theme => ({
-    tableListWrapper: {
-        width: 'auto',
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: "flex-start",
-        flexWrap: 'nowrap',
-    },
     container: {
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
     },
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         width: 200,
         fontSize: 15
-    },
-    menu: {
-        width: 200,
-    },
-    button: {
-        backgroundColor: '#4A6572',
-        // margin: theme.spacing.unit,
-        width: 160,
-        fontSize: 13,
-    },
-    iconSmall: {
-        fontSize: 15,
-    }
+    },    
+    formControl: {
+        margin: theme.spacing.unit,
+        minWidth: 120,
+      },
 });
 
 function Transition(props) {
@@ -79,7 +63,6 @@ class AddTableModal extends Component {
             categories: [],
             Guests: [],
             open: false,
-            datalist: ["node.js", "Java", "JavaScript", "c", "c++", "html", "Component", "react"],
         }
     }
 
@@ -105,8 +88,8 @@ class AddTableModal extends Component {
         this.setState({ category: e.target.value });
         let category = this.props.store.user.categories.find(category => category._id === e.target.value);
         this.setState({ tableName: category.name });
-       /*  let index = e.target.selectedIndex;
-        this.setState({ tableName: e.target[index].text }) */
+        /*  let index = e.target.selectedIndex;
+         this.setState({ tableName: e.target[index].text }) */
         // this.setState({ tableName: e.target.value })
     }
 
@@ -163,8 +146,8 @@ class AddTableModal extends Component {
                     <DialogContent>
                         <form className={classes.container} noValidate autoComplete="off" align="center">
                             <FormControl className={classes.formControl} align="left">
-                                <FormControl>
-                                    <InputLabel shrink htmlFor="category">Category</InputLabel>
+                                <FormControl required>
+                                    <InputLabel shrink htmlFor="category">Select category</InputLabel>
                                     <Select
                                         value={this.state.category}
                                         displayEmpty
@@ -173,6 +156,8 @@ class AddTableModal extends Component {
                                             name: 'category',
                                             id: 'category',
                                         }}
+                                        displayEmpty
+                                        autoWidth
                                     >
 
                                         {this.props.store.user.categories.map((item, index) => {
@@ -194,6 +179,7 @@ class AddTableModal extends Component {
                                     id="tableSize"
                                     label="Max number of guests"
                                     type="number"
+                                    required
                                     value={this.state.tableSize}
                                     placeholder="Enter number of places"
                                     onChange={this.handleTextChange}
@@ -219,13 +205,13 @@ class AddTableModal extends Component {
         const { classes } = this.props;
         return (
             <div> <div>
-            <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                <AddIcon />
+                <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
+                    <AddIcon />
+                </Button>
+                <Button color="primary" aria-label="Add" onClick={this.handleClickOpen}>
+                    Display by Category
             </Button>
-            <Button  color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                Display by Category
-            </Button>
-        </div>
+            </div>
                 {this.dialogChildren()}
             </div>
         );
