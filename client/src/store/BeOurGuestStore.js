@@ -30,13 +30,15 @@ class BeOurGuestStore {
   }
 
   @action updateUser = (item) => {
-    let userInfo = item.user;
+    //let userInfo = item.user;
+    let userInfo = item;
     this.user.userLog = true;
     this.user._Id = userInfo._id
     this.user.username = userInfo.username;
     this.user.events = userInfo.events;
     this.user.guests = userInfo.guests;
-    this.user.categories = item.userCategories;
+    this.user.categories = userInfo.categories;
+    //this.user.categories = item.userCategories;
     // console.log(JSON.stringify(this.user.events))
     console.log(JSON.stringify(this.user.categories))
 
@@ -45,7 +47,12 @@ class BeOurGuestStore {
       password: item.password
     }
 
-    // @action populateEvent = () => {
+   
+    
+    localStorage.setItem("beOurGuestUser", JSON.stringify(user));
+  }
+
+   // @action populateEvent = () => {
       /*   this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor(), _id:'0'},
         { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
         { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
@@ -72,10 +79,14 @@ class BeOurGuestStore {
     //     ] */
     // }
 
-    localStorage.setItem("beOurGuestUser", JSON.stringify(user));
-
-    // this.populateEvent();
-  }
+   /*  @action populateEventCategories = () => {
+        let self = this;
+        this.user.events.forEach((event, eventIx) => {
+            event.guests.forEach((guest, guestIx) => {
+                let guestCategory = self.user.categories.find(category => category.id === guest.categories[0].id);
+                self.user.events[eventIx].guests[guestIx].categories = [{ _id: guestCategory._id, name: guestCategory.name }];
+            });
+        })} */
 
   @action updateEventIndex = eventIndex => {
     this.user.eventIndex = eventIndex;
@@ -119,6 +130,7 @@ class BeOurGuestStore {
       phone: newGuest.phone
     };
 
+    console.log(newGuest);
     // Add globalGuest to global guest list
     let guestList = this.user.guests.concat();
     guestList.push(globalGuest);
@@ -129,11 +141,12 @@ class BeOurGuestStore {
       _id: newGuest.guestId,
       globalGuest_id: globalGuest,
       invitations: newGuest.invitations,
-      categories: [{ _id: newGuest.categories[0]._id, name: newGuest.categories[0].name }],
+      categories: newGuest.categories,
       comment: newGuest.comment,
       numInvited: newGuest.numInvited,
       numComing: newGuest.numComing,
-      numNotComing: newGuest.numNotComing
+      numNotComing: newGuest.numNotComing,
+      seated: newGuest.seated
     };
 
     // Add guest to event's guest list
@@ -218,16 +231,21 @@ class BeOurGuestStore {
     }
     @action updateTable = (table, index) => {
         this.user.events[this.eventIndex].tables[index] = table;
-        debugger;
         console.log(table);
-        debugger;
+       
+    }
+
+    @action updateTableById = (newTable) => {
+        let index = this.user.events[this.eventIndex].tables.findIndex(table => table._id === newTable._id);
+        this.user.events[this.eventIndex].tables[index] = newTable;
+        console.log(newTable);
+
     }
 
     @action updateTables = (newTables) => {
         this.user.events[this.eventIndex].tables = newTables;
-        debugger;
         console.log(newTables);
-        debugger;
+      
     }
 
     @action updateGuests = (newGuests) => {

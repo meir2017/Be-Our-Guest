@@ -3,12 +3,18 @@ import { observer, inject } from 'mobx-react';
 
 import CreateGuest from './CreateGuest.js';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { withStyles, Paper } from "@material-ui/core"
+import {
+  withStyles,
+  Paper,
+  IconButton,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table
+} from "@material-ui/core";
+import ClearIcon from '@material-ui/icons/Clear';
+import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
 
 const styles = theme => ({
@@ -19,6 +25,17 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700,
+  },
+  iconButton: {
+    height: 35,
+    width: 35,
+
+
+  },
+  icon: {
+    height: 20,
+    width: 20,
+
   },
 });
 
@@ -36,23 +53,23 @@ class GuestInfo extends Component {
     this.setState({ modalCreate: !this.state.modalCreate });
   }
 
-  handleRemoveGuest = (e) => {
+  handleRemoveGuest = (e, index) => {
     e.preventDefault();
     // console.log((" Will be deleted  =" + e.target.id))
-    let index = e.target.id;
     let guestId = this.props.store.user.events[this.props.store.eventIndex].guests[index]._id;
     let eventId = this.props.store.user.events[this.props.store.eventIndex]._id;
     axios.delete(
       '/beOurGuest/removeGuest/' + eventId + '/' + guestId + '/' + index)
-        .then(response => {
-          console.log((response.data));
-          this.props.store.removeGuest(index);
-        })
+      .then(response => {
+        console.log((response.data));
+        this.props.store.removeGuest(index);
+        this.props.store.updateTableById(response.data);
+      })
   }
 
-  handleEdit = (e) => {
+  handleEdit = (e, index) => {
     e.preventDefault();
-    alert("e.target.id; " + e.target.id);
+    alert("index: " + index);
   }
 
   createData = (id, name, email, phone, coming, undecided, notComing) => {
@@ -72,7 +89,7 @@ class GuestInfo extends Component {
   }
 
   render() {
-
+    let {classes} = this.props;
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
     return (
 
@@ -91,7 +108,7 @@ class GuestInfo extends Component {
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Phone</TableCell>
-                <TableCell>Categoty</TableCell>
+                <TableCell>Category</TableCell>
                 <TableCell numeric>Coming</TableCell>
                 <TableCell numeric>Not coming</TableCell>
                 <TableCell numeric>Undecided</TableCell>
@@ -114,14 +131,20 @@ class GuestInfo extends Component {
                     <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
                     {/* <TableCell>{guest.comment}</TableCell> */}
                     <TableCell>
-                      <i className="material-icons" id={index} onClick={this.handleEdit}>
+                      <IconButton  aria-label="Edit" className={classes.iconButton} onClick={(e) => this.handleEdit(e,index)}>
+                        <EditIcon className={classes.icon} />
+                      </IconButton>
+                      <IconButton  aria-label="Delete" className={classes.iconButton} onClick={(e) => this.handleRemoveGuest(e,index)} >
+                        <ClearIcon className={classes.icon} />
+                      </IconButton>
+                      {/*  <i className="material-icons" id={index} onClick={this.handleEdit}>
                         border_color
                       </i>
                       <i className="material-icons" id={index} onClick={this.handleRemoveGuest}>
                         delete
-                      </i>
+                      </i> */}
                     </TableCell>
-                </TableRow>
+                  </TableRow>
                 );
               })}
             </TableBody>
