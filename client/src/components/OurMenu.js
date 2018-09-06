@@ -16,6 +16,7 @@ import {
 
 import MenuIcon from '@material-ui/icons/Menu';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ClearIcon from '@material-ui/icons/Clear';
 import CreateCategory from './CreateCategory';
 
 const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
@@ -209,7 +210,7 @@ class OurMenu extends Component {
                       <MenuItem onClick={this.handleClose} onClick={this.openModalCategory} >Create category</MenuItem>
                       <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                          <Typography className={classes.heading}>Select Category</Typography>
+                          <Typography className={classes.heading}>List of Categories</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                           <List className={classes.rootList} subheader={<li />}>

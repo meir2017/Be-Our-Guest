@@ -37,6 +37,7 @@ const styles = theme => ({
     width: 20,
 
   },
+  
 });
 
 @inject("store")
