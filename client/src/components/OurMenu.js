@@ -1,5 +1,7 @@
 
 import React, { Component } from 'react';
+import toRenderProps from 'recompose/toRenderProps';
+import withState from 'recompose/withState';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
 import axios from 'axios';
@@ -10,31 +12,28 @@ import TextField from '@material-ui/core/TextField';
 import {
   withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
   Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
-  ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
+  Popover, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
 
 } from "@material-ui/core"
 
 import MenuIcon from '@material-ui/icons/Menu';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ClearIcon from '@material-ui/icons/Clear';
 import CreateCategory from './CreateCategory';
+
+const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
-  },
-  flex: {
-    flexGrow: 1
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'flex-start',
   },
   menuButton: {
-    marginLeft: -12,
-    marginRight: 20
+    // marginLeft: -12,
+    // marginRight: 20
   },
-  menuAccountButton: {
-    float: 'right',
-    //marginRight: 1520,
-    marginLeft: 1150,
-  },
+
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -129,13 +128,13 @@ class OurMenu extends Component {
     // this.handleClose(e)
   }
   handleClose = event => {
-    if (this.anchorEl.contains(event.target)) {
-      return;
-    }
-    this.setState({ open: false, expanded: false });
+    // if (this.anchorEl.contains(event.target)) {
+    //   return;
+    // }
+    this.setState({ anchorMenu: null, expanded: false });
   };
 
-  handleToggle = () => {
+  handleToggle = event => {
     if (this.props.store.user.userLog)
       this.setState(state => ({ open: !state.open }));
   };
@@ -145,9 +144,9 @@ class OurMenu extends Component {
 
   };
 
-  handleCloseMenuAccount = () => {
-    this.setState({ anchorMenuAccount: null, expanded: false });
-  };
+  // handleCloseMenuAccount = () => {
+  //   this.setState({ anchorMenuAccount: null, expanded: false });
+  // };
 
   handleChange = panel => (event, expanded) => {
     this.setState({

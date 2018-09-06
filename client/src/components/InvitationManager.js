@@ -112,9 +112,9 @@ class InvitationManager extends Component {
                                         <div className="col-sm-7 text2">{vet.invitationName}</div>
                                         <div className="col-sm-5 btnicon">
                                             <i className="far fa-trash-alt" id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
+                                            <i className="far fa-envelope" id={index} onClick={e => { this.myIndex(e); this.toggleSend() }}></i>
 
                                             <i className="fas fa-pencil-alt" id={index} onClick={this.editInvitations}></i>
-                                            <i className="far fa-envelope" id={index} onClick={e => { this.myIndex(e); this.toggleSend() }}></i>
                                         </div>
                                     </div>
                                 )

@@ -125,12 +125,9 @@ font-size: 16px;
 margin: 10px;
 border-radius: 10px;
 }
-.iteminvitations:hover { 
-  background-color: #1de9b6;
-  border-color: #14a37f;
-  font-size: 26px;
-  box-shadow: 5px 10px #888888; 
-}
+/* .iteminvitations:hover { 
+  opacity: 0.5;
+} */
 /* .btnicon{
   padding-left: 12px
 } */

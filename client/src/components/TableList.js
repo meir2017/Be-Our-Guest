@@ -8,7 +8,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import {
     withStyles,
-    Grid
+    Grid,
 }
     from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -52,6 +52,7 @@ class TableList extends Component {
             maxGuests: '',
             category: '',
             anchorEl: null,
+           
         }
         //this.props.store.populateEvent();
     }
@@ -91,6 +92,8 @@ class TableList extends Component {
             })
         this.handleClose();
     }
+
+
 
     render() {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];

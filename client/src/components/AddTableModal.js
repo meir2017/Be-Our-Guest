@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css'
-//import styled from 'styled-components'
 import Table from './Table';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
@@ -24,7 +23,7 @@ import {
     Select,
     FormControl,
     InputLabel,
-    Tooltip
+    
 
 } from '@material-ui/core';
 
@@ -33,24 +32,21 @@ import axios from 'axios';
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const styles = theme => ({
-    tableListWrapper: {
-        width: 'auto',
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: "flex-start",
-        flexWrap: 'nowrap',
-    },
     container: {
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
     },
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         width: 200,
         fontSize: 15
-    },
+    },    
+    formControl: {
+        margin: theme.spacing.unit,
+        minWidth: 120,
+      },
     menu: {
         width: 200,
     },
@@ -67,8 +63,8 @@ const styles = theme => ({
         position: 'absolute',
         bottom: theme.spacing.unit * 10,
         right: theme.spacing.unit * 8,
-       
-        zIndex:10
+
+        zIndex: 10
     },
     addIcon: {
         marginRight: theme.spacing.unit,
@@ -90,7 +86,6 @@ class AddTableModal extends Component {
             categories: [],
             Guests: [],
             open: false,
-            datalist: ["node.js", "Java", "JavaScript", "c", "c++", "html", "Component", "react"],
         }
     }
 
@@ -174,8 +169,8 @@ class AddTableModal extends Component {
                     <DialogContent>
                         <form className={classes.container} noValidate autoComplete="off" align="center">
                             <FormControl className={classes.formControl} align="left">
-                                <FormControl>
-                                    <InputLabel shrink htmlFor="category">Category</InputLabel>
+                                <FormControl required>
+                                    <InputLabel shrink htmlFor="category">Select category</InputLabel>
                                     <Select
                                         value={this.state.category}
                                         displayEmpty
@@ -184,6 +179,8 @@ class AddTableModal extends Component {
                                             name: 'category',
                                             id: 'category',
                                         }}
+                                        displayEmpty
+                                        autoWidth
                                     >
 
                                         {this.props.store.user.categories.map((item, index) => {
@@ -205,6 +202,7 @@ class AddTableModal extends Component {
                                     id="tableSize"
                                     label="Max number of guests"
                                     type="number"
+                                    required
                                     value={this.state.tableSize}
                                     placeholder="Enter number of places"
                                     onChange={this.handleTextChange}
@@ -231,12 +229,12 @@ class AddTableModal extends Component {
         return (
             <div>
                 <div>
-                    <Tooltip title="Add new table">
+
                     <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}>
-                        <AddIcon className={classes.addIcon}/>
+                        <AddIcon className={classes.addIcon} />
                         Add Table
                     </Button>
-                    </Tooltip>
+
                 </div>
                 {this.dialogChildren()}
             </div>

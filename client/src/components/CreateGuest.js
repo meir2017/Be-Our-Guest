@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
 import axios from 'axios';
 import MyModal from './Modal';
 
 import { observer, inject } from 'mobx-react';
+
+
+const styles = theme => ({
+  addIcon: {
+    marginRight: theme.spacing.unit,
+  }
+
+});
 
 
 @inject("store")
@@ -81,22 +93,27 @@ class CreateGuest extends Component {
   }
 
   categoryListElements = () => {
-    this.props.store.user.categories.map((caterory, index) => {
+    this.props.store.user.categories.map((category, index) => {
       return (
-        <MenuItem value={index}>{caterory.name}</MenuItem>
+        <MenuItem value={index}>{category.name}</MenuItem>
       )
     })
   }
 
   displayCategoryName = guest => {
-    let category = this.props.store.user.categories.find(category => category.id === guest.categories[0].id);
+    let category = this.props.store.user.categories.find(category => category._id === guest.categories[0]);
     return category.name;
   }
 
   render() {
+    let { classes } = this.props;
     return (
       <div>
-        <Button onClick={this.toggle}><AddIcon /></Button>
+        <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.toggle}>
+          <AddIcon className={classes.addIcon} />
+          Add Guest
+        </Button>
+
         {this.state.modal &&
           <MyModal >
             <Modal isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
@@ -162,4 +179,9 @@ class CreateGuest extends Component {
   }
 }
 
-export default CreateGuest;
+
+CreateGuest.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(CreateGuest);

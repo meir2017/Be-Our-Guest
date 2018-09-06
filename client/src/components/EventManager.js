@@ -31,7 +31,7 @@ const styles = theme => ({
   },
   button: {
     // margin: theme.spacing.unit,
-    width: 160,
+   // minWidth: 160,
     fontSize: 13,
     color: theme.palette.common.white,
     '&:hover': {

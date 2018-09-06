@@ -9,44 +9,18 @@ import axios from 'axios';
 
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1
-    },
-    flex: {
-        flexGrow: 1
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20
-    },
+    root: {        
+        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },    
+    
     menuAccountButton: {
-        float: 'right',
+      //  float: 'right',
         //marginRight: 1520,
-        marginLeft: 1150,
+        //marginLeft: 1150,
     },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-    },
-    paper: {
-        width: 300,
-        zIndex: 200,
-    },
-    rootList: {
-        width: '100%',
-        maxWidth: 260,
-        backgroundColor: theme.palette.background.paper,
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 300,
-    },
-    listSection: {
-        backgroundColor: 'inherit',
-    },
-    ul: {
-        backgroundColor: 'inherit',
-        padding: 0,
-    },
+
 });
 @inject("store")
 @observer
