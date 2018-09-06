@@ -61,7 +61,7 @@ class CreateEvent extends Component {
         return (
             <div>
                 <MyModal >
-                    <Modal style={{ width: "350px" }} isOpen={this.props.modalCreate} toggle={this.toggle} className="CreateNewEvent">
+                    <Modal isOpen={this.props.modalCreate} toggle={this.toggle} className="CreateNewEvent">
                         <ModalHeader toggle={this.toggle}>Create New Event</ModalHeader>
                         <ModalBody>
                             <TextField
@@ -91,7 +91,7 @@ class CreateEvent extends Component {
                             <br />
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.handlerSaveEven}>Save event</Button>{' '}
+                            <Button color="primary" onClick={this.handlerSaveEven}>Save</Button>{' '}
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
@@ -100,7 +100,6 @@ class CreateEvent extends Component {
         );
     }
 }
-
 
 export default CreateEvent;
 

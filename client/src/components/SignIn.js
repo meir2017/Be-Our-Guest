@@ -60,7 +60,7 @@ class SignIn extends Component {
                 </ModalBody>
                 <CardBody>
                     <div className="pas">
-                        <p>Forgot <a onClick={() => { this.props.BtnPassword() }} className="blue-text">Password?</a></p>
+                        <p>Forgot <a  onClick={() => { this.props.BtnPassword() }} className="blue-text">Password?</a></p>
                     </div>
 
                 </CardBody>

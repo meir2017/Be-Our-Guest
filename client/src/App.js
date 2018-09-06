@@ -33,7 +33,7 @@ class App extends Component {
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
     let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
-
+    
     if (user !== null) {
       console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })

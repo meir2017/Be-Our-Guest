@@ -120,18 +120,17 @@ class CreateGuest extends Component {
               <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
               <ModalBody>
                 <TextField
-                  id="name" required label="Name" type="text" className="textField"
+                  id="name" label="Name" type="text" className="textField"
                   name="name" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
-                  id="email" required label="Email" type="email" className="textField"
+                  id="email" label="Email" type="email" className="textField"
                   name="email" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
                   id="phone" label="Phone" type="text" className="textField"
-
                   name="phone" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />

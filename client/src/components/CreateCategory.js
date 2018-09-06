@@ -60,11 +60,6 @@ class CreateCategory extends Component {
 
               <input type="color" onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
 
-              {/* <TextField
-                              id="colorCode" type="color" className="colorInput"
-                              name="colorCode" onChange={this.onChangeText} value={this.colorCode}
-                          /> */}
-
               <br />
             </ModalBody>
             <ModalFooter>

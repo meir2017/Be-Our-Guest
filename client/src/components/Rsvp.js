@@ -3,20 +3,12 @@
 import React, { Component } from 'react';
 import Checkbox from "@material-ui/core/Checkbox";
 import { Button, Form } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-// import logo from '../../.public/loading.jpg';
-// import logo from '../../public/loading.jpg';
 
-
-
-// comment: String,
-// numInvited: Number,
-// numComing: Number,
-// numNotComing: Number,
-// seated: Boolean
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 @inject("store")
@@ -42,7 +34,8 @@ class Rsvp extends Component {
             coming: 0,
             notComing: 0,
             numInvited: "",
-            vient: ""
+            vient: "",
+            returnRsvp: false
 
 
         }
@@ -97,8 +90,8 @@ class Rsvp extends Component {
         axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
             .then(response => {
                 console.log((response.data))
-                // this.props.store.addInvitation(response.data)
             })
+        this.toggleSendRsvp(e)
     }
 
     componentWillMount = () => {
@@ -123,17 +116,16 @@ class Rsvp extends Component {
                 this.getUserInfo();
 
             })
-
-
-
     }
-    getUserInfo = () => {
+    toggleSendRsvp = (e) => {
+        e.preventDefault();
 
-        // let infoEvent = {
-        //     vetId: this.props.match.params.vetId,
-        //     eventId: this.props.match.params.eventId,
-        //     guestId: this.props.match.params.guestId
-        // }
+        this.setState({
+            returnRsvp: !this.state.returnRsvp
+        });
+    }
+
+    getUserInfo = () => {
         let vetId = this.props.match.params.vetId;
         axios.get(`/beOurGuest/rsvpGuest/${vetId}`)
             .then(response => {
@@ -157,19 +149,13 @@ class Rsvp extends Component {
     }
 
     render() {
-        // let newArry = [];
-        // for (let index = 0; index < this.state.coming; index++) {
-        //     newArry.push(index)
-        // }
-        // this.setState({ arryComing: this.newArry })
-        // this.props.ChangeToRsvpPage();
         return (
             <div>
                 <div className="row">
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6" >
                         <br /><br />  <br />
-                        <Form className="display_rsvp" onSubmit={this.Submitfunc} style={{ backgroundColor: `${this.state.background}` }} >
+                        <Form className="display_rsvp" onSubmit={this.toggleSendRsvp} style={{ backgroundColor: `${this.state.background}` }} >
                             <div  >
                                 <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
                                 <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
@@ -226,7 +212,14 @@ class Rsvp extends Component {
                     <div className="col-sm-3"></div>
                 </div>
 
+                <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.returnRsvp} toggle={this.toggleSendRsvp}>
+                    <ModalHeader toggle={this.toggle}>Do you want to send your rsvp?</ModalHeader>
+                    <ModalFooter className="btnSend" >
+                        <Button onClick={this.Submitfunc} color="primary">Yes</Button>
+                        <Button onClick={this.toggleSendRsvp} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
+                    </ModalFooter>
 
+                </Modal>
             </div>
         );
     }

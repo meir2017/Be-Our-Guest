@@ -86,33 +86,6 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
         });
 })
 
-//rsvp test
-app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'BeOurGuestMail@gmail.com',
-            pass: 'guest2018'
-        }
-    });
-    // transporter.use('compile', inlineCss());
-    let mailOptions = {
-        from: 'Be Our Guest ',
-        to: req.params.email,
-        subject: 'be our guest',
-        html: '<h2 style="color:lightskyblue"><a href="http://localhost:3000/beuorguest/rsvp/:evntid/:guestid">enter to rsvp</a></h2><p>Be Our Guest</p>'
-    };
-    //http://localhost:3000/beuorguest/rsvp/:evntid/:guestid
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-            res.send(error);
-        } else {
-            console.log('Email sent: ' + user.username);
-            res.send('Your password is waiting for you by e-mail')
-        }
-    });
-})
 
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
@@ -364,6 +337,7 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
     })
 })
 
+
 // get rsvp page
 app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
     let item = req.params
@@ -389,12 +363,21 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
     let vetId = req.params.vetId;
     let eventId = req.params.eventId;
 
-    Guest.
-        find({}).
-        populate({ path: 'globalGuest_id', select: 'email' }).
+
+    // Guest.
+    // find({}).
+    // populate({ path: 'globalGuest_id', select: 'email' }).
+    Event.findById(req.params.eventId).
+        populate({
+            path: 'guests',
+            populate: {
+                path: 'globalGuest_id'
+            }
+        }).
         exec(function (err, mYguest) {
             if (err) return handleError(err);
-            mYguest.forEach(guest => {
+            console.log(mYguest)
+            mYguest.guests.forEach(guest => {
                 console.log(guest.globalGuest_id.email)
 
                 /////
@@ -420,7 +403,7 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
             <button style="background-color:#91ff35;border-radius: 10px">
             <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
             </button>
-  
+
             <br>
           </div>  `
 
@@ -438,19 +421,6 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
             res.send(JSON.stringify(mYguest))
         });
 
-
-
-
-    // console.log(x++)
-    // console.log(element.globalGuest_id.email)
-
-
-    // console.log("vetId  "+item.vetId);
-
-    // Invitation.findById(item.vetId, function (err, vet) {
-    //   if (err) return handleError(err);
-    //   res.send(vet);
-    // })
 })
 
 // guest return Answer
@@ -461,15 +431,14 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
     // notComing
     // numUndecided
     let item = req.body
+    console.log(req.body.guestId)
     Guest.findById(req.body.guestId).
         then(guest => {
             console.log(guest)
-            console.log("numConfirmed  " + guest.numConfirmed);
-            console.log("numUndecided  " + guest.numInvited);
+            console.log("numInvited  " + guest.numInvited);
+            console.log("numComing  " + guest.numComing);
             guest.numNotComing = req.body.notComing;
             guest.numComing = req.body.coming;
-            // guest.numInvited = req.body.numInvited;
-
             // comment: String,
             // numInvited: Number,
             // numComing: Number,

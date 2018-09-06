@@ -41,22 +41,17 @@ class SignUp extends Component {
 
         return (
             <div>
-
-                <form action="" onSubmit={this.onClickBtn}>
+                <div>
                     <ModalBody state={{ textAlign: "center" }}>
                         <TextField
-                            minLength={6}
                             id="User" label="User name" type="text"
                             className="textField" margin="normal"
                             name="inputText"
-                            required
-
                             onChange={this.onChangeText} value={this.state.inputText}
                         />
                         <br />
                         <TextField
-                            required
-                            id="emil" label="Email" type="email"
+                            id="emil" label="Email" type="text"
                             className="textField" margin="normal"
                             name="emailText"
                             onChange={this.onChangeText} value={this.state.emailText}
@@ -64,23 +59,28 @@ class SignUp extends Component {
                         <br />
                         <TextField
                             id="password-input" label="Password"
-                            required
                             type="password" className="textField" margin="normal"
                             name="passText"
                             onChange={this.onChangeText} value={this.state.passText}
                         />
                         <br />
                         <TextField
-                            id="passConfirm" label="Confirm" required
+                            id="passConfirm" label="Confirm"
                             type="password" className="textField" margin="normal"
                             name="passConfirm"
                             onChange={this.onChangeText} value={this.state.passConfirm}
                         />
                         <br /><br />
-                        <Button variant="contained" type="Submit" color="primary" >register  </Button>
+                        <Button variant="contained" onClick={this.onClickBtn} color="primary" >register  </Button>
                         <br /><br />
                     </ModalBody>
-                </form>
+                    {/* <CardBody>
+                    <div className="pas">
+                        <p>Forgot <a href="#" className="blue-text">Password?</a></p>
+                    </div>
+                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                </CardBody> */}
+                </div>
             </div>
         );
     }

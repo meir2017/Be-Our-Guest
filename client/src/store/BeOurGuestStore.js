@@ -1,4 +1,4 @@
-import { observable, action, computed, observer, reaction } from "mobx";
+ import { observable, action, computed, observer, reaction } from "mobx";
 
 
 class BeOurGuestStore {
@@ -43,27 +43,32 @@ class BeOurGuestStore {
     console.log(JSON.stringify(this.user.categories))
 
     let user = {
-      username: userInfo.username,
-      password: userInfo.password
+      username: item.username,
+      password: item.password
     }
 
-    // @action populateEvent = () => {
-    /*   this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor(), _id:'0'},
-      { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
-      { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
-      { name: "Groom Friends", colorCode: this.getRandomColor(), _id: '3' }
-      ]; */
-    //   this.user.events[this.eventIndex].guests =
-    //    [{ name: "Shlomo Steinitz", _id: "44", categories: [1, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 },
-    //   { name: "Akiva Stern", _id: "45", categories: [0] ,seated:false,  numInvited:2, numConfirmed:2, numNotComing:0},
-    //   { name: "Rivki and Yoel Ben David", _id: "46", categories: [1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
-    //   { name: "Tzvi Stern", _id: "47", categories: [2], seated:false,  numInvited:4, numConfirmed:3, numNotComing:0 },
-    //    { name: "Akiva Stern", _id: "30", categories: [0, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 }, 
-    //    { name: "Shana Stern", _id: "48", categories: [0], seated:false,  numInvited:1, numConfirmed:1, numNotComing:0 },
-    //   { name: "Akiva Stern", _id: "31", categories: [2, 1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
-    //   { name: "Joshua Stern", _id: "49", categories: [1], seated:false, numInvited:5, numConfirmed:4 , numNotComing:0}];
+   
+    
+    localStorage.setItem("beOurGuestUser", JSON.stringify(user));
+  }
 
-    //  /*  this.user.events[0].tables = [
+   // @action populateEvent = () => {
+      /*   this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor(), _id:'0'},
+        { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
+        { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
+        { name: "Groom Friends", colorCode: this.getRandomColor(), _id: '3' }
+        ]; */
+      //   this.user.events[this.eventIndex].guests =
+      //    [{ name: "Shlomo Steinitz", _id: "44", categories: [1, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 },
+      //   { name: "Akiva Stern", _id: "45", categories: [0] ,seated:false,  numInvited:2, numConfirmed:2, numNotComing:0},
+      //   { name: "Rivki and Yoel Ben David", _id: "46", categories: [1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
+      //   { name: "Tzvi Stern", _id: "47", categories: [2], seated:false,  numInvited:4, numConfirmed:3, numNotComing:0 },
+      //    { name: "Akiva Stern", _id: "30", categories: [0, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 }, 
+      //    { name: "Shana Stern", _id: "48", categories: [0], seated:false,  numInvited:1, numConfirmed:1, numNotComing:0 },
+      //   { name: "Akiva Stern", _id: "31", categories: [2, 1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
+      //   { name: "Joshua Stern", _id: "49", categories: [1], seated:false, numInvited:5, numConfirmed:4 , numNotComing:0}];
+
+      //  /*  this.user.events[0].tables = [
     //         { _id: "1", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Yocheved & Shimon Steinitz", _id: "1", categories: [1, 2] }, { name: "Dror", _id: "2", categories: [0] }] },
     //         { _id: "2", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Shimon", _id: "3", categories: [1] }, { name: "Rachel", _id: "4", categories: [1, 2] }] },
     //         { _id: "3", category: this.user.categories[1], title: this.user.categories[1].name, guests: [{ name: "tal", _id: "5", categories: [3] }, { name: "Meir", _id: "6", categories: [1, 2, 3] }] },
@@ -74,15 +79,15 @@ class BeOurGuestStore {
     //     ] */
     // }
 
-    /*  @action populateEventCategories = () => {
-         let self = this;
-         this.user.events.forEach((event, eventIx) => {
-             event.guests.forEach((guest, guestIx) => {
-                 let guestCategory = self.user.categories.find(category => category.id === guest.categories[0].id);
-                 self.user.events[eventIx].guests[guestIx].categories = [{ _id: guestCategory._id, name: guestCategory.name }];
-             });
-         })} */
-  }
+   /*  @action populateEventCategories = () => {
+        let self = this;
+        this.user.events.forEach((event, eventIx) => {
+            event.guests.forEach((guest, guestIx) => {
+                let guestCategory = self.user.categories.find(category => category.id === guest.categories[0].id);
+                self.user.events[eventIx].guests[guestIx].categories = [{ _id: guestCategory._id, name: guestCategory.name }];
+            });
+        })} */
+
   @action updateEventIndex = eventIndex => {
     this.user.eventIndex = eventIndex;
   }
@@ -187,62 +192,67 @@ class BeOurGuestStore {
   }
 
   // @action populateEvent = () => {
-  /*  this.user.events[0] = {
-    _id:"1", 
-    maxGuests: 50,
-    tables: [
-        { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
-        {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
-        {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
-        {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
-        {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
-        {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
-        {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
-    ]
-  } */
+    /*  this.user.events[0] = {
+      _id:"1", 
+      maxGuests: 50,
+      tables: [
+          { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
+          {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
+          {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
+          {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
+          {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
+          {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
+          {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
+      ]
+    } */
 
-  //  this.user.events[0] = {
-  //     _id: "1",
-  //     maxGuests: 50,
-  //     Title: "meir",
-  //     invitations: [],
-  //     tables: [
-  //         { _id: "1", maxGueste: 10, title: "Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
-  //         { _id: "2", maxGueste: 10, title: "Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" }] },
-  //         { _id: "3", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" }] },
-  //         { _id: "4", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" }] },
-  //         { _id: "5", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" }] },
-  //         { _id: "6", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" }] },
-  //         { _id: "7", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" }] }
-  //     ]
+    //  this.user.events[0] = {
+    //     _id: "1",
+    //     maxGuests: 50,
+    //     Title: "meir",
+    //     invitations: [],
+    //     tables: [
+    //         { _id: "1", maxGueste: 10, title: "Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
+    //         { _id: "2", maxGueste: 10, title: "Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" }] },
+    //         { _id: "3", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" }] },
+    //         { _id: "4", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" }] },
+    //         { _id: "5", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" }] },
+    //         { _id: "6", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" }] },
+    //         { _id: "7", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" }] }
+    //     ]
+    // }
+
   // }
+    /// Table function
+    @action addTable = (newTable) => {
+        let tables = this.user.events[this.eventIndex].tables.push(newTable);
+        console.log(this.user.events[this.eventIndex].tables);
 
-  // }
-  /// Table function
-  @action addTable = (newTable) => {
-    let tables = this.user.events[this.eventIndex].tables.push(newTable);
-    console.log(this.user.events[this.eventIndex].tables);
+    }
+    @action updateTable = (table, index) => {
+        this.user.events[this.eventIndex].tables[index] = table;
+        console.log(table);
+       
+    }
 
-  }
-  @action updateTable = (table, index) => {
-    this.user.events[this.eventIndex].tables[index] = table;
-    console.log(table);
+    @action updateTableById = (newTable) => {
+        let index = this.user.events[this.eventIndex].tables.findIndex(table => table._id === newTable._id);
+        this.user.events[this.eventIndex].tables[index] = newTable;
+        console.log(newTable);
 
-  }
+    }
 
-  @action updateTableById = (newTable) => {
-    let index = this.user.events[this.eventIndex].tables.findIndex(table => table._id === newTable._id);
-    this.user.events[this.eventIndex].tables[index] = newTable;
-    console.log(newTable);
+    @action updateTables = (newTables) => {
+        this.user.events[this.eventIndex].tables = newTables;
+        console.log(newTables);
+      
+    }
 
-  }
-
-  @action updateTables = (newTables) => {
-    this.user.events[this.eventIndex].tables = newTables;
-    console.log(newTables);
-
-  }
-
+    @action updateGuests = (newGuests) => {
+        this.user.events[this.eventIndex].guests = newGuests;
+        console.log(newGuests);
+    }
+  
 }
 
 const store = new BeOurGuestStore();

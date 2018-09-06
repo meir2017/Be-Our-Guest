@@ -64,6 +64,7 @@ class GuestInfo extends Component {
       .then(response => {
         console.log((response.data));
         this.props.store.removeGuest(index);
+        this.props.store.updateTableById(response.data);
       })
   }
 
@@ -82,11 +83,11 @@ class GuestInfo extends Component {
     )
   };
 
-  // displayCategoryName = guest => {
-  //   let categoryInfo = this.props.store.user.categories.find(category =>
-  //     category._id === guest.categories[0]);
-  //   return categoryInfo.name;
-  // }
+  displayCategoryName = guest => {
+    let categoryInfo = this.props.store.user.categories.find(category =>
+      category._id === guest.categories[0]);
+    return categoryInfo.name;
+  }
 
   render() {
     let { classes } = this.props;
@@ -125,7 +126,7 @@ class GuestInfo extends Component {
                     </TableCell>
                     <TableCell>{guest.globalGuest_id.email}</TableCell>
                     <TableCell>{guest.globalGuest_id.phone}</TableCell>
-                    {/* <TableCell>{this.displayCategoryName(guest)}</TableCell> */}
+                    <TableCell>{this.displayCategoryName(guest)}</TableCell>
                     <TableCell numeric>{guest.numComing}</TableCell>
                     <TableCell numeric>{guest.numNotComing}</TableCell>
                     <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
@@ -137,12 +138,7 @@ class GuestInfo extends Component {
                       <IconButton aria-label="Delete" className={classes.iconButton} onClick={(e) => this.handleRemoveGuest(e, index)} >
                         <ClearIcon className={classes.icon} />
                       </IconButton>
-                      {/*  <i className="material-icons" id={index} onClick={this.handleEdit}>
-                        border_color
-                      </i>
-                      <i className="material-icons" id={index} onClick={this.handleRemoveGuest}>
-                        delete
-                      </i> */}
+
                     </TableCell>
                   </TableRow>
                 );
