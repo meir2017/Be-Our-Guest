@@ -35,7 +35,7 @@ class CreateGuest extends Component {
       [event.target.name]: event.target.selectedOptions[0].innerText
     });
   };
-  
+
   onChangeText = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -103,17 +103,18 @@ class CreateGuest extends Component {
               <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
               <ModalBody>
                 <TextField
-                  id="name" label="Name" type="text" className="textField"
+                  id="name" required label="Name" type="text" className="textField"
                   name="name" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
-                  id="email" label="Email" type="email" className="textField"
+                  id="email" required label="Email" type="email" className="textField"
                   name="email" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
                 <TextField
                   id="phone" label="Phone" type="text" className="textField"
+
                   name="phone" onChange={this.onChangeText} value={this.inputText}
                 />
                 <br />
@@ -122,7 +123,7 @@ class CreateGuest extends Component {
                 <InputLabel htmlFor="category">Category</InputLabel>
                 <Select
                   native
-                  label="Category" 
+                  label="Category"
                   value={this.state.category}
                   id="category"
                   name="categoryName"

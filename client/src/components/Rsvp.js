@@ -10,6 +10,13 @@ import FormControl from '@material-ui/core/FormControl';
 // import logo from '../../.public/loading.jpg';
 // import logo from '../../public/loading.jpg';
 
+
+
+// comment: String,
+// numInvited: Number,
+// numComing: Number,
+// numNotComing: Number,
+// seated: Boolean
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 @inject("store")
@@ -30,20 +37,50 @@ class Rsvp extends Component {
             whereEvent: "",
 
 
-            checkedB: false,
-            numGuest: 0,
-            myText: "",
+            arryComing: [],
+            arryNotComing: [],
+            coming: 0,
+            notComing: 0,
+            numInvited: "",
+            vient: ""
 
-            display_rsvp: false
+
         }
     }
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.checked });
-        // alert(this.state[name])
-    };
-    handleChangeGuest = name => event => {
-        this.setState({ [name]: event.target.value });
-        // alert(this.state[name])
+
+
+    onSelectConfirmed = (e) => {
+        debugger
+        let coming = this.state.coming
+        let notComing = this.state.notComing
+        let numInvited = this.state.numInvited
+        let vient = this.state.vient;
+        if (e.target.name === "coming") {
+            console.log("coming")
+            coming = e.target.value;
+            numInvited = vient - coming - notComing;
+            notComing = vient - coming;
+        }
+
+        if (e.target.name === "notComing") {
+            console.log("notComing")
+            notComing = e.target.value;
+            numInvited = vient - coming - notComing;
+            coming = vient - notComing;
+        }
+
+        console.log(this.state.coming)
+        let setArryComing = [];
+        let setArryNotComing = [];
+
+        for (let index = 0; index <= coming; index++) {
+            setArryComing.push(index)
+        }
+        for (let index = 0; index <= notComing; index++) {
+            setArryNotComing.push(index)
+        }
+
+        this.setState({ [e.target.name]: e.target.value, arryComing: setArryComing, arryNotComing: setArryNotComing, numInvited: numInvited });
     };
     Submitfunc = (e) => {
         e.preventDefault();
@@ -51,8 +88,9 @@ class Rsvp extends Component {
         console.log(this.state.checkedB);
         //send the info to evntid,gustid
         let objRsvp = {
-            checkedB: this.state.checkedB,
-            numGuest: this.state.numGuest,
+            coming: this.state.coming,
+            notComing: this.state.notComing,
+            numInvited: this.state.numInvited,
             guestId: this.props.match.params.guestId
         }
         console.log(this.props.match.params.guestId)
@@ -64,8 +102,30 @@ class Rsvp extends Component {
     }
 
     componentWillMount = () => {
-        this.props.ChangeToRsvpPage();
-        this.getUserInfo();
+        let guestId = this.props.match.params.guestId;
+
+        axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
+            .then(response => {
+                debugger
+                console.log("rsvpGuest")
+                let item = response.data;
+                this.setState({
+                    numInvited: item.numInvited,
+                    vient: item.numInvited
+                })
+
+                let newArry = [];
+                for (let index = 0; index <= item.numInvited; index++) {
+                    newArry.push(index)
+                }
+                this.setState({ arryComing: newArry, arryNotComing: newArry })
+                this.props.ChangeToRsvpPage();
+                this.getUserInfo();
+
+            })
+
+
+
     }
     getUserInfo = () => {
 
@@ -74,7 +134,6 @@ class Rsvp extends Component {
         //     eventId: this.props.match.params.eventId,
         //     guestId: this.props.match.params.guestId
         // }
-
         let vetId = this.props.match.params.vetId;
         axios.get(`/beOurGuest/rsvpGuest/${vetId}`)
             .then(response => {
@@ -92,19 +151,24 @@ class Rsvp extends Component {
                     fontTitle: item.fontTitle,
                     fontBody: item.fontBody,
                     display_rsvp: true
-
                 })
-            })
+            });
 
     }
 
     render() {
+        // let newArry = [];
+        // for (let index = 0; index < this.state.coming; index++) {
+        //     newArry.push(index)
+        // }
+        // this.setState({ arryComing: this.newArry })
+        // this.props.ChangeToRsvpPage();
         return (
             <div>
                 <div className="row">
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6" >
-                        <br /><br />
+                        <br /><br />  <br />
                         <Form className="display_rsvp" onSubmit={this.Submitfunc} style={{ backgroundColor: `${this.state.background}` }} >
                             <div  >
                                 <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
@@ -113,38 +177,50 @@ class Rsvp extends Component {
                                 </div>
                                 <p>{this.state.whenEvent}  <br />  {this.state.whereEvent}</p>
                             </div>
-                            are you caming:   <Checkbox
-                                checked={this.state.checkedB}
-                                onChange={this.handleChange("checkedB")}
-                                value="checkedB"
-                                color="primary"
-                            />
-                            <br /><br />
+                            <hr />
+                            <div className="row">
+                                <div className="col-sm-4">
+                                    <label htmlFor="">Coming</label>
+                                    <div className="rsvpInput">
+                                        {/* {this.SetComing(this.state.coming)} */}
+                                        <select className="form-control" id="coming" value={this.state.coming} onChange={this.onSelectConfirmed} name="coming">
+                                            {this.state.arryComing.map((item, index) => {
+                                                return <option key={index + item}>{item} </option>
 
-                            <FormControl>
-                                How many will you come?  <InputLabel htmlFor="age-native-simple"></InputLabel>
-                                <Select
-                                    native
-                                    value={this.state.numGuest}
-                                    onChange={this.handleChangeGuest('numGuest')}  >
-                                    <option value="" />
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                    <option value={5}>5</option>
-                                    <option value={6}>6</option>
-                                    {/* {this.props.store.user.categories.map((item, index) => {
-                                     return   <option key={item._id} value={1}>{item.name}</option>
-                                    })} */}
-                                </Select>
-                            </FormControl>
-                            <br />
-                            <br />
+                                            })}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-sm-4 rsvpForm m2">
+                                    <label htmlFor="">Not Coming</label>
+                                    <div className="rsvpInput">
+                                        <select className="form-control" id="notComing" value={this.state.notComing} onChange={this.onSelectConfirmed} name="notComing">
+                                            {this.state.arryNotComing.map((item, index) => {
+                                                return <option key={index + item}>{item} </option>
+
+                                            })}
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div className="col-sm-4">
+                                    <label htmlFor="">Undecided</label>
+
+                                    <div className="Undecided" id="Undecided">
+                                        <div className="Undecided1">
+                                            {this.state.numInvited}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <br />
                             <Button>Submit</Button>
-                            <br />
-                            <br />
+
+                            <br />  <br />
                         </Form>
                     </div>
                     <div className="col-sm-3"></div>

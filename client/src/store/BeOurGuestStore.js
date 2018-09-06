@@ -1,4 +1,4 @@
- import { observable, action, computed, observer, reaction } from "mobx";
+import { observable, action, computed, observer, reaction } from "mobx";
 
 
 class BeOurGuestStore {
@@ -30,38 +30,42 @@ class BeOurGuestStore {
   }
 
   @action updateUser = (item) => {
+    debugger
     let userInfo = item.user;
     this.user.userLog = true;
     this.user._Id = userInfo._id
     this.user.username = userInfo.username;
     this.user.events = userInfo.events;
     this.user.guests = userInfo.guests;
-    this.user.categories = item.userCategories;
+    debugger
+    // this.user.categories = userInfo.userCategories;
+    this.user.categories = userInfo.categories;
+
     // console.log(JSON.stringify(this.user.events))
     console.log(JSON.stringify(this.user.categories))
 
     let user = {
-      username: item.username,
-      password: item.password
+      username: userInfo.username,
+      password: userInfo.password
     }
 
     // @action populateEvent = () => {
-      /*   this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor(), _id:'0'},
-        { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
-        { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
-        { name: "Groom Friends", colorCode: this.getRandomColor(), _id: '3' }
-        ]; */
-      //   this.user.events[this.eventIndex].guests =
-      //    [{ name: "Shlomo Steinitz", _id: "44", categories: [1, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 },
-      //   { name: "Akiva Stern", _id: "45", categories: [0] ,seated:false,  numInvited:2, numConfirmed:2, numNotComing:0},
-      //   { name: "Rivki and Yoel Ben David", _id: "46", categories: [1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
-      //   { name: "Tzvi Stern", _id: "47", categories: [2], seated:false,  numInvited:4, numConfirmed:3, numNotComing:0 },
-      //    { name: "Akiva Stern", _id: "30", categories: [0, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 }, 
-      //    { name: "Shana Stern", _id: "48", categories: [0], seated:false,  numInvited:1, numConfirmed:1, numNotComing:0 },
-      //   { name: "Akiva Stern", _id: "31", categories: [2, 1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
-      //   { name: "Joshua Stern", _id: "49", categories: [1], seated:false, numInvited:5, numConfirmed:4 , numNotComing:0}];
+    /*   this.user.categories = [{ name: "Bride Family", colorCode: this.getRandomColor(), _id:'0'},
+      { name: "Groom Family", colorCode: this.getRandomColor(), _id: '1' },
+      { name: "Bride Friends", colorCode: this.getRandomColor(), _id: '2' },
+      { name: "Groom Friends", colorCode: this.getRandomColor(), _id: '3' }
+      ]; */
+    //   this.user.events[this.eventIndex].guests =
+    //    [{ name: "Shlomo Steinitz", _id: "44", categories: [1, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 },
+    //   { name: "Akiva Stern", _id: "45", categories: [0] ,seated:false,  numInvited:2, numConfirmed:2, numNotComing:0},
+    //   { name: "Rivki and Yoel Ben David", _id: "46", categories: [1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
+    //   { name: "Tzvi Stern", _id: "47", categories: [2], seated:false,  numInvited:4, numConfirmed:3, numNotComing:0 },
+    //    { name: "Akiva Stern", _id: "30", categories: [0, 2], seated:false, numInvited:2, numConfirmed:2, numNotComing:0 }, 
+    //    { name: "Shana Stern", _id: "48", categories: [0], seated:false,  numInvited:1, numConfirmed:1, numNotComing:0 },
+    //   { name: "Akiva Stern", _id: "31", categories: [2, 1], seated:false,  numInvited:2, numConfirmed:2, numNotComing:0 },
+    //   { name: "Joshua Stern", _id: "49", categories: [1], seated:false, numInvited:5, numConfirmed:4 , numNotComing:0}];
 
-      //  /*  this.user.events[0].tables = [
+    //  /*  this.user.events[0].tables = [
     //         { _id: "1", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Yocheved & Shimon Steinitz", _id: "1", categories: [1, 2] }, { name: "Dror", _id: "2", categories: [0] }] },
     //         { _id: "2", category: this.user.categories[0], title: this.user.categories[0].name, guests: [{ name: "Shimon", _id: "3", categories: [1] }, { name: "Rachel", _id: "4", categories: [1, 2] }] },
     //         { _id: "3", category: this.user.categories[1], title: this.user.categories[1].name, guests: [{ name: "tal", _id: "5", categories: [3] }, { name: "Meir", _id: "6", categories: [1, 2, 3] }] },
@@ -179,62 +183,62 @@ class BeOurGuestStore {
   }
 
   // @action populateEvent = () => {
-    /*  this.user.events[0] = {
-      _id:"1", 
-      maxGuests: 50,
-      tables: [
-          { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
-          {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
-          {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
-          {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
-          {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
-          {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
-          {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
-      ]
-    } */
+  /*  this.user.events[0] = {
+    _id:"1", 
+    maxGuests: 50,
+    tables: [
+        { _id: "1", title:"Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
+        {  _id: "2", title:"Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" } ]},
+        {  _id: "3",  title:"Bride Friends",guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" } ]},
+        {  _id: "4",  title:"Bride Friends",guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" } ]},
+        {  _id: "5",  title:"Bride Friends",guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" } ]},
+        {  _id: "6",  title:"Bride Friends",guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" } ]},
+        {  _id: "7",  title:"Bride Friends",guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" } ]}
+    ]
+  } */
 
-    //  this.user.events[0] = {
-    //     _id: "1",
-    //     maxGuests: 50,
-    //     Title: "meir",
-    //     invitations: [],
-    //     tables: [
-    //         { _id: "1", maxGueste: 10, title: "Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
-    //         { _id: "2", maxGueste: 10, title: "Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" }] },
-    //         { _id: "3", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" }] },
-    //         { _id: "4", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" }] },
-    //         { _id: "5", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" }] },
-    //         { _id: "6", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" }] },
-    //         { _id: "7", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" }] }
-    //     ]
-    // }
+  //  this.user.events[0] = {
+  //     _id: "1",
+  //     maxGuests: 50,
+  //     Title: "meir",
+  //     invitations: [],
+  //     tables: [
+  //         { _id: "1", maxGueste: 10, title: "Bride Family", guests: [{ name: "Yocheved", _id: "1" }, { name: "Dror", _id: "2" }] },
+  //         { _id: "2", maxGueste: 10, title: "Groom Family", guests: [{ name: "Shimon", _id: "3" }, { name: "Rachel", _id: "4" }] },
+  //         { _id: "3", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "5" }, { name: "Meir", _id: "6" }] },
+  //         { _id: "4", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "51" }, { name: "Meir", _id: "62" }] },
+  //         { _id: "5", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "53" }, { name: "Meir", _id: "64" }] },
+  //         { _id: "6", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "55" }, { name: "Meir", _id: "66" }] },
+  //         { _id: "7", maxGueste: 10, title: "Bride Friends", guests: [{ name: "tal", _id: "57" }, { name: "Meir", _id: "68" }] }
+  //     ]
+  // }
 
   // }
-    /// Table function
-    @action addTable = (newTable) => {
-        let tables = this.user.events[this.eventIndex].tables.push(newTable);
-        console.log(this.user.events[this.eventIndex].tables);
+  /// Table function
+  @action addTable = (newTable) => {
+    let tables = this.user.events[this.eventIndex].tables.push(newTable);
+    console.log(this.user.events[this.eventIndex].tables);
 
-    }
-    @action updateTable = (table, index) => {
-        this.user.events[this.eventIndex].tables[index] = table;
-        debugger;
-        console.log(table);
-        debugger;
-    }
+  }
+  @action updateTable = (table, index) => {
+    this.user.events[this.eventIndex].tables[index] = table;
+    debugger;
+    console.log(table);
+    debugger;
+  }
 
-    @action updateTables = (newTables) => {
-        this.user.events[this.eventIndex].tables = newTables;
-        debugger;
-        console.log(newTables);
-        debugger;
-    }
+  @action updateTables = (newTables) => {
+    this.user.events[this.eventIndex].tables = newTables;
+    debugger;
+    console.log(newTables);
+    debugger;
+  }
 
-    @action updateGuests = (newGuests) => {
-        this.user.events[this.eventIndex].guests = newGuests;
-        console.log(newGuests);
-    }
-  
+  @action updateGuests = (newGuests) => {
+    this.user.events[this.eventIndex].guests = newGuests;
+    console.log(newGuests);
+  }
+
 }
 
 const store = new BeOurGuestStore();

@@ -44,10 +44,10 @@ class GuestInfo extends Component {
     let eventId = this.props.store.user.events[this.props.store.eventIndex]._id;
     axios.delete(
       '/beOurGuest/removeGuest/' + eventId + '/' + guestId + '/' + index)
-        .then(response => {
-          console.log((response.data));
-          this.props.store.removeGuest(index);
-        })
+      .then(response => {
+        console.log((response.data));
+        this.props.store.removeGuest(index);
+      })
   }
 
   handleEdit = (e) => {
@@ -65,11 +65,11 @@ class GuestInfo extends Component {
     )
   };
 
-  displayCategoryName = guest => {
-    let categoryInfo = this.props.store.user.categories.find(category =>
-      category._id === guest.categories[0]);
-    return categoryInfo.name;
-  }
+  // displayCategoryName = guest => {
+  //   let categoryInfo = this.props.store.user.categories.find(category =>
+  //     category._id === guest.categories[0]);
+  //   return categoryInfo.name;
+  // }
 
   render() {
 
@@ -91,7 +91,7 @@ class GuestInfo extends Component {
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Phone</TableCell>
-                <TableCell>Categoty</TableCell>
+                {/* <TableCell>Categoty</TableCell> */}
                 <TableCell numeric>Coming</TableCell>
                 <TableCell numeric>Not coming</TableCell>
                 <TableCell numeric>Undecided</TableCell>
@@ -108,7 +108,7 @@ class GuestInfo extends Component {
                     </TableCell>
                     <TableCell>{guest.globalGuest_id.email}</TableCell>
                     <TableCell>{guest.globalGuest_id.phone}</TableCell>
-                    <TableCell>{this.displayCategoryName(guest)}</TableCell>
+                    {/* <TableCell>{this.displayCategoryName(guest)}</TableCell> */}
                     <TableCell numeric>{guest.numComing}</TableCell>
                     <TableCell numeric>{guest.numNotComing}</TableCell>
                     <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
@@ -121,7 +121,7 @@ class GuestInfo extends Component {
                         delete
                       </i>
                     </TableCell>
-                </TableRow>
+                  </TableRow>
                 );
               })}
             </TableBody>

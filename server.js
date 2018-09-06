@@ -211,80 +211,80 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
 app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     let newGuest = req.body;
     let myGlobalGuest = new GlobalGuest({
-      name: newGuest.name,
-      email: newGuest.email,
-      phone: newGuest.phone
+        name: newGuest.name,
+        email: newGuest.email,
+        phone: newGuest.phone
     })
-  
+
     User.findById(req.params.userId)
-      .then(user => {
-        if (user === null) {
-          res.send(user);
-        }
-  
-        myGlobalGuest.save()
-          .then(globalGuest => {
-            // Add guest to user's globalGuest list
-            let guestList = user.guests.concat();
-            guestList.push(globalGuest._id);
-            user.guests = guestList;
-            user.save();
-            console.log('GlobalGuest ' + globalGuest._id + ' saved to user list');
-  
-            // Create guest object
-            let myGuest = new Guest({
-              globalGuest_id: globalGuest._id,
-              invitations: [],
-              categories: newGuest.categories,
-              comment: newGuest.comment,
-              numInvited: newGuest.invited,
-              numComing: newGuest.coming,
-              numNotComing: newGuest.notComing,
-              seated: false
-            });
-            myGuest.categories.push(newGuest.category);
-  
-            Event.findById(req.params.eventId)
-              .then(event => {
-                if (event === null) {
-                  res.send(event);
-                }
-  
-                // Add guest to event's guest list
-                myGuest.save()
-                  .then(guest => {
-                    let guestList = event.guests.concat();
-                    guestList.push(guest._id);
-                    event.guests = guestList;
-                    event.save();
-                    console.log('Guest ' + guest._id + ' saved to event list');
-  
-                    let resultGuest = {
-                      globalGuestId: globalGuest._id,
-                      name: globalGuest.name,
-                      email: globalGuest.email,
-                      phone: globalGuest.phone,
-  
-                      guestId: guest._id,
-                      invitations: guest.invitations,
-                      categories: [{ _id: guest.categories[0], name: newGuest.categoryName }],
-                      comment: guest.comment,
-                      numInvited: guest.numInvited,
-                      numComing: guest.numComing,
-                      numNotComing: guest.numNotComing,
-                      seated: false
-                    };
-  
-                    console.log(resultGuest.id);
-                    res.send(resultGuest);
-                  });
-              });
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  });
+        .then(user => {
+            if (user === null) {
+                res.send(user);
+            }
+
+            myGlobalGuest.save()
+                .then(globalGuest => {
+                    // Add guest to user's globalGuest list
+                    let guestList = user.guests.concat();
+                    guestList.push(globalGuest._id);
+                    user.guests = guestList;
+                    user.save();
+                    console.log('GlobalGuest ' + globalGuest._id + ' saved to user list');
+
+                    // Create guest object
+                    let myGuest = new Guest({
+                        globalGuest_id: globalGuest._id,
+                        invitations: [],
+                        categories: newGuest.categories,
+                        comment: newGuest.comment,
+                        numInvited: newGuest.invited,
+                        numComing: newGuest.coming,
+                        numNotComing: newGuest.notComing,
+                        seated: false
+                    });
+                    myGuest.categories.push(newGuest.category);
+
+                    Event.findById(req.params.eventId)
+                        .then(event => {
+                            if (event === null) {
+                                res.send(event);
+                            }
+
+                            // Add guest to event's guest list
+                            myGuest.save()
+                                .then(guest => {
+                                    let guestList = event.guests.concat();
+                                    guestList.push(guest._id);
+                                    event.guests = guestList;
+                                    event.save();
+                                    console.log('Guest ' + guest._id + ' saved to event list');
+
+                                    let resultGuest = {
+                                        globalGuestId: globalGuest._id,
+                                        name: globalGuest.name,
+                                        email: globalGuest.email,
+                                        phone: globalGuest.phone,
+
+                                        guestId: guest._id,
+                                        invitations: guest.invitations,
+                                        categories: [{ _id: guest.categories[0], name: newGuest.categoryName }],
+                                        comment: guest.comment,
+                                        numInvited: guest.numInvited,
+                                        numComing: guest.numComing,
+                                        numNotComing: guest.numNotComing,
+                                        seated: false
+                                    };
+
+                                    console.log(resultGuest.id);
+                                    res.send(resultGuest);
+                                });
+                        });
+                });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
 
 // remove guest
 app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
@@ -365,6 +365,15 @@ app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
         res.send(vet);
     })
 })
+// get rsvp guestId
+app.get('/beOurGuest/rsvpGuest/guestId/:guestId/', (req, res) => {
+    let item = req.params
+    console.log(item.guestId);
+    Guest.findById(item.guestId, function (err, gust) {
+        if (err) return handleError(err);
+        res.send(gust);
+    })
+})
 
 /// send rsvp to email
 app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
@@ -373,9 +382,9 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
     let eventId = req.params.eventId;
 
     Guest.
-        find({})
-        .populate({ path: 'globalGuest_id', select: 'email' })
-        .exec(function (err, mYguest) {
+        find({}).
+        populate({ path: 'globalGuest_id', select: 'email' }).
+        exec(function (err, mYguest) {
             if (err) return handleError(err);
             mYguest.forEach(guest => {
                 console.log(guest.globalGuest_id.email)
@@ -394,18 +403,18 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
                     to: guest.globalGuest_id.email,
                     subject: item.titleInput,
                     html: `<div style="background-color:${item.background};padding:20px">
-          <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
-          <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
-          <h3>${item.textInput}</h3>
-          </div>
-          <p>${item.whenEvent}<br>
-          ${item.whereEvent}</p>
-          <button style="background-color:#91ff35;border-radius: 10px">
-          <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
-          </button>
-
-          <br>
-        </div>  `
+            <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
+            <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
+            <h3>${item.textInput}</h3>
+            </div>
+            <p>${item.whenEvent}<br>
+            ${item.whereEvent}</p>
+            <button style="background-color:#91ff35;border-radius: 10px">
+            <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
+            </button>
+  
+            <br>
+          </div>  `
 
                     // html: '<h1 style="color:'+sadas+'">Welcome</h1><p>Be Our Guest</p>'
                 };
@@ -439,21 +448,33 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
 // guest return Answer
 
 app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
-    // checkedB    numGuest   guestId 
+    // guestId 
+    // coming
+    // notComing
+    // numUndecided
     let item = req.body
-    Guest.findById(req.body.guestId)
-        .then(guest => {
+    Guest.findById(req.body.guestId).
+        then(guest => {
             console.log(guest)
             console.log("numConfirmed  " + guest.numConfirmed);
-            console.log("numUndecided  " + guest.numUndecided);
-            // guest.numNotComing
-            // guest.numConfirmed
-            // gest.numUndecided
+            console.log("numUndecided  " + guest.numInvited);
+            guest.numNotComing = req.body.notComing;
+            guest.numComing = req.body.coming;
+            // guest.numInvited = req.body.numInvited;
+
+            // comment: String,
+            // numInvited: Number,
+            // numComing: Number,
+            // numNotComing: Number,
+            // seated: Boolean
+
+
             guest.save();
             console.log("rsvp Change")
             res.send()
         })
 })
+
 
 //  Table //////
 //createTable
