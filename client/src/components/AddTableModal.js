@@ -24,7 +24,7 @@ import {
     Select,
     FormControl,
     InputLabel,
-    Tooltip
+    
 
 } from '@material-ui/core';
 
@@ -67,8 +67,8 @@ const styles = theme => ({
         position: 'absolute',
         bottom: theme.spacing.unit * 10,
         right: theme.spacing.unit * 8,
-       
-        zIndex:10
+
+        zIndex: 10
     },
     addIcon: {
         marginRight: theme.spacing.unit,
@@ -231,12 +231,12 @@ class AddTableModal extends Component {
         return (
             <div>
                 <div>
-                    <Tooltip title="Add new table">
+
                     <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}>
-                        <AddIcon className={classes.addIcon}/>
+                        <AddIcon className={classes.addIcon} />
                         Add Table
                     </Button>
-                    </Tooltip>
+
                 </div>
                 {this.dialogChildren()}
             </div>

@@ -15,6 +15,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ClearIcon from '@material-ui/icons/Clear';
 import CreateCategory from './CreateCategory';
 
 const styles = theme => ({
@@ -191,8 +192,8 @@ class OurMenu extends Component {
                               <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
                                 <Icon onClick={this.handleEdit} id={index} >edit_icon</Icon>
                               </IconButton>
-                              <IconButton aria-label="Delete">
-                                <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
+                              <IconButton aria-label="Delete" onClick={this.handlerRemoveEvent} id={index}>
+                                 <ClearIcon className={classes.icon}  />
                               </IconButton>
                             </ListItem>
                           )
@@ -204,7 +205,7 @@ class OurMenu extends Component {
                 <MenuItem onClick={this.handleClose} onClick={this.openModalCategory} >Create category</MenuItem>
                 <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
                   <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Select Category</Typography>
+                    <Typography className={classes.heading}>List of Categories</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <List className={classes.rootList} subheader={<li />}>
