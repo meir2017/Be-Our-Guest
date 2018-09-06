@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../App.css'
+import '../App.css';
+import axios from 'axios';
 //import styled from 'styled-components';
 //import 'typeface-roboto'
 import Guest from './Guest'
@@ -19,6 +20,13 @@ import {
     Typography,
     IconButton,
     Avatar,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Button,
+    Tooltip
 
 } from '@material-ui/core';
 
@@ -32,7 +40,7 @@ const styles = theme => ({
     tableWrapper: {
         margin: 8,
         width: 280,
-        height: 500,
+        minHeight: 500,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -79,7 +87,8 @@ const styles = theme => ({
     },
     guestListWrapper: {
         paddingTop: 5,
-        overflowY: 'scroll',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
     }
 
 
@@ -93,22 +102,121 @@ const styles = theme => ({
 @inject("store")
 @observer
 class Table extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { openDeleteTable: false };
+    }
+
+    handleOpenDeleteTable = () => {
+        this.setState({ openDeleteTable: true });
+    };
+
+    handleCloseDeleteTable = () => {
+        this.setState({ openDeleteTable: false });
+    };
+
+
+    handleRemoveGuestClick = (guestIndex) => {
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        let tables = Array.from(currentEvent.tables);
+        let guests = Array.from(currentEvent.guests);
+
+        let myTable = tables.find(table => this.props.table._id === table._id);
+        let myGuest = myTable.guests.splice(guestIndex, 1);
+
+        let theGuest = guests.find(guest => guest._id === myGuest[0]);
+        theGuest.seated = false;
+
+        axios.post('/beOurGuest/updateGuestsInTable/', myTable)
+            .then(response => {
+                console.log(response);
+            }).then(res => {
+                axios.post('/beOurGuest/updateEventGuest/', theGuest)
+                    .then(res1 => {
+                        console.log(res1);
+                    });
+            })
+            .catch(err => console.log('Error: ', err));
+        this.props.store.updateGuests(guests);
+        this.props.store.updateTables(tables);
+
+    }
+
+    handleDeleteTable = () => {
+        this.setState({ openDeleteTable: false });
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        let tables = Array.from(currentEvent.tables);
+        let guests = Array.from(currentEvent.guests);
+
+        let myTable = tables.find(table => this.props.table._id === table._id);
+        let tableIndex = tables.findIndex(table => this.props.table._id === table._id)
+
+
+        for (let i = 0; i < myTable.guests.length; i++) {
+            let myGuests = guests.find(guest => guest._id === myTable.guests[i]);
+            myGuests.seated = false;
+        }
+
+        tables.splice(tableIndex, 1);
+
+
+        this.props.store.updateGuests(guests);
+        this.props.store.updateTables(tables);
+
+
+
+        axios.post('/beOurGuest/deleteTable/' + currentEvent._id, { _id: this.props.table._id })
+            .then(response => {
+                console.log(response);
+            }).then(res => {
+                axios.post('/beOurGuest/updateGuests/', guests)
+                    .then(res1 => {
+                        console.log(res1);
+                    });
+            })
+            .catch(err => console.log('Error: ', err));
+
+    }
 
     render() {
         const { classes } = this.props;
-        const colorCode = this.props.store.user.categories.find(
-            category => category._id === this.props.table.category).colorCode;
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        console.log(this.props.table);
+        console.log(this.props.table.category);
+        console.log(this.props.store.user.categories);
+        const myCategory = this.props.store.user.categories
+            .find(category => category._id == this.props.table.category);
+        console.log(myCategory);
+        let colorCode = myCategory.colorCode;
         let guests = this.props.table.guests;
         let sumGuests = 0;
-        for( let i=0; i<guests.length; i++){
-            sumGuests += (guests[i].numInvited - guests[i].numNotComing);
+        for (let i = 0; i < guests.length; i++) {
+            let guest = currentEvent.guests.find(guest => guest._id === guests[i]);
+            sumGuests += (guest.numInvited - guest.numNotComing);
         }
 
-
         return (
-
             <div>
-
+                <Dialog
+                    open={this.state.openDeleteTable}
+                    onClose={this.handleCloseDeleteTable}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to remove this table?
+            </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCloseDeleteTable} color="primary">
+                            Cancel
+            </Button>
+                        <Button onClick={this.handleDeleteTable} color="primary" autoFocus>
+                            Remove
+            </Button>
+                    </DialogActions>
+                </Dialog>
                 <Paper className={classes.tableWrapper} >
                     <Paper className={classes.tableHeader} >
                         <Grid container spacing={0}>
@@ -116,7 +224,7 @@ class Table extends Component {
                                 <IconButton aria-label="Edit" className={classes.iconButton} >
                                     <EditIcon className={classes.icon} />
                                 </IconButton>
-                                <IconButton aria-label="Delete" className={classes.iconButton} >
+                                <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleOpenDeleteTable} >
                                     <ClearIcon className={classes.icon} />
                                 </IconButton>
                             </Grid>
@@ -127,30 +235,37 @@ class Table extends Component {
                                 <Typography variant="title" gutterBottom align="center" >
                                     {this.props.table.title}
                                 </Typography>
-                                <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
-                                {sumGuests}/{this.props.table.maxGuests}</Avatar>
+                                <Tooltip title= "# guests seated here / Maximum guests in table">
+                                    <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
+                                        {sumGuests}/{this.props.table.maxGuests}</Avatar>
+                                </Tooltip>
                             </Grid>
                         </Grid>
 
 
                     </Paper>
-                    <Droppable droppableId={String(this.props.index)}>
+                    <Droppable droppableId={this.props.table._id}>
                         {(provided) => (
-                            <div style={{ height: '100%' }}
+                            <div style={{ minHeight: 290 }}
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                                 className={classes.guestListWrapper}>
 
-                                {this.props.table.guests.map((guest, index) => (
-                                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-                                ))}
-                                 {provided.placeholder}
+                                {this.props.table.guests.map((guest_id, index) => {
+                                    let guest = currentEvent.guests.find(gst => gst._id === guest_id);
+                                    /*  console.log(guest_id);
+                                     console.log(currentEvent.guests);
+                                     console.log(guest); */
+                                    return <Guest table={this.props.table} index={index} key={guest._id} guest={guest} handleOnClick={this.handleRemoveGuestClick} />
+                                })}
+                                {provided.placeholder}
                             </div>
 
-                           
-                    )}
-                        </Droppable>
+
+                        )}
+                    </Droppable>
                 </Paper>
+
             </div>
 
 

@@ -21,7 +21,10 @@ import {
     Divider,
     MenuItem,
     TextField,
-    Select
+    Select,
+    FormControl,
+    InputLabel,
+    Tooltip
 
 } from '@material-ui/core';
 
@@ -59,6 +62,16 @@ const styles = theme => ({
     },
     iconSmall: {
         fontSize: 15,
+    },
+    addButton: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 10,
+        right: theme.spacing.unit * 8,
+       
+        zIndex:10
+    },
+    addIcon: {
+        marginRight: theme.spacing.unit,
     }
 });
 
@@ -100,27 +113,31 @@ class AddTableModal extends Component {
     }
 
     onChangeCategory = e => {
-        this.setState({ [e.target.id]: e.target.value})
-       // this.setState({ tableName: e.target.value })
+        this.setState({ category: e.target.value });
+        let category = this.props.store.user.categories.find(category => category._id === e.target.value);
+        this.setState({ tableName: category.name });
+        /*  let index = e.target.selectedIndex;
+         this.setState({ tableName: e.target[index].text }) */
+        // this.setState({ tableName: e.target.value })
     }
 
     addTable = () => {
         let store = this.props.store;
         let tableInfo = {
-            title : this.state.tableName,
+            title: this.state.tableName,
             maxGuests: this.state.tableSize,
             category: this.state.category,
         }
 
         axios.post('/beOurGuest/addTable/' + store.user.events[store.eventIndex]._id, tableInfo)
-        .then(response => {
-    
-          console.log(" new Table ->id  =" + response.data._id)
-          this.props.store.addTable(response.data);
-    
-        })
-        .catch(err => console.log('Error: ', err));
-        ;
+            .then(response => {
+
+                console.log(" new Table ->id  =" + response.data._id)
+                this.props.store.addTable(response.data);
+
+            })
+            .catch(err => console.log('Error: ', err));
+
         this.handleClose();
 
     }
@@ -156,38 +173,47 @@ class AddTableModal extends Component {
                     <Divider></Divider>
                     <DialogContent>
                         <form className={classes.container} noValidate autoComplete="off" align="center">
-                            <TextField
-                                id="tableName"
-                                label="Table name"
-                                type="text"
-                                className={classes.textField}
-                                value={this.state.tableName}
-                                placeholder="Enter table name"
-                                onChange={this.handleTextChange}
-                                margin="normal" />
-                            <TextField
-                                id="tableSize"
-                                label="Max number of guests"
-                                type="number"
-                                value={this.state.tableSize}
-                                placeholder="Enter number of places"
-                                onChange={this.handleTextChange}
-                                className={classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                margin="normal" />
-                            <Select
-                                native
-                                value={this.state.category}
-                                id="category"
-                                onChange={this.onChangeCategory} >
-                                <option value="Category" />
-                                {this.props.store.user.categories.map((item, index) => {
-                                    return <option key={item._id} value={item._id} 
-                                    onClick={()=> { this.setState({tableName: item.name})}}>{item.name}</option>
-                                })}
-                            </Select>
+                            <FormControl className={classes.formControl} align="left">
+                                <FormControl>
+                                    <InputLabel shrink htmlFor="category">Category</InputLabel>
+                                    <Select
+                                        value={this.state.category}
+                                        displayEmpty
+                                        onChange={this.onChangeCategory}
+                                        inputProps={{
+                                            name: 'category',
+                                            id: 'category',
+                                        }}
+                                    >
+
+                                        {this.props.store.user.categories.map((item, index) => {
+                                            return <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>
+                                        })}
+
+                                    </Select>
+                                </FormControl>
+                                <TextField
+                                    id="tableName"
+                                    label="Table name"
+                                    type="text"
+                                    className={classes.textField}
+                                    value={this.state.tableName}
+                                    placeholder="Enter table name"
+                                    onChange={this.handleTextChange}
+                                    margin="normal" />
+                                <TextField
+                                    id="tableSize"
+                                    label="Max number of guests"
+                                    type="number"
+                                    value={this.state.tableSize}
+                                    placeholder="Enter number of places"
+                                    onChange={this.handleTextChange}
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="normal" />
+                            </FormControl>
                         </form>
                     </DialogContent>
                     <Divider></Divider>
@@ -205,9 +231,12 @@ class AddTableModal extends Component {
         return (
             <div>
                 <div>
-                    <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                        <AddIcon />
+                    <Tooltip title="Add new table">
+                    <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}>
+                        <AddIcon className={classes.addIcon}/>
+                        Add Table
                     </Button>
+                    </Tooltip>
                 </div>
                 {this.dialogChildren()}
             </div>

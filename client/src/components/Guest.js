@@ -10,14 +10,15 @@ import {
     Paper,
     Chip,
     Avatar,
-    IconButton
+    IconButton,
+    Tooltip
 } from '@material-ui/core';
 
 
 
 const styles = theme => ({
     guestWrapper: {
-       // zIndex: 10,
+        // zIndex: 10,
     },
     paper: {
         height: 140,
@@ -52,9 +53,19 @@ const Container = styled.div`
 @observer
 class Guest extends Component {
 
+
+
     render() {
         const { classes, guest } = this.props;
-        console.log(this.props.store.user.catagories);
+        let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        console.log(this.props.store.user.categories);
+        console.log(guest.categories);
+        /*  let categories = guest.categories.splice(0);
+         categories.forEach(category => {
+             this.props.store.user[this.props.store.eventIndex].categories.find(category.Id)
+             category.name = 
+         }) */
+
         return (
             <Draggable draggableId={this.props.guest._id} index={this.props.index}>
                 {(provided) => (
@@ -67,23 +78,31 @@ class Guest extends Component {
                                 <Paper>
                                     <Grid container spacing={0} style={{ padding: 10 }}>
                                         <Grid item xs={1}>
-                                            {this.props.guest.categories.map((category, index) => (
-                                                <Avatar key={this.props.store.user.categories[category]._id} className={classes.categoryAvatar}
-                                                    style={{ backgroundColor: this.props.store.user.categories[category].colorCode }} />
-                                            ))}
+                                            {this.props.guest.categories.map((category, index) => {
+                                                let eCategory = this.props.store.user.categories.find(c => c._id === category);
+                                                if(!eCategory){
+                                                    eCategory = {colorCode: 'black'}
+                                                }
+                                                return (<Avatar key={category._id} className={classes.categoryAvatar}
+                                                    style={{ backgroundColor: eCategory.colorCode }} />
+                                                )
+                                            }
+                                            )}
 
 
                                         </Grid>
                                         <Grid item xs={10}>
+                                        <Tooltip title={guest.numComing + "/" + (guest.numInvited - guest.numNotComing) + " confirmed"}>
                                             <Chip
-                                                avatar={<Avatar>{guest.numConfirmed}/{guest.numInvited - guest.numNotComing}</Avatar>}
-                                                label={guest.name}
+                                                avatar={<Avatar>{guest.numComing}/{guest.numInvited - guest.numNotComing}</Avatar>}
+                                                label={guest.globalGuest_id.name}
                                                 className={classes.chip}
                                             />
+                                            </Tooltip>
                                         </Grid>
 
                                         <Grid item xs={1}>
-                                            <IconButton aria-label="Delete" className={classes.iconButton} >
+                                            <IconButton aria-label="Delete" className={classes.iconButton} onClick={(e) => { this.props.handleOnClick(this.props.index) }} >
                                                 <ClearIcon className={classes.icon} />
                                             </IconButton>
                                         </Grid>

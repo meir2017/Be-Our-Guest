@@ -19,6 +19,7 @@ import {
     Typography,
     IconButton,
     Avatar,
+    Tooltip,
 
 } from '@material-ui/core';
 
@@ -32,7 +33,7 @@ const styles = theme => ({
     tableWrapper: {
         margin: 8,
         width: 280,
-        height: 500,
+        minHeight: 500,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -48,9 +49,9 @@ const styles = theme => ({
         borderWidth: 2,
         borderStyle: 'solid',
         borderColor: 'black',
-         /* position: 'fixed',
-        zIndex:2,  */
-        overflow:'hidden',
+        /* position: 'fixed',
+       zIndex:2,  */
+        overflow: 'hidden',
 
 
 
@@ -91,10 +92,11 @@ const styles = theme => ({
     },
 
     guestListWrapper: {
-        paddingTop:5,
-        overflowY: 'scroll',
-        height:'100%'
-        
+        paddingTop: 5,
+        overflowY: 'hidden',
+        overflowX: 'hidden',
+        height: '100%'
+
     }
 
 
@@ -108,6 +110,10 @@ const styles = theme => ({
 @observer
 class Table0 extends Component {
 
+    handleOnClick = (guestIndex) => {
+
+    }
+
     render() {
         const { classes } = this.props;
         let store = this.props.store;
@@ -116,56 +122,57 @@ class Table0 extends Component {
         let sumTotalInvities = 0;
         let sumNotSeated = 0;
 
-        for (let i=0; i<currentEvent.guests.length; i++){
-            sumTotalInvities += (currentEvent.guests[i].numInvited - currentEvent.guests[i].numNotComing ) 
+        for (let i = 0; i < currentEvent.guests.length; i++) {
+            sumTotalInvities += (currentEvent.guests[i].numInvited - currentEvent.guests[i].numNotComing)
         }
-        for (let i=0; i<unseatedGuests.length; i++){
-            sumNotSeated += (unseatedGuests[i].numInvited - unseatedGuests[i].numNotComing ) 
+        for (let i = 0; i < unseatedGuests.length; i++) {
+            sumNotSeated += (unseatedGuests[i].numInvited - unseatedGuests[i].numNotComing)
         }
 
         console.log(currentEvent.guests);
         return (
 
-            <Droppable droppableId={String(this.props.index)}>
-                {(provided) => (
-                    <div style={{ height: '100%' }}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}>
+            <div>
 
-                        <Paper className={classes.tableWrapper} >
-                            <Paper className={classes.tableHeader} >
-                                <Grid container spacing={0}>
-                                    <Grid item xs={12} align="right">
-                                        <IconButton aria-label="Edit" className={classes.iconButton} >
-                                            <EditIcon className={classes.icon} />
-                                        </IconButton>
-                                    </Grid>
-                                    <Grid item xs={12} align="center">
-                                        <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
-                                            Unseated Guests
+                <Paper className={classes.tableWrapper} >
+                    <Paper className={classes.tableHeader} >
+                        <Grid container spacing={0}>
+                            <Grid item xs={12} align="right">
+                                <IconButton aria-label="Edit" className={classes.iconButton} >
+                                    <EditIcon className={classes.icon} />
+                                </IconButton>
+                            </Grid>
+                            <Grid item xs={12} align="center">
+                                <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
+                                    Unseated Guests
                                         </Typography>
-                                        <Avatar className={classes.tableAvatar}>
-                                         {sumNotSeated}/{sumTotalInvities}
-                                        </Avatar>
-                                    </Grid>
-                                </Grid>
+                                <Tooltip title="# guests not seated / # guests invited">
+                                    <Avatar className={classes.tableAvatar}>
+                                        {sumNotSeated}/{sumTotalInvities}
+                                    </Avatar>
+                                </Tooltip>
+                            </Grid>
+                        </Grid>
 
 
-                            </Paper>
-                            <div className={classes.guestListWrapper}>
+                    </Paper>
+                    <Droppable droppableId={"-1"}>
+                        {(provided) => (
+                            <div style={{ minHeight: 300 }}
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className={classes.guestListWrapper}
+                            >
+
                                 {currentEvent.guests.filter(guest => guest.seated === false).map((guest, index) => (
-                                    <Guest index={index} key={guest._id} guest={guest} />
+                                    <Guest index={index} key={guest._id} guest={guest} handleOnClick={this.handleOnClick} />
                                 ))}
+                                {provided.placeholder}
                             </div>
-
-                            {provided.placeholder}
-                        </Paper>
-                    </div>
-                )}
-            </Droppable>
-
-
-
+                        )}
+                    </Droppable>
+                </Paper>
+            </div>
         );
     }
 }
@@ -175,39 +182,5 @@ Table0.propTypes = {
 };
 
 export default withStyles(styles)(Table0);
-/* @inject("store")
-@observer
-class GuestContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
 
-    render() {
-        const { classes } = this.props;
-        return (<Grid item xs={12}
-            innerRef={this.props.provided.innerRef}
-            {...this.props.provided.droppableProps}
-        >
-            <Paper className={classes.paper}>
-                <ListItem className={classes.listItem}>
-                    <ListItemText primary={this.props.table.title}/>
-                </ListItem>
-                {this.props.table.guests.map((guest, index) => (
-                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-                ))}
-                {this.props.provided.placeholder}
-            </Paper>
-        </Grid>);
-    } */
-/*     render() {
-        return (<Container
-            innerRef={this.props.provided.innerRef}
-            {...this.props.provided.droppableProps}
-           >
-            {this.props.table.guests.map((guest, index) => (
-                <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-            ))}
-            {this.props.provided.placeholder}
-        </Container>);
-    }
- }*/
+

@@ -81,15 +81,15 @@ class CreateGuest extends Component {
   }
 
   categoryListElements = () => {
-    this.props.store.user.categories.map((caterory, index) => {
+    this.props.store.user.categories.map((category, index) => {
       return (
-        <MenuItem value={index}>{caterory.name}</MenuItem>
+        <MenuItem value={index}>{category.name}</MenuItem>
       )
     })
   }
 
   displayCategoryName = guest => {
-    let category = this.props.store.user.categories.find(category => category.id === guest.categories[0].id);
+    let category = this.props.store.user.categories.find(category => category._id === guest.categories[0]);
     return category.name;
   }
 

@@ -26,7 +26,8 @@ const styles = theme => ({
         flexDirection: 'row',
         justifyContent: "flex-start",
         flexWrap: 'nowrap',
-        overflow: 'auto',
+        overflowX: 'scroll',
+        overflowY: 'hidden',
     }
 
 });
@@ -52,7 +53,7 @@ class TableList extends Component {
             category: '',
             anchorEl: null,
         }
-         this.props.store.populateEvent();
+        //this.props.store.populateEvent();
     }
 
     handleClick = event => {
@@ -86,7 +87,7 @@ class TableList extends Component {
         axios.post(`/beOurGuest/createTable/${eventId}/`, tableInfo)
             .then(response => {
                 console.log((response.data))
-                 this.props.store.addTable(response.data)
+                this.props.store.addTable(response.data)
             })
         this.handleClose();
     }
@@ -102,11 +103,15 @@ class TableList extends Component {
                 <div className={classes.tableListWrapper}>
                     <AddTableModal></AddTableModal>
                     <Table0 index={-1} />
-                    {currentEvent.tables.map((table, index) => (
+                    {currentEvent.tables.slice().sort(function (a, b) {
+                        if (a.title < b.title) return -1;
+                        if (a.title > b.title) return 1;
+                        return 0;
+                    }).map((table, index) => (
                         <Table table={table} index={index} key={table._id} />
                     ))}
                 </div>
-               
+
             </div>
 
         );
