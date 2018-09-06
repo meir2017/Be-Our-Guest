@@ -240,7 +240,8 @@ class BeOurGuestStore {
                 let guestCategory = self.user.categories.find(category => category.id === guest.categories[0].id);
                 self.user.events[eventIx].guests[guestIx].categories = [{ _id: guestCategory._id, name: guestCategory.name }];
             });
-        })
+        })}
+    
 
     /// Table function
     @action addTable = (newTable) => {
