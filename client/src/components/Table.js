@@ -5,6 +5,7 @@ import axios from 'axios';
 //import styled from 'styled-components';
 //import 'typeface-roboto'
 import Guest from './Guest'
+import EditTableModal from './EditTable'
 import { Droppable } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -221,9 +222,10 @@ class Table extends Component {
                     <Paper className={classes.tableHeader} >
                         <Grid container spacing={0}>
                             <Grid item xs={12} align="right">
-                                <IconButton aria-label="Edit" className={classes.iconButton} >
+                            <EditTableModal></EditTableModal>
+                                {/* <IconButton aria-label="Edit" className={classes.iconButton} >
                                     <EditIcon className={classes.icon} />
-                                </IconButton>
+                                </IconButton> */}
                                 <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleOpenDeleteTable} >
                                     <ClearIcon className={classes.icon} />
                                 </IconButton>
