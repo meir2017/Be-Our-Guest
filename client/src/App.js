@@ -6,6 +6,7 @@ import './App.css';
 import EventManager from './components/EventManager';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { observer, inject } from 'mobx-react';
+import { action } from "mobx";
 import Navbar from './components/Navbar';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Rsvp from './components/Rsvp';
@@ -23,11 +24,16 @@ class App extends Component {
     this.setState({ Options: !this.state.Options })   // login   or signup
   }
 
+  @action
   updateTablesInDb = () => {
 
   }
+
+  @action
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
+    let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
+    
     if (user !== null) {
       console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
@@ -41,6 +47,10 @@ class App extends Component {
           }
         })
         .catch(function (error) { console.log(error); });
+    }
+
+    if (eventIndex != null) {
+      this.props.store.updateEventIndex(eventIndex);
     }
   }
 

@@ -22,7 +22,8 @@ import {
     TextField,
     Select,
     FormControl,
-    InputLabel
+    InputLabel,
+    Tooltip
 
 } from '@material-ui/core';
 
@@ -46,6 +47,28 @@ const styles = theme => ({
         margin: theme.spacing.unit,
         minWidth: 120,
       },
+    menu: {
+        width: 200,
+    },
+    button: {
+        backgroundColor: '#4A6572',
+        // margin: theme.spacing.unit,
+        width: 160,
+        fontSize: 13,
+    },
+    iconSmall: {
+        fontSize: 15,
+    },
+    addButton: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 10,
+        right: theme.spacing.unit * 8,
+       
+        zIndex:10
+    },
+    addIcon: {
+        marginRight: theme.spacing.unit,
+    }
 });
 
 function Transition(props) {
@@ -109,7 +132,7 @@ class AddTableModal extends Component {
 
             })
             .catch(err => console.log('Error: ', err));
-        ;
+
         this.handleClose();
 
     }
@@ -204,14 +227,15 @@ class AddTableModal extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div> <div>
-                <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                    <AddIcon />
-                </Button>
-                <Button color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                    Display by Category
-            </Button>
-            </div>
+            <div>
+                <div>
+                    <Tooltip title="Add new table">
+                    <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}>
+                        <AddIcon className={classes.addIcon}/>
+                        Add Table
+                    </Button>
+                    </Tooltip>
+                </div>
                 {this.dialogChildren()}
             </div>
         );

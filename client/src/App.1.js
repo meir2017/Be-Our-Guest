@@ -60,7 +60,7 @@ class App extends Component {
       let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
       let myGuest = unseatedGuests[result.source.index];
       let guestSourceIndex = currentEvent.guests.findIndex(guest => guest._id === myGuest._id);
-      let newGuests = currentEvent.guests.splice(0);
+      let newGuests = Array.from(currentEvent.guests)
       newGuests[guestSourceIndex].seated = true;
 
       const finishGuests = Array.from(finish.guests);
@@ -72,7 +72,7 @@ class App extends Component {
 
       //TODO update to db
 
-      let newTables = currentEvent.tables.splice(0);
+      let newTables = Array.from(currentEvent.tables);
       newTables[Number(result.destination.droppableId)] = newFinish;
 
       this.props.store.updateTables(newTables);
@@ -85,7 +85,7 @@ class App extends Component {
       const newGuests = Array.from(start.guests);
       let myGuest = newGuests.splice(result.source.index, 1);
       let index = currentEvent.guests.findIndex(guest => myGuest[0]._id === guest._id);
-      let eventGuests = currentEvent.guests.splice(0);
+      let eventGuests = Array.from(currentEvent.guests);
       eventGuests[index].seated = false;
       start.guests = newGuests
 
