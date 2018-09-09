@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Checkbox from "@material-ui/core/Checkbox";
 import { Button, Form } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import socketIOClient from "socket.io-client";
 
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -35,15 +36,25 @@ class Rsvp extends Component {
             notComing: 0,
             numInvited: "",
             vient: "",
-            returnRsvp: false
+            returnRsvp: false,
 
-
+            endpoint: "http://127.0.0.1:3001",
         }
     }
-
+    send = () => {
+        debugger
+        let guestId = this.props.match.params.guestId;
+        let eventId = this.props.match.params.eventId;
+        const socket = socketIOClient(this.state.endpoint);
+        socket.emit('real time', {
+            coming: this.state.coming,
+            notComing: this.state.notComing,
+            guestId: guestId,
+            eventId: eventId
+        })
+    }
 
     onSelectConfirmed = (e) => {
-        debugger
         let coming = this.state.coming
         let notComing = this.state.notComing
         let numInvited = this.state.numInvited
@@ -77,6 +88,7 @@ class Rsvp extends Component {
     };
     Submitfunc = (e) => {
         e.preventDefault();
+        this.send();
         console.log(this.state.numGuest);
         console.log(this.state.checkedB);
         //send the info to evntid,gustid
@@ -84,7 +96,9 @@ class Rsvp extends Component {
             coming: this.state.coming,
             notComing: this.state.notComing,
             numInvited: this.state.numInvited,
-            guestId: this.props.match.params.guestId
+            guestId: this.props.match.params.guestId,
+            eventId: this.props.match.params.eventId
+
         }
         console.log(this.props.match.params.guestId)
         axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
@@ -99,7 +113,6 @@ class Rsvp extends Component {
 
         axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
             .then(response => {
-                debugger
                 console.log("rsvpGuest")
                 let item = response.data;
                 this.setState({

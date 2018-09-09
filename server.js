@@ -6,6 +6,23 @@ const inlineCss = require('nodemailer-juice');
 const axios = require('axios');
 const app = express();
 
+//socketIO
+const http = require('http')
+const socketIO = require('socket.io')
+const server = http.createServer(app)
+const io = socketIO(server)
+io.on('connection', socket => {
+    console.log('New client connected')
+    socket.on('real time', (objGuest) => {
+        console.log('rsvp Changed to: ', objGuest)
+        io.sockets.emit('real timeBack', objGuest)
+    })
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+    })
+})
+// end socketIO
+
 mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
     console.log("DB connection established!!!");
 });
@@ -24,33 +41,6 @@ const Category = require('./models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
 
-////// emil send example
-app.get('/meir/:mytext', (req, res) => {
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'BeOurGuestMail@gmail.com',
-            pass: 'guest2018'
-        }
-    });
-    // transporter.use('compile', inlineCss());
-    var mailOptions = {
-        from: 'Be Our Guest ',
-        to: req.params.mytext,
-        subject: 'Sending Email using Node.js',
-        html: '<h1 style="color:lightskyblue">Welcome</h1><p>Be Our Guest</p>'
-    };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-
-    res.send('Mail sent to ' + req.params.mytext)
-})
 
 // Forgot tPassword  
 app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
@@ -86,21 +76,38 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
         });
 })
 
-
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
     let userinfo = req.body;
-    let newUser = User({
-        username: userinfo.inputText,
-        password: userinfo.passText,
-        email: userinfo.emailText,
-        events: [],
-        guests: [],
-        categories: []
-    })
-    newUser.save(function (err, user) {
-        res.send(user);
-    })
+    User.findOne({ username: userinfo.inputText }).exec((err, userName) => {
+        if (err) return handleError(err);
+        if (userName != null)
+            res.send("user")
+        else {
+            User.findOne({ email: userinfo.emailText }).exec((err, userEmail) => {
+                if (err) return handleError(err);
+                if (userEmail != null)
+                    res.send("email")
+                else {
+                    let newUser = User({
+                        username: userinfo.inputText,
+                        password: userinfo.passText,
+                        email: userinfo.emailText,
+                        events: [],
+                        guests: [],
+                        categories: []
+                    })
+                    newUser.save(function (err, user) {
+                        res.send(user);
+                    })
+                }
+            })
+
+        }
+    });
+
+
+
 });
 
 //login   and get user model
@@ -129,30 +136,16 @@ app.post('/beOurGuest/login', (req, res) => {
                 }
             }
         })
-
-        // post.deepPopulate('comments.user', function (err, _post) {
-        //   // _post is the same instance as post and provided for convenience
-        // });
-
-
         .populate('guests')
         .exec((err, user) => {
             if (err) return handleError(err);
-            if (user == null) return user;
-
-            /* Category.find({}).select('name').exec()
-                .then(categories => {
-                    let userCategories = [];
-                    categories.forEach(category =>
-                        userCategories.push({ _id: category._id, name: category.name }));
-
-                    let userInfo = { user: user, userCategories: userCategories };
-                    res.send(userInfo);
-                }) */
-
-            res.send(user);
+            if (user == null)
+                res.send(null)
+            else
+                res.send(user);
         });
 });
+
 
 //add event
 app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
@@ -280,7 +273,6 @@ app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
         })
 });
 
-
 // remove event
 app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
     console.log("user id + " + req.params.userId)
@@ -294,12 +286,9 @@ app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
                 .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
                 .then(res.send("event deleted"))
         })
-    // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
-    //     .then(result => Event.findByIdAndRemove({ _id: req.params.eventId })
-    //         .then(res.send("event delete"))
-
-    //     );
 });
+
+
 
 // add  Invitation
 app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
@@ -338,6 +327,7 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
 })
 
 
+
 // get rsvp page
 app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
     let item = req.params
@@ -362,11 +352,7 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
     let item = req.body
     let vetId = req.params.vetId;
     let eventId = req.params.eventId;
-
-
-    // Guest.
-    // find({}).
-    // populate({ path: 'globalGuest_id', select: 'email' }).
+    // Guest. find({}). populate({ path: 'globalGuest_id', select: 'email' }).
     Event.findById(req.params.eventId).
         populate({
             path: 'guests',
@@ -388,7 +374,6 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
                         pass: 'guest2018'
                     }
                 });
-                // transporter.use('compile', inlineCss());
                 var mailOptions = {
                     from: 'Be Our Guest ',
                     to: guest.globalGuest_id.email,
@@ -406,8 +391,6 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
 
             <br>
           </div>  `
-
-                    // html: '<h1 style="color:'+sadas+'">Welcome</h1><p>Be Our Guest</p>'
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
@@ -424,12 +407,8 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
 })
 
 // guest return Answer
-
 app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
-    // guestId 
-    // coming
-    // notComing
-    // numUndecided
+
     let item = req.body
     console.log(req.body.guestId)
     Guest.findById(req.body.guestId).
@@ -439,13 +418,6 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
             console.log("numComing  " + guest.numComing);
             guest.numNotComing = req.body.notComing;
             guest.numComing = req.body.coming;
-            // comment: String,
-            // numInvited: Number,
-            // numComing: Number,
-            // numNotComing: Number,
-            // seated: Boolean
-
-
             guest.save();
             console.log("rsvp Change")
             res.send()
@@ -525,8 +497,6 @@ app.post('/beOurGuest/updateGuests/', (req, res) => {
 })
 
 
-
-
 //createCtgory
 app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     let item = req.body;
@@ -548,8 +518,7 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 });
 
 
-
 const port = process.env.PORT || 3001;
-app.listen(port, console.log('Server running on port', port));
+server.listen(port, console.log('Server running on port', port));
 
 

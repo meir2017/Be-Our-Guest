@@ -47,6 +47,7 @@ class InvitationManager extends Component {
                 this.props.store.removeInvitation(index)
             })
         this.toggleRemove();
+        this.props.store.theInvitationIndex(null);
 
     }
     editInvitations = (e) => {

@@ -47,25 +47,27 @@ class CreateCategory extends Component {
       <div>
         <MyModal >
           <Modal style={{ width: "300px" }} isOpen={this.props.modalCategory} toggle={this.toggle} className="CreateNewCategory">
-            <ModalHeader toggle={this.toggle}>Create New Category</ModalHeader>
-            <ModalBody>
-              <TextField
-                id="name" label=" Category Name" type="text" className="textField"
-                name="name" onChange={this.onChangeText} value={this.name}
-              />
-              <br />
+            <form action="" onSubmit={this.handlerSaveCategory}>
+              <ModalHeader toggle={this.toggle}>Create New Category</ModalHeader>
+              <ModalBody>
+                <TextField
+                  id="name" required label=" Category Name" type="text" className="textField"
+                  name="name" onChange={this.onChangeText} value={this.name}
+                />
+                <br />
 
-              <br />
-              <label htmlFor="colorCode" style={{ padding: "20px" }}>color: </label>
+                <br />
+                <label htmlFor="colorCode" style={{ padding: "20px" }}>color: </label>
 
-              <input type="color" onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
+                <input type="color" required onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
 
-              <br />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={this.handlerSaveCategory}>Save</Button>{' '}
-              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-            </ModalFooter>
+                <br />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" type="Submit" >Save</Button>{' '}
+                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+              </ModalFooter>
+            </form>
           </Modal>
         </MyModal>
       </div>

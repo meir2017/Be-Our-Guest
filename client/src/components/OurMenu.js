@@ -5,6 +5,8 @@ import withState from 'recompose/withState';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
 import axios from 'axios';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import TextField from '@material-ui/core/TextField';
 
 // import classNames from 'classnames';
 import {
@@ -68,11 +70,31 @@ class OurMenu extends Component {
       expanded: null,
       modalCreate: false,
       modalCategory: false,
+      modalRemove: false,
+      modalEdit: false,
+      myEvent: ""
+
     };
 
     // this.handlerRemoveEvent = this.handlerRemoveEvent.bind(this);
   }
-
+  myIndex = (e) => {
+    e.preventDefault();
+    console.log(e.target.id)
+    this.setState({ myEvent: e.target.id })
+    // this.props.store.theInvitationIndex(e.target.id)
+  }
+  toggleEditeEvent = () => {
+    this.setState({
+      modalEdit: !this.state.modalEdit
+    });
+  }
+  toggleRemove = () => {
+    // this.handleClose(e)
+    this.setState({
+      modalRemove: !this.state.modalRemove
+    });
+  }
 
   openModalCreate = (e) => {
     this.setState({ modalCreate: !this.state.modalCreate });
@@ -80,7 +102,7 @@ class OurMenu extends Component {
   }
   openModalCategory = (e) => {
     this.setState({ modalCategory: !this.state.modalCategory });
-   this.handleClose(e);
+    this.handleClose(e);
   }
   handleClose = event => {
     // if (this.anchorEl.contains(event.target)) {
@@ -94,14 +116,6 @@ class OurMenu extends Component {
       this.setState(state => ({ anchorMenu: event.currentTarget }));
   };
 
-  // handleMenuAccount = event => {
-  //   this.setState({ anchorMenuAccount: event.currentTarget });
-  // };
-
-  // handleCloseMenuAccount = () => {
-  //   this.setState({ anchorMenuAccount: null, expanded: false });
-  // };
-
   handleChange = panel => (event, expanded) => {
     this.setState({
       expanded: expanded ? panel : false,
@@ -110,15 +124,20 @@ class OurMenu extends Component {
 
   handlerRemoveEvent = (e) => {
     e.preventDefault();
-    // console.log((" Will be deleted  =" + e.target.id))
-    let index = e.target.id;
+    console.log(e)
+    let index = this.state.myEvent;
+
     let eventId = this.props.store.user.events[index]._id;
+    console.log("index  " + index)
+    console.log("eventId  " + eventId)
     axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/${index}/`)
       .then(response => {
         console.log((response.data))
         this.props.store.removEvent(index)
-        this.handleClose(e)
       })
+    // this.handleClose(e)
+    this.props.store.thisEventIndex(null)
+    this.toggleRemove();
   }
 
   handleEdit = (e) => {
@@ -132,117 +151,159 @@ class OurMenu extends Component {
 
   render() {
     const { classes } = this.props;
-    const {  expanded, anchorMenu } = this.state;
+    const { expanded, anchorMenu } = this.state;
     const open = Boolean(anchorMenu);
-          return (
-            <div className={classes.root} id="x1">
-              <IconButton
-                aria-owns={open ? 'render-props-popover' : null}
-                aria-haspopup="true"
-                variant="contained"
-                onClick={this.handleToggle}
-                // onClick={event => {
-                //   updateAnchorEl(event.currentTarget);
-                // }}
-                aria-label="Menu"
-                className={classes.menuButton}
-                color="inherit" >
-                <MenuIcon />
-              </IconButton>
+    return (
+      <div className={classes.root} id="x1">
+        <IconButton
+          aria-owns={open ? 'render-props-popover' : null}
+          aria-haspopup="true"
+          variant="contained"
+          onClick={this.handleToggle}
+          // onClick={event => {
+          //   updateAnchorEl(event.currentTarget);
+          // }}
+          aria-label="Menu"
+          className={classes.menuButton}
+          color="inherit" >
+          <MenuIcon />
+        </IconButton>
 
-              <Popover
-              
-                id="render-props-popover"
-                open={open}
-                anchorEl={anchorMenu}
-                onClose={this.handleClose}
-                // onClose={() => {
-                //   updateAnchorEl(null);
-                // }}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-              >
-                <Paper className={classes.paper}>
-                  <ClickAwayListener onClickAway={this.handleClose}>
-                    <MenuList>
-                      <MenuItem onClick= { this.openModalCreate} >
-                        Create Event
+        <Popover
+
+          id="render-props-popover"
+          open={open}
+          anchorEl={anchorMenu}
+          onClose={this.handleClose}
+          // onClose={() => {
+          //   updateAnchorEl(null);
+          // }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <Paper className={classes.paper}>
+            <ClickAwayListener onClickAway={this.handleClose}>
+              <MenuList>
+                <MenuItem onClick={this.openModalCreate} >
+                  Create Event
                 </MenuItem>
-                      <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                          <Typography className={classes.heading}>Select Event</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                          <List className={classes.rootList} subheader={<li />}>
-                            <ul>
-                              {this.props.store.user.events.map((eve, index) => {
-                                return (
-                                  <ListItem key={eve.HostName + eve.Location + index}
-                                    name={index} className="itemEvent" button divider disableGutters
-                                  >
+                <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography className={classes.heading}>Select Event</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <List className={classes.rootList} subheader={<li />}>
+                      <ul>
+                        {this.props.store.user.events.map((eve, index) => {
+                          return <ListItem key={eve.HostName + eve.Location + index}
+                            name={index} className="itemEvent" button divider disableGutters>
 
-                                    <ListItemText
-                                      id={index}
-                                      onClick={(e) => { this.handleEvent(index); this.handleClose(e) }}
-                                      primary={eve.Title}
-                                    />
+                            <ListItemText id={index} onClick={(e) => { this.handleEvent(index), this.handleClose(e) }} primary={eve.Title} />
 
-                                    <Divider />
-                                    <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
-                                      <Icon onClick={this.handleEdit} id={index} >edit_icon</Icon>
-                                    </IconButton>
-                                    <IconButton aria-label="Delete">
-                                      <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
-                                    </IconButton>
-                                  </ListItem>
-                                )
-                              })}
-                            </ul>
-                          </List>
-                        </ExpansionPanelDetails>
-                      </ExpansionPanel>
-                      <MenuItem onClick={this.handleClose} onClick={this.openModalCategory} >Create category</MenuItem>
-                      <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                          <Typography className={classes.heading}>List of Categories</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                          <List className={classes.rootList} subheader={<li />}>
-                            <ul>
-                              {this.props.store.user.categories.map((item, index) => {
-                                return (
-                                  <ListItem key={item._id}
-                                    name={index} className="itemcategories" button divider disableGutters>
+                            <Divider />
+                            <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
+                              <Icon onClick={e => { this.myIndex(e); this.toggleEditeEvent() }} id={index} >edit_icon</Icon>
+                            </IconButton>
+                            <IconButton aria-label="Delete" onClick={this.handleClose}>
+                              <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
+                            </IconButton>
+                          </ListItem>
+                        })}
+                      </ul>
+                    </List>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <MenuItem onClick={this.handleClose} onClick={this.openModalCategory} >Create category</MenuItem>
+                <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
+                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography className={classes.heading}>List of Categories</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <List className={classes.rootList} subheader={<li />}>
+                      <ul>
+                        {this.props.store.user.categories.map((item, index) => {
+                          return (
+                            <ListItem key={item._id}
+                              name={index} className="itemcategories" button divider disableGutters>
 
-                                    <ListItemText id={index} onClick={(e) => { this.handleClose(e) }} primary={item.name} />
+                              <ListItemText id={index} onClick={(e) => { this.handleClose(e) }} primary={item.name} />
 
-                                    <Divider />
-                                    <IconButton onClick={this.handleClose} className={classes.button} >
-                                      <i className="fas fa-circle" style={{ color: item.colorCode }}></i>
-                                    </IconButton>
-                                  </ListItem>
-                                )
-                              })}
-                            </ul>
-                          </List>
-                        </ExpansionPanelDetails>
-                      </ExpansionPanel>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Popover>
-              <CreateEvent openModalCreate={this.openModalCreate}
-                modalCreate={this.state.modalCreate} />
-              <CreateCategory openModalCategory={this.openModalCategory}
-                modalCategory={this.state.modalCategory} />
-            </div>
-          );
+                              <Divider />
+                              <IconButton onClick={this.handleClose} className={classes.button} >
+                                <i className="fas fa-circle" style={{ color: item.colorCode }}></i>
+                              </IconButton>
+                            </ListItem>
+                          )
+                        })}
+                      </ul>
+                    </List>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Popover>
+        <CreateEvent openModalCreate={this.openModalCreate}
+          modalCreate={this.state.modalCreate} />
+        <CreateCategory openModalCategory={this.openModalCategory}
+          modalCategory={this.state.modalCategory} />
+
+        <div>
+          <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
+            <ModalHeader toggle={this.toggleRemove}>Do you want to delete this evente?</ModalHeader>
+            <ModalFooter className="btnSend" >
+              <Button onClick={this.handlerRemoveEvent} color="primary">Yes</Button>
+              <Button onClick={this.toggleRemove} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
+            </ModalFooter>
+
+          </Modal>
+        </div>
+
+
+        <div>
+          <Modal style={{ width: "350px" }} isOpen={this.state.modalEdit} toggle={this.toggleEditeEvent} className="editEvent">
+            <ModalHeader toggle={this.toggleEditeEvent}>Edite Event</ModalHeader>
+            <ModalBody>
+              <TextField
+                id="Title" label="Title" type="text" className="textField"
+                name="Title" onChange={this.onChangeText} value={this.inputText}
+              />
+              <br />
+              <TextField
+                id="Date" label="Date" type="date" className="textField"
+                name="Date" onChange={this.onChangeText} value={this.inputText}
+              />
+              <br />
+              <TextField
+                id="Location" label="Location" type="text" className="textField"
+                name="Location" onChange={this.onChangeText} value={this.inputText}
+              />
+              <br />
+              <TextField
+                id="maxGuests" label="Max guests" type="number" className="textField"
+                name="maxGuests" onChange={this.onChangeText} value={this.inputText}
+              />
+              <br />
+              <TextField
+                id="HostName" label="Host name" type="text" className="textField"
+                name="HostName" onChange={this.onChangeText} value={this.inputText}
+              />
+              <br />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.toggleEditeEvent}>Save Change</Button>{' '}
+              <Button color="secondary" onClick={this.toggleEditeEvent}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      </div >
+    );
   }
 }
 
