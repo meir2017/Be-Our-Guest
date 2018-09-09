@@ -52,7 +52,7 @@ class TableList extends Component {
             maxGuests: '',
             category: '',
             anchorEl: null,
-           
+
         }
         //this.props.store.populateEvent();
     }
@@ -120,11 +120,6 @@ class TableList extends Component {
         );
     }
 }
-
-// title: String,
-// maxGuests: Number,
-// categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
-// guests: [{ type: Schema.Types.ObjectId, ref: 'guests' }]
 
 
 export default withStyles(styles)(TableList);

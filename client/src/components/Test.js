@@ -1,63 +1,55 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import RestoreIcon from '@material-ui/icons/Restore';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
-import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+const styles = {
+    root: {
+        width: 500,
+        // backgroundColor: "#c7e0ec"
+    },
+};
 
-export default class Example extends React.Component {
-    constructor(props) {
-        super(props);
+class SimpleBottomNavigation extends React.Component {
+    state = {
+        value: 0,
+    };
 
-        this.toggleSend = this.toggleSend.bind(this);
-        this.state = {
-            popoverSend: false,
-            popoverRemove: false
+    handleChange = (event, value) => {
+        if (value == 0) {
+            console.log("login ")
+        }
+        else
+            console.log("Register")
 
-        };
-    }
-
-    toggleSend = () => {
-        this.setState({
-            popoverSend: !this.state.popoverSend
-        });
-    }
-    toggleRemove = () => {
-        this.setState({
-            popoverRemove: !this.state.popoverRemove
-        });
-    }
+        this.setState({ value });
+    };
 
     render() {
+        const { classes } = this.props;
+        const { value } = this.state;
+
         return (
-            <div>
-                <Button id="Popover1" onClick={this.toggleSend}>
-                    Launch Popover
-         </Button>
-
-
-                <Button id="Popover2" onClick={this.toggleRemove}>
-                    toggleRemove
-         </Button>
-
-                <Popover placement="bottom" isOpen={this.state.popoverSend} target="Popover1" toggle={this.toggleSend}>
-                    <PopoverHeader >Do you want to send an invitation to all your guests</PopoverHeader>
-                    <PopoverBody className="btnSend" >
-                        <Button onClick={this.toggleSend} color="primary">Send</Button>
-                        <Button onClick={this.toggleSend} color="secondary" style={{ marginLeft: "40px" }}>Cancel</Button>
-                    </PopoverBody>
-                </Popover>
-
-                <Popover placement="bottom" isOpen={this.state.popoverRemove} target="Popover2" toggle={this.toggleRemove}>
-                    <PopoverHeader >Do you want to delete this invitation?</PopoverHeader>
-                    <PopoverBody className="btnSend" >
-                        <Button onClick={this.toggleRemove} color="primary">Yes</Button>
-                        <Button onClick={this.toggleRemove} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
-                    </PopoverBody>
-                </Popover>
-
-
-
-
-            </div>
+            <BottomNavigation
+                value={value}
+                onChange={this.handleChange}
+                showLabels
+                className={classes.root}
+            >
+                <BottomNavigationAction label="Login" />
+                <BottomNavigationAction label="Register" />
+            </BottomNavigation>
         );
     }
 }
+
+SimpleBottomNavigation.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SimpleBottomNavigation);

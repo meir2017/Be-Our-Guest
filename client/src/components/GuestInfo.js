@@ -46,7 +46,9 @@ class GuestInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalCreate: false
+      modalCreate: false,
+      endpoint: "http://127.0.0.1:3001",
+
     };
   }
 
@@ -88,8 +90,8 @@ class GuestInfo extends Component {
       category._id === guest.categories[0]);
     return categoryInfo.name;
   }
-
   render() {
+
     let { classes } = this.props;
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
     return (

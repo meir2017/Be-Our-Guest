@@ -6,6 +6,23 @@ const inlineCss = require('nodemailer-juice');
 const axios = require('axios');
 const app = express();
 
+//socketIO
+const http = require('http')
+const socketIO = require('socket.io')
+const server = http.createServer(app)
+const io = socketIO(server)
+io.on('connection', socket => {
+    console.log('New client connected')
+    socket.on('real time', (objGuest) => {
+        console.log('rsvp Changed to: ', objGuest)
+        io.sockets.emit('real timeBack', objGuest)
+    })
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+    })
+})
+// end socketIO
+
 mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
     console.log("DB connection established!!!");
 });
@@ -62,17 +79,35 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
     let userinfo = req.body;
-    let newUser = User({
-        username: userinfo.inputText,
-        password: userinfo.passText,
-        email: userinfo.emailText,
-        events: [],
-        guests: [],
-        categories: []
-    })
-    newUser.save(function (err, user) {
-        res.send(user);
-    })
+    User.findOne({ username: userinfo.inputText }).exec((err, userName) => {
+        if (err) return handleError(err);
+        if (userName != null)
+            res.send("user")
+        else {
+            User.findOne({ email: userinfo.emailText }).exec((err, userEmail) => {
+                if (err) return handleError(err);
+                if (userEmail != null)
+                    res.send("email")
+                else {
+                    let newUser = User({
+                        username: userinfo.inputText,
+                        password: userinfo.passText,
+                        email: userinfo.emailText,
+                        events: [],
+                        guests: [],
+                        categories: []
+                    })
+                    newUser.save(function (err, user) {
+                        res.send(user);
+                    })
+                }
+            })
+
+        }
+    });
+
+
+
 });
 
 //login   and get user model
@@ -101,30 +136,16 @@ app.post('/beOurGuest/login', (req, res) => {
                 }
             }
         })
-
-        // post.deepPopulate('comments.user', function (err, _post) {
-        //   // _post is the same instance as post and provided for convenience
-        // });
-
-
         .populate('guests')
         .exec((err, user) => {
             if (err) return handleError(err);
-            if (user == null) return user;
-
-            /* Category.find({}).select('name').exec()
-                .then(categories => {
-                    let userCategories = [];
-                    categories.forEach(category =>
-                        userCategories.push({ _id: category._id, name: category.name }));
-
-                    let userInfo = { user: user, userCategories: userCategories };
-                    res.send(userInfo);
-                }) */
-
-            res.send(user);
+            if (user == null)
+                res.send(null)
+            else
+                res.send(user);
         });
 });
+
 
 //add event
 app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
@@ -498,6 +519,6 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 
 
 const port = process.env.PORT || 3001;
-app.listen(port, console.log('Server running on port', port));
+server.listen(port, console.log('Server running on port', port));
 
 

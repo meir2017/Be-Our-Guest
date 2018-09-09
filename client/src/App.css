@@ -58,7 +58,7 @@ overflow-x: hidden;
 }
 /* login */
 .btnl ,.btnr{
-  width: 48%;
+  width: 47%;
   margin: 10px 4px;
   
 }
@@ -145,4 +145,17 @@ color: black;
 }
 .rsvpInput .form-control{
  width: 55%;
+}
+/* .modalLogin{
+  width:350px !important
+} */
+
+
+input#tableName {
+  text-align: center;
+}
+select#category {
+  width: 70px;
+  text-align: center;
+  padding-left: 19px;
 }
