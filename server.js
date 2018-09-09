@@ -47,8 +47,6 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
     User.findOne({ email: req.params.userEmail })
         .then(user => {
             console.log(req.params.userEmail)
-
-            console.log("user is=  " + user.email)
             if (user != null) {
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
@@ -60,9 +58,12 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                 // transporter.use('compile', inlineCss());
                 var mailOptions = {
                     from: 'Be Our Guest ',
-                    to: req.params.mytext,
-                    subject: 'Sending Email using Node.js',
-                    html: '<h1 style="color:lightskyblue">Welcome</h1><p>Be Our Guest</p>'
+                    to: req.params.userEmail,
+                    subject: 'Password recovery user',
+                    html: `<h3> Hello ${user.username} At your request we sent you your username and your password</h3>
+                    <p>User name : ${user.username}</p>
+                    <p>password : ${user.password}</p><br>
+                    <p style="color:blue">Be Our Guest</p>'`
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
@@ -71,8 +72,10 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                         console.log('Email sent: ' + info.response);
                     }
                 });
-                res.send('swnd mail to  ' + req.params.mytext)
+                res.send('Email sent to address  ' + req.params.userEmail + '  Check your email')
             }
+            res.send('There is no such email address')
+
         });
 })
 
