@@ -3,6 +3,8 @@ import '../App.css'
 import Table from './Table';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 import {
     Grid,
     Button,
@@ -23,7 +25,7 @@ import {
     Select,
     FormControl,
     InputLabel,
-    Tooltip
+
 
 } from '@material-ui/core';
 
@@ -42,11 +44,11 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
         width: 200,
         fontSize: 15
-    },    
+    },
     formControl: {
         margin: theme.spacing.unit,
         minWidth: 120,
-      },
+    },
     menu: {
         width: 200,
     },
@@ -63,8 +65,8 @@ const styles = theme => ({
         position: 'absolute',
         bottom: theme.spacing.unit * 10,
         right: theme.spacing.unit * 8,
-       
-        zIndex:10
+
+        zIndex: 10
     },
     addIcon: {
         marginRight: theme.spacing.unit,
@@ -86,9 +88,16 @@ class AddTableModal extends Component {
             categories: [],
             Guests: [],
             open: false,
+            modal: false,
+            category: ""
+
         }
     }
-
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
     handleClickOpen = () => {
         this.setState({ open: true });
     };
@@ -116,7 +125,9 @@ class AddTableModal extends Component {
         // this.setState({ tableName: e.target.value })
     }
 
-    addTable = () => {
+    addTable = (e) => {
+        e.preventDefault();
+
         let store = this.props.store;
         let tableInfo = {
             title: this.state.tableName,
@@ -133,7 +144,8 @@ class AddTableModal extends Component {
             })
             .catch(err => console.log('Error: ', err));
 
-        this.handleClose();
+        // this.handleClose();
+        this.toggle();
 
     }
 
@@ -223,20 +235,80 @@ class AddTableModal extends Component {
             </div>
         );
     }
+    modalAddTable = () => {
+        const { classes } = this.props;
 
+        return (
+            <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
+                <form action="" onSubmit={this.addTable}>
+                    <ModalHeader toggle={this.toggle}> Create new table</ModalHeader>
+                    <ModalBody>
+                        <InputLabel htmlFor="category">category : </InputLabel>
+                        <Select
+                            required
+                            native
+                            label="Category"
+                            value={this.state.category}
+                            id="category"
+                            name="categoryName"
+                            onChange={this.onChangeCategory} >
+                            <option disabled value="" />
+                            {this.props.store.user.categories.map((item, index) => {
+                                return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
+                            })}
+                        </Select>
+
+                        <br />
+                        <TextField
+                            required
+                            id="tableName"
+                            label="Table name"
+                            type="text"
+                            className={classes.textField}
+                            value={this.state.tableName}
+                            placeholder="Enter table name"
+                            onChange={this.handleTextChange}
+                            margin="normal" />
+                        <TextField
+                            id="tableSize"
+                            label="Max number of guests"
+                            type="number"
+                            required
+                            inputProps={{ min: "4", max: "20", step: "1" }}
+                            value={this.state.tableSize}
+                            placeholder="Between 4 and 20"
+                            onChange={this.handleTextChange}
+                            className={classes.textField}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="normal" />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" type="Submit">Save </Button>
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </form>
+            </Modal>
+        )
+    }
     render() {
         const { classes } = this.props;
         return (
             <div>
                 <div>
-                    <Tooltip title="Add new table">
-                    <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}>
-                        <AddIcon className={classes.addIcon}/>
+                    {/* <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}> */}
+
+                    <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.toggle} className={classes.addButton}>
+                        <AddIcon className={classes.addIcon} />
                         Add Table
                     </Button>
-                    </Tooltip>
+
                 </div>
-                {this.dialogChildren()}
+                {/* {this.dialogChildren()} */}
+                {this.modalAddTable()}
+
+
             </div>
         );
     }

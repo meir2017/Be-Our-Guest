@@ -6,6 +6,23 @@ const inlineCss = require('nodemailer-juice');
 const axios = require('axios');
 const app = express();
 
+//socketIO
+const http = require('http')
+const socketIO = require('socket.io')
+const server = http.createServer(app)
+const io = socketIO(server)
+io.on('connection', socket => {
+    console.log('New client connected')
+    socket.on('real time', (objGuest) => {
+        console.log('rsvp Changed to: ', objGuest)
+        io.sockets.emit('real timeBack', objGuest)
+    })
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+    })
+})
+// end socketIO
+
 mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
   console.log("DB connection established!!!");
 });
@@ -24,162 +41,114 @@ const Category = require('./models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
 
-////// emil send example
-app.get('/meir/:mytext', (req, res) => {
-
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'BeOurGuestMail@gmail.com',
-      pass: 'guest2018'
-    }
-  });
-  // transporter.use('compile', inlineCss());
-  var mailOptions = {
-    from: 'Be Our Guest ',
-    to: req.params.mytext,
-    subject: 'Sending Email using Node.js',
-    html: '<h1 style="color:lightskyblue">Welcome</h1><p>Be Our Guest</p>'
-  };
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-
-  res.send('Mail sent to ' + req.params.mytext)
-})
 
 // Forgot tPassword  
 app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
-  User.findOne({ email: req.params.userEmail })
-    .then(user => {
-      console.log(req.params.userEmail)
+    User.findOne({ email: req.params.userEmail })
+        .then(user => {
+            console.log(req.params.userEmail)
+            if (user != null) {
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'BeOurGuestMail@gmail.com',
+                        pass: 'guest2018'
+                    }
+                });
+                // transporter.use('compile', inlineCss());
+                var mailOptions = {
+                    from: 'Be Our Guest ',
+                    to: req.params.userEmail,
+                    subject: 'Password recovery user',
+                    html: `<h3> Hello ${user.username} At your request we sent you your username and your password</h3>
+                    <p>User name : ${user.username}</p>
+                    <p>password : ${user.password}</p><br>
+                    <p style="color:blue">Be Our Guest</p>'`
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
+                res.send('Email sent to address  ' + req.params.userEmail + '  Check your email')
+            }
+            res.send('There is no such email address')
 
-      console.log("user is=  " + user.email)
-      if (user != null) {
-        let transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'BeOurGuestMail@gmail.com',
-            pass: 'guest2018'
-          }
         });
-        // transporter.use('compile', inlineCss());
-        var mailOptions = {
-          from: 'Be Our Guest ',
-          to: req.params.mytext,
-          subject: 'Sending Email using Node.js',
-          html: '<h1 style="color:lightskyblue">Welcome</h1><p>Be Our Guest</p>'
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
-        res.send('swnd mail to  ' + req.params.mytext)
-      }
-    });
-})
-
-//rsvp test
-app.get('/beOurGuest/SendRsvpToGuest/:email', (req, res) => {
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'BeOurGuestMail@gmail.com',
-      pass: 'guest2018'
-    }
-  });
-  // transporter.use('compile', inlineCss());
-  let mailOptions = {
-    from: 'Be Our Guest ',
-    to: req.params.email,
-    subject: 'be our guest',
-    html: '<h2 style="color:lightskyblue"><a href="http://localhost:3000/beuorguest/rsvp/:evntid/:guestid">enter to rsvp</a></h2><p>Be Our Guest</p>'
-  };
-  //http://localhost:3000/beuorguest/rsvp/:evntid/:guestid
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      console.log('Email sent: ' + user.username);
-      res.send('Your password is waiting for you by e-mail')
-    }
-  });
 })
 
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
-  let userinfo = req.body;
-  let newUser = User({
-    username: userinfo.inputText,
-    password: userinfo.passText,
-    email: userinfo.emailText,
-    events: [],
-    guests: [],
-    categories: []
-  })
-  newUser.save(function (err, user) {
-    res.send(user);
-  })
+    let userinfo = req.body;
+    User.findOne({ username: userinfo.inputText }).exec((err, userName) => {
+        if (err) return handleError(err);
+        if (userName != null)
+            res.send("user")
+        else {
+            User.findOne({ email: userinfo.emailText }).exec((err, userEmail) => {
+                if (err) return handleError(err);
+                if (userEmail != null)
+                    res.send("email")
+                else {
+                    let newUser = User({
+                        username: userinfo.inputText,
+                        password: userinfo.passText,
+                        email: userinfo.emailText,
+                        events: [],
+                        guests: [],
+                        categories: []
+                    })
+                    newUser.save(function (err, user) {
+                        res.send(user);
+                    })
+                }
+            })
+
+        }
+    });
+
+
+
 });
 
 //login   and get user model
 app.post('/beOurGuest/login', (req, res) => {
-  let userinfo = req.body;
-  User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] })
-    // populate('events').  categories
-    .populate({
-      path: 'events',
-      populate: {
-        path: 'invitations'
-      }
-    })
-    .populate({
-      path: 'events',
-      populate: {
-        path: 'tables',
-      }
-    })
-    .populate("categories")
-    .populate({
-      path: 'events',
-      populate: {
-        path: 'guests', populate: {
-          path: 'globalGuest_id'
-        }
-      }
-    })
-
-    // post.deepPopulate('comments.user', function (err, _post) {
-    //   // _post is the same instance as post and provided for convenience
-    // });
-
-
-    .populate('guests')
-    .exec((err, user) => {
-      if (err) return handleError(err);
-      if (user == null) return user;
-
-      /* Category.find({}).select('name').exec()
-          .then(categories => {
-              let userCategories = [];
-              categories.forEach(category =>
-                  userCategories.push({ _id: category._id, name: category.name }));
-
-              let userInfo = { user: user, userCategories: userCategories };
-              res.send(userInfo);
-          }) */
-
-      res.send(user);
-    });
+    let userinfo = req.body;
+    User.findOne({ $and: [{ username: userinfo.name }, { password: userinfo.pass }] })
+        // populate('events').  categories
+        .populate({
+            path: 'events',
+            populate: {
+                path: 'invitations'
+            }
+        })
+        .populate({
+            path: 'events',
+            populate: {
+                path: 'tables',
+            }
+        })
+        .populate("categories")
+        .populate({
+            path: 'events',
+            populate: {
+                path: 'guests', populate: {
+                    path: 'globalGuest_id'
+                }
+            }
+        })
+        .populate('guests')
+        .exec((err, user) => {
+            if (err) return handleError(err);
+            if (user == null)
+                res.send(null)
+            else
+                res.send(user);
+        });
 });
+
 
 //add event
 app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
@@ -289,44 +258,40 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
 
 // remove guest
 app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
-  Event.findOne({ _id: req.params.eventId })
-    .then(user => {
-      listGuests = user.guests.concat();
-      listGuests.splice(req.params.index, 1);
-      user.guests = listGuests;
-      user.save()
-        .then(() => {
-          Guest.findByIdAndRemove({ _id: req.params.guestId });
-          Table.findOne({ guests: req.params.guestId })
-            .then(table => {
-              Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
-                .then(updatedTable => res.send(updatedTable));
-            }).catch(err => console.log("ERROR: " + err));
-        }
-        ).then(console.log("deleteGuests"));
-    })
+    Event.findOne({ _id: req.params.eventId })
+        .then(user => {
+            listGuests = user.guests.concat();
+            listGuests.splice(req.params.index, 1);
+            user.guests = listGuests;
+            user.save()
+                .then(() => {
+                    Guest.findByIdAndRemove({ _id: req.params.guestId });
+                    Table.findOne({ guests: req.params.guestId })
+                        .then(table => {
+                            Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
+                                .then(updatedTable => res.send(updatedTable));
+                        }).catch(err => console.log("ERROR: " + err));
+                }
+                ).then(console.log("deleteGuests"));
+        })
 });
-
 
 // remove event
 app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
-  console.log("user id + " + req.params.userId)
-  console.log("event id + " + req.params.eventId)
-  User.findOne({ _id: req.params.userId })
-    .then(user => {
-      listEvents = user.events.concat();
-      listEvents.splice(req.params.index, 1);
-      user.events = listEvents;
-      user.save()
-        .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
-        .then(res.send("event deleted"))
-    })
-  // User.update({ _id: req.params.userId }, { $pull: { events: { _id: req.params.eventId } } })
-  //     .then(result => Event.findByIdAndRemove({ _id: req.params.eventId })
-  //         .then(res.send("event delete"))
-
-  //     );
+    console.log("user id + " + req.params.userId)
+    console.log("event id + " + req.params.eventId)
+    User.findOne({ _id: req.params.userId })
+        .then(user => {
+            listEvents = user.events.concat();
+            listEvents.splice(req.params.index, 1);
+            user.events = listEvents;
+            user.save()
+                .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
+                .then(res.send("event deleted"))
+        })
 });
+
+
 
 // add  Invitation
 app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
@@ -364,6 +329,8 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
   })
 })
 
+
+
 // get rsvp page
 app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
   let item = req.params
@@ -373,95 +340,97 @@ app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
     res.send(vet);
   })
 })
+// get rsvp guestId
+app.get('/beOurGuest/rsvpGuest/guestId/:guestId/', (req, res) => {
+    let item = req.params
+    console.log(item.guestId);
+    Guest.findById(item.guestId, function (err, gust) {
+        if (err) return handleError(err);
+        res.send(gust);
+    })
+})
 
 /// send rsvp to email
 app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
-  let item = req.body
-  let vetId = req.params.vetId;
-  let eventId = req.params.eventId;
+    let item = req.body
+    let vetId = req.params.vetId;
+    let eventId = req.params.eventId;
+    // Guest. find({}). populate({ path: 'globalGuest_id', select: 'email' }).
+    Event.findById(req.params.eventId).
+        populate({
+            path: 'guests',
+            populate: {
+                path: 'globalGuest_id'
+            }
+        }).
+        exec(function (err, mYguest) {
+            if (err) return handleError(err);
+            console.log(mYguest)
+            mYguest.guests.forEach(guest => {
+                console.log(guest.globalGuest_id.email)
 
-  Guest.
-    find({})
-    .populate({ path: 'globalGuest_id', select: 'email' })
-    .exec(function (err, mYguest) {
-      if (err) return handleError(err);
-      mYguest.forEach(guest => {
-        console.log(guest.globalGuest_id.email)
+                /////
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'BeOurGuestMail@gmail.com',
+                        pass: 'guest2018'
+                    }
+                });
+                var mailOptions = {
+                    from: 'Be Our Guest ',
+                    to: guest.globalGuest_id.email,
+                    subject: item.titleInput,
+                    html: `<div style="background-color:${item.background};padding:20px">
+            <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
+            <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
+            <h3>${item.textInput}</h3>
+            </div>
+            <p>${item.whenEvent}<br>
+            ${item.whereEvent}</p>
+            <button style="background-color:#91ff35;border-radius: 10px">
+            <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
+            </button>
 
-        /////
-        var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'BeOurGuestMail@gmail.com',
-            pass: 'guest2018'
-          }
-        });
-        // transporter.use('compile', inlineCss());
-        var mailOptions = {
-          from: 'Be Our Guest ',
-          to: guest.globalGuest_id.email,
-          subject: item.titleInput,
-          html: `<div style="background-color:${item.background};padding:20px">
-          <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
-          <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
-          <h3>${item.textInput}</h3>
-          </div>
-          <p>${item.whenEvent}<br>
-          ${item.whereEvent}</p>
-          <button style="background-color:#91ff35;border-radius: 10px">
-          <a  href="http://localhost:3000/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
-          </button>
-
-          <br>
-        </div>  `
-
-          // html: '<h1 style="color:'+sadas+'">Welcome</h1><p>Be Our Guest</p>'
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
+            <br>
+          </div>  `
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
+                ////
+            });
+            res.send(JSON.stringify(mYguest))
         });
         ////
       });
       res.send(JSON.stringify(mYguest))
     });
 
-
-
-
-  // console.log(x++)
-  // console.log(element.globalGuest_id.email)
-
-
-  // console.log("vetId  "+item.vetId);
-
-  // Invitation.findById(item.vetId, function (err, vet) {
-  //   if (err) return handleError(err);
-  //   res.send(vet);
-  // })
 })
 
 // guest return Answer
-
 app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
-  // checkedB    numGuest   guestId 
-  let item = req.body
-  Guest.findById(req.body.guestId)
-    .then(guest => {
-      console.log(guest)
-      console.log("numConfirmed  " + guest.numConfirmed);
-      console.log("numUndecided  " + guest.numUndecided);
-      // guest.numNotComing
-      // guest.numConfirmed
-      // gest.numUndecided
-      guest.save();
-      console.log("rsvp Change")
-      res.send()
-    })
+
+    let item = req.body
+    console.log(req.body.guestId)
+    Guest.findById(req.body.guestId).
+        then(guest => {
+            console.log(guest)
+            console.log("numInvited  " + guest.numInvited);
+            console.log("numComing  " + guest.numComing);
+            guest.numNotComing = req.body.notComing;
+            guest.numComing = req.body.coming;
+            guest.save();
+            console.log("rsvp Change")
+            res.send()
+        })
 })
+
 
 //  Table //////
 //createTable
@@ -535,8 +504,6 @@ app.post('/beOurGuest/updateGuests/', (req, res) => {
 })
 
 
-
-
 //createCtgory
 app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
   let item = req.body;
@@ -558,8 +525,7 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 });
 
 
-
 const port = process.env.PORT || 3001;
-app.listen(port, console.log('Server running on port', port));
+server.listen(port, console.log('Server running on port', port));
 
 

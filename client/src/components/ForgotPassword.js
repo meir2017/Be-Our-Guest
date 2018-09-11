@@ -36,21 +36,25 @@ class ForgotPassword extends Component {
         return (
             <div>
                 {!this.state.send &&
-                    <ModalBody state={{ textAlign: "center" }}>
-                        <TextField
-                            id="uncontrolled" label="Enter your e-mail" type="text"
-                            className="textField" margin="normal"
-                            name="inputText"
-                            onChange={this.onChangeText} value={this.state.inputText}
-                        />
-                        <br /> <br /><br />
-                        <Button variant="contained" onClick={this.onClickBtn} color="primary" >Send  </Button>
-                        <br /><br />
-                    </ModalBody>}
+                    <form action="" onSubmit={this.onClickBtn}>
+                        <ModalBody state={{ textAlign: "center" }}>
+                            <TextField
+                                required
+                                id="uncontrolled" label="Enter your e-mail" type="email"
+                                className="textField" margin="normal"
+                                name="inputText"
+                                onChange={this.onChangeText} value={this.state.inputText}
+                            />
+                            <br /> <br /><br />
+                            <Button variant="contained" type="Submit" color="primary" >Send  </Button>
+                            <br /><br />
+                        </ModalBody>
+                    </form>
+                }
                 {this.state.send && <div style={{ textAlign: "center" }}>
-                    <br /> <br /> <br /><br /> <br />
+                    <br /> <br /> <br /><br />
                     {this.state.masg}
-                    <br /><br /> <br /><br /> <br />
+                    <br /><br /> <br /><br />
                 </div>}
             </div>
 

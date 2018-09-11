@@ -58,7 +58,7 @@ overflow-x: hidden;
 }
 /* login */
 .btnl ,.btnr{
-  width: 48%;
+  width: 47%;
   margin: 10px 4px;
   
 }
@@ -125,15 +125,7 @@ font-size: 16px;
 margin: 10px;
 border-radius: 10px;
 }
-.iteminvitations:hover { 
-  background-color: #1de9b6;
-  border-color: #14a37f;
-  font-size: 26px;
-  box-shadow: 5px 10px #888888; 
-}
-/* .btnicon{
-  padding-left: 12px
-} */
+
 .btnicon i{
   padding-left: 20px
 }
@@ -148,7 +140,22 @@ color: black;
 .btnSend{
   margin-left: 40px
 }
-/* #x3 {
-  position: fixed;
+.rsvpInput{
+  padding-left: 65px
+}
+.rsvpInput .form-control{
+ width: 55%;
+}
+/* .modalLogin{
+  width:350px !important
 } */
 
+
+input#tableName {
+  text-align: center;
+}
+select#category {
+  width: 70px;
+  text-align: center;
+  padding-left: 19px;
+}

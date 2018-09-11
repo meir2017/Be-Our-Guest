@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import socketIOClient from "socket.io-client";
 
 import './App.css';
 import EventManager from './components/EventManager';
@@ -10,6 +11,7 @@ import { action } from "mobx";
 import Navbar from './components/Navbar';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Rsvp from './components/Rsvp';
+import Test from './components/Test';
 
 @inject("store")
 @observer
@@ -18,10 +20,7 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
-    }///http://localhost:3000/beuorguest/rsvp/:evntid/:guestid   for  rsvp
-  }
-  ChangeOptions = (user) => {  // remov this
-    this.setState({ Options: !this.state.Options })   // login   or signup
+    }
   }
 
   @action
@@ -33,13 +32,12 @@ class App extends Component {
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
     let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
-    
+
     if (user !== null) {
-      console.log(user.username);
+      // console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
         .then(response => {
           if (response.data !== "") {
-            // console.log("user login  " + JSON.stringify(response.data))
             this.props.store.updateUser(response.data);
           }
           else {
@@ -54,9 +52,6 @@ class App extends Component {
     }
   }
 
-
-
-
   onDragStart = result => {
     console.log("start");
   }
@@ -68,14 +63,36 @@ class App extends Component {
   ChangeToRsvpPage = (e) => {
     this.setState({ rsvpfunc: true })
   }
+  updetGuset = (obj) => {
+    let events = this.props.store.user.events;
+    for (let index = 0; index < events.length; index++) {  //get event index
+      if (events[index]._id == obj.eventId) {
+
+        console.log("event index : " + index)
+        for (let i_g = 0; i_g < events[index].guests.length; i_g++) {// get gest indes
+          if (events[index].guests[i_g]._id == obj.guestId) {
+            debugger
+            console.log("guest index : " + i_g)
+            this.props.store.realTimeRsvp(index, i_g, obj.coming, obj.notComing)
+            break;
+          }
+        }
+      }
+    }
+  }
   render() {
+    const socket = socketIOClient(this.state.endpoint);
+    socket.on('real timeBack', (obj) => {
+      console.log(JSON.stringify(obj))
+      this.updetGuset(obj)
+    })
     return (
       <div className="App" >
 
         {!this.state.rsvpfunc && <Navbar />}
         {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
           < EventManager /> : false}
-
+        {/* <Test /> */}
         <BrowserRouter>
           <Route
             exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"

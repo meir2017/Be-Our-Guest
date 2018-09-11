@@ -222,10 +222,10 @@ class Table extends Component {
                     <Paper className={classes.tableHeader} >
                         <Grid container spacing={0}>
                             <Grid item xs={12} align="right">
-                            <EditTableModal></EditTableModal>
-                                {/* <IconButton aria-label="Edit" className={classes.iconButton} >
+                            {/* <EditTableModal></EditTableModal> */}
+                                <IconButton aria-label="Edit" className={classes.iconButton} >
                                     <EditIcon className={classes.icon} />
-                                </IconButton> */}
+                                </IconButton>
                                 <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleOpenDeleteTable} >
                                     <ClearIcon className={classes.icon} />
                                 </IconButton>

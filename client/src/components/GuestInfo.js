@@ -37,6 +37,7 @@ const styles = theme => ({
     width: 20,
 
   },
+
 });
 
 @inject("store")
@@ -45,7 +46,9 @@ class GuestInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalCreate: false
+      modalCreate: false,
+      endpoint: "http://127.0.0.1:3001",
+
     };
   }
 
@@ -87,9 +90,9 @@ class GuestInfo extends Component {
       category._id === guest.categories[0]);
     return categoryInfo.name;
   }
-
   render() {
-    let {classes} = this.props;
+
+    let { classes } = this.props;
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
     return (
 
@@ -131,18 +134,13 @@ class GuestInfo extends Component {
                     <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
                     {/* <TableCell>{guest.comment}</TableCell> */}
                     <TableCell>
-                      <IconButton  aria-label="Edit" className={classes.iconButton} onClick={(e) => this.handleEdit(e,index)}>
+                      <IconButton aria-label="Edit" className={classes.iconButton} onClick={(e) => this.handleEdit(e, index)}>
                         <EditIcon className={classes.icon} />
                       </IconButton>
-                      <IconButton  aria-label="Delete" className={classes.iconButton} onClick={(e) => this.handleRemoveGuest(e,index)} >
+                      <IconButton aria-label="Delete" className={classes.iconButton} onClick={(e) => this.handleRemoveGuest(e, index)} >
                         <ClearIcon className={classes.icon} />
                       </IconButton>
-                      {/*  <i className="material-icons" id={index} onClick={this.handleEdit}>
-                        border_color
-                      </i>
-                      <i className="material-icons" id={index} onClick={this.handleRemoveGuest}>
-                        delete
-                      </i> */}
+
                     </TableCell>
                   </TableRow>
                 );
