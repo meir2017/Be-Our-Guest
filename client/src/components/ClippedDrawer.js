@@ -17,7 +17,7 @@ import Button from './Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import EditIcon from '@material-ui/icons/Edit';
 
-const drawerWidth = 440;
+const drawerWidth = 340;
 
 const styles = theme => ({
   root: {
@@ -56,7 +56,7 @@ const styles = theme => ({
     padding: 0,
   },
   ListItem: {
-    height: 15,
+    height: 35,
   },
   button: {
     //  height: 20,
@@ -115,6 +115,38 @@ class ClippedDrawer extends Component {
           }}            >
           <div className={classes.toolbar} />
           <Collapsible>
+          <CollapsibleItem header='Events' icon='event'>
+              <List className={classes.rootList} subheader={<li />}>
+                <ul>
+                  {this.props.store.user.events.map((event, index) => {
+                    return (
+                      <ListItem key={event.HostName + event.Location + index}
+                        name={index} className={classes.ListItem} button divider disableGutters >
+                        <ListItemText
+                          id={index}
+                          onClick={(e) => { this.handleEvent(index); this.handleClose(e) }}
+                          primary={event.Title} />
+                        <Divider />
+                        <IconButton aria-label="Edit" className={classes.iconButton} onClick={this.handleEditEvent}>
+                          <EditIcon className={classes.icon} />
+                        </IconButton>
+                        <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleDeleteEvent} >
+                          <ClearIcon className={classes.icon} />
+                        </IconButton>
+
+                        {/* <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
+                                                    <Icon onClick={this.handleEdit} id={index} >edit_icon</Icon>
+                                                </IconButton>
+                                                <IconButton aria-label="Delete">
+                                                    <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
+                                                </IconButton> */}
+
+                      </ListItem>
+                    )
+                  })}
+                </ul>
+              </List>
+            </CollapsibleItem>
             <CollapsibleItem header='Categories' icon='bookmark_border'>
               <List className={classes.rootList} subheader={<li />}>
                 <ul>
@@ -125,7 +157,7 @@ class ClippedDrawer extends Component {
                         <ListItemText
                           id={index}
                           onClick={(e) => { this.handleEvent(index); this.handleClose(e) }}
-                          primary={eve.Title} />
+                          primary={event.Title} />
                         <Divider />
                         <IconButton aria-label="Edit" className={classes.iconButton} onClick={this.handleEditEvent}>
                           <EditIcon className={classes.icon} />
@@ -148,7 +180,36 @@ class ClippedDrawer extends Component {
               </List>
             </CollapsibleItem>
             <CollapsibleItem header='Guests' icon='supervisor_account'>
-              Lorem ipsum dolor sit amet.
+            <List className={classes.rootList} subheader={<li />}>
+                <ul>
+                  {this.props.store.user.events.map((event, index) => {
+                    return (
+                      <ListItem key={event.HostName + event.Location + index}
+                        name={index} className={classes.ListItem} button divider disableGutters >
+                        <ListItemText
+                          id={index}
+                          onClick={(e) => { this.handleEvent(index); this.handleClose(e) }}
+                          primary={event.Title} />
+                        <Divider />
+                        <IconButton aria-label="Edit" className={classes.iconButton} onClick={this.handleEditEvent}>
+                          <EditIcon className={classes.icon} />
+                        </IconButton>
+                        <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleDeleteEvent} >
+                          <ClearIcon className={classes.icon} />
+                        </IconButton>
+
+                        {/* <IconButton onClick={this.handleClose} className={classes.button} aria-label="Edit">
+                                                    <Icon onClick={this.handleEdit} id={index} >edit_icon</Icon>
+                                                </IconButton>
+                                                <IconButton aria-label="Delete">
+                                                    <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={this.handlerRemoveEvent}></i>
+                                                </IconButton> */}
+
+                      </ListItem>
+                    )
+                  })}
+                </ul>
+              </List>
                     </CollapsibleItem>
             <CollapsibleItem header='Invitation' icon='group_add'>
               Lorem ipsum dolor sit amet.

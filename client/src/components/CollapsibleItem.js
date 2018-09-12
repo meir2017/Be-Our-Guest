@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Icon from './Icon';
 
-import { Button, Card, Row, Col } from 'react-materialize';
+//import { Button, Card, Row, Col } from 'react-materialize';
 
 const CollapsibleItem = ({
   className,
