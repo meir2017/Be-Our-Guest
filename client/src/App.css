@@ -83,11 +83,11 @@ overflow-x: hidden;
 text-align: center ;
 margin-top: -55px
 }
-.itemEvent , .itemcategories{
-/* color:black; */
+/* .itemEvent , .itemcategories{
+ color:black;
 width: 114% !important;
 margin-left: -40px !important;
-}
+} */
 .divBtn{
   margin: 5px;
 }

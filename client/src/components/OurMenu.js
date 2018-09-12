@@ -1,7 +1,5 @@
 
 import React, { Component } from 'react';
-import toRenderProps from 'recompose/toRenderProps';
-import withState from 'recompose/withState';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
 import axios from 'axios';
@@ -9,8 +7,8 @@ import axios from 'axios';
 // import classNames from 'classnames';
 import {
   withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
-  Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
-  Popover, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
+  Divider, MenuItem, MenuList, IconButton, ExpansionPanel, ExpansionPanelSummary,
+  Popover, ExpansionPanelDetails, Icon, ListItem, List, ListItemText,
 
 } from "@material-ui/core"
 
@@ -18,7 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CreateCategory from './CreateCategory';
 
-const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
+
 
 const styles = theme => ({
   root: {
@@ -53,6 +51,13 @@ const styles = theme => ({
     backgroundColor: 'inherit',
     padding: 0,
   },
+  ListItemText: {
+  //  height: 15,
+  },
+  button: {
+  //  height: 20,
+    //width: 10
+  },
 });
 
 @inject("store")
@@ -68,7 +73,6 @@ class OurMenu extends Component {
       modalCreate: false,
       modalCategory: false,
     };
-
     // this.handlerRemoveEvent = this.handlerRemoveEvent.bind(this);
   }
 
@@ -125,7 +129,7 @@ class OurMenu extends Component {
     alert("e.target.id; " + e.target.id);
   }
 
-  handleEvent = (index) => {
+  handleEventhandleEvent = (index) => {
     this.props.store.thisEventIndex(index)
   }
 

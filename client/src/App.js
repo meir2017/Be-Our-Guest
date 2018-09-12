@@ -10,6 +10,8 @@ import { action } from "mobx";
 import Navbar from './components/Navbar';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Rsvp from './components/Rsvp';
+import MiniDrawer from './components/SideNavbar';
+import ClippedDrawer from './components/ClippedDrawer'
 
 @inject("store")
 @observer
@@ -33,7 +35,7 @@ class App extends Component {
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
     let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
-    
+
     if (user !== null) {
       console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
@@ -73,8 +75,10 @@ class App extends Component {
 
 
       <div className="App" >
-
-        {!this.state.rsvpfunc && <Navbar />}
+{/* <Navbar /><MiniDrawer /> */}
+        {!this.state.rsvpfunc &&
+          <div>   <ClippedDrawer></ClippedDrawer>
+          </div>}
         {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
           < EventManager /> : false}
 
