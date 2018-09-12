@@ -12,6 +12,15 @@ import Navbar from './components/Navbar';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Rsvp from './components/Rsvp';
 import Test from './components/Test';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#212121' }, // Purple and green play nicely together.
+    secondary: { main: '#560027' },
+  },
+});
+
 
 @inject("store")
 @observer
@@ -87,19 +96,21 @@ class App extends Component {
       this.updetGuset(obj)
     })
     return (
-      <div className="App" >
+      <MuiThemeProvider theme={theme}>
+        <div className="App" >
 
-        {!this.state.rsvpfunc && <Navbar />}
-        {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
-          < EventManager /> : false}
-        {/* <Test /> */}
-        <BrowserRouter>
-          <Route
-            exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
-            render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
-          />
-        </BrowserRouter>
-      </div>
+          {!this.state.rsvpfunc && <Navbar />}
+          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
+            < EventManager /> : false}
+          {/* <Test /> */}
+          <BrowserRouter>
+            <Route
+              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+              render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
+            />
+          </BrowserRouter>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

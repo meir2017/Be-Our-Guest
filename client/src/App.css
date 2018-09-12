@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   /* background-color:lightslategray; */
+  overflow-x: hidden;
   min-height: 100%;
 }
 
@@ -132,6 +133,8 @@ border-radius: 10px;
 .btnicon i:hover{
 color: black;
 }
+
+
 .addTable{
   position: fixed;
 }

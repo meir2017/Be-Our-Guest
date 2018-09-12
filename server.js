@@ -29,7 +29,6 @@ mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/api/user', userFile);
 //modals   
 const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
@@ -407,9 +406,6 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
             res.send(JSON.stringify(mYguest))
         });
         ////
-      });
-      res.send(JSON.stringify(mYguest))
-    });
 
 })
 

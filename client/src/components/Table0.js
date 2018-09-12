@@ -31,13 +31,14 @@ const styles = theme => ({
 
     },
     tableWrapper: {
-        margin: 8,
         width: 280,
-        minHeight: 500,
+        minHeight: '100%',
+        margin: 0,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'darkgrey',
+        backgroundColor: 'lightgrey',
+        // backgroundColor: theme.palette.primary.main,
         // transition: width 2s, height 4s;
         // transition: background-color 0.2s ease;
         //backgroundColor: ${ props => (props.isDraggingOver ? '#4A6572' : '#4A6572') }
@@ -45,23 +46,20 @@ const styles = theme => ({
         fontFamily: 'Roboto Slab, serif',
         position: 'relative',
         // justifyContent: '', 
+        overflow: 'hidden',
         borderRadius: 5,
         borderWidth: 2,
         borderStyle: 'solid',
-        borderColor: 'black',
-        /* position: 'fixed',
-       zIndex:2,  */
-        overflow: 'hidden',
-
+        borderColor: 'darkgrey',
 
 
 
     },
 
     tableHeader: {
-        padding: 5,
+        padding: 10,
         color: 'white',
-        backgroundColor: 'black'
+        backgroundColor: 'darkgrey'
 
     },
 
@@ -93,10 +91,9 @@ const styles = theme => ({
 
     guestListWrapper: {
         paddingTop: 5,
-        overflowY: 'hidden',
+        overflowY: 'auto',
         overflowX: 'hidden',
-        height: '100%'
-
+        height: '70vh',
     }
 
 
@@ -137,20 +134,16 @@ class Table0 extends Component {
                 <Paper className={classes.tableWrapper} >
                     <Paper className={classes.tableHeader} >
                         <Grid container spacing={0}>
-                            <Grid item xs={12} align="right">
-                                <IconButton aria-label="Edit" className={classes.iconButton} >
-                                    <EditIcon className={classes.icon} />
-                                </IconButton>
-                            </Grid>
                             <Grid item xs={12} align="center">
                                 <Typography variant="title" gutterBottom align="center" className={classes.whiteTypography}>
-                                    Unseated Guests
+                                    {/*  <Tooltip title="# guests not seated / # guests invited">
+                                        <Avatar className={classes.tableAvatar}>
+                                            {sumNotSeated}/{sumTotalInvities}
+                                        </Avatar>
+                                    </Tooltip> */}
+                                    {sumNotSeated}/{sumTotalInvities} Unseated Guests
                                         </Typography>
-                                <Tooltip title="# guests not seated / # guests invited">
-                                    <Avatar className={classes.tableAvatar}>
-                                        {sumNotSeated}/{sumTotalInvities}
-                                    </Avatar>
-                                </Tooltip>
+
                             </Grid>
                         </Grid>
 

@@ -109,7 +109,7 @@ class CreateGuest extends Component {
     let { classes } = this.props;
     return (
       <div>
-        <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.toggle}>
+        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle}>
           <AddIcon className={classes.addIcon} />
           Add Guest
         </Button>

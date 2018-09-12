@@ -229,7 +229,7 @@ class AddTableModal extends Component {
                     <Divider></Divider>
                     <DialogActions>
                         <Button size="small" onClick={this.handleClose}>Cancel</Button>
-                        <Button size="small" color="primary" onClick={this.addTable} > Save </Button>
+                        <Button size="small" color="secondary" onClick={this.addTable} > Save </Button>
                     </DialogActions>
                 </Dialog>
             </div>
@@ -299,7 +299,7 @@ class AddTableModal extends Component {
                 <div>
                     {/* <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.handleClickOpen} className={classes.addButton}> */}
 
-                    <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.toggle} className={classes.addButton}>
+                    <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle} className={classes.addButton}>
                         <AddIcon className={classes.addIcon} />
                         Add Table
                     </Button>
