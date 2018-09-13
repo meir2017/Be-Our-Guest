@@ -66,7 +66,9 @@ class GuestInfo extends Component {
       .then(response => {
         console.log((response.data));
         this.props.store.removeGuest(index);
-        this.props.store.updateTableById(response.data);
+        if (response.data != null) {
+          this.props.store.updateTableById(response.data);
+        }
       })
   }
 
