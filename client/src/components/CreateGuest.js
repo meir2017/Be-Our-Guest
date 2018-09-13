@@ -18,6 +18,11 @@ import { observer, inject } from 'mobx-react';
 const styles = theme => ({
   addIcon: {
     marginRight: theme.spacing.unit,
+  },
+
+  cancelButton:{
+    color: 'white',
+    backgroundColor: theme.palette.primary.light,
   }
 
 });
@@ -176,8 +181,8 @@ class CreateGuest extends Component {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" type="Submit">Save Guest</Button>{' '}
-                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                  <Button   color="secondary" variant="contained" type="Submit">Save Guest</Button>{' '}
+                  <Button className={classes.cancelButton} variant="contained" onClick={this.toggle} >Cancel</Button>
                 </ModalFooter>
               </form>
             </Modal>
