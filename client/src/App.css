@@ -61,10 +61,11 @@ overflow-x: hidden;
 .btnl ,.btnr{
   width: 47%;
   margin: 10px 4px;
+  background-color: #212121 !important;
   
 }
 .maintop{
-  background-color: #0067D6;
+  background-color: #2121218e;
   border-radius:10px; 
   width: 97%;
   margin: 5px;
@@ -115,12 +116,11 @@ height: 300px;
 border: solid grey 1px;
 } */
 .iteminvitations{
-  float: left;
-  width: 80%;
-  border: solid 1px #3d5afe;
+  text-align: center;
+  width: 90%;
+  border: solid 2px #d1d1d1;
 padding: 15px;
-background-color: #00b0ff;
-z-index: 8;
+background-color: #560027;
 color: white;
 font-size: 16px;
 margin: 10px;

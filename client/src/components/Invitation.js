@@ -108,7 +108,7 @@ class Invitation extends Component {
 
 
                 <div >
-                    <Button className="divBtn" color="primary" onClick={this.toggle}>Design</Button>
+                    <Button className="divBtn" style={{backgroundColor:'#560027'}} onClick={this.toggle}>Design</Button>
 
                     {/* <Button className="divBtn" color="primary" onClick={this.saveInvitation}>Save</Button>
                     <Button className="divBtn" color="success" onClick={this.sendInvitation}>Send</Button> */}
@@ -116,7 +116,7 @@ class Invitation extends Component {
 
                 <div>
                     <Modal isOpen={this.state.modal} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                        <ModalHeader toggle={this.toggle}>Design your Invitation</ModalHeader>
                         <ModalBody>
                             <div className="row">
                                 <div className="col-sm-6">
@@ -162,7 +162,7 @@ class Invitation extends Component {
 
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.saveInvitation}>Save</Button>{' '}
+                            <Button style={{backgroundColor:'#560027'}} onClick={this.saveInvitation}>Save</Button>{' '}
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>

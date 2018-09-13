@@ -82,7 +82,7 @@ class SignUp extends Component {
                             onChange={this.onChangeText} value={this.state.passConfirm}
                         />
                         <br /><br />
-                        <Button variant="contained" type="Submit" color="primary" >Register  </Button>
+                        <Button variant="contained" type="Submit" style={{backgroundColor:'#560027'}}>Register  </Button>
                         <br /><br />
                     </ModalBody>
                 </form>

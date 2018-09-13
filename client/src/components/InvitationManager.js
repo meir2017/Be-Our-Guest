@@ -105,19 +105,21 @@ class InvitationManager extends Component {
                         You have {item.user.events[item.eventIndex].invitations.length} invitations
                         <br />
                         <br />
-                        <div className="listinvitations">
+                        <div className="listinvitations" style={{ height: '100%', textAlign: 'center', paddingLeft:30, paddingRight:30}}>
                             {item.user.events[item.eventIndex].invitations.map((vet, index) => {
                                 return (
+                                    <div className="iteminvitations container">
+                                        <div name={index} key={vet.invitationName + index} className="row">
 
-                                    <div name={index} key={vet.invitationName + index} className="row iteminvitations">
-                                        <div className="col-sm-7 text2">{vet.invitationName}</div>
-                                        <div className="col-sm-5 btnicon">
-                                            <i className="far fa-trash-alt" id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
-                                            <i className="far fa-envelope" id={index} onClick={e => { this.myIndex(e); this.toggleSend() }}></i>
-
-                                            <i className="fas fa-pencil-alt" id={index} onClick={this.editInvitations}></i>
+                                            <div className="col-sm-7 text2">{vet.invitationName}</div>
+                                            <div className="col-sm-5 btnicon">
+                                                <i className="fas fa-pencil-alt" id={index} onClick={this.editInvitations}></i>
+                                                <i className="far fa-envelope" id={index} onClick={e => { this.myIndex(e); this.toggleSend() }}></i>
+                                                <i className="far fa-trash-alt" id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
+                                            </div>
                                         </div>
                                     </div>
+
                                 )
                             })}
                         </div>
@@ -140,7 +142,7 @@ class InvitationManager extends Component {
                 <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
                     <ModalHeader toggle={this.toggleSend}>Do you want to send an invitation to all your guests</ModalHeader>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.sendInvitations}>Send</Button>{' '}
+                        <Button style={{ backgroundColor: '#560027' }} onClick={this.sendInvitations}>Send</Button>{' '}
                         <Button color="secondary" onClick={this.toggleSend}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
@@ -149,8 +151,8 @@ class InvitationManager extends Component {
                     <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
                         <ModalHeader toggle={this.toggle}>Do you want to delete this invitation?</ModalHeader>
                         <ModalFooter className="btnSend" >
-                            <Button onClick={this.removeInvitations} color="primary">Yes</Button>
-                            <Button onClick={this.toggleRemove} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
+                            <Button onClick={this.removeInvitations} style={{ backgroundColor: '#560027' }}>Yes</Button>
+                            <Button onClick={this.toggleRemove} color="secondary" >No</Button>
                         </ModalFooter>
 
                     </Modal>
