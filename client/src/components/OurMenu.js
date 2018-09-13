@@ -4,6 +4,8 @@ import toRenderProps from 'recompose/toRenderProps';
 import withState from 'recompose/withState';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
+import CategoryManager from './CategoryManager';
+
 import axios from 'axios';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';

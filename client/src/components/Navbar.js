@@ -8,6 +8,10 @@ import {
 
 import OurMenu from './OurMenu';
 import AccountManager from './AccountManager';
+
+import { observer, inject } from 'mobx-react';
+import axios from 'axios';
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -60,6 +64,8 @@ const styles = theme => ({
 
 });
 
+@inject("store")
+@observer
 class Navbar extends Component {
     state = {
         anchorMenu: null,

@@ -5,6 +5,8 @@ import socketIOClient from "socket.io-client";
 
 import './App.css';
 import EventManager from './components/EventManager';
+import AppDescription from './components/AppDescription';
+
 import { BrowserRouter, Route } from 'react-router-dom'
 import { observer, inject } from 'mobx-react';
 import { action } from "mobx";
@@ -103,6 +105,7 @@ class App extends Component {
           {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
             < EventManager /> : false}
           {/* <Test /> */}
+          {! this.props.store.user.userLog && <AppDescription />}
           <BrowserRouter>
             <Route
               exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
