@@ -12,7 +12,7 @@ class YouLoginAs extends Component {
     render(){
         return(
             <div className="youLoggedAs">
-                <h3>Hello {this.props.store.user.username}</h3>
+                <h3> {this.props.store.user.username} </h3>
             </div>
         );
     }

@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core"   //AccountManager
 
 import OurMenu from './OurMenu';
-import YouLoginAs from './YouLoginAs';
 import AccountManager from './AccountManager';
 
 import { observer, inject } from 'mobx-react';
@@ -115,7 +114,6 @@ class Navbar extends Component {
                 <AppBar position="static">
                     <Toolbar className={classes.menu}>                        
                         <OurMenu className={classes.menuButton} />
-                        {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
                         <AccountManager className={classes.account} />
                     </Toolbar>
                 </AppBar>
