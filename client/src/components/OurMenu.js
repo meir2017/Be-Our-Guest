@@ -77,7 +77,6 @@ class OurMenu extends Component {
       modalRemove: false,
       modalEdit: false,
       myEvent: ""
-
     };
 
     // this.handlerRemoveEvent = this.handlerRemoveEvent.bind(this);
@@ -174,7 +173,6 @@ class OurMenu extends Component {
         </IconButton>
 
         <Popover
-
           id="render-props-popover"
           open={open}
           anchorEl={anchorMenu}

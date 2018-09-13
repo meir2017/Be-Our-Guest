@@ -40,20 +40,19 @@ overflow-x: hidden;
 .paperSingUp{
   background-color:lightsalmon !important
 }
-.btnEvent{
+ /* nof */
+.btnEvent{ 
   width: 320px;
   height: 60px;
   background-color:#90EE90;
 }
+/* nof */
 .navBarMain{
   /* background-color: darkorange; */
   height: 60px;
   position:fixed;
   
 }
-
-
-
 *{
   box-sizing: border-box;
 }
@@ -85,11 +84,7 @@ overflow-x: hidden;
 text-align: center ;
 margin-top: -55px
 }
-.itemEvent , .itemcategories{
-/* color:black; */
-width: 114% !important;
-margin-left: -40px !important;
-}
+
 .divBtn{
   margin: 5px;
 }
