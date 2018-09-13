@@ -202,7 +202,7 @@ class ClippedDrawer extends Component {
                 showLabels
                 className={classes.buttonNav}
                 BottomNavigation>
-                <BottomNavigationAction  label="Create new" icon={<AddIcon />}  className={classes.buttonNav} />
+                <cAction  label="Create new" icon={<AddIcon />}  className={classes.buttonNav} />
               </BottomNavigation>
               <List className={classes.rootList} subheader={<li />}>
                 <ul>
