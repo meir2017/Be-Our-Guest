@@ -269,7 +269,9 @@ app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
                         .then(table => {
                             Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
                                 .then(updatedTable => res.send(updatedTable));
-                        }).catch(err => console.log("ERROR: " + err));
+                        }).catch(err => {
+                          res.send(null);
+                          console.log("ERROR: " + err)});
                 }
                 ).then(console.log("deleteGuests"));
         })
