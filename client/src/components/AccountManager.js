@@ -9,14 +9,14 @@ import axios from 'axios';
 
 
 const styles = theme => ({
-    root: {        
+    root: {
         flexGrow: 1,
         display: 'flex',
         justifyContent: 'flex-end',
-    },    
-    
+    },
+
     menuAccountButton: {
-      //  float: 'right',
+        //  float: 'right',
         //marginRight: 1520,
         //marginLeft: 1150,
     },
@@ -52,6 +52,7 @@ class AccountManager extends Component {
     handleLogout = (e) => {
         this.props.store.LogoutUser();
         this.handleCloseMenuAccount();
+        localStorage.clear()
     }
 
 
@@ -90,7 +91,7 @@ class AccountManager extends Component {
                 >
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleCloseMenuAccount} onClick={this.handleLogout} >My account</MenuItem>
+                    <MenuItem onClick={this.handleCloseMenuAccount} >My account</MenuItem>
                 </Menu>
             </div>
         );
