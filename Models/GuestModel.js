@@ -11,8 +11,8 @@ let guestSchema = new mongoose.Schema({
     invitations: [{ type: Schema.Types.ObjectId, ref: 'invitation' }],
     categories: [{ type: Schema.Types.ObjectId, ref: 'category' }],
     comment: String,
-    numConfirmed: Number,
-    numUndecided: Number,
+    numInvited: Number,
+    numComing: Number,
     numNotComing: Number,
     seated: Boolean
 });

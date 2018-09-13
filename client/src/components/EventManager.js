@@ -27,7 +27,20 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    height:'100%'
   },
+  button: {
+    // margin: theme.spacing.unit,
+   // minWidth: 160,
+    fontSize: 13,
+    color: theme.palette.common.white,
+    '&:hover': {
+        border: "1px solid white",
+        '& $marked': {
+        opacity: 0,
+      },
+    },
+},
 });
 
 class EventManager extends React.Component {
@@ -49,10 +62,15 @@ class EventManager extends React.Component {
           <div className="col-md-4"></div>
           <div className="col-md-5 col-md-offset-3">
             <AppBar className="AppBar" position="static">
-              <Tabs className="tabs" value={value} onChange={this.handleChange}>
-                <Tab value="one" label="Guests" />
-                <Tab value="two" label="Tables" />
-                <Tab value="three" label="Invitations" />
+              <Tabs className="tabs" color="default" value={value} onChange={this.handleChange}
+              value={this.state.value}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              
+              fullWidth>
+                <Tab className={classes.button} value="one" label="Guests" />
+                <Tab className={classes.button} value="two" label="Tables" />
+                <Tab className={classes.button} value="three" label="Invitations" />
               </Tabs>
             </AppBar>
           </div>

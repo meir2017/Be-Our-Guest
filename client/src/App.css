@@ -1,7 +1,8 @@
 .App {
   text-align: center;
   /* background-color:lightslategray; */
-  min-height: 710px;
+  overflow-x: hidden;
+  min-height: 100%;
 }
 
 .App-logo {
@@ -17,6 +18,11 @@
 
 .App-intro {
   font-size: large;
+}
+
+body{
+overflow-y: auto;
+overflow-x: hidden;
 }
 
 @keyframes App-logo-spin {
@@ -46,35 +52,20 @@
   
 }
 
-.tables-container{
-  display: flex;
-  flex-direction: row;
-  height: 500px;
-  width: 100%;
-  background-color: grey;
-  position: relative;
-  overflow: hidden;
-}
 
-.guest-container{
- padding:10px;
- background-color: black;
- border-color: rgb(25, 21, 90);
- border-width: 2px;
- border-style: solid;
-}
 
 *{
   box-sizing: border-box;
 }
 /* login */
 .btnl ,.btnr{
-  width: 48%;
+  width: 47%;
   margin: 10px 4px;
+  background-color: #212121 !important;
   
 }
 .maintop{
-  background-color: #0067D6;
+  background-color: #2121218e;
   border-radius:10px; 
   width: 97%;
   margin: 5px;
@@ -125,32 +116,26 @@ height: 300px;
 border: solid grey 1px;
 } */
 .iteminvitations{
-  float: left;
-  width: 80%;
-  border: solid 1px #3d5afe;
-padding: 15px;
-background-color: #00b0ff;
-z-index: 8;
+  text-align: center;
+  width: 90%;
+  border: solid 2px #d1d1d1;
+padding-top: 10px;
+padding-bottom: 10px;
+background-color: #7e0a3e;
 color: white;
 font-size: 16px;
 margin: 10px;
 border-radius: 10px;
 }
-.iteminvitations:hover { 
-  background-color: #1de9b6;
-  border-color: #14a37f;
-  font-size: 26px;
-  box-shadow: 5px 10px #888888; 
-}
-/* .btnicon{
-  padding-left: 12px
-} */
+
 .btnicon i{
   padding-left: 20px
 }
 .btnicon i:hover{
 color: black;
 }
+
+
 .addTable{
   position: fixed;
 }
@@ -159,7 +144,22 @@ color: black;
 .btnSend{
   margin-left: 40px
 }
-/* #x3 {
-  position: fixed;
+.rsvpInput{
+  padding-left: 65px
+}
+.rsvpInput .form-control{
+ width: 55%;
+}
+/* .modalLogin{
+  width:350px !important
 } */
 
+
+input#tableName {
+  text-align: center;
+}
+select#category {
+  width: 70px;
+  text-align: center;
+  padding-left: 19px;
+}

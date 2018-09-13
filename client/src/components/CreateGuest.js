@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-// import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
 import axios from 'axios';
 import MyModal from './Modal';
 
 import { observer, inject } from 'mobx-react';
+
+
+const styles = theme => ({
+  addIcon: {
+    marginRight: theme.spacing.unit,
+  },
+
+  cancelButton:{
+    color: 'white',
+    backgroundColor: theme.palette.primary.light,
+  }
+
+});
 
 
 @inject("store")
@@ -27,30 +39,20 @@ class CreateGuest extends Component {
       email: "",
       phone: "",
       category: "",
+      categoryName: "",
       invited: 0,
       coming: 0,
       notComing: 0
     };
   }
 
-  // const styles = theme => ({
-  //   root: {
-  //     display: 'flex',
-  //     flexWrap: 'wrap',
-  //   },
-  //   formControl: {
-  //     margin: theme.spacing.unit,
-  //     minWidth: 120,
-  //   },
-  //   selectEmpty: {
-  //     marginTop: theme.spacing.unit * 2,
-  //   },
-  // });
-  
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      [event.target.id]: event.target.value,
+      [event.target.name]: event.target.selectedOptions[0].innerText
+    });
   };
-  
+
   onChangeText = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -95,76 +97,94 @@ class CreateGuest extends Component {
       .catch(err => console.log('Error: ', err));
   }
 
-  categoryListElement = () => {
-    this.props.store.user.categories.map((caterory, index) => {
+  categoryListElements = () => {
+    this.props.store.user.categories.map((category, index) => {
       return (
-        <MenuItem value={(index + 1) * 10}>{caterory.name}</MenuItem>
+        <MenuItem value={index}>{category.name}</MenuItem>
       )
     })
   }
 
+  displayCategoryName = guest => {
+    let category = this.props.store.user.categories.find(category => category._id === guest.categories[0]);
+    return category.name;
+  }
+
   render() {
+    let { classes } = this.props;
     return (
       <div>
-        <Button onClick={this.toggle}><AddIcon /></Button>
-        <br /> <br />
+        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle}>
+          <AddIcon className={classes.addIcon} />
+          Add Guest
+        </Button>
+
         {this.state.modal &&
           <MyModal >
-            <Modal isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
-              <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
-              <ModalBody>
-                <TextField
-                  id="name" label="Name" type="text" className="textField"
-                  name="name" onChange={this.onChangeText} value={this.inputText}
-                />
-                <br />
-                <TextField
-                  id="email" label="Email" type="email" className="textField"
-                  name="email" onChange={this.onChangeText} value={this.inputText}
-                />
-                <br />
-                <TextField
-                  id="phone" label="Phone" type="text" className="textField"
-                  name="phone" onChange={this.onChangeText} value={this.inputText}
-                />
-                <br />
+            <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
+              <form action="" onSubmit={this.handleSaveGuest}>
+                <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
+                <ModalBody>
+                  <TextField
+                    required
+                    id="name" label="Name" type="text" className="textField"
+                    name="name" onChange={this.onChangeText} value={this.inputText}
+                  />
+                  <br />
+                  <TextField
+                    required
+                    id="email" label="Email" type="email" className="textField"
+                    name="email" onChange={this.onChangeText} value={this.inputText}
+                  />
+                  <br />
+                  <TextField
 
-                <form autoComplete="off">
-                  <FormControl>
-                    <InputLabel htmlFor="category-helper">Category</InputLabel>
-                    <Select
-                      value={this.state.category}
-                      onChange={this.handleChange}
-                      input={<Input name="category" id="category-helper" />}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {this.categoryListElement()}
-                    </Select>
-                    <FormHelperText>Please select from list of categories</FormHelperText>
-                  </FormControl>
-                </form>
+                    id="phone" label="Phone" type="text" className="textField"
+                    name="phone" onChange={this.onChangeText} value={this.inputText}
+                  />
+                  <br />
+                  <br />
 
-                <TextField
-                  id="invited" label="Invited" type="number" className="textField"
-                  name="invited" onChange={this.onChangeText} value={this.inputText}
-                />
-                <br />
-                <TextField
-                  id="coming" label="Coming" type="number" className="textField"
-                  name="coming" onChange={this.onChangeText} value={this.inputText}
-                />
-                <br />
-                <TextField
-                  id="notComing" label="Not coming" type="number" className="textField"
-                  name="notComing" onChange={this.onChangeText} value={this.inputText}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={this.handleSaveGuest}>Save Guest</Button>{' '}
-                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-              </ModalFooter>
+                  <InputLabel htmlFor="category">category : </InputLabel>
+                  <Select
+                    required
+                    native
+                    label="Category"
+                    value={this.state.category}
+                    id="category"
+                    name="categoryName"
+                    onChange={this.handleChange} >
+                    <option disabled value="" />
+                    {this.props.store.user.categories.map((item, index) => {
+                      return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
+                    })}
+                  </Select>
+                  <br />
+
+                  <TextField
+
+                    id="invited" label="Invited" inputProps={{ min: "1", max: "10", step: "1" }} type="number" className="textField"
+                    name="invited" onChange={this.onChangeText} value={this.inputText}
+                    required
+                  />
+                  <br />
+                  <TextField
+
+                    id="coming" label="Coming" type="number" className="textField"
+                    name="coming" onChange={this.onChangeText} value={this.inputText}
+                  />
+                  <br />
+                  <TextField
+
+                    id="notComing" label="Not coming" type="number" className="textField"
+                    name="notComing" onChange={this.onChangeText} value={this.inputText}
+                  />
+                </ModalBody>
+                <ModalFooter>
+                  <Button   color="secondary" variant="contained" type="Submit">Save Guest</Button>{' '}
+                  <Button className={classes.cancelButton} variant="contained" onClick={this.toggle} >Cancel</Button>
+                </ModalFooter>
+              </form>
             </Modal>
           </MyModal>}
 
@@ -173,4 +193,9 @@ class CreateGuest extends Component {
   }
 }
 
-export default CreateGuest;
+
+CreateGuest.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(CreateGuest);

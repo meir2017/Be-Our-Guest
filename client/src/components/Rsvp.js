@@ -3,12 +3,12 @@
 import React, { Component } from 'react';
 import Checkbox from "@material-ui/core/Checkbox";
 import { Button, Form } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import socketIOClient from "socket.io-client";
 
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-// import logo from '../../.public/loading.jpg';
-// import logo from '../../public/loading.jpg';
 
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
@@ -30,51 +30,115 @@ class Rsvp extends Component {
             whereEvent: "",
 
 
-            checkedB: false,
-            numGuest: 0,
-            myText: "",
+            arryComing: [],
+            arryNotComing: [],
+            coming: 0,
+            notComing: 0,
+            numInvited: "",
+            vient: "",
+            returnRsvp: false,
 
-            display_rsvp: false
+            endpoint: "http://127.0.0.1:3001",
         }
     }
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.checked });
-        // alert(this.state[name])
-    };
-    handleChangeGuest = name => event => {
-        this.setState({ [name]: event.target.value });
-        // alert(this.state[name])
+    send = () => {
+        debugger
+        let guestId = this.props.match.params.guestId;
+        let eventId = this.props.match.params.eventId;
+        const socket = socketIOClient(this.state.endpoint);
+        socket.emit('real time', {
+            coming: this.state.coming,
+            notComing: this.state.notComing,
+            guestId: guestId,
+            eventId: eventId
+        })
+    }
+
+    onSelectConfirmed = (e) => {
+        let coming = this.state.coming
+        let notComing = this.state.notComing
+        let numInvited = this.state.numInvited
+        let vient = this.state.vient;
+        if (e.target.name === "coming") {
+            console.log("coming")
+            coming = e.target.value;
+            numInvited = vient - coming - notComing;
+            notComing = vient - coming;
+        }
+
+        if (e.target.name === "notComing") {
+            console.log("notComing")
+            notComing = e.target.value;
+            numInvited = vient - coming - notComing;
+            coming = vient - notComing;
+        }
+
+        console.log(this.state.coming)
+        let setArryComing = [];
+        let setArryNotComing = [];
+
+        for (let index = 0; index <= coming; index++) {
+            setArryComing.push(index)
+        }
+        for (let index = 0; index <= notComing; index++) {
+            setArryNotComing.push(index)
+        }
+
+        this.setState({ [e.target.name]: e.target.value, arryComing: setArryComing, arryNotComing: setArryNotComing, numInvited: numInvited });
     };
     Submitfunc = (e) => {
         e.preventDefault();
+        this.send();
         console.log(this.state.numGuest);
         console.log(this.state.checkedB);
         //send the info to evntid,gustid
         let objRsvp = {
-            checkedB: this.state.checkedB,
-            numGuest: this.state.numGuest,
-            guestId: this.props.match.params.guestId
+            coming: this.state.coming,
+            notComing: this.state.notComing,
+            numInvited: this.state.numInvited,
+            guestId: this.props.match.params.guestId,
+            eventId: this.props.match.params.eventId
+
         }
         console.log(this.props.match.params.guestId)
         axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
             .then(response => {
                 console.log((response.data))
-                // this.props.store.addInvitation(response.data)
             })
+        this.toggleSendRsvp(e)
     }
 
     componentWillMount = () => {
-        this.props.ChangeToRsvpPage();
-        this.getUserInfo();
+        let guestId = this.props.match.params.guestId;
+
+        axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
+            .then(response => {
+                console.log("rsvpGuest")
+                let item = response.data;
+                this.setState({
+                    numInvited: item.numInvited,
+                    vient: item.numInvited
+                })
+
+                let newArry = [];
+                for (let index = 0; index <= item.numInvited; index++) {
+                    newArry.push(index)
+                }
+                this.setState({ arryComing: newArry, arryNotComing: newArry })
+                this.props.ChangeToRsvpPage();
+                this.getUserInfo();
+
+            })
     }
+    toggleSendRsvp = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            returnRsvp: !this.state.returnRsvp
+        });
+    }
+
     getUserInfo = () => {
-
-        // let infoEvent = {
-        //     vetId: this.props.match.params.vetId,
-        //     eventId: this.props.match.params.eventId,
-        //     guestId: this.props.match.params.guestId
-        // }
-
         let vetId = this.props.match.params.vetId;
         axios.get(`/beOurGuest/rsvpGuest/${vetId}`)
             .then(response => {
@@ -92,9 +156,8 @@ class Rsvp extends Component {
                     fontTitle: item.fontTitle,
                     fontBody: item.fontBody,
                     display_rsvp: true
-
                 })
-            })
+            });
 
     }
 
@@ -104,8 +167,8 @@ class Rsvp extends Component {
                 <div className="row">
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6" >
-                        <br /><br />
-                        <Form className="display_rsvp" onSubmit={this.Submitfunc} style={{ backgroundColor: `${this.state.background}` }} >
+                        <br /><br />  <br />
+                        <Form className="display_rsvp" onSubmit={this.toggleSendRsvp} style={{ backgroundColor: `${this.state.background}` }} >
                             <div  >
                                 <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
                                 <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
@@ -113,44 +176,63 @@ class Rsvp extends Component {
                                 </div>
                                 <p>{this.state.whenEvent}  <br />  {this.state.whereEvent}</p>
                             </div>
-                            are you caming:   <Checkbox
-                                checked={this.state.checkedB}
-                                onChange={this.handleChange("checkedB")}
-                                value="checkedB"
-                                color="primary"
-                            />
-                            <br /><br />
+                            <hr />
+                            <div className="row">
+                                <div className="col-sm-4">
+                                    <label htmlFor="">Coming</label>
+                                    <div className="rsvpInput">
+                                        {/* {this.SetComing(this.state.coming)} */}
+                                        <select className="form-control" id="coming" value={this.state.coming} onChange={this.onSelectConfirmed} name="coming">
+                                            {this.state.arryComing.map((item, index) => {
+                                                return <option key={index + item}>{item} </option>
 
-                            <FormControl>
-                                How many will you come?  <InputLabel htmlFor="age-native-simple"></InputLabel>
-                                <Select
-                                    native
-                                    value={this.state.numGuest}
-                                    onChange={this.handleChangeGuest('numGuest')}  >
-                                    <option value="" />
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                    <option value={5}>5</option>
-                                    <option value={6}>6</option>
-                                    {/* {this.props.store.user.categories.map((item, index) => {
-                                     return   <option key={item._id} value={1}>{item.name}</option>
-                                    })} */}
-                                </Select>
-                            </FormControl>
-                            <br />
-                            <br />
+                                            })}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-sm-4 rsvpForm m2">
+                                    <label htmlFor="">Not Coming</label>
+                                    <div className="rsvpInput">
+                                        <select className="form-control" id="notComing" value={this.state.notComing} onChange={this.onSelectConfirmed} name="notComing">
+                                            {this.state.arryNotComing.map((item, index) => {
+                                                return <option key={index + item}>{item} </option>
+
+                                            })}
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div className="col-sm-4">
+                                    <label htmlFor="">Undecided</label>
+
+                                    <div className="Undecided" id="Undecided">
+                                        <div className="Undecided1">
+                                            {this.state.numInvited}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <br />
                             <Button>Submit</Button>
-                            <br />
-                            <br />
+
+                            <br />  <br />
                         </Form>
                     </div>
                     <div className="col-sm-3"></div>
                 </div>
 
+                <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.returnRsvp} toggle={this.toggleSendRsvp}>
+                    <ModalHeader toggle={this.toggle}>Do you want to send your rsvp?</ModalHeader>
+                    <ModalFooter className="btnSend" >
+                        <Button onClick={this.Submitfunc} style={{backgroundColor:'#560027'}}>Yes</Button>
+                        <Button onClick={this.toggleSendRsvp} color="secondary" >No</Button>
+                    </ModalFooter>
 
+                </Modal>
             </div>
         );
     }

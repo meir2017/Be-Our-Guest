@@ -26,8 +26,13 @@ class SignUp extends Component {
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
                     this.props.store.openModalLogin();
-                    console.log((" new user " + response.data._id))
-                    this.props.store.updateUser(response.data)
+                    console.log(response.data)
+                    if (response.data === "user")
+                        console.log("Username already registered")
+                    else if (response.data === "email")
+                        console.log("The email address is already registered")
+                    else { this.props.store.updateUser(response.data) }
+
                 })
         }
         else
@@ -41,17 +46,22 @@ class SignUp extends Component {
 
         return (
             <div>
-                <div>
+
+                <form action="" onSubmit={this.onClickBtn}>
                     <ModalBody state={{ textAlign: "center" }}>
                         <TextField
+                            minLength={6}
                             id="User" label="User name" type="text"
                             className="textField" margin="normal"
                             name="inputText"
+                            required
+
                             onChange={this.onChangeText} value={this.state.inputText}
                         />
                         <br />
                         <TextField
-                            id="emil" label="Email" type="text"
+                            required
+                            id="emil" label="Email" type="email"
                             className="textField" margin="normal"
                             name="emailText"
                             onChange={this.onChangeText} value={this.state.emailText}
@@ -59,28 +69,23 @@ class SignUp extends Component {
                         <br />
                         <TextField
                             id="password-input" label="Password"
+                            required
                             type="password" className="textField" margin="normal"
                             name="passText"
                             onChange={this.onChangeText} value={this.state.passText}
                         />
                         <br />
                         <TextField
-                            id="passConfirm" label="Confirm"
+                            id="passConfirm" label="Confirm" required
                             type="password" className="textField" margin="normal"
                             name="passConfirm"
                             onChange={this.onChangeText} value={this.state.passConfirm}
                         />
                         <br /><br />
-                        <Button variant="contained" onClick={this.onClickBtn} color="primary" >register  </Button>
+                        <Button variant="contained" type="Submit" style={{backgroundColor:'#560027'}}>Register  </Button>
                         <br /><br />
                     </ModalBody>
-                    {/* <CardBody>
-                    <div className="pas">
-                        <p>Forgot <a href="#" className="blue-text">Password?</a></p>
-                    </div>
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                </CardBody> */}
-                </div>
+                </form>
             </div>
         );
     }

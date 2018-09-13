@@ -1,5 +1,3 @@
-// import React from 'react';
-
 import React, { Component } from 'react';
 // import classNames from 'classnames';
 import {
@@ -17,42 +15,54 @@ import axios from 'axios';
 
 const styles = theme => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
     },
-    flex: {
-        flexGrow: 1
+    menu: {
+        //   display: 'flex',
+        flexGrow: 1,
     },
+
     menuButton: {
-        marginLeft: -12,
-        marginRight: 20
+        flexGrow: 1,
+        //  justifyContent: 'flex-start',
+        // marginLeft: -12,
+        // marginRight: 20
     },
-    menuAccountButton: {
-        float: 'right',
-        //marginRight: 1520,
-        marginLeft: 1150,
-    },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-    },
-    paper: {
-        width: 300,
-    },
-    rootList: {
-        width: '100%',
-        maxWidth: 260,
-        backgroundColor: theme.palette.background.paper,
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 300,
-    },
-    listSection: {
-        backgroundColor: 'inherit',
-    },
-    ul: {
-        backgroundColor: 'inherit',
-        padding: 0,
-    },
+    account: {
+        // flexGrow: 1,        
+        // justifyContent: 'flex-end',
+    }
+    // flex: {
+    //     flexGrow: 1
+    // },
+    // menuAccountButton: {
+    //     float: 'right',
+    //     //marginRight: 1520,
+    //     marginLeft: 1150,
+    // },
+    // heading: {
+    //     fontSize: theme.typography.pxToRem(15),
+    //     fontWeight: theme.typography.fontWeightRegular,
+    // },
+    // paper: {
+    //     width: 300,
+    // },
+    // rootList: {
+    //     width: '100%',
+    //     maxWidth: 260,
+    //     backgroundColor: theme.palette.background.paper,
+    //     position: 'relative',
+    //     overflow: 'auto',
+    //     maxHeight: 300,
+    // },
+    // listSection: {
+    //     backgroundColor: 'inherit',
+    // },
+    // ul: {
+    //     backgroundColor: 'inherit',
+    //     padding: 0,
+    // },
+
 });
 
 @inject("store")
@@ -103,10 +113,10 @@ class Navbar extends Component {
 
             <div className={classes.root} >
                 <AppBar position="static">
-                    <Toolbar>
-                        <OurMenu />
+                    <Toolbar className={classes.menu}>                        
+                        <OurMenu className={classes.menuButton} />
                         {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
-                        <AccountManager />
+                        <AccountManager className={classes.account} />
                     </Toolbar>
                 </AppBar>
             </div>

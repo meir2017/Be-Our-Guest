@@ -1,20 +1,25 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import socketIOClient from "socket.io-client";
 
 import './App.css';
 import EventManager from './components/EventManager';
-import { BrowserRouter, Route, Link } from 'react-router-dom'
-import CreateEvent from './components/CreateEvent';
+import { BrowserRouter, Route } from 'react-router-dom'
 import { observer, inject } from 'mobx-react';
+import { action } from "mobx";
 import Navbar from './components/Navbar';
-import TableList from './components/TableList';
 import { DragDropContext } from 'react-beautiful-dnd';
-import LogIn from './components/LogIn';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
 import Rsvp from './components/Rsvp';
 import Test from './components/Test';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#212121', light:'#9e9e9e' }, // Purple and green play nicely together.
+    secondary: { main: '#560027' },
+  },
+});
 
 
 @inject("store")
@@ -24,95 +29,37 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
-    }///http://localhost:3000/beuorguest/rsvp/:evntid/:guestid   for  rsvp
-  }
-  ChangeOptions = (user) => {  // remov this
-    this.setState({ Options: !this.state.Options })   // login   or signup
+    }
   }
 
-  componentWillMount() {
-    axios.post('/beOurGuest/login', { username: "user1", password: "111" })
-      .then(response => {
-        if (response.data !== "") {
-          // console.log("user login  " + JSON.stringify(response.data))
-          this.props.store.updateUser(response.data)
-        } else {
-          console.log("no user Account ")
-        }
-      }).catch(function (error) { console.log(error); });
+  @action
+  updateTablesInDb = () => {
+
   }
 
-  onDragEnd = result => {
-    let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-
-    if (result.destination === null)
-      return;
-
-    if (result.destination.droppableId === result.source.droppableId &&
-      result.destination.index === result.source.index) {
-      return;
-    }
-
-    const start = currentEvent.tables[Number(result.source.droppableId)];
-    const finish = currentEvent.tables[Number(result.destination.droppableId)];
-
-    if (start === finish) {
-      const newGuests = Array.from(start.guests);
-      let myGuest = newGuests.splice(result.source.index, 1);
-      newGuests.splice(result.destination.index, 0, myGuest[0]);
-
-
-      const newTable = {
-        ...start,
-        guests: newGuests
-      };
-
-      let newTables = Array.from(currentEvent.tables);
-      newTables[Number(result.source.droppableId)] = newTable;
-
-      this.props.store.user.events[this.props.store.eventIndex].tables = newTables;
-      return;
-    }
-
-    //moving from one column to another
-    const startGuests = Array.from(start.guests);
-    let myGuest = startGuests.splice(result.source.index, 1);
-    const newStart = {
-      ...start,
-      guests: startGuests
-    }
-
-    const finishGuests = Array.from(finish.guests);
-    finishGuests.splice(result.destination.index, 0, myGuest[0]);
-    const newFinish = {
-      ...finish,
-      guests: finishGuests
-    }
-
-    let newTables = Array.from(currentEvent.tables);
-    newTables[Number(result.source.droppableId)] = newStart;
-    newTables[Number(result.destination.droppableId)] = newFinish;
-
-    this.props.store.user.events[this.props.store.eventIndex].tables = newTables;
-  }
-
+  @action
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
-    // console.log(user.username)
-    if (user != null)
+    let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
+
+    if (user !== null) {
+      // console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
         .then(response => {
           if (response.data !== "") {
-            // console.log("user login  " + JSON.stringify(response.data))
-            this.props.store.updateUser(response.data)
-          } else {
+            this.props.store.updateUser(response.data);
+          }
+          else {
             console.log("no user Account ")
           }
-        }).catch(function (error) { console.log(error); });
+        })
+        .catch(function (error) { console.log(error); });
+    }
+
+    if (eventIndex != null) {
+      this.props.store.updateEventIndex(eventIndex);
+    }
   }
-
-
-
 
   onDragStart = result => {
     console.log("start");
@@ -125,15 +72,37 @@ class App extends Component {
   ChangeToRsvpPage = (e) => {
     this.setState({ rsvpfunc: true })
   }
+  updetGuset = (obj) => {
+    let events = this.props.store.user.events;
+    for (let index = 0; index < events.length; index++) {  //get event index
+      if (events[index]._id == obj.eventId) {
+
+        console.log("event index : " + index)
+        for (let i_g = 0; i_g < events[index].guests.length; i_g++) {// get gest indes
+          if (events[index].guests[i_g]._id == obj.guestId) {
+            debugger
+            console.log("guest index : " + i_g)
+            this.props.store.realTimeRsvp(index, i_g, obj.coming, obj.notComing)
+            break;
+          }
+        }
+      }
+    }
+  }
   render() {
+    const socket = socketIOClient(this.state.endpoint);
+    socket.on('real timeBack', (obj) => {
+      console.log(JSON.stringify(obj))
+      this.updetGuset(obj)
+    })
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <div className="App">
+      <MuiThemeProvider theme={theme}>
+        <div className="App" >
 
           {!this.state.rsvpfunc && <Navbar />}
-          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ? < EventManager /> : false}
-          {/* once logged "Hello {item.user}" show up */}
-
+          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
+            < EventManager /> : false}
+          {/* <Test /> */}
           <BrowserRouter>
             <Route
               exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
@@ -141,7 +110,7 @@ class App extends Component {
             />
           </BrowserRouter>
         </div>
-      </DragDropContext>
+      </MuiThemeProvider>
     );
   }
 }

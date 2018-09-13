@@ -24,13 +24,14 @@ class SignIn extends Component {
         e.preventDefault();
         axios.post('/beOurGuest/login', { name: this.state.inputText, pass: this.state.passText })
             .then(response => {
+                console.log(response.data)
                 if (response.data !== "") {
-                    console.log("user login  " + JSON.stringify(response.data))
-                    this.props.store.openModalLogin();
+                    // console.log("user login  " + JSON.stringify(response.data))
                     this.props.store.updateUser(response.data)
                 } else {
                     console.log("no user Account ")
                 }
+                this.props.store.openModalLogin();
             }).catch(function (error) { console.log(error); });
         this.setState({ inputText: "", passText: "" });
     }
@@ -55,12 +56,12 @@ class SignIn extends Component {
                         onChange={this.onChangeText} value={this.state.passText}
                     />
                     <br /> <br /><br />
-                    <Button variant="contained" onClick={this.onClickBtn} color="primary" >Login  </Button>
+                    <Button variant="contained" onClick={this.onClickBtn} style={{backgroundColor:'#560027'}}>Login  </Button>
                     <br /><br />
                 </ModalBody>
                 <CardBody>
                     <div className="pas">
-                        <p>Forgot <a  onClick={() => { this.props.BtnPassword() }} className="blue-text">Password?</a></p>
+                        <p>Forgot <a onClick={() => { this.props.BtnPassword() }} className="blue-text">Password?</a></p>
                     </div>
 
                 </CardBody>

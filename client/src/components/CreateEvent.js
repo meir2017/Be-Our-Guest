@@ -30,21 +30,6 @@ class CreateEvent extends Component {
     toggle() {
         this.props.openModalCreate()
     }
-
-    // handlerRemoveEvent = (e) => {
-
-    //     //console.log(JSON.stringify(itemEvent))
-    //     console.log((" Will be deleted  =" + e.target.name))
-    //     let index = e.target.name;
-    //     let eventId = this.props.store.user.events[index]._id;
-    //     axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/`)
-    //         .then(response => {
-    //             console.log((response.data))
-    //             this.store.removEvent(e.target.name)
-
-    //         })
-
-    // }
     handlerSaveEven = (e) => {
         this.toggle();
         e.preventDefault();
@@ -61,50 +46,50 @@ class CreateEvent extends Component {
         return (
             <div>
                 <MyModal >
-                    <Modal isOpen={this.props.modalCreate} toggle={this.toggle} className="CreateNewEvent">
-                        <ModalHeader toggle={this.toggle}>Create New Event</ModalHeader>
-                        <ModalBody>
-                            <TextField
-                                id="Title" label="Title" type="text" className="textField"
-                                name="Title" onChange={this.onChangeText} value={this.inputText}
-                            />
-                            <br />
-                            <TextField
-                                id="Date" label="Date" type="date" className="textField"
-                                name="Date" onChange={this.onChangeText} value={this.inputText}
-                            />
-                            <br />
-                            <TextField
-                                id="Location" label="Location" type="text" className="textField"
-                                name="Location" onChange={this.onChangeText} value={this.inputText}
-                            />
-                            <br />
-                            <TextField
-                                id="maxGuests" label="Max guests" type="number" className="textField"
-                                name="maxGuests" onChange={this.onChangeText} value={this.inputText}
-                            />
-                            <br />
-                            <TextField
-                                id="HostName" label="Host name" type="text" className="textField"
-                                name="HostName" onChange={this.onChangeText} value={this.inputText}
-                            />
-                            <br />
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="primary" onClick={this.handlerSaveEven}>Save event</Button>{' '}
-                            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        </ModalFooter>
+
+                    <Modal style={{ width: "320px" }} isOpen={this.props.modalCreate} toggle={this.toggle} className="CreateNewEvent">
+                        <form action="" onSubmit={this.handlerSaveEven}>
+                            <ModalHeader toggle={this.toggle}>Create New Event</ModalHeader>
+                            <ModalBody>
+                                <TextField
+                                    required
+                                    id="Title" label="Title" type="text" className="textField"
+                                    name="Title" onChange={this.onChangeText} value={this.inputText}
+                                />
+                                <br />
+                                <TextField
+                                    id="Date" label="Date" type="date" className="textField"
+                                    name="Date" onChange={this.onChangeText} value={this.inputText}
+                                />
+                                <br />
+                                <TextField
+                                    id="Location" label="Location" type="text" className="textField"
+                                    name="Location" onChange={this.onChangeText} value={this.inputText}
+                                />
+                                <br />
+                                <TextField
+                                    id="maxGuests" label="Max guests" type="number" className="textField"
+                                    name="maxGuests" onChange={this.onChangeText} value={this.inputText}
+                                />
+                                <br />
+                                <TextField
+                                    id="HostName" label="Host name" type="text" className="textField"
+                                    name="HostName" onChange={this.onChangeText} value={this.inputText}
+                                />
+                                <br />
+                            </ModalBody>
+                            <ModalFooter style={{ textAlign: "center" }}>
+                                <Button style={{backgroundColor:'#560027'}} variant="contained" type="Submit" >Save event</Button>{' '}
+                                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                            </ModalFooter>
+                        </form>
                     </Modal>
+
                 </MyModal>
-            </div>
+            </div >
         );
     }
 }
 
-export default CreateEvent;
 
-// Title: req.body.title,
-// Date: req.body.Date,
-// Location: req.body.location,
-// maxGuests: req.body.numGuest,
-// HostName: req.body.userName,
+export default CreateEvent;
