@@ -3,6 +3,19 @@ import Invitation from './Invitation';
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withStyles, IconButton, Icon } from "@material-ui/core";
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+    icon: {
+        color: 'white',
+        fontSize:20
+    },
+    iconButton: {
+        height:35,
+        width:35
+    }
+});
 
 
 
@@ -20,6 +33,8 @@ class InvitationManager extends Component {
             indexInvitations: ""
         }
     }
+
+
 
     myIndex = (e) => {
         e.preventDefault();
@@ -97,6 +112,7 @@ class InvitationManager extends Component {
     render() {
 
         const item = this.props.store;
+        const { classes } = this.props;
         return (
 
             <div>
@@ -105,17 +121,28 @@ class InvitationManager extends Component {
                         You have {item.user.events[item.eventIndex].invitations.length} invitations
                         <br />
                         <br />
-                        <div className="listinvitations" style={{ height: '100%', textAlign: 'center', paddingLeft:30, paddingRight:30}}>
+                        <div className="listinvitations" style={{ height: '100%', textAlign: 'center', paddingLeft: 30, paddingRight: 30 }}>
                             {item.user.events[item.eventIndex].invitations.map((vet, index) => {
                                 return (
                                     <div className="iteminvitations container">
                                         <div name={index} key={vet.invitationName + index} className="row">
 
-                                            <div className="col-sm-7 text2">{vet.invitationName}</div>
-                                            <div className="col-sm-5 btnicon">
-                                                <i className="fas fa-pencil-alt" id={index} onClick={this.editInvitations}></i>
-                                                <i className="far fa-envelope" id={index} onClick={e => { this.myIndex(e); this.toggleSend() }}></i>
-                                                <i className="far fa-trash-alt" id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
+                                            <div className="col-sm-7 text2"
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center', /* align horizontal */
+                                                    alignItems: 'center'
+                                                }}>{vet.invitationName}</div>
+                                            <div className="col-sm-5 btnicon" style={{textAlign:'right'}}>
+                                                <IconButton className={classes.iconButton}>
+                                                    <Icon id={index} onClick={this.editInvitations} className={classes.icon}>edit_icon</Icon>
+                                                </IconButton>
+                                                <IconButton className={classes.iconButton}>
+                                                    <Icon id={index} onClick={e => { this.myIndex(e); this.toggleSend() }} className={classes.icon}>email_icon</Icon>
+                                                </IconButton>
+                                                <IconButton className={classes.iconButton}>
+                                                    <Icon id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }} className={classes.icon}>clear_icon</Icon>
+                                                </IconButton>
                                             </div>
                                         </div>
                                     </div>
@@ -165,6 +192,9 @@ class InvitationManager extends Component {
     }
 }
 
+InvitationManager.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
+export default withStyles(styles)(InvitationManager);
 
-export default InvitationManager;  
