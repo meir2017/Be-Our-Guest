@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
+import CreateCategory from './CreateCategory';
 import axios from 'axios';
 
 // import classNames from 'classnames';
@@ -14,7 +15,6 @@ import {
 
 import MenuIcon from '@material-ui/icons/Menu';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CreateCategory from './CreateCategory';
 
 
 
