@@ -40,8 +40,8 @@ class LogIn extends React.Component {
             <div>
                 <Modal className="modalLogin" style={{ top: "100px", width: "350px" }} toggle={this.toggle} isOpen={this.props.store.user.ModalLogin} className={this.props.className}>
                     <div className="maintop">
-                        <Button className="btnl " color="primary" onClick={this.handlerLogin}><i className="fas fa-sign-in-alt"> </i>  Login</Button>
-                        <Button className="btnr " color="primary" onClick={this.handlerRegister}><i className="fas fa-user-plus"></i>  Register</Button>
+                        <Button className="btnl "  onClick={this.handlerLogin}><i className="fas fa-sign-in-alt"> </i>  Login</Button>
+                        <Button className="btnr "  onClick={this.handlerRegister}><i className="fas fa-user-plus"></i>  Register</Button>
                     </div>
                     {(this.state.openLogin && !this.state.password) && <SignIn BtnPassword={this.forgot_password} />}
                     {(this.state.openLogin && this.state.password) && <ForgotPassword BtnPassword={this.forgot_password} />}

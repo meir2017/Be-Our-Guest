@@ -17,7 +17,11 @@ class BeOurGuestStore {
   @observable eventIndex = null;
   @observable invitationIndex = null;
 
+  @observable myEventPage = true;
 
+  @action ChangeMyEventPage = (item) => {
+    this.myEventPage = item;
+  }
   @action test = (obj) => {
     debugger
     let g1 = this.user.events[0].guests[0];

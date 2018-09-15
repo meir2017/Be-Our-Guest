@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import socketIOClient from "socket.io-client";
-
+import EventPage from './components/EventPage';
 import './App.css';
 import EventManager from './components/EventManager';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -12,6 +12,15 @@ import Navbar from './components/Navbar';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Rsvp from './components/Rsvp';
 import Test from './components/Test';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#212121', light: '#9e9e9e' }, // Purple and green play nicely together.
+    secondary: { main: '#560027' },
+  },
+});
+
 
 @inject("store")
 @observer
@@ -87,19 +96,22 @@ class App extends Component {
       this.updetGuset(obj)
     })
     return (
-      <div className="App" >
+      <MuiThemeProvider theme={theme}>
+        <div className="App" >
 
-        {!this.state.rsvpfunc && <Navbar />}
-        {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
-          < EventManager /> : false}
-        {/* <Test /> */}
-        <BrowserRouter>
-          <Route
-            exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
-            render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
-          />
-        </BrowserRouter>
-      </div>
+          {!this.state.rsvpfunc && <Navbar />}
+          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
+            < EventManager /> : false}
+          {/* <Test /> */}
+          {!this.props.store.myEventPage && <EventPage />}
+          <BrowserRouter>
+            <Route
+              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+              render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
+            />
+          </BrowserRouter>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

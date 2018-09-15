@@ -25,10 +25,30 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: "flex-start",
+      /*   borderRadius: 5,
+        borderWidth: 4,
+        borderStyle: 'solid',
+        borderColor: 'primary', */
+        height:'80vh',
+
+    },
+    tables:{
         flexWrap: 'nowrap',
         overflowX: 'scroll',
-        overflowY: 'hidden',
+        overflowY:'auto',
+        width: 'auto',
+        height:'100%',
+        
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "flex-start",
+       
+    /*     borderLeftWidth: 2,
+        borderLeftStyle: 'solid',
+        borderLeftColor: 'primary', */
     }
+    
 
 });
 
@@ -102,17 +122,19 @@ class TableList extends Component {
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
         return (
-            <div>
+            <div style={{height:'100%'}}>
                 <div className={classes.tableListWrapper}>
                     <AddTableModal></AddTableModal>
                     <Table0 index={-1} />
+                    <div className={classes.tables}>
                     {currentEvent.tables.slice().sort(function (a, b) {
-                        if (a.title < b.title) return -1;
-                        if (a.title > b.title) return 1;
+                        if (a.category < b.category) return -1;
+                        if (a.category > b.category) return 1;
                         return 0;
                     }).map((table, index) => (
                         <Table table={table} index={index} key={table._id} />
                     ))}
+                    </div>
                 </div>
 
             </div>

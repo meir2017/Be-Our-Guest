@@ -32,6 +32,10 @@ class AccountManager extends Component {
         expanded: null,
     };
 
+    openMyEventPage = () => {
+        this.props.store.thisEventIndex(null)
+        this.props.store.ChangeMyEventPage(false)
+    }
     handleMenuAccount = event => {
         if (this.props.store.user.userLog)
             this.setState({ anchorMenuAccount: event.currentTarget });
@@ -91,7 +95,7 @@ class AccountManager extends Component {
                 >
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleCloseMenuAccount} >My account</MenuItem>
+                    <MenuItem onClick={this.openMyEventPage} >My Event</MenuItem>
                 </Menu>
             </div>
         );

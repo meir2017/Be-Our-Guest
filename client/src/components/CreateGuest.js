@@ -18,6 +18,11 @@ import { observer, inject } from 'mobx-react';
 const styles = theme => ({
   addIcon: {
     marginRight: theme.spacing.unit,
+  },
+
+  cancelButton:{
+    color: 'white',
+    backgroundColor: theme.palette.primary.light,
   }
 
 });
@@ -109,7 +114,7 @@ class CreateGuest extends Component {
     let { classes } = this.props;
     return (
       <div>
-        <Button variant="extendedFab" color="primary" aria-label="Add" onClick={this.toggle}>
+        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle}>
           <AddIcon className={classes.addIcon} />
           Add Guest
         </Button>
@@ -176,8 +181,8 @@ class CreateGuest extends Component {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" type="Submit">Save Guest</Button>{' '}
-                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                  <Button   color="secondary" variant="contained" type="Submit">Save Guest</Button>{' '}
+                  <Button className={classes.cancelButton} variant="contained" onClick={this.toggle} >Cancel</Button>
                 </ModalFooter>
               </form>
             </Modal>

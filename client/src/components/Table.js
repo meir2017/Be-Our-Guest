@@ -41,17 +41,18 @@ const styles = theme => ({
     tableWrapper: {
         margin: 8,
         width: 280,
-        minHeight: 500,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'darkgrey',
+        backgroundColor: 'lightgrey',
         // transition: width 2s, height 4s;
         // transition: background-color 0.2s ease;
         //backgroundColor: ${ props => (props.isDraggingOver ? '#4A6572' : '#4A6572') }
         // backgroundColor: 
         fontFamily: 'Roboto Slab, serif',
         position: 'relative',
+        minHeight:'97%',
+        
         // justifyContent: '',
 
 
@@ -60,6 +61,7 @@ const styles = theme => ({
 
     tableHeader: {
         padding: 5,
+        backgroundColor:'#eeeeee'
 
     },
 
@@ -88,8 +90,9 @@ const styles = theme => ({
     },
     guestListWrapper: {
         paddingTop: 5,
-        overflowY: 'hidden',
+        overflowY:'hidden',
         overflowX: 'hidden',
+        minHeight:'65vh'
     }
 
 
