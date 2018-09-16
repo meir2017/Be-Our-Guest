@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TableList from './TableList';
 import { withStyles } from '@material-ui/core/styles';
 import {
@@ -7,9 +8,11 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
+  FormControlLabel,
   Select,
   ListItemText,
-  Chip
+  Chip,
+  Checkbox
 
 } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -25,6 +28,8 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 300,
     maxWidth: 500,
+    minHeight: 80,
+
   },
   chips: {
     display: 'flex',
@@ -48,18 +53,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
 
 
 @inject("store")
@@ -69,6 +62,7 @@ export class TableManager extends Component {
     super(props);
     this.state = {
       name: [],
+      checked: false
     };
   }
 
@@ -217,6 +211,10 @@ export class TableManager extends Component {
     this.setState({ name: event.target.value });
   };
 
+  handleChangeCheckbox = name => event => {
+    this.setState({ [name]: event.target.checked });    
+    
+  };
 
   render() {
 
@@ -226,43 +224,55 @@ export class TableManager extends Component {
     return (
 
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <div class="container">
-          <div class="row">
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="select-multiple-chip">Filter by Categories</InputLabel>
-              <Select
-                multiple
-                value={this.state.name}
-                onChange={this.handleChange}
-                input={<Input id="select-multiple-chip" />}
-                renderValue={selected => (
-                  <div className={classes.chips}>
-                    {selected.map(value => (
-                      <Chip key={value} label={value} className={classes.chip} />
-                    ))}
-                  </div>
-                )}
-                MenuProps={MenuProps}
-              >
-                {categories.map(name => (
-                  <MenuItem
-                    key={name._id}
-                    value={name.name}
-                    style={{
-                      /*  fontWeight:
-                         this.state.name.indexOf(name) === -1
-                           ? theme.typography.fontWeightRegular
-                           : theme.typography.fontWeightMedium, */
-                    }}
-                  >
-                    {name.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-8 offset-md-2">
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-chip">Filter by Categories</InputLabel>
+                <Select
+                  multiple
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  input={<Input id="select-multiple-chip" />}
+                  renderValue={selected => (
+                    <div className={classes.chips}>
+                      {selected.map(value => (
+                        <Chip key={value} label={value} className={classes.chip} />
+                      ))}
+                    </div>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {categories.map(name => (
+                    <MenuItem
+                      key={name._id}
+                      value={name.name}
+                      style={{
+                         fontWeight:
+                           this.state.name.indexOf(name) === -1
+                             ? theme.typography.fontWeightRegular
+                             : theme.typography.fontWeightMedium,
+                      }}
+                    >
+                      {name.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.checked}
+              onChange={this.handleChangeCheckbox('checked')}
+              value="checked"
+            />
+          }
+          label="Only Tables"
+        />
+            </div>
           </div>
         </div>
-        <TableList />
+        <TableList filteredCategories={this.state.name} onlyTables={this.state.checked}/>
       </DragDropContext>
 
 
@@ -271,6 +281,9 @@ export class TableManager extends Component {
   }
 }
 
+TableManager.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+};
 
-
-export default withStyles(styles)(TableManager);
+export default withStyles(styles, { withTheme: true })(TableManager);

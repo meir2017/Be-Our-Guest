@@ -182,7 +182,7 @@ class AddTableModal extends Component {
                         <form className={classes.container} noValidate autoComplete="off" align="center">
                             <FormControl className={classes.formControl} align="left">
                                 <FormControl required>
-                                    <InputLabel shrink htmlFor="category">Select category</InputLabel>
+                                    <InputLabel shrink htmlFor="category">Category</InputLabel>
                                     <Select
                                         value={this.state.category}
                                         displayEmpty
@@ -191,7 +191,7 @@ class AddTableModal extends Component {
                                             name: 'category',
                                             id: 'category',
                                         }}
-                                        displayEmpty
+                                       
                                         autoWidth
                                     >
 
@@ -243,7 +243,7 @@ class AddTableModal extends Component {
                 <form action="" onSubmit={this.addTable}>
                     <ModalHeader toggle={this.toggle}> Create new table</ModalHeader>
                     <ModalBody>
-                        <InputLabel htmlFor="category">category : </InputLabel>
+                        
                         <Select
                             required
                             native
@@ -305,7 +305,7 @@ class AddTableModal extends Component {
                     </Button>
 
                 </div>
-                {/* {this.dialogChildren()} */}
+                {/* this.dialogChildren() */} 
                 {this.modalAddTable()}
 
 

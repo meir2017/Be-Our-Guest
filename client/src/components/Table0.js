@@ -111,6 +111,17 @@ class Table0 extends Component {
 
     }
 
+    findInCategories = (guest) => {
+        let index = -1;
+        for (let i = 0; i < guest.categories.length; i++) {
+            let category = this.props.store.user.categories.find(c => c._id === guest.categories[i]);
+            let index = this.props.filteredCategories.findIndex(cat => cat === category.name) 
+            if (index != -1)
+                return index;
+        }
+        return index;
+    }
+
     render() {
         const { classes } = this.props;
         let store = this.props.store;
@@ -157,9 +168,21 @@ class Table0 extends Component {
                                 className={classes.guestListWrapper}
                             >
 
-                                {currentEvent.guests.filter(guest => guest.seated === false).map((guest, index) => (
-                                    <Guest index={index} key={guest._id} guest={guest} handleOnClick={this.handleOnClick} />
-                                ))}
+                                {currentEvent.guests.slice().filter(guest => guest.seated === false)
+                                    .filter(g => {
+                                        if (this.props.filteredCategories.length == 0 || this.props.onlyTables) return true;
+                                       console.log( this.findInCategories(g));
+                                        return this.findInCategories(g) != -1
+                                    }
+                                    )
+                                    .sort((a, b) => {
+                                        if (a.globalGuest_id.name < b.globalGuest_id.name) return -1;
+                                        if (a.globalGuest_id.name > b.globalGuest_id.name) return 1;
+                                        return 0;
+                                    })
+                                    .map((guest, index) => (
+                                        <Guest key={guest._id} index={index} guest={guest} handleOnClick={this.handleOnClick} />
+                                    ))}
                                 {provided.placeholder}
                             </div>
                         )}

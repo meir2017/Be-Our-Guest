@@ -83,7 +83,7 @@ class Guest extends Component {
                                                 if (!eCategory) {
                                                     eCategory = { colorCode: 'black' }
                                                 }
-                                                return (<Tooltip title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
+                                                return (<Tooltip key={category._id}title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
                                                     style={{ backgroundColor: eCategory.colorCode }} /></Tooltip>
                                                 )
                                             }
