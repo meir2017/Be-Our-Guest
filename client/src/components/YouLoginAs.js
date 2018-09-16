@@ -9,13 +9,15 @@ class YouLoginAs extends Component {
     constructor(props) {
         super(props);
     }
-    render(){
-        return(
-            <div className="youLoggedAs">
-                <h3> {this.props.store.user.username} </h3>
+    render() {
+        return (
+            <div className="youLoggedAs" style={{ padding: "10px" }}>
+                <h6> {this.props.store.user.username} </h6>
             </div>
         );
     }
 }
 
 export default YouLoginAs;
+
+

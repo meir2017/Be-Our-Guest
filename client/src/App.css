@@ -30,6 +30,10 @@ overflow-x: hidden;
   to { transform: rotate(360deg); }
 }
 
+button:focus, button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 .textField {
   width: 200px;
@@ -84,7 +88,10 @@ overflow-x: hidden;
 text-align: center ;
 margin-top: -55px
 }
-
+/* .itemEvent , .itemcategories{
+width: 114% !important;
+margin-left: -40px !important;
+} */
 .divBtn{
   margin: 5px;
 }
@@ -157,4 +164,49 @@ select#category {
   width: 70px;
   text-align: center;
   padding-left: 19px;
+}
+.lode {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+
+}
+.smallModal{
+  padding-top: 100px
+}
+.demoForm {
+	width: 400px;
+	margin: auto;
+}
+
+.has-error input {
+	border: solid 2px red;
+
+}
+.has-error input:focus {
+	border: solid 2px red;
+}
+
+.noError input{
+	border: solid 2px #99f113;
+}
+.noError input:focus {
+	border: solid 2px #99f113;
+
+}
+
+.AddEvent{
+  background-color:#212121;
+  color:white;
+  border-radius: 20px;
+  width: 100px;
+height: 50px;
+box-lines: none
+}
+
+
+.description{
+ text-align: center;
+ width: 1000px;
+ padding-left: 350px;
 }

@@ -12,14 +12,14 @@ import axios from 'axios';
 
 
 const styles = theme => ({
-    root: {        
+    root: {
         flexGrow: 1,
         display: 'flex',
         justifyContent: 'flex-end',
-    },    
-    
+    },
+
     menuAccountButton: {
-      //  float: 'right',
+        //  float: 'right',
         //marginRight: 1520,
         //marginLeft: 1150,
     },
@@ -36,6 +36,12 @@ class AccountManager extends Component {
         profileModal: false,
     };
 
+    openMyEventPage = () => {
+        this.props.store.thisEventIndex(null)
+        this.props.store.ChangeMyEventPage(false)
+        this.handleCloseMenuAccount();
+
+    }
     handleMenuAccount = event => {
         if (this.props.store.user.userLog)
             this.setState({ anchorMenuAccount: event.currentTarget });
@@ -56,11 +62,16 @@ class AccountManager extends Component {
     handleLogout = (e) => {
         this.props.store.LogoutUser();
         this.handleCloseMenuAccount();
+        this.props.store.thisEventIndex(null)
+        this.props.store.ChangeMyEventPage(true)
+        localStorage.clear()
     }
     openProfile = (e) => {
-        this.setState ({
-            profileModal: ! this.state.profileModal,
+        debugger
+        this.setState({
+            profileModal: !this.state.profileModal,
         })
+        this.handleCloseMenuAccount();
     }
 
     render() {
@@ -72,6 +83,7 @@ class AccountManager extends Component {
         return (
 
             <div className={classes.root} >
+                {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
                 <IconButton
                     aria-owns={openMenuAccount ? "menuAccount-appbar" : null}
                     aria-haspopup="true"
@@ -82,7 +94,7 @@ class AccountManager extends Component {
                     <AccountCircle />
                 </IconButton>
                 <LogIn />
-                {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
+
                 <Menu
                     id="menuAccount-appbar"
                     anchorEl={anchorMenuAccount}
@@ -99,15 +111,17 @@ class AccountManager extends Component {
                 >
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.openProfile}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleCloseMenuAccount} onClick={this.handleLogout} >My account</MenuItem>
+                    <MenuItem onClick={this.openMyEventPage} >My Event</MenuItem>
                 </Menu>
-                <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.profileModal} toggle={this.openProfile} >
-                    <ModalHeader toggle={this.toggleSend}><h3>{this.props.store.user.username} Profile</h3>
-                        <h5 className="far fa-user">Username: {this.props.store.user.username}</h5>
+                <Modal className="modalm smallModal" style={{ width: "350px" }} isOpen={this.state.profileModal} toggle={this.openProfile} >
+                    <ModalHeader toggle={this.openProfile} ><h3 style={{ textAlign: "center" }}> Profile</h3>
+                        <br />
+                        <h5 className="far fa-user">  User Name:    {this.props.store.user.username}</h5>
                         <br /><br />
-                        <h5 className="far fa-envelope">Email: {this.props.store.user.email}</h5>
+                        <h5 className="far fa-envelope">  Email:    {this.props.store.user.email}</h5>
                         <br /><br />
-                </ModalHeader>
+                    </ModalHeader>
+                    <br />
                 </Modal>
             </div>
         );

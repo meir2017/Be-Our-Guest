@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import socketIOClient from "socket.io-client";
-
+import EventPage from './components/EventPage';
 import './App.css';
 import EventManager from './components/EventManager';
 import AppDescription from './components/AppDescription';
@@ -18,7 +18,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#212121', light:'#9e9e9e' }, // Purple and green play nicely together.
+    primary: { main: '#212121', light: '#9e9e9e' }, // Purple and green play nicely together.
     secondary: { main: '#560027' },
   },
 });
@@ -31,6 +31,7 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
+      endpoint: "http://127.0.0.1:3001",
     }
   }
 
@@ -105,7 +106,9 @@ class App extends Component {
           {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
             < EventManager /> : false}
           {/* <Test /> */}
-          {! this.props.store.user.userLog && <AppDescription />}
+          {!this.props.store.myEventPage && <EventPage />}
+
+          {!this.props.store.user.userLog && <AppDescription />}
           <BrowserRouter>
             <Route
               exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"

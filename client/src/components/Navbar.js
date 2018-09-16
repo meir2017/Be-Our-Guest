@@ -105,14 +105,11 @@ class Navbar extends Component {
     render() {
         const { classes } = this.props;
         const { anchorMenu, anchorMenuAccount, expanded } = this.state;
-        // const openMenu = Boolean(anchorMenu);
-        // const openMenuAccount = Boolean(anchorMenuAccount);
-        // const openEvent = Boolean(expanded);
         return (
 
             <div className={classes.root} >
                 <AppBar position="static">
-                    <Toolbar className={classes.menu}>                        
+                    <Toolbar className={classes.menu}>
                         <OurMenu className={classes.menuButton} />
                         <AccountManager className={classes.account} />
                     </Toolbar>
