@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, ModalBody } from 'reactstrap';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 
@@ -14,7 +14,12 @@ class SignUp extends Component {
             inputText: "",
             emailText: "",
             passText: "",
-            passConfirm: ""
+            passConfirm: "",
+            load: false,
+            listing: false,
+            userSituation: "",
+            sigin: false
+
         }
     }
     onChangeText = (e) => {
@@ -23,20 +28,48 @@ class SignUp extends Component {
     onClickBtn = (e) => {
         e.preventDefault();
         if (this.state.passText === this.state.passConfirm) {
+            this.setState({ load: true, listing: true })
+
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
-                    this.props.store.openModalLogin();
+                    // this.props.store.openModalLogin();
+                    this.setState({ load: false });
                     console.log(response.data)
-                    if (response.data === "user")
+                    if (response.data === "user") {
+                        this.setState({ userSituation: "Username already registered" })
                         console.log("Username already registered")
-                    else if (response.data === "email")
+                    }
+                    else if (response.data === "email") {
+                        this.setState({ userSituation: "The email address is already registered" })
                         console.log("The email address is already registered")
-                    else { this.props.store.updateUser(response.data) }
+                    }
+                    else {
+                        this.setState({
+                            sigin: true,
+                            userSituation: "Registration successful"
+                        })
+                        this.props.store.updateUser(response.data)
+                    }
 
                 })
+            this.setState({
+                inputText: "",
+                emailText: "",
+                passText: "",
+                passConfirm: "",
+            })
         }
         else
             alert("Your passwords do not match")
+    }
+    successSignUp = () => {
+        return <Button onClick={() => { this.props.store.openModalLogin() }} color="primary" >Enter  </Button>
+    }
+    failedSignUp = () => {
+        return <Button onClick={() => { this.setState({ listing: false, userSituation: "" }) }} color="primary" >Back</Button>
+    }
+    listing = () => {
+
     }
     BtnChange = (e) => {
         this.props.ChangeOptions();
@@ -47,8 +80,19 @@ class SignUp extends Component {
         return (
             <div>
 
-                <form action="" onSubmit={this.onClickBtn}>
+                {!this.state.listing && <form action="" onSubmit={this.onClickBtn}>
                     <ModalBody state={{ textAlign: "center" }}>
+
+                        {/* <div className="form-group" style={{ width: "90%" }}>
+                            <input type="email" required className="form-control " style={{
+                                width: "60%", float: "left",
+                                marginLeft: "20px"
+                            }} name="email"
+                                placeholder="Email"
+                                value={this.state.email}
+                                onChange={this.handleUserInput} />
+                        </div> */}
+                        {/* <span style={{ color: "red" }}>email not invaled </span> */}
                         <TextField
                             minLength={6}
                             id="User" label="User name" type="text"
@@ -82,10 +126,24 @@ class SignUp extends Component {
                             onChange={this.onChangeText} value={this.state.passConfirm}
                         />
                         <br /><br />
-                        <Button variant="contained" type="Submit" color="primary" >Register  </Button>
+                        <Button variant="contained" type="Submit" style={{ backgroundColor: '#560027' }}>Register  </Button>
                         <br /><br />
                     </ModalBody>
-                </form>
+                </form>}
+
+                {this.state.listing && <div className="lode">
+                    {this.state.load && <CircularProgress size={80} />}
+                    {!this.state.lode && <div>
+                        {this.state.userSituation}
+                        <br />
+                        <br />
+                        {this.state.sigin ? this.successSignUp() : this.failedSignUp()}
+                    </div>}
+
+
+                </div>}
+
+
             </div>
         );
     }

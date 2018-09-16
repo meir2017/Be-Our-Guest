@@ -56,7 +56,7 @@ class SignIn extends Component {
                         onChange={this.onChangeText} value={this.state.passText}
                     />
                     <br /> <br /><br />
-                    <Button variant="contained" onClick={this.onClickBtn} color="primary" >Login  </Button>
+                    <Button variant="contained" onClick={this.onClickBtn} style={{backgroundColor:'#560027'}}>Login  </Button>
                     <br /><br />
                 </ModalBody>
                 <CardBody>

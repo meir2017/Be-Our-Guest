@@ -228,8 +228,8 @@ class Rsvp extends Component {
                 <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.returnRsvp} toggle={this.toggleSendRsvp}>
                     <ModalHeader toggle={this.toggle}>Do you want to send your rsvp?</ModalHeader>
                     <ModalFooter className="btnSend" >
-                        <Button onClick={this.Submitfunc} color="primary">Yes</Button>
-                        <Button onClick={this.toggleSendRsvp} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
+                        <Button onClick={this.Submitfunc} style={{backgroundColor:'#560027'}}>Yes</Button>
+                        <Button onClick={this.toggleSendRsvp} color="secondary" >No</Button>
                     </ModalFooter>
 
                 </Modal>

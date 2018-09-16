@@ -3,6 +3,19 @@ import Invitation from './Invitation';
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withStyles, IconButton, Icon } from "@material-ui/core";
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+    icon: {
+        color: 'white',
+        fontSize: 20
+    },
+    iconButton: {
+        height: 35,
+        width: 35
+    }
+});
 
 
 
@@ -20,6 +33,8 @@ class InvitationManager extends Component {
             indexInvitations: ""
         }
     }
+
+
 
     myIndex = (e) => {
         e.preventDefault();
@@ -97,6 +112,7 @@ class InvitationManager extends Component {
     render() {
 
         const item = this.props.store;
+        const { classes } = this.props;
         return (
 
             <div>
@@ -105,19 +121,32 @@ class InvitationManager extends Component {
                         You have {item.user.events[item.eventIndex].invitations.length} invitations
                         <br />
                         <br />
-                        <div className="listinvitations">
+                        <div className="listinvitations" style={{ height: '100%', textAlign: 'center', paddingLeft: 30, paddingRight: 30 }}>
                             {item.user.events[item.eventIndex].invitations.map((vet, index) => {
                                 return (
+                                    <div className="iteminvitations container">
+                                        <div name={index} key={vet.invitationName + index} className="row">
 
-                                    <div name={index} key={vet.invitationName + index} className="row iteminvitations">
-                                        <div className="col-sm-7 text2">{vet.invitationName}</div>
-                                        <div className="col-sm-5 btnicon">
-                                            <i className="far fa-trash-alt" id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
-                                            <i className="far fa-envelope" id={index} onClick={e => { this.myIndex(e); this.toggleSend() }}></i>
-
-                                            <i className="fas fa-pencil-alt" id={index} onClick={this.editInvitations}></i>
+                                            <div className="col-sm-7 text2"
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center', /* align horizontal */
+                                                    alignItems: 'center'
+                                                }}>{vet.invitationName}</div>
+                                            <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>
+                                                <IconButton className={classes.iconButton}>
+                                                    <Icon id={index} onClick={this.editInvitations} className={classes.icon}>edit_icon</Icon>
+                                                </IconButton>
+                                                <IconButton className={classes.iconButton}>
+                                                    <Icon id={index} onClick={e => { this.myIndex(e); this.toggleSend() }} className={classes.icon}>email_icon</Icon>
+                                                </IconButton>
+                                                <IconButton className={classes.iconButton}>
+                                                    <Icon id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }} className={classes.icon}>clear_icon</Icon>
+                                                </IconButton>
+                                            </div>
                                         </div>
                                     </div>
+
                                 )
                             })}
                         </div>
@@ -127,30 +156,21 @@ class InvitationManager extends Component {
                         <Invitation num={this.state.num} />
                     </div>
                 </div>
-                {/* <div>
-                    <Modal isOpen={this.state.modalEmail} toggle={this.toggleSendEmail}>
-                        <ModalHeader toggleSendEmail={this.toggleSendEmail}>Do you want to send an invitation to all your guests</ModalHeader>
-                        <ModalFooter className="btnSend" >
-                            <Button onClick={this.sendInvitations} color="primary">Send</Button>
-                            <Button onClick={this.toggleSendEmail} color="secondary" style={{ marginLeft: "40px" }}>Cancel</Button>
-                        </ModalFooter>
 
-                    </Modal>
-                </div> */}
-                <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
+                <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
                     <ModalHeader toggle={this.toggleSend}>Do you want to send an invitation to all your guests</ModalHeader>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.sendInvitations}>Send</Button>{' '}
+                        <Button style={{ backgroundColor: '#560027' }} onClick={this.sendInvitations}>Send</Button>{' '}
                         <Button color="secondary" onClick={this.toggleSend}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
 
                 <div>
-                    <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
+                    <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
                         <ModalHeader toggle={this.toggle}>Do you want to delete this invitation?</ModalHeader>
                         <ModalFooter className="btnSend" >
-                            <Button onClick={this.removeInvitations} color="primary">Yes</Button>
-                            <Button onClick={this.toggleRemove} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
+                            <Button onClick={this.removeInvitations} style={{ backgroundColor: '#560027' }}>Yes</Button>
+                            <Button onClick={this.toggleRemove} color="secondary" >No</Button>
                         </ModalFooter>
 
                     </Modal>
@@ -163,6 +183,9 @@ class InvitationManager extends Component {
     }
 }
 
+InvitationManager.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
+export default withStyles(styles)(InvitationManager);
 
-export default InvitationManager;  

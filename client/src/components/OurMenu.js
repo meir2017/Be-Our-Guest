@@ -1,18 +1,20 @@
-
+// Need to delet
 import React, { Component } from 'react';
 import toRenderProps from 'recompose/toRenderProps';
 import withState from 'recompose/withState';
 import { observer, inject } from 'mobx-react';
 import CreateEvent from './CreateEvent';
+import CategoryManager from './CategoryManager';
+
 import axios from 'axios';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
 
 // import classNames from 'classnames';
 import {
   withStyles, ClickAwayListener, Typography, Grow, Paper, Popper,
   Divider, MenuItem, MenuList, IconButton, Icon, ExpansionPanel,
-  Popover, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText,
+  Popover, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, List, ListItemText, Button
 
 } from "@material-ui/core"
 
@@ -56,6 +58,10 @@ const styles = theme => ({
     backgroundColor: 'inherit',
     padding: 0,
   },
+  cancelButton: {
+    color: 'white',
+    backgroundColor: theme.palette.primary.light,
+  }
 });
 
 @inject("store")
@@ -73,7 +79,6 @@ class OurMenu extends Component {
       modalRemove: false,
       modalEdit: false,
       myEvent: ""
-
     };
 
     // this.handlerRemoveEvent = this.handlerRemoveEvent.bind(this);
@@ -170,7 +175,6 @@ class OurMenu extends Component {
         </IconButton>
 
         <Popover
-
           id="render-props-popover"
           open={open}
           anchorEl={anchorMenu}
@@ -211,7 +215,8 @@ class OurMenu extends Component {
                               <Icon onClick={e => { this.myIndex(e); this.toggleEditeEvent() }} id={index} >edit_icon</Icon>
                             </IconButton>
                             <IconButton aria-label="Delete" onClick={this.handleClose}>
-                              <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i>
+                              <Icon onClick={e => { this.myIndex(e); this.toggleRemove() }} id={index} >clear_icon</Icon>
+                              {/*  <i className="far fa-trash-alt" id={index} style={{ color: "black" }} onClick={e => { this.myIndex(e); this.toggleRemove() }}></i> */}
                             </IconButton>
                           </ListItem>
                         })}
@@ -256,10 +261,11 @@ class OurMenu extends Component {
 
         <div>
           <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
-            <ModalHeader toggle={this.toggleRemove}>Do you want to delete this evente?</ModalHeader>
+            <ModalHeader toggle={this.toggleRemove}>Do you want to delete this event?</ModalHeader>
             <ModalFooter className="btnSend" >
-              <Button onClick={this.handlerRemoveEvent} color="primary">Yes</Button>
-              <Button onClick={this.toggleRemove} color="secondary" style={{ marginLeft: "40px" }}>No</Button>
+              <Button color="secondary" variant="contained" onClick={this.handlerRemoveEvent}>Yes</Button>
+              <Button variant="contained" onClick={this.toggleRemove} className={classes.cancelButton}>No</Button>
+
             </ModalFooter>
 
           </Modal>
@@ -268,7 +274,7 @@ class OurMenu extends Component {
 
         <div>
           <Modal style={{ width: "350px" }} isOpen={this.state.modalEdit} toggle={this.toggleEditeEvent} className="editEvent">
-            <ModalHeader toggle={this.toggleEditeEvent}>Edite Event</ModalHeader>
+            <ModalHeader toggle={this.toggleEditeEvent}>Edit Event</ModalHeader>
             <ModalBody>
               <TextField
                 id="Title" label="Title" type="text" className="textField"
@@ -278,6 +284,9 @@ class OurMenu extends Component {
               <TextField
                 id="Date" label="Date" type="date" className="textField"
                 name="Date" onChange={this.onChangeText} value={this.inputText}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <br />
               <TextField
@@ -297,8 +306,8 @@ class OurMenu extends Component {
               <br />
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={this.toggleEditeEvent}>Save Change</Button>{' '}
-              <Button color="secondary" onClick={this.toggleEditeEvent}>Cancel</Button>
+              <Button color="secondary" variant="contained" onClick={this.toggleEditeEvent}>Save</Button>
+              <Button variant="contained" onClick={this.toggleEditeEvent} className={classes.cancelButton}>Cancel</Button>
             </ModalFooter>
           </Modal>
         </div>

@@ -64,7 +64,7 @@ class CreateCategory extends Component {
                 <br />
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" type="Submit" >Save</Button>{' '}
+                <Button style={{backgroundColor:'#560027'}} type="Submit" >Save</Button>
                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
               </ModalFooter>
             </form>

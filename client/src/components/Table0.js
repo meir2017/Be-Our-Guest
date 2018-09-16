@@ -126,7 +126,7 @@ class Table0 extends Component {
             sumNotSeated += (unseatedGuests[i].numInvited - unseatedGuests[i].numNotComing)
         }
 
-        console.log(currentEvent.guests);
+        // console.log(currentEvent.guests);
         return (
 
             <div>
