@@ -1,20 +1,65 @@
 import React, { Component } from 'react';
 import TableList from './TableList';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import {
+  Grid,
+  Input,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  ListItemText,
+  Chip
+
+} from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
-
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
     height: "100%"
   },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 300,
+    maxWidth: 500,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: theme.spacing.unit / 4,
+  },
 });
 
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+
+  },
+};
+
+const names = [
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder',
+];
 
 
 @inject("store")
@@ -22,6 +67,9 @@ const styles = theme => ({
 export class TableManager extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      name: [],
+    };
   }
 
   onDragEnd = result => {
@@ -165,11 +213,55 @@ export class TableManager extends Component {
     this.props.store.updateTables(newTables);
   }
 
+  handleChange = event => {
+    this.setState({ name: event.target.value });
+  };
+
+
   render() {
-    const { classes } = this.props;
+
+    const { classes, theme } = this.props;
+    const categories = this.props.store.user.categories;
+
     return (
 
       <DragDropContext onDragEnd={this.onDragEnd}>
+        <div class="container">
+          <div class="row">
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="select-multiple-chip">Filter by Categories</InputLabel>
+              <Select
+                multiple
+                value={this.state.name}
+                onChange={this.handleChange}
+                input={<Input id="select-multiple-chip" />}
+                renderValue={selected => (
+                  <div className={classes.chips}>
+                    {selected.map(value => (
+                      <Chip key={value} label={value} className={classes.chip} />
+                    ))}
+                  </div>
+                )}
+                MenuProps={MenuProps}
+              >
+                {categories.map(name => (
+                  <MenuItem
+                    key={name._id}
+                    value={name.name}
+                    style={{
+                      /*  fontWeight:
+                         this.state.name.indexOf(name) === -1
+                           ? theme.typography.fontWeightRegular
+                           : theme.typography.fontWeightMedium, */
+                    }}
+                  >
+                    {name.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        </div>
         <TableList />
       </DragDropContext>
 
