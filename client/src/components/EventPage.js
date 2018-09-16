@@ -93,7 +93,8 @@ class EventPage extends Component {
                     <br />
                     <br />
                     <div className="addEvent">
-                        <input type="button" color="red" onClick={this.openModalCreate} value="Add Event" />
+                        {/* <Button color="#212121">meir</Button> */}
+                        <button type="button" className="AddEvent" onClick={this.openModalCreate} >Add Event</button>
                     </div>
                     <div className="myEvent">
                         {this.props.store.user.events.map((eve, index) => {
