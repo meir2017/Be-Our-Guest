@@ -1,9 +1,12 @@
 
 import React, { Component } from 'react';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { withStyles, MenuItem, Menu, IconButton } from "@material-ui/core"
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogIn from './LogIn';
+import YouLoginAs from './YouLoginAs';
+
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
 
@@ -30,11 +33,14 @@ class AccountManager extends Component {
         open: false,
         anchorMenuAccount: null,
         expanded: null,
+        profileModal: false,
     };
 
     openMyEventPage = () => {
         this.props.store.thisEventIndex(null)
         this.props.store.ChangeMyEventPage(false)
+        this.handleCloseMenuAccount();
+
     }
     handleMenuAccount = event => {
         if (this.props.store.user.userLog)
@@ -56,9 +62,17 @@ class AccountManager extends Component {
     handleLogout = (e) => {
         this.props.store.LogoutUser();
         this.handleCloseMenuAccount();
+        this.props.store.thisEventIndex(null)
+        this.props.store.ChangeMyEventPage(true)
         localStorage.clear()
     }
-
+    openProfile = (e) => {
+        debugger
+        this.setState({
+            profileModal: !this.state.profileModal,
+        })
+        this.handleCloseMenuAccount();
+    }
 
     render() {
         const { classes } = this.props;
@@ -69,6 +83,7 @@ class AccountManager extends Component {
         return (
 
             <div className={classes.root} >
+                {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
                 <IconButton
                     aria-owns={openMenuAccount ? "menuAccount-appbar" : null}
                     aria-haspopup="true"
@@ -79,6 +94,7 @@ class AccountManager extends Component {
                     <AccountCircle />
                 </IconButton>
                 <LogIn />
+
                 <Menu
                     id="menuAccount-appbar"
                     anchorEl={anchorMenuAccount}
@@ -94,9 +110,19 @@ class AccountManager extends Component {
                     onClose={this.handleCloseMenuAccount}
                 >
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
-                    <MenuItem onClick={this.handleCloseMenuAccount}>Profile</MenuItem>
+                    <MenuItem onClick={this.openProfile}>Profile</MenuItem>
                     <MenuItem onClick={this.openMyEventPage} >My Event</MenuItem>
                 </Menu>
+                <Modal className="modalm smallModal" style={{ width: "350px" }} isOpen={this.state.profileModal} toggle={this.openProfile} >
+                    <ModalHeader toggle={this.openProfile} ><h3 style={{ textAlign: "center" }}> Profile</h3>
+                        <br />
+                        <h5 className="far fa-user">  User Name:    {this.props.store.user.username}</h5>
+                        <br /><br />
+                        <h5 className="far fa-envelope">  Email:    {this.props.store.user.email}</h5>
+                        <br /><br />
+                    </ModalHeader>
+                    <br />
+                </Modal>
             </div>
         );
     }

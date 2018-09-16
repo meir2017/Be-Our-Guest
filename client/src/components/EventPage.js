@@ -84,7 +84,7 @@ class EventPage extends Component {
         const item = this.props.store;
         const { classes } = this.props;
 
-        console.log(JSON.stringify(this.props.store.user.events))
+        // console.log(JSON.stringify(this.props.store.user.events))
         return (
             <div className="row">
                 <div className="col-sm-4"></div>

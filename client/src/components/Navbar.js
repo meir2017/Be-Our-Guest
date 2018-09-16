@@ -8,6 +8,10 @@ import {
 
 import OurMenu from './OurMenu';
 import AccountManager from './AccountManager';
+
+import { observer, inject } from 'mobx-react';
+import axios from 'axios';
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -60,6 +64,8 @@ const styles = theme => ({
 
 });
 
+@inject("store")
+@observer
 class Navbar extends Component {
     state = {
         anchorMenu: null,
@@ -99,14 +105,11 @@ class Navbar extends Component {
     render() {
         const { classes } = this.props;
         const { anchorMenu, anchorMenuAccount, expanded } = this.state;
-        // const openMenu = Boolean(anchorMenu);
-        // const openMenuAccount = Boolean(anchorMenuAccount);
-        // const openEvent = Boolean(expanded);
         return (
 
             <div className={classes.root} >
                 <AppBar position="static">
-                    <Toolbar className={classes.menu}>                        
+                    <Toolbar className={classes.menu}>
                         <OurMenu className={classes.menuButton} />
                         <AccountManager className={classes.account} />
                     </Toolbar>

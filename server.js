@@ -11,27 +11,28 @@ const http = require('http')
 const socketIO = require('socket.io')
 const server = http.createServer(app)
 const io = socketIO(server)
-io.on('connection', socket => {
-    console.log('New client connected')
-    socket.on('real time', (objGuest) => {
-        console.log('rsvp Changed to: ', objGuest)
-        io.sockets.emit('real timeBack', objGuest)
-    })
-    socket.on('disconnect', () => {
-        console.log('user disconnected')
-    })
-})
+
+// io.on('connection', socket => {
+//     console.log('New client connected')
+//     socket.on('real time', (objGuest) => {
+//         console.log('rsvp Changed to: ', objGuest)
+//         io.sockets.emit('real timeBack', objGuest)
+//     })
+//     socket.on('disconnect', () => {
+//         console.log('user disconnected')
+//     })
+// })
 // end socketIO
 
-// mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
-//     console.log("DB connection established!!!");
-// });
+mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
+    console.log("DB connection established!!!");
+});
 
 
 // let CONNECTION_STRING = "mongodb://<meirs>:<meir6646>@ds155252.mlab.com:55252/beourguest"
-mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
-    console.log("DB connection established!!!");
-});
+// mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
+//     console.log("DB connection established!!!");
+// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -431,12 +432,32 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
             guest.numNotComing = req.body.notComing;
             guest.numComing = req.body.coming;
             guest.save();
+            // ................................
             console.log("rsvp Change")
+            io.on('connection', socket => {
+                console.log('New client connected')
+                socket.on('real time', (objGuest) => {
+                    console.log('rsvp Changed to: ', objGuest)
+                    io.sockets.emit('real timeBack', objGuest)
+                })
+                socket.on('disconnect', () => {
+                    console.log('user disconnected')
+                })
+            })
+            // ................................
+
             res.send()
         })
 })
 
 
+// Guest.find({}).then((e) => {
+//     e.forEach(function (element) {
+//         element.seated = false;
+//         element.save()
+//     });
+
+// })
 //  Table //////
 //createTable
 app.post('/beOurGuest/addTable/:eventId/', (req, res) => {

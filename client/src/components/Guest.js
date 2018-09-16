@@ -58,8 +58,8 @@ class Guest extends Component {
     render() {
         const { classes, guest } = this.props;
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-        console.log(this.props.store.user.categories);
-        console.log(guest.categories);
+        // console.log(this.props.store.user.categories);
+        // console.log(guest.categories);
         /*  let categories = guest.categories.splice(0);
          categories.forEach(category => {
              this.props.store.user[this.props.store.eventIndex].categories.find(category.Id)
@@ -80,8 +80,8 @@ class Guest extends Component {
                                         <Grid item xs={1}>
                                             {this.props.guest.categories.map((category, index) => {
                                                 let eCategory = this.props.store.user.categories.find(c => c._id === category);
-                                                if(!eCategory){
-                                                    eCategory = {colorCode: 'black'}
+                                                if (!eCategory) {
+                                                    eCategory = { colorCode: 'black' }
                                                 }
                                                 return (<Tooltip title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
                                                     style={{ backgroundColor: eCategory.colorCode }} /></Tooltip>
@@ -92,12 +92,12 @@ class Guest extends Component {
 
                                         </Grid>
                                         <Grid item xs={10}>
-                                        <Tooltip title={guest.numComing + "/" + (guest.numInvited - guest.numNotComing) + " confirmed"}>
-                                            <Chip
-                                                avatar={<Avatar>{guest.numComing}/{guest.numInvited - guest.numNotComing}</Avatar>}
-                                                label={guest.globalGuest_id.name}
-                                                className={classes.chip}
-                                            />
+                                            <Tooltip title={guest.numComing + "/" + (guest.numInvited - guest.numNotComing) + " confirmed"}>
+                                                <Chip
+                                                    avatar={<Avatar>{guest.numComing}/{guest.numInvited - guest.numNotComing}</Avatar>}
+                                                    label={guest.globalGuest_id.name}
+                                                    className={classes.chip}
+                                                />
                                             </Tooltip>
                                         </Grid>
 

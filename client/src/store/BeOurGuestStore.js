@@ -53,6 +53,7 @@ class BeOurGuestStore {
     let userInfo = item;
     this.user.userLog = true;
     this.user._Id = userInfo._id
+    this.user.email = userInfo.email
     this.user.username = userInfo.username;
     this.user.events = userInfo.events;
     this.user.guests = userInfo.guests;
@@ -81,7 +82,7 @@ class BeOurGuestStore {
   // evnte function
   @action thisEventIndex = (index) => {
     this.eventIndex = index;
-    console.log("event index is  " + index);
+    // console.log("event index is  " + index);
     localStorage.setItem("beOurGuestEventIndex", JSON.stringify(index));
   }
 
@@ -213,7 +214,7 @@ class BeOurGuestStore {
   /// Table function
   @action addTable = (newTable) => {
     let tables = this.user.events[this.eventIndex].tables.push(newTable);
-    console.log(this.user.events[this.eventIndex].tables);
+    // console.log(this.user.events[this.eventIndex].tables);
 
   }
   @action updateTable = (table, index) => {

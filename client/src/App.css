@@ -44,20 +44,19 @@ button:focus, button:active {
 .paperSingUp{
   background-color:lightsalmon !important
 }
-.btnEvent{
+ /* nof */
+.btnEvent{ 
   width: 320px;
   height: 60px;
   background-color:#90EE90;
 }
+/* nof */
 .navBarMain{
   /* background-color: darkorange; */
   height: 60px;
   position:fixed;
   
 }
-
-
-
 *{
   box-sizing: border-box;
 }
@@ -172,7 +171,9 @@ select#category {
   margin-bottom: 100px;
 
 }
-
+.smallModal{
+  padding-top: 100px
+}
 .demoForm {
 	width: 400px;
 	margin: auto;
@@ -194,12 +195,6 @@ select#category {
 
 }
 
-/* .myEvent{
-  width: 400px;
-  text-align: center;
-  margin-left: 200px
-  
-} */
 .AddEvent{
   background-color:#212121;
   color:white;
@@ -207,4 +202,11 @@ select#category {
   width: 100px;
 height: 50px;
 box-lines: none
+}
+
+
+.description{
+ text-align: center;
+ width: 1000px;
+ padding-left: 350px;
 }

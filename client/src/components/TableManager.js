@@ -61,11 +61,11 @@ export class TableManager extends Component {
       this.props.store.updateTable(newDestinationTable, destinationIndex);
       axios.post('/beOurGuest/updateGuestsInTable/', newDestinationTable)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         }).then(res => {
           axios.post('/beOurGuest/updateEventGuest/', newGuests[guestSourceIndex])
             .then(res1 => {
-              console.log(res1);
+              // console.log(res1);
             });
         })
         .catch(err => console.log('Error: ', err));

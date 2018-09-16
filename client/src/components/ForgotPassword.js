@@ -48,7 +48,7 @@ class ForgotPassword extends Component {
                                 onChange={this.onChangeText} value={this.state.inputText}
                             />
                             <br /> <br /><br />
-                            <Button variant="contained" type="Submit" style={{backgroundColor:'#560027'}} >Send  </Button>
+                            <Button variant="contained" type="Submit" style={{ backgroundColor: '#560027' }} >Send  </Button>
                             <br /><br />
                         </ModalBody>
                     </form>
