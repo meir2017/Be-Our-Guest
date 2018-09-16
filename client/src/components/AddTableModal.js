@@ -138,7 +138,7 @@ class AddTableModal extends Component {
         axios.post('/beOurGuest/addTable/' + store.user.events[store.eventIndex]._id, tableInfo)
             .then(response => {
 
-                console.log(" new Table ->id  =" + response.data._id)
+                // console.log(" new Table ->id  =" + response.data._id)
                 this.props.store.addTable(response.data);
 
             })

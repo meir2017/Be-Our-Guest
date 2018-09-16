@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 const styles = theme => ({
     icon: {
         color: 'white',
-        fontSize:20
+        fontSize: 20
     },
     iconButton: {
-        height:35,
-        width:35
+        height: 35,
+        width: 35
     }
 });
 
@@ -133,7 +133,7 @@ class InvitationManager extends Component {
                                                     justifyContent: 'center', /* align horizontal */
                                                     alignItems: 'center'
                                                 }}>{vet.invitationName}</div>
-                                            <div className="col-sm-5 btnicon" style={{textAlign:'right'}}>
+                                            <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>
                                                 <IconButton className={classes.iconButton}>
                                                     <Icon id={index} onClick={this.editInvitations} className={classes.icon}>edit_icon</Icon>
                                                 </IconButton>
@@ -156,17 +156,8 @@ class InvitationManager extends Component {
                         <Invitation num={this.state.num} />
                     </div>
                 </div>
-                {/* <div>
-                    <Modal isOpen={this.state.modalEmail} toggle={this.toggleSendEmail}>
-                        <ModalHeader toggleSendEmail={this.toggleSendEmail}>Do you want to send an invitation to all your guests</ModalHeader>
-                        <ModalFooter className="btnSend" >
-                            <Button onClick={this.sendInvitations} color="primary">Send</Button>
-                            <Button onClick={this.toggleSendEmail} color="secondary" style={{ marginLeft: "40px" }}>Cancel</Button>
-                        </ModalFooter>
 
-                    </Modal>
-                </div> */}
-                <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
+                <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
                     <ModalHeader toggle={this.toggleSend}>Do you want to send an invitation to all your guests</ModalHeader>
                     <ModalFooter>
                         <Button style={{ backgroundColor: '#560027' }} onClick={this.sendInvitations}>Send</Button>{' '}
@@ -175,7 +166,7 @@ class InvitationManager extends Component {
                 </Modal>
 
                 <div>
-                    <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
+                    <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
                         <ModalHeader toggle={this.toggle}>Do you want to delete this invitation?</ModalHeader>
                         <ModalFooter className="btnSend" >
                             <Button onClick={this.removeInvitations} style={{ backgroundColor: '#560027' }}>Yes</Button>

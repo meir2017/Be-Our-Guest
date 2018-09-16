@@ -66,7 +66,7 @@ const styles = theme => ({
   },
   iconButton: {
     height: 35,
-    width: 35, 
+    width: 35,
   },
   icon: {
     height: 20,
@@ -158,12 +158,12 @@ class Table extends Component {
   render() {
     const { classes } = this.props;
     let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-    console.log(this.props.table);
-    console.log(this.props.table.category);
-    console.log(this.props.store.user.categories);
+    // console.log(this.props.table);
+    // console.log(this.props.table.category);
+    // console.log(this.props.store.user.categories);
     const myCategory = this.props.store.user.categories
       .find(category => category._id == this.props.table.category);
-    console.log(myCategory);
+    // console.log(myCategory);
     let colorCode = myCategory.colorCode;
     let guests = this.props.table.guests;
     let sumGuests = 0;

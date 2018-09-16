@@ -37,10 +37,12 @@ class CreateEvent extends Component {
             .then(response => {
 
                 console.log(" new event id  =" + response.data._id)
+                this.props.store.ChangeMyEventPage(true)
                 this.props.store.addEvent(response.data)
 
-            })
-            .catch(err => console.log('Error: ', err));
+
+
+            }).catch(err => console.log('Error: ', err));
     }
     render() {
         return (
@@ -79,7 +81,7 @@ class CreateEvent extends Component {
                                 <br />
                             </ModalBody>
                             <ModalFooter style={{ textAlign: "center" }}>
-                                <Button style={{backgroundColor:'#560027'}} variant="contained" type="Submit" >Save event</Button>{' '}
+                                <Button style={{ backgroundColor: '#560027' }} variant="contained" type="Submit" >Save event</Button>{' '}
                                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                             </ModalFooter>
                         </form>

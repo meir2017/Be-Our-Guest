@@ -25,30 +25,30 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: "flex-start",
-      /*   borderRadius: 5,
-        borderWidth: 4,
-        borderStyle: 'solid',
-        borderColor: 'primary', */
-        height:'80vh',
+        /*   borderRadius: 5,
+          borderWidth: 4,
+          borderStyle: 'solid',
+          borderColor: 'primary', */
+        height: '80vh',
 
     },
-    tables:{
+    tables: {
         flexWrap: 'nowrap',
         overflowX: 'scroll',
-        overflowY:'auto',
+        overflowY: 'auto',
         width: 'auto',
-        height:'100%',
-        
+        height: '100%',
+
         flex: 1,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: "flex-start",
-       
-    /*     borderLeftWidth: 2,
-        borderLeftStyle: 'solid',
-        borderLeftColor: 'primary', */
+
+        /*     borderLeftWidth: 2,
+            borderLeftStyle: 'solid',
+            borderLeftColor: 'primary', */
     }
-    
+
 
 });
 
@@ -108,18 +108,18 @@ class TableList extends Component {
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
         return (
-            <div style={{height:'100%'}}>
+            <div style={{ height: '100%' }}>
                 <div className={classes.tableListWrapper}>
                     <AddTableModal></AddTableModal>
                     <Table0 index={-1} />
                     <div className={classes.tables}>
-                    {currentEvent.tables.slice().sort(function (a, b) {
-                        if (a.category < b.category) return -1;
-                        if (a.category > b.category) return 1;
-                        return 0;
-                    }).map((table, index) => (
-                        <Table table={table} index={index} key={table._id} />
-                    ))}
+                        {currentEvent.tables.slice().sort(function (a, b) {
+                            if (a.category < b.category) return -1;
+                            if (a.category > b.category) return 1;
+                            return 0;
+                        }).map((table, index) => (
+                            <Table table={table} index={index} key={table._id} />
+                        ))}
                     </div>
                 </div>
 
