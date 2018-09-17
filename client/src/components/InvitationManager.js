@@ -129,8 +129,9 @@ class InvitationManager extends Component {
 
                                             <div className="col-sm-7 text2"
                                                 style={{
+                                                    paddingLeft:25,
                                                     display: 'flex',
-                                                    justifyContent: 'center', /* align horizontal */
+                                                    justifyContent: 'left', /* align horizontal */
                                                     alignItems: 'center'
                                                 }}>{vet.invitationName}</div>
                                             <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>

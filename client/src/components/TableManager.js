@@ -29,7 +29,6 @@ const styles = theme => ({
     minWidth: 300,
     maxWidth: 500,
     minHeight: 80,
-
   },
   chips: {
     display: 'flex',
@@ -38,6 +37,9 @@ const styles = theme => ({
   chip: {
     margin: theme.spacing.unit / 4,
   },
+  formControlLabel: {
+    color:'white',
+  }
 });
 
 
@@ -85,15 +87,17 @@ export class TableManager extends Component {
       const destinationIndex = currentEvent.tables.findIndex(table => table._id === result.destination.droppableId);
 
       let finish = currentEvent.tables[destinationIndex];
-      let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
-      let myGuest = unseatedGuests[result.source.index];
-      let guestSourceIndex = currentEvent.guests.findIndex(guest => guest._id === myGuest._id);
+     /*  let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
+      let myGuest = unseatedGuests[result.source.index]; */
+      
+      /* let guestSourceIndex = currentEvent.guests.findIndex(guest => guest._id === myGuest._id); */
       let newGuests = Array.from(currentEvent.guests);
-      newGuests[guestSourceIndex].seated = true;
+      let myGuest  = newGuests.find(guest => guest._id === result.draggableId);
+      myGuest.seated = true;
 
 
       const finishGuests = Array.from(finish.guests);
-      finishGuests.splice(result.destination.index, 0, newGuests[guestSourceIndex]._id);
+      finishGuests.splice(result.destination.index, 0, myGuest._id);
       const newDestinationTable = {
         ...finish,
         guests: finishGuests
@@ -105,7 +109,7 @@ export class TableManager extends Component {
         .then(response => {
           // console.log(response);
         }).then(res => {
-          axios.post('/beOurGuest/updateEventGuest/', newGuests[guestSourceIndex])
+          axios.post('/beOurGuest/updateEventGuest/', myGuest)
             .then(res1 => {
               // console.log(res1);
             });
@@ -212,8 +216,8 @@ export class TableManager extends Component {
   };
 
   handleChangeCheckbox = name => event => {
-    this.setState({ [name]: event.target.checked });    
-    
+    this.setState({ [name]: event.target.checked });
+
   };
 
   render() {
@@ -226,7 +230,7 @@ export class TableManager extends Component {
       <DragDropContext onDragEnd={this.onDragEnd}>
         <div className="container">
           <div className="row">
-            <div className="col-sm-8 offset-md-2">
+            <div className="col-sm-6 offset-md-3 " >
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="select-multiple-chip">Filter by Categories</InputLabel>
                 <Select
@@ -248,31 +252,38 @@ export class TableManager extends Component {
                       key={name._id}
                       value={name.name}
                       style={{
-                         fontWeight:
-                           this.state.name.indexOf(name) === -1
-                             ? theme.typography.fontWeightRegular
-                             : theme.typography.fontWeightMedium,
+                        fontWeight:
+                          this.state.name.indexOf(name) === -1
+                            ? theme.typography.fontWeightRegular
+                            : theme.typography.fontWeightMedium,
                       }}
                     >
                       {name.name}
                     </MenuItem>
                   ))}
                 </Select>
+               
               </FormControl>
-              <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.checked}
-              onChange={this.handleChangeCheckbox('checked')}
-              value="checked"
-            />
-          }
-          label="Only Tables"
-        />
+              <FormControlLabel 
+              className={classes.formControlLabel}
+              
+                control={
+                  <Checkbox
+                    checked={this.state.checked}
+                    onChange={this.handleChangeCheckbox('checked')}
+                    value="checked"
+                    
+                    
+                  />
+                }
+                label="Only Tables"
+              />
+            
+
             </div>
           </div>
         </div>
-        <TableList filteredCategories={this.state.name} onlyTables={this.state.checked}/>
+        <TableList filteredCategories={this.state.name} onlyTables={this.state.checked} />
       </DragDropContext>
 
 

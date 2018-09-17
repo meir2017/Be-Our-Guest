@@ -8,6 +8,7 @@
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
+  background-color: #fdfdfdc4;
 }
 
 
@@ -30,10 +31,6 @@ overflow-x: hidden;
   to { transform: rotate(360deg); }
 }
 
-button:focus, button:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
 
 .textField {
   width: 200px;
@@ -44,19 +41,20 @@ button:focus, button:active {
 .paperSingUp{
   background-color:lightsalmon !important
 }
- /* nof */
-.btnEvent{ 
+.btnEvent{
   width: 320px;
   height: 60px;
   background-color:#90EE90;
 }
-/* nof */
 .navBarMain{
   /* background-color: darkorange; */
   height: 60px;
   position:fixed;
   
 }
+
+
+
 *{
   box-sizing: border-box;
 }
@@ -88,10 +86,11 @@ button:focus, button:active {
 text-align: center ;
 margin-top: -55px
 }
-/* .itemEvent , .itemcategories{
+.itemEvent , .itemcategories{
+/* color:black; */
 width: 114% !important;
 margin-left: -40px !important;
-} */
+}
 .divBtn{
   margin: 5px;
 }
@@ -164,49 +163,4 @@ select#category {
   width: 70px;
   text-align: center;
   padding-left: 19px;
-}
-.lode {
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
-
-}
-.smallModal{
-  padding-top: 100px
-}
-.demoForm {
-	width: 400px;
-	margin: auto;
-}
-
-.has-error input {
-	border: solid 2px red;
-
-}
-.has-error input:focus {
-	border: solid 2px red;
-}
-
-.noError input{
-	border: solid 2px #99f113;
-}
-.noError input:focus {
-	border: solid 2px #99f113;
-
-}
-
-.AddEvent{
-  background-color:#212121;
-  color:white;
-  border-radius: 20px;
-  width: 100px;
-height: 50px;
-box-lines: none
-}
-
-
-.description{
- text-align: center;
- width: 1000px;
- padding-left: 350px;
 }

@@ -20,7 +20,7 @@ import axios from 'axios';
 
 const styles = theme => ({
     tableListWrapper: {
-        width: 'auto',
+       
         flex: 1,
         display: 'flex',
         flexDirection: 'row',
@@ -29,20 +29,20 @@ const styles = theme => ({
           borderWidth: 4,
           borderStyle: 'solid',
           borderColor: 'primary', */
-        height: '80vh',
+       
 
     },
     tables: {
         flexWrap: 'nowrap',
-        overflowX: 'scroll',
+        overflowX: 'hidden',
         overflowY: 'auto',
-        width: 'auto',
-        height: '100%',
-
+        width: '100%',
+        height: '70vh',
         flex: 1,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: "flex-start",
+
 
         /*     borderLeftWidth: 2,
             borderLeftStyle: 'solid',

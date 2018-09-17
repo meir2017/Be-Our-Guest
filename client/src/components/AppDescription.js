@@ -19,7 +19,7 @@ class AppDescription extends Component {
                 <br />
                 <br />
                 <div className="description">
-                    <Jumbotron>
+                    <Jumbotron style={{backgroundColor:""}}>
                         <h1>Be Our Guest!</h1>
                         <h5>
                             Helps you to easily create and manage your event:</h5> <br />

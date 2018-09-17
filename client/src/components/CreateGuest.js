@@ -23,7 +23,15 @@ const styles = theme => ({
   cancelButton:{
     color: 'white',
     backgroundColor: theme.palette.primary.light,
-  }
+  },
+  
+  addButton: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 10,
+    right: theme.spacing.unit * 8,
+
+    zIndex: 10
+},
 
 });
 
@@ -114,7 +122,7 @@ class CreateGuest extends Component {
     let { classes } = this.props;
     return (
       <div>
-        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle}>
+        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle}  className={classes.addButton}>
           <AddIcon className={classes.addIcon} />
           Add Guest
         </Button>

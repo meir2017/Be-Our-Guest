@@ -32,7 +32,7 @@ const styles = theme => ({
     },
     tableWrapper: {
         width: 280,
-        minHeight: '100%',
+        minHeight: '70vh',
         margin: 0,
         flex: 1,
         display: 'flex',
@@ -93,7 +93,7 @@ const styles = theme => ({
         paddingTop: 5,
         overflowY: 'auto',
         overflowX: 'hidden',
-        height: '70vh',
+        height: '60vh',
     }
 
 
