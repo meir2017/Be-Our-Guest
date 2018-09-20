@@ -479,9 +479,9 @@ app.post('/beOurGuest/addTable/:eventId/', (req, res) => {
 
 app.post('/beOurGuest/updateTable/', (req, res) => {
     let myTable = req.body;
-    Table.findOneAndUpdate({ _id: myTable._id }, { guests: myTable.guests }, { 'new': true })
+    Table.findOneAndUpdate({ _id: myTable._id }, myTable, { 'new': true })
       .then(updatedTable => {
-        console.log("succesfully updated guests in table");
+        console.log("succesfully updated a table");
         res.send(updatedTable);
       });
   

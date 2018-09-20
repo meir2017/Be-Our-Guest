@@ -181,7 +181,7 @@ class CreateGuest extends Component {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button   color="secondary" variant="contained" type="Submit">Save Guest</Button>{' '}
+                  <Button color="secondary" variant="contained" type="Submit">Save Guest</Button>{' '}
                   <Button className={classes.cancelButton} variant="contained" onClick={this.toggle} >Cancel</Button>
                 </ModalFooter>
               </form>
