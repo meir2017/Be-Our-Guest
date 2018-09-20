@@ -197,7 +197,7 @@ class Table extends Component {
           <Paper className={classes.tableHeader} >
             <Grid container spacing={0}>
               <Grid item xs={12} align="right">
-                <EditTableModal></EditTableModal>
+                <EditTableModal table={this.props.table}></EditTableModal>
                 {/* <IconButton aria-label="Edit" className={classes.iconButton} >
                                     <EditIcon className={classes.icon} />
                                 </IconButton> */}

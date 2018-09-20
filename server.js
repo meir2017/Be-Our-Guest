@@ -477,6 +477,17 @@ app.post('/beOurGuest/addTable/:eventId/', (req, res) => {
 
 })
 
+app.post('/beOurGuest/updateTable/', (req, res) => {
+    let myTable = req.body;
+    Table.findOneAndUpdate({ _id: myTable._id }, { guests: myTable.guests }, { 'new': true })
+      .then(updatedTable => {
+        console.log("succesfully updated guests in table");
+        res.send(updatedTable);
+      });
+  
+  
+  });
+
 app.post('/beOurGuest/updateGuestsInTable/', (req, res) => {
     let myTable = req.body;
     Table.findOneAndUpdate({ _id: myTable._id }, { guests: myTable.guests }, { 'new': true })
