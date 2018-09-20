@@ -123,7 +123,7 @@ class EditTableModal extends Component {
       this.setState({ display })
     }
   }
-  
+
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
@@ -138,8 +138,8 @@ class EditTableModal extends Component {
           // onClick={event => {
           //   updateAnchorEl(event.currentTarget);
           // }}
-          aria-label="Edit">
-          <EditIcon Button className={classes.icon} />
+          aria-label="Edit" className={classes.iconButton}>
+          <EditIcon className={classes.icon} />
         </IconButton>
         <Popover
           id="render-props-popover"
@@ -208,8 +208,8 @@ class EditTableModal extends Component {
           </DialogContent>
           <Divider></Divider>
           <DialogActions>
-            <Button size="small" className={classes.Button} onClick={this.handleClose}>Cancel</Button>
-            <Button size="small" className={classes.Button} color="secondary" onClick={this.editTable} > Save </Button>
+            <Button size="small" variant="contained" color="secondary" onClick={this.editTable} > Save </Button>
+            <Button size="small" variant="contained"  onClick={this.handleClose}>Cancel</Button>
           </DialogActions>
         </Popover >
       </React.Fragment >

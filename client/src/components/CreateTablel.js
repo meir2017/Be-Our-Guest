@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import '../App.css'
 import { observer, inject } from 'mobx-react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import CreateCategory from './CreateCategory'
 import {
-  Grid,
   Button,
   Dialog,
   DialogActions,
@@ -13,16 +12,12 @@ import {
   DialogTitle,
   Slide,
   withStyles,
-  Typography,
-  Popover,
-  Icon,
-  NavigationIcon,
   Divider,
-  MenuItem,
   TextField,
   Select,
-  FormControl,
   InputLabel,
+  FormHelperText,
+  FormControl,
 } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -31,10 +26,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 const styles = theme => ({
   container: {
+    margin: theme.spacing.unit,
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: 300,
+    flexWrap: 'nowrap',
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -57,7 +52,10 @@ const styles = theme => ({
   },
   addIcon: {
     marginRight: theme.spacing.unit,
-  }
+  },
+  button: {
+    marginRight: '20px',
+  },
 });
 
 function Transition(props) {
@@ -81,8 +79,8 @@ class AddTableModal extends Component {
   }
   toggle = () => {
     this.setState({
-      modal: !this.state.modal,
-      open: !this.state.open
+      modal: !this.state.modal
+      //, open: !this.state.open
     });
   }
   handleClickOpen = () => {
@@ -144,11 +142,11 @@ class AddTableModal extends Component {
             Create new table
                 </DialogTitle>
           <Divider></Divider>
-          <form className={classes.container}  action="" onSubmit={this.addTable}>
+          <form className={classes.container} action="" onSubmit={this.addTable}>
             <DialogContent>
               <FormControl style={{ width: "180px" }} required className={classes.formControl}>
                 <InputLabel shrink htmlFor="category">Select category</InputLabel>
-                <Select 
+                <Select
                   required
                   native
                   label="Category"
@@ -204,56 +202,62 @@ class AddTableModal extends Component {
     const { classes } = this.props;
     return (
       <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
-      <form action="" onSubmit={this.addTable}>
-        <ModalHeader toggle={this.toggle}> Create new table</ModalHeader>
-        <ModalBody>
-        <InputLabel htmlFor="category">Select category </InputLabel>
-        <Select
-          required
-          native
-          label="Category"
-          value={this.state.category}
-          id="category"
-          name="categoryName"
-          onChange={this.onChangeCategory} >
-          <option disabled value="" />
-          {this.props.store.user.categories.map((item, index) => {
-            return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
-          })}
-        </Select>
-        <br />
-        <TextField
-          required
-          id="tableName"
-          label="Table name"
-          type="text"
-          className={classes.textField}
-          value={this.state.tableName}
-          placeholder="Enter table name"
-          onChange={this.handleTextChange}
-          margin="normal" />
-        <TextField
-          id="tableSize"
-          label="Max number of guests"
-          type="number"
-          required
-          inputProps={{ min: "4", max: "20", step: "1" }}
-          value={this.state.tableSize}
-          placeholder="Between 4 and 20"
-          onChange={this.handleTextChange}
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          margin="normal" />
-        </ModalBody>
-        <ModalFooter>
-        <Button size="small" variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button>
-        <Button size="small" variant="outlined" color="primary" type="Submit"> Save </Button>
-        {/* <Button color="primary" type="Submit">Save </Button>
+        <form action="" onSubmit={this.addTable}>
+          <ModalHeader toggle={this.toggle}>Create new table</ModalHeader>
+          <ModalBody>
+
+            <TextField
+              id="tableSize"
+              label="Max number of guests"
+              type="number"
+              required
+              inputProps={{ min: "4", max: "20", step: "1" }}
+              value={this.state.tableSize}
+              placeholder="Between 4 and 20"
+              onChange={this.handleTextChange}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              margin="normal" />
+            <TextField
+              required
+              id="tableName"
+              label="Table name"
+              type="text"
+              className={classes.textField}
+              value={this.state.tableName}
+              placeholder="Enter table name"
+              onChange={this.handleTextChange}
+              margin="normal" />
+            <FormControl required className={classes.formControl}>
+              <InputLabel shrink htmlFor="category">category</InputLabel>
+              <div className={classes.container} >
+                <Select
+                  required
+                  native
+                  label="Category"
+                  value={this.state.category}
+                  id="category"
+                  name="categoryName"
+                  onChange={this.onChangeCategory} >
+                  <option disabled value="" />
+                  {this.props.store.user.categories.map((item, index) => {
+                    return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
+                  })}
+                </Select>
+                <CreateCategory />
+              </div>
+              <FormHelperText>Select category or create new</FormHelperText>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button size="small" variant="contained" color="secondary" type="Submit"> Save </Button>
+            <Button size="small" variant="contained" onClick={this.handleClose}>Cancel</Button>
+            {/* <Button color="primary" type="Submit">Save </Button>
               <Button color="secondary" onClick={this.toggle}>Cancel</Button> */}
-        </ModalFooter>
-      </form>
+          </ModalFooter>
+        </form>
       </Modal>
     )
   }

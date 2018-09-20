@@ -1,40 +1,51 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-
 import axios from 'axios';
 import MyModal from './Modal';
-
 import { observer, inject } from 'mobx-react';
 
+import {
+  Button,
+  withStyles,
+  MenuItem,
+  TextField,
+  Select,
+  InputLabel,
+  FormHelperText,
+  FormControl,
+} from '@material-ui/core';
+
+import CreateCategory from './CreateCategory';
 
 const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+  },
+  iconButton: {
+    height: 20,
+    width: 20,
+  },
   addIcon: {
     marginRight: theme.spacing.unit,
   },
-
-  cancelButton:{
+  cancelButton: {
     color: 'white',
     backgroundColor: theme.palette.primary.light,
   },
-  
   addButton: {
     position: 'absolute',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
-
     zIndex: 10
-},
-
+  },
+  button: {
+    marginRight: '20px',
+  },
 });
-
 
 @inject("store")
 @observer
@@ -122,7 +133,7 @@ class CreateGuest extends Component {
     let { classes } = this.props;
     return (
       <div>
-        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle}  className={classes.addButton}>
+        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle} className={classes.addButton}>
           <AddIcon className={classes.addIcon} />
           Add Guest
         </Button>
@@ -150,23 +161,7 @@ class CreateGuest extends Component {
                     id="phone" label="Phone" type="text" className="textField"
                     name="phone" onChange={this.onChangeText} value={this.inputText}
                   />
-                  <br />
-                  <br />
 
-                  <InputLabel htmlFor="category">category : </InputLabel>
-                  <Select
-                    required
-                    native
-                    label="Category"
-                    value={this.state.category}
-                    id="category"
-                    name="categoryName"
-                    onChange={this.handleChange} >
-                    <option disabled value="" />
-                    {this.props.store.user.categories.map((item, index) => {
-                      return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
-                    })}
-                  </Select>
                   <br />
 
                   <TextField
@@ -183,14 +178,37 @@ class CreateGuest extends Component {
                   />
                   <br />
                   <TextField
-
                     id="notComing" label="Not coming" type="number" className="textField"
                     name="notComing" onChange={this.onChangeText} value={this.inputText}
                   />
+                  <FormControl required className={classes.formControl}>
+                    <InputLabel shrink htmlFor="category">category</InputLabel>
+                    <div className={classes.container} >
+                      <Select
+                        required
+                        native
+                        label="Category"
+                        value={this.state.category}
+                        id="category"
+                        name="categoryName"
+                        onChange={this.handleChange} >
+                        <option disabled value="" />
+                        {this.props.store.user.categories.map((item, index) => {
+                          return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
+                        })}
+                      </Select>
+                      <CreateCategory />
+                    </div>
+                    <FormHelperText>Select category or create new</FormHelperText>
+                  </FormControl>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="secondary" variant="contained" type="Submit">Save Guest</Button>{' '}
-                  <Button className={classes.cancelButton} variant="contained" onClick={this.toggle} >Cancel</Button>
+                  <Button size="small" variant="contained" color="secondary" type="Submit"> Save </Button>
+                  <Button size="small" variant="contained" onClick={this.toggle}>Cancel</Button>
+
+
+                  {/* <Button color="secondary" variant="contained" type="Submit">Save</Button>{' '}
+                  <Button className={classes.cancelButton} variant="contained" onClick={this.toggle} >Cancel</Button> */}
                 </ModalFooter>
               </form>
             </Modal>
