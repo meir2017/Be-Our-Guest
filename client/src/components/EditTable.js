@@ -51,15 +51,13 @@ const styles = theme => ({
   typography: {
     margin: theme.spacing.unit * 2,
   },
-  Button: {
-    // display: 'flex',
-    // flexDirection: 'row',
-    // flexWrap: 'nowrap',
-    // justifyContent: 'flex-end',
-  },
-  icon: {
+  iconButton: {
     height: 20,
     width: 20,
+  },
+  icon: {
+    height: 15,
+    width: 15,
   },
 });
 

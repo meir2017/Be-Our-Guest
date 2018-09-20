@@ -20,7 +20,7 @@ import axios from 'axios';
 
 const styles = theme => ({
     tableListWrapper: {
-        width: 'auto',
+       
         flex: 1,
         display: 'flex',
         flexDirection: 'row',
@@ -29,20 +29,20 @@ const styles = theme => ({
           borderWidth: 4,
           borderStyle: 'solid',
           borderColor: 'primary', */
-        height: '80vh',
+       
 
     },
     tables: {
         flexWrap: 'nowrap',
-        overflowX: 'scroll',
+        overflowX: 'hidden',
         overflowY: 'auto',
-        width: 'auto',
-        height: '100%',
-
+        width: '100%',
+        height: '70vh',
         flex: 1,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: "flex-start",
+
 
         /*     borderLeftWidth: 2,
             borderLeftStyle: 'solid',
@@ -101,25 +101,41 @@ class TableList extends Component {
             })
         this.handleClose();
     }
+
+    findInCategories = (categoryId) => {
+    let category = this.props.store.user.categories.find(c => c._id === categoryId);
+        return this.props.filteredCategories.findIndex(cat => cat === category.name);
+    }
+
+    sortByCategory = (a,b) => {
+        if (a.category < b.category) return -1;
+        if (a.category > b.category) return 1;
+        return 0;
+    }
+
     render() {
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
+        let sortedTables = currentEvent.tables.slice().sort(this.sortByCategory);
         // console.log(currentEvent.tables)
         const { classes } = this.props;
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
+        let tableIndex = null;
         return (
             <div style={{ height: '100%' }}>
                 <div className={classes.tableListWrapper}>
                     <AddTableModal></AddTableModal>
-                    <Table0 index={-1} />
+                    <Table0 index={-1} onlyTables={this.props.onlyTables} filteredCategories={this.props.filteredCategories} />
                     <div className={classes.tables}>
-                        {currentEvent.tables.slice().sort(function (a, b) {
-                            if (a.category < b.category) return -1;
-                            if (a.category > b.category) return 1;
-                            return 0;
-                        }).map((table, index) => (
-                            <Table table={table} index={index} key={table._id} />
-                        ))}
+                        {sortedTables
+                        .filter(t =>
+                            {if(this.props.filteredCategories.length == 0) return true; 
+                             return this.findInCategories(t.category) != -1}
+                            )
+                        .map((table, index) => {
+                            tableIndex = sortedTables.findIndex(eTable => eTable.category === table.category);
+                            return (<Table table={table} index={tableIndex} key={table._id} />)}
+                        )}
                     </div>
                 </div>
 

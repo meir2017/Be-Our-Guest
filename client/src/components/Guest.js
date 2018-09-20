@@ -19,6 +19,8 @@ import {
 const styles = theme => ({
     guestWrapper: {
         // zIndex: 10,
+        width: 'auto',
+        padding: 3,
     },
     paper: {
         height: 140,
@@ -39,6 +41,10 @@ const styles = theme => ({
         width: 15,
 
     },
+    categoryList: {
+        paddingRight:1,
+        paddingTop: 3
+    }
 
 });
 /* 
@@ -73,17 +79,17 @@ class Guest extends Component {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                         {...provided.draggableProps}>
-                        <Grid container spacing={0} style={{ paddingBottom: 5 }}>
+                        <Grid container spacing={0} >
                             <Grid item xs={12}>
                                 <Paper>
-                                    <Grid container spacing={0} style={{ padding: 10 }}>
-                                        <Grid item xs={1}>
+                                    <Grid container spacing={0} style={{ padding: '0 8px 8px 8px' }}>
+                                        <Grid item xs={1} className={classes.categoryList}>
                                             {this.props.guest.categories.map((category, index) => {
                                                 let eCategory = this.props.store.user.categories.find(c => c._id === category);
                                                 if (!eCategory) {
                                                     eCategory = { colorCode: 'black' }
                                                 }
-                                                return (<Tooltip title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
+                                                return (<Tooltip key={category._id}title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
                                                     style={{ backgroundColor: eCategory.colorCode }} /></Tooltip>
                                                 )
                                             }
@@ -91,7 +97,7 @@ class Guest extends Component {
 
 
                                         </Grid>
-                                        <Grid item xs={10}>
+                                        <Grid item xs={10} style={{paddingTop:8}}>
                                             <Tooltip title={guest.numComing + "/" + (guest.numInvited - guest.numNotComing) + " confirmed"}>
                                                 <Chip
                                                     avatar={<Avatar>{guest.numComing}/{guest.numInvited - guest.numNotComing}</Avatar>}

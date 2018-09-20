@@ -24,7 +24,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 1000,
   },
   iconButton: {
     height: 35,
@@ -98,8 +98,8 @@ class GuestInfo extends Component {
     let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
     return (
 
-      <div className="container">
-        <div className="addGuest">
+      <div className="GuestsTabContainer">
+        <div className="addGuest" style={{textAlign:'center'}}>
           <CreateGuest
             openModalCreate={this.openModalCreate}
             modalCreate={this.state.modalCreate}

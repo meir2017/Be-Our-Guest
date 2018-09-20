@@ -99,7 +99,7 @@ class EventPage extends Component {
                     <div className="myEvent">
                         {this.props.store.user.events.map((eve, index) => {
                             return (
-                                <div className="iteminvitations container">
+                                <div className="iteminvitations container" style={{cursor: 'pointer'}}>
                                     <div name={index} key={eve.HostName + eve.Location + index} className="row">
                                         <div className="col-sm-7 text2"
                                             id={index} onClick={(e) => { this.handleEvent(index) }}
