@@ -265,19 +265,21 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
 // remove guest
 app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
     Event.findOne({ _id: req.params.eventId })
-        .then(user => {
-            listGuests = user.guests.concat();
+        .then(event => {
+            listGuests = event.guests.concat();
             listGuests.splice(req.params.index, 1);
-            user.guests = listGuests;
-            user.save()
+            event.guests = listGuests;
+            event.save()
                 .then(() => {
                     Guest.findByIdAndRemove({ _id: req.params.guestId });
                     Table.findOne({ guests: req.params.guestId })
                         .then(table => {
-                            Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
-                                .then(updatedTable => res.send(updatedTable));
-                        }).catch(err => {
-                            res.send(null);
+                          if(table)
+                            return Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
+                          else res.send(null);
+                        })
+                        .then(updatedTable => res.send(updatedTable))
+                        .catch(err => {
                             console.log("ERROR: " + err)
                         });
                 }

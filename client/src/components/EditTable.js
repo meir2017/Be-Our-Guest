@@ -51,6 +51,14 @@ const styles = theme => ({
   typography: {
     margin: theme.spacing.unit * 2,
   },
+  iconButton: {
+    height: 20,
+    width: 20,
+  },
+  icon: {
+    height: 15,
+    width: 15,
+  },
 });
 
 @inject("store")
@@ -113,6 +121,7 @@ render() {
   const { classes } = this.props;
   const { anchorEl } = this.state;
   const open = Boolean(anchorEl);
+  console.log( this.props.table);
   let category = this.props.store.user.categories.find(category => category._id === this.props.table.category);
   return (
     <React.Fragment>

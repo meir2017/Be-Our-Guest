@@ -92,18 +92,18 @@ class Invitation extends Component {
         return (
             <div className="containerInvitation" >
 
-                <div className="inputinvitation" style={{ textAlign: "left" }} >
+                <div className="inputinvitation" style={{ textAlign: "left", marginTop:50}} >
                     <input type="text" name="invitationName" className="form-control" placeholder="Invitation name" onChange={this.onChangeText} value={this.state.invitationName} />
-                    <br /><br />
+                    <br />
 
                     <input type="text" name="titleInput" className="form-control" placeholder="Title" onChange={this.onChangeText} value={this.state.titleInput} />
-                    <br /><br />
+                    <br />
                     <textarea rows="6" cols="40" name="textInput" className="form-control" onChange={this.onChangeText} value={this.state.textInput} />
                     <br />
                     <input type="text" name="whenEvent" className="form-control" placeholder="when" onChange={this.onChangeText} value={this.state.whenEvent} />
-                    <br /><br />
+                    <br />
                     <input type="text" name="whereEvent" className="form-control" placeholder="where" onChange={this.onChangeText} value={this.state.whereEvent} />
-                    <br /><br />
+                    <br />
                 </div>
 
 

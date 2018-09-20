@@ -13,7 +13,7 @@ import InvitationManager from './InvitationManager';
 //tabs desgin
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding:  '10px 24px 10px 24px' }}>
       {props.children}
     </Typography>
   );
@@ -27,20 +27,20 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    height:'100%'
+    height: '100%'
   },
   button: {
     // margin: theme.spacing.unit,
-   // minWidth: 160,
+    // minWidth: 160,
     fontSize: 13,
     color: theme.palette.common.white,
     '&:hover': {
-        border: "1px solid white",
-        '& $marked': {
+      border: "1px solid white",
+      '& $marked': {
         opacity: 0,
       },
     },
-},
+  },
 });
 
 class EventManager extends React.Component {
@@ -59,15 +59,16 @@ class EventManager extends React.Component {
     return (
       <div className={classes.root}>
         <div className="row">
-          <div className="col-md-4"></div>
-          <div className="col-md-5 col-md-offset-3">
+          <div className="col-md-3"></div>
+          <div className="col-md-6">
             <AppBar className="AppBar" position="static">
-              <Tabs className="tabs" color="default" value={value} onChange={this.handleChange}
-              value={this.state.value}
-              onChange={this.handleChange}
-              indicatorColor="primary"
-              
-              fullWidth>
+              <Tabs className="tabs"
+                value={this.state.value}
+                onChange={this.handleChange}
+                indicatorColor="lightgrey"
+                textColor="lightgrey"
+
+                fullWidth>
                 <Tab className={classes.button} value="one" label="Guests" />
                 <Tab className={classes.button} value="two" label="Tables" />
                 <Tab className={classes.button} value="three" label="Invitations" />
