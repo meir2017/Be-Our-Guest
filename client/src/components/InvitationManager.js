@@ -139,7 +139,7 @@ class InvitationManager extends Component {
                                                     <Icon id={index} onClick={this.editInvitations} className={classes.icon}>edit_icon</Icon>
                                                 </IconButton>
                                                 <IconButton className={classes.iconButton}>
-                                                    <Icon id={index} onClick={e => { this.myIndex(e); this.toggleSend() }} className={classes.icon}>email_icon</Icon>
+                                                    <Icon id={index} onClick={e => { this.myIndex(e); this.toggleSend() }} className={classes.icon}>send_icon</Icon>
                                                 </IconButton>
                                                 <IconButton className={classes.iconButton}>
                                                     <Icon id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }} className={classes.icon}>clear_icon</Icon>

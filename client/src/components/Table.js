@@ -94,6 +94,12 @@ const styles = theme => ({
     },
     tableTitle: {
         fontSize: 15
+    },
+
+    avatarContainer: {
+        display: 'flex',
+        'justifyContent': 'center',
+        alignItems: 'center',
     }
 });
 
@@ -220,14 +226,14 @@ class Table extends Component {
                                 {this.props.table.title}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3} align="center">
+                        <Grid item xs={3} align="center" className={classes.avatarContainer}>
                             <Tooltip title="# guests seated here / Maximum guests in table">
                                 <Avatar className={classes.tableAvatar} style={{ backgroundColor: colorCode }}>
                                     {sumGuests}/{this.props.table.maxGuests}</Avatar>
                             </Tooltip>
                         </Grid>
                         <Grid item xs={3} align="right">
-                            <EditTableModal></EditTableModal>
+                            <EditTableModal table={this.props.table}></EditTableModal>
                             <IconButton aria-label="Delete" className={classes.iconButton} onClick={this.handleOpenDeleteTable} >
                                 <ClearIcon className={classes.icon} />
                             </IconButton>

@@ -52,16 +52,6 @@ const styles = theme => ({
 
 });
 
-/* 
-const Container = styled.div`
-display: flex;
-flex-direction: column;
-width: auto;
-transition: width 2s, height 4s;
-flex: 1;
-justify-content:space-around;
-`; */
-
 @inject("store")
 @observer
 class TableList extends Component {
@@ -72,7 +62,6 @@ class TableList extends Component {
             maxGuests: '',
             category: '',
             anchorEl: null,
-
         }
         //this.props.store.populateEvent();
     }
