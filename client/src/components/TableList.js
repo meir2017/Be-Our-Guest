@@ -3,7 +3,7 @@ import '../App.css'
 //import styled from 'styled-components'
 import Table from './Table';
 import Table0 from './Table0';
-import AddTableModal from './AddTableModal'
+import AddTableModal from './CreateTablel'
 import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import {
