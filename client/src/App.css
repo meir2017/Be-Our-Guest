@@ -164,3 +164,35 @@ select#category {
   text-align: center;
   padding-left: 19px;
 }
+  button:focus ,button:active{outline:0 !important;}
+
+  .dropdownOpen{
+  float: left;
+  /* background-color: black;
+  border: none; */
+  }
+  
+.btn-dropdown{
+    /* background-color: red; */
+    border: 0; 
+    outline:0;
+    background-color: #7e0a3e !important
+
+  }
+
+  /* .MuiSvgIcon-root-68 MuiSelect-icon-54{
+    color: red
+} */
+/* 
+.MuiSelect-icon-66 {
+  color:white
+} */
+
+/* 
+MuiSvgIcon-root-80 MuiSelect-icon-66
+MuiSvgIcon-root-80 MuiSelect-icon-66 */
+
+.SelectEvent .MuiInput-root-55>.MuiSelect-root-50>.MuiSvgIcon-root-68.MuiSelect-icon-54{
+  color:white;
+
+}
