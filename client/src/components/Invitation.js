@@ -82,7 +82,6 @@ class Invitation extends Component {
                 console.log("save InvitationObj")
                 console.log((response.data))
                 this.props.store.addInvitation(response.data)
-                this.toggle();
             })
     }
 
@@ -92,7 +91,7 @@ class Invitation extends Component {
         return (
             <div className="containerInvitation" >
 
-                <div className="inputinvitation" style={{ textAlign: "left", marginTop:50}} >
+                <div className="inputinvitation" style={{ textAlign: "left", marginTop: 30 }} >
                     <input type="text" name="invitationName" className="form-control" placeholder="Invitation name" onChange={this.onChangeText} value={this.state.invitationName} />
                     <br />
 
@@ -108,8 +107,8 @@ class Invitation extends Component {
 
 
                 <div >
-                    <Button className="divBtn" style={{backgroundColor:'#560027'}} onClick={this.toggle}>Design</Button>
-
+                    <Button style={{ backgroundColor: '#7E0A3E' }} onClick={this.saveInvitation}>Save</Button>
+                    <Button className="divBtn" style={{ backgroundColor: '#560027' }} onClick={this.toggle}>Design</Button>
                     {/* <Button className="divBtn" color="primary" onClick={this.saveInvitation}>Save</Button>
                     <Button className="divBtn" color="success" onClick={this.sendInvitation}>Send</Button> */}
                 </div>
@@ -151,7 +150,7 @@ class Invitation extends Component {
                             </div>
                             <div className="display_result" style={{ backgroundColor: `${this.state.background}` }}>
 
-                                <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
+                                <h3 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h3>
                                 <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
                                     <h4 >{this.state.textInput}</h4>
                                 </div>
@@ -162,7 +161,9 @@ class Invitation extends Component {
 
                         </ModalBody>
                         <ModalFooter>
-                            <Button style={{backgroundColor:'#560027'}} onClick={this.saveInvitation}>Save</Button>{' '}
+                            <Button style={{ backgroundColor: '#560027' }} onClick={(e) => {
+                                this.saveInvitation(e), this.toggle()
+                            }}>Save</Button>
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>

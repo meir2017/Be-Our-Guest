@@ -72,7 +72,7 @@ class CreateCategory extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <IconButton aria-label="add" className={classes.iconButton} onClick={this.toggle} >
+        <IconButton aria-label="add" style={{ left: "50px" }} className={classes.iconButton} onClick={this.toggle} >
           <AddIcon className={classes.icon} />
         </IconButton>
         <Modal style={{ width: "300px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewCategory">
@@ -98,7 +98,7 @@ class CreateCategory extends Component {
             </ModalBody>
             <ModalFooter>
               <Button size="small" variant="contained" color="secondary" type="Submit"> Save </Button>
-              <Button size="small" variant="contained"  onClick={this.handleClose}>Cancel</Button>
+              <Button size="small" variant="contained" onClick={this.handleClose}>Cancel</Button>
             </ModalFooter>
           </form>
         </Modal>

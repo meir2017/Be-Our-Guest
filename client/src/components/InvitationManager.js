@@ -129,7 +129,7 @@ class InvitationManager extends Component {
 
                                             <div className="col-sm-7 text2"
                                                 style={{
-                                                    paddingLeft:25,
+                                                    paddingLeft: 25,
                                                     display: 'flex',
                                                     justifyContent: 'left', /* align horizontal */
                                                     alignItems: 'center'
@@ -153,9 +153,12 @@ class InvitationManager extends Component {
                         </div>
 
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-5">
                         <Invitation num={this.state.num} />
                     </div>
+                    <div className="col-sm-1">
+                    </div>
+
                 </div>
 
                 <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
