@@ -31,9 +31,11 @@ overflow-x: hidden;
   to { transform: rotate(360deg); }
 }
 
-
+.modalFormCreate{
+  width: 350px;
+}
 .textField {
-  width: 200px;
+  width: 220px;
 }
 .paperSingIn{
   background-color: lightgreen !important
@@ -160,9 +162,8 @@ input#tableName {
   text-align: center;
 }
 select#category {
-  width: 70px;
-  text-align: center;
-  padding-left: 19px;
+  width: 120px;
+  padding-left: 5px;
 }
   button:focus ,button:active{outline:0 !important;}
 
@@ -179,20 +180,11 @@ select#category {
     background-color: #7e0a3e !important
 
   }
-
-  /* .MuiSvgIcon-root-68 MuiSelect-icon-54{
-    color: red
-} */
-/* 
-.MuiSelect-icon-66 {
-  color:white
-} */
-
-/* 
-MuiSvgIcon-root-80 MuiSelect-icon-66
-MuiSvgIcon-root-80 MuiSelect-icon-66 */
-
 .SelectEvent .MuiInput-root-55>.MuiSelect-root-50>.MuiSvgIcon-root-68.MuiSelect-icon-54{
   color:white;
 
+}
+
+.containerInvitation{
+  margin: -12px;
 }

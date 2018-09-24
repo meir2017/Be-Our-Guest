@@ -107,7 +107,6 @@ class App extends Component {
             < EventManager /> : false}
           {/* <Test /> */}
           {!this.props.store.myEventPage && <EventPage />}
-
           {!this.props.store.user.userLog && <AppDescription />}
           <BrowserRouter>
             <Route

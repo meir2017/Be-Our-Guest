@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const inlineCss = require('nodemailer-juice');
 const axios = require('axios');
 const app = express();
+const path = require('path');
 
 //socketIO
 const http = require('http')
@@ -69,7 +70,12 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                     html: `<h3> Hello ${user.username} At your request we sent you your username and your password</h3>
                     <p>User name : ${user.username}</p>
                     <p>password : ${user.password}</p><br>
-                    <p style="color:blue">Be Our Guest</p>'`
+                    <p style="color:blue">Be Our Guest</p>'`,
+                    // attachments: {
+                    //     filename: 'nyan cat ✔.gif',
+                    //     path: __dirname + '/client/public/pic3.jpg',
+                    //     cid: 'nyan@example.com' // should be as unique as possible
+                    // }
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
@@ -274,9 +280,9 @@ app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
                     Guest.findByIdAndRemove({ _id: req.params.guestId });
                     Table.findOne({ guests: req.params.guestId })
                         .then(table => {
-                          if(table)
-                            return Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
-                          else res.send(null);
+                            if (table)
+                                return Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
+                            else res.send(null);
                         })
                         .then(updatedTable => res.send(updatedTable))
                         .catch(err => {
@@ -482,13 +488,13 @@ app.post('/beOurGuest/addTable/:eventId/', (req, res) => {
 app.post('/beOurGuest/updateTable/', (req, res) => {
     let myTable = req.body;
     Table.findOneAndUpdate({ _id: myTable._id }, myTable, { 'new': true })
-      .then(updatedTable => {
-        console.log("succesfully updated a table");
-        res.send(updatedTable);
-      });
-  
-  
-  });
+        .then(updatedTable => {
+            console.log("succesfully updated a table");
+            res.send(updatedTable);
+        });
+
+
+});
 
 app.post('/beOurGuest/updateGuestsInTable/', (req, res) => {
     let myTable = req.body;
@@ -563,6 +569,11 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     })
 });
 
+//run build
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 const port = process.env.PORT || 3001;
 server.listen(port, console.log('Server running on port', port));
