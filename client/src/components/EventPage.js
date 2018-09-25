@@ -27,7 +27,7 @@ class EventPage extends Component {
             modalCreate: false,
             modalEdit: false,
             modalRemove: false,
-            myEvent: 0,
+            myEvent: null,
         }
 
     }

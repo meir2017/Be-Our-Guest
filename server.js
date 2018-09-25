@@ -25,28 +25,32 @@ const io = socketIO(server)
 // })
 // end socketIO
 
-mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
+// mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
+//     console.log("DB connection established!!!");
+// });
+
+
+// let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
+// set a connection string for heroku
+mongoose.connect("mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest" || 'mongodb://localhost/beOurGuestDB', function () {
     console.log("DB connection established!!!");
 });
 
 
-// let CONNECTION_STRING = "mongodb://<meirs>:<meir6646>@ds155252.mlab.com:55252/beourguest"
-// mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
-//     console.log("DB connection established!!!");
-// });
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //modals   
-const Event = require('./models/EventModel');
-const Table = require('./models/TableModel');
-const User = require('./models/UserModel')
-const GlobalGuest = require('./models/GlobalGuestModel')
-const Guest = require('./models/GuestModel')
-const Invitation = require('./models/InvitationModel');
-const Category = require('./models/CategoryModel');
+
+const Event = require('./Models/EventModel');
+const Table = require('./Models/TableModel');
+const User = require('./Models/UserModel')
+const GlobalGuest = require('./Models/GlobalGuestModel')
+const Guest = require('./Models/GuestModel')``
+const Invitation = require('./Models/InvitationModel');
+const Category = require('./Models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 // Forgot tPassword  
@@ -611,10 +615,11 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 });
 
 // run build
-app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
+
 
 const port = process.env.PORT || 3001;
 server.listen(port, console.log('Server running on port', port));
