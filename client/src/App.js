@@ -31,7 +31,7 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
-      endpoint: "http://127.0.0.1:3000",
+      endpoint: "process.env.PORT",
     }
   }
 
