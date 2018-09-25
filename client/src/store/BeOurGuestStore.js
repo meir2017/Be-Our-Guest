@@ -73,9 +73,7 @@ class BeOurGuestStore {
     localStorage.setItem("beOurGuestUser", JSON.stringify(user));
   }
 
-  @action updateEventIndex = eventIndex => {
-    this.user.eventIndex = eventIndex;
-  }
+
 
   //****************************************************** */
 
@@ -93,6 +91,19 @@ class BeOurGuestStore {
     console.log(this.user.events.length);
     console.log(this.user.events.length - 1);
     this.thisEventIndex(this.user.events.length - 1)
+
+  }
+
+
+  @action editEvent = (newEvent, index) => {
+    let theEvent = this.user.events[index];
+    theEvent.Title = newEvent.Title;
+    theEvent.Date = newEvent.Date;
+    theEvent.Location = newEvent.Location;
+    theEvent.maxGuests = newEvent.maxGuests
+    theEvent.HostName = newEvent.HostName;
+
+    this.thisEventIndex(index)
 
   }
 
@@ -179,7 +190,7 @@ class BeOurGuestStore {
     console.log("New category " + newCategory._id);
   }
 
- 
+
   /// Table function
   @action addTable = (newTable) => {
     let tables = this.user.events[this.eventIndex].tables.push(newTable);
