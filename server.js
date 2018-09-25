@@ -38,7 +38,7 @@ mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //modals   
-const Event = require('./models/EventModel.js');
+const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
 const User = require('./models/UserModel')
 const GlobalGuest = require('./models/GlobalGuestModel')
@@ -611,10 +611,12 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 });
 
 // run build
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
+
 app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
 
 const port = process.env.PORT || 3001;
 server.listen(port, console.log('Server running on port', port));
