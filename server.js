@@ -44,7 +44,7 @@ const Event = require('./models/EventModel');
 const Table = require('./models/TableModel');
 const User = require('./models/UserModel')
 const GlobalGuest = require('./models/GlobalGuestModel')
-const Guest = require('./models/GuestModel')
+const Guest = require('./models/GuestModel')``
 const Invitation = require('./models/InvitationModel');
 const Category = require('./models/CategoryModel');
 
