@@ -207,12 +207,12 @@ class Table extends Component {
               Are you sure you want to remove this table?
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleCloseDeleteTable} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleDeleteTable} color="primary" autoFocus>
+          <DialogActions>           
+            <Button onClick={this.handleDeleteTable} color="secondary" autoFocus>
               Remove
+            </Button>
+            <Button onClick={this.handleCloseDeleteTable} >
+              Cancel
             </Button>
           </DialogActions>
         </Dialog>

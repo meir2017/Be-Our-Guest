@@ -21,7 +21,6 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ClearIcon from '@material-ui/icons/Clear';
-import CreateCategory from './CreateCategory';
 
 const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
 
@@ -255,9 +254,7 @@ class OurMenu extends Component {
           </Paper>
         </Popover>
         <CreateEvent openModalCreate={this.openModalCreate}
-          modalCreate={this.state.modalCreate} />
-        <CreateCategory openModalCategory={this.openModalCategory}
-          modalCategory={this.state.modalCategory} />
+          modalCreate={this.state.modalCreate} />      
 
         <div>
           <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >

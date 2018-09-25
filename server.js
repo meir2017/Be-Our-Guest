@@ -284,7 +284,7 @@ app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
                         });
                 }
                 ).then(console.log("deleteGuests"));
-        })
+        });
 });
 
 // remove event
@@ -485,7 +485,10 @@ app.post('/beOurGuest/updateTable/', (req, res) => {
       .then(updatedTable => {
         console.log("succesfully updated a table");
         res.send(updatedTable);
-      });
+      })
+      .catch(err => {
+        console.log(err);
+    })
   
   
   });

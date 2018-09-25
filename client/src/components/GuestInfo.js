@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-
 import CreateGuest from './CreateGuest.js';
 import PropTypes from 'prop-types';
 import {
@@ -150,7 +149,6 @@ class GuestInfo extends Component {
             </TableBody>
           </Table>
         </Paper>
-
       </div>
     );
   }

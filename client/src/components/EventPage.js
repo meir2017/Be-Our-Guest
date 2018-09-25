@@ -31,9 +31,6 @@ class EventPage extends Component {
             Location: "",
             maxGuests: "",
             HostName: ""
-
-
-
         }
 
     }

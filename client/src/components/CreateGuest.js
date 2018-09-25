@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../App.css'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
@@ -21,29 +22,30 @@ import CreateCategory from './CreateCategory';
 
 const styles = theme => ({
   container: {
+    margin: theme.spacing.unit,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'nowrap',
   },
-  iconButton: {
-    height: 20,
-    width: 20,
-  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+    fontSize: 12
+  },  
   addIcon: {
     marginRight: theme.spacing.unit,
   },
-  cancelButton: {
-    color: 'white',
-    backgroundColor: theme.palette.primary.light,
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
   },
+ 
   addButton: {
     position: 'absolute',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
     zIndex: 10
-  },
-  button: {
-    marginRight: '20px',
   },
 });
 
@@ -138,8 +140,7 @@ class CreateGuest extends Component {
           Add Guest
         </Button>
 
-        {this.state.modal &&
-          <MyModal >
+       
             <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
               <form action="" onSubmit={this.handleSaveGuest}>
                 <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
@@ -212,7 +213,6 @@ class CreateGuest extends Component {
                 </ModalFooter>
               </form>
             </Modal>
-          </MyModal>}
 
       </div>
     );

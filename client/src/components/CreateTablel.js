@@ -37,24 +37,19 @@ const styles = theme => ({
     width: 200,
     fontSize: 12
   },
+  addIcon: {
+    marginRight: theme.spacing.unit,
+  },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
   },
-  menu: {
-    width: 200,
-  },
+  
   addButton: {
     position: 'absolute',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
     zIndex: 10
-  },
-  addIcon: {
-    marginRight: theme.spacing.unit,
-  },
-  button: {
-    marginRight: '20px',
   },
 });
 
@@ -203,7 +198,7 @@ class AddTableModal extends Component {
     return (
       <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
         <form action="" onSubmit={this.addTable}>
-          <ModalHeader toggle={this.toggle}>Create new table</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Create New table</ModalHeader>
           <ModalBody>
 
             <TextField
