@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import CreateEvent from './CreateEvent';
+import EditEvent from './EditEvent';
 import axios from 'axios';
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withStyles, IconButton, Icon } from "@material-ui/core";
@@ -24,23 +25,19 @@ class EventPage extends Component {
         super(props);
         this.state = {
             modalCreate: false,
-            modalRemove: false,
             modalEdit: false,
-            Title: "",
-            Date: "",
-            Location: "",
-            maxGuests: "",
-            HostName: ""
-
-
-
+            modalRemove: false,
+            myEvent: 0,
         }
 
     }
     myIndex = (e) => {
         e.preventDefault();
         console.log(e.target.id)
+        // this.props.store.thisEventIndex(e.target.id)
+
         this.setState({ myEvent: e.target.id })
+
     }
     handleEvent = (index) => {
         this.props.store.thisEventIndex(index)
@@ -51,11 +48,16 @@ class EventPage extends Component {
         this.setState({ modalCreate: !this.state.modalCreate });
         // this.handleClose(e);
     }
-    toggleEditeEvent = () => {
-        this.setState({
-            modalEdit: !this.state.modalEdit
+    openEditeEvent = (index) => {
+        console.log(index)
+        this.setState({ myEvent: index }, () => {
+            this.setState({ modalEdit: !this.state.modalEdit })
         });
     }
+
+
+
+
 
     toggleRemove = () => {
         // this.handleClose(e)
@@ -99,7 +101,7 @@ class EventPage extends Component {
                     <div className="myEvent">
                         {this.props.store.user.events.map((eve, index) => {
                             return (
-                                <div className="iteminvitations container" style={{cursor: 'pointer'}}>
+                                <div className="iteminvitations container" style={{ cursor: 'pointer' }}>
                                     <div name={index} key={eve.HostName + eve.Location + index} className="row">
                                         <div className="col-sm-7 text2"
                                             id={index} onClick={(e) => { this.handleEvent(index) }}
@@ -112,7 +114,7 @@ class EventPage extends Component {
                                         </div>
                                         <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>
                                             <IconButton className={classes.iconButton}>
-                                                <Icon id={index} onClick={e => { this.myIndex(e); this.toggleEditeEvent() }} id={index} className={classes.icon}>edit_icon</Icon>
+                                                <Icon id={index} onClick={e => { this.openEditeEvent(e.target.id) }} id={index} className={classes.icon}>edit_icon</Icon>
                                             </IconButton>
                                             <IconButton className={classes.iconButton}>
                                                 <Icon id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }} id={index} className={classes.icon}>clear_icon</Icon>
@@ -135,45 +137,15 @@ class EventPage extends Component {
                     </ModalFooter>
 
                 </Modal>
-                <div>
-                    <Modal style={{ width: "350px" }} isOpen={this.state.modalEdit} toggle={this.toggleEditeEvent} className="editEvent">
-                        <form action="" onSubmit={this.toggleEditeEvent}>
-                            <ModalHeader toggle={this.toggleEditeEvent}>Edit Event</ModalHeader>
-                            <ModalBody>
-                                <TextField
-                                    required
-                                    id="Title" label="Title" type="text" className="textField"
-                                    name="Title" onChange={this.onChangeText} value={this.inputText}
-                                />
-                                <br />
-                                <TextField
-                                    id="Date" label="Date" type="date" className="textField"
-                                    name="Date" onChange={this.onChangeText} value={this.inputText}
-                                />
-                                <br />
-                                <TextField
-                                    id="Location" label="Location" type="text" className="textField"
-                                    name="Location" onChange={this.onChangeText} value={this.inputText}
-                                />
-                                <br />
-                                <TextField
-                                    id="maxGuests" label="Max guests" type="number" className="textField"
-                                    name="maxGuests" onChange={this.onChangeText} value={this.inputText}
-                                />
-                                <br />
-                                <TextField
-                                    id="HostName" label="Host name" type="text" className="textField"
-                                    name="HostName" onChange={this.onChangeText} value={this.inputText}
-                                />
-                                <br />
-                            </ModalBody>
-                            <ModalFooter style={{ textAlign: "center" }}>
-                                <Button style={{ backgroundColor: '#560027' }} variant="contained" type="Submit" >Save event</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleEditeEvent}>Cancel</Button>
-                            </ModalFooter>
-                        </form>
-                    </Modal>
-                </div>
+                <EditEvent openEditeEvent={this.openEditeEvent}
+                    modalEdit={this.state.modalEdit}
+                    indexEvent={this.state.myEvent} />
+
+
+                {/* {this.state.myEvent && <EditEvent openEditeEvent={this.openEditeEvent}
+                    modalEdit={this.state.modalEdit}
+                    indexEvent={this.state.myEvent} />} */}
+
                 <div>
                     <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
                         <ModalHeader toggle={this.toggleRemove}>Do you want to delete this event?</ModalHeader>

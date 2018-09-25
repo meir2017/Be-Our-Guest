@@ -189,6 +189,47 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     })
 });
 
+//add edit
+app.post('/beOurGuest/editEvent/:EventId', (req, res) => {
+    let event = req.body;
+
+    Event.findById(req.params.EventId).
+        then(eve => {
+            console.log(eve)
+            console.log(event)
+            eve.Title = event.Title;
+            eve.Date = event.Date;
+            eve.Location = event.Location;
+            eve.maxGuests = event.maxGuests;
+            eve.HostName = event.HostName;
+            // eve.tables = event.table;
+            // eve.invitations = event.invitations;
+            // eve.guests = event.guest;
+            eve.save();
+            res.send(eve)
+        })
+
+
+
+
+
+
+
+
+
+    // myEvent.save((err, event) => {
+    //     console.log(event.id)
+    //     User.findById(req.params.UserId).
+    //         then(user => {
+    //             let listEvent = user.events.concat();
+    //             listEvent.push(event.id);
+    //             user.events = listEvent;
+    //             user.save();
+    //             res.send(event);
+    //         });
+    // })
+});
+
 //add guest
 app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     let newGuest = req.body;
@@ -569,7 +610,7 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     })
 });
 
-//run build
+// run build
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
