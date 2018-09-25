@@ -619,6 +619,6 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 3001;
-server.listen(port, console.log('Server running on port', port));
+app.listen(port, console.log('Server running on port', port));
 
 
