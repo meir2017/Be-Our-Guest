@@ -62,13 +62,13 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'BeOurGuestMail@gmail.com',
+                        user: 'beouguestmail@gmail.com',
                         pass: 'guest2018'
                     }
                 });
                 // transporter.use('compile', inlineCss());
                 var mailOptions = {
-                    from: 'Be Our Guest ',
+                    from: 'beouguestmail@gmail.com',
                     to: req.params.userEmail,
                     subject: 'Password recovery user',
                     html: `<h3> Hello ${user.username} At your request we sent you your username and your password</h3>
