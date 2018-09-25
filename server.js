@@ -47,6 +47,7 @@ const Invitation = require('./models/InvitationModel');
 const Category = require('./models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 // Forgot tPassword  
@@ -616,9 +617,8 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
 //     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 // });
 
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 3001;
-app.listen(port, console.log('Server running on port', port));
+server.listen(port, console.log('Server running on port', port));
 
 
