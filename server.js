@@ -38,7 +38,7 @@ mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //modals   
-const Event = require('./models/EventModel');
+const Event = require('./models/EventModel.js');
 const Table = require('./models/TableModel');
 const User = require('./models/UserModel')
 const GlobalGuest = require('./models/GlobalGuestModel')
