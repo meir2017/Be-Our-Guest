@@ -25,15 +25,15 @@ const io = socketIO(server)
 // })
 // end socketIO
 
-mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
-    console.log("DB connection established!!!");
-});
-
-
-// let CONNECTION_STRING = "mongodb://<meirs>:<meir6646>@ds155252.mlab.com:55252/beourguest"
-// mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
+// mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
 //     console.log("DB connection established!!!");
 // });
+
+
+// let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
+    console.log("DB connection established!!!");
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
