@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const inlineCss = require('nodemailer-juice');
 const axios = require('axios');
 const app = express();
+const path = require('path');
 
 //socketIO
 const http = require('http')
@@ -24,28 +25,32 @@ const io = socketIO(server)
 // })
 // end socketIO
 
-mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
+// mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
+//     console.log("DB connection established!!!");
+// });
+
+
+// let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
+// set a connection string for heroku
+mongoose.connect("mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest" || 'mongodb://localhost/beOurGuestDB', function () {
     console.log("DB connection established!!!");
 });
 
 
-// let CONNECTION_STRING = "mongodb://<meirs>:<meir6646>@ds155252.mlab.com:55252/beourguest"
-// mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
-//     console.log("DB connection established!!!");
-// });
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //modals   
-const Event = require('./models/EventModel');
-const Table = require('./models/TableModel');
-const User = require('./models/UserModel')
-const GlobalGuest = require('./models/GlobalGuestModel')
-const Guest = require('./models/GuestModel')
-const Invitation = require('./models/InvitationModel');
-const Category = require('./models/CategoryModel');
+
+const Event = require('./Models/EventModel');
+const Table = require('./Models/TableModel');
+const User = require('./Models/UserModel')
+const GlobalGuest = require('./Models/GlobalGuestModel');
+const Guest = require('./Models/GuestModel');
+const Invitation = require('./Models/InvitationModel');
+const Category = require('./Models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 // Forgot tPassword  
@@ -69,7 +74,12 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                     html: `<h3> Hello ${user.username} At your request we sent you your username and your password</h3>
                     <p>User name : ${user.username}</p>
                     <p>password : ${user.password}</p><br>
-                    <p style="color:blue">Be Our Guest</p>'`
+                    <p style="color:blue">Be Our Guest</p>'`,
+                    // attachments: {
+                    //     filename: 'nyan cat ✔.gif',
+                    //     path: __dirname + '/client/public/pic3.jpg',
+                    //     cid: 'nyan@example.com' // should be as unique as possible
+                    // }
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
@@ -183,6 +193,28 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     })
 });
 
+//add edit
+app.post('/beOurGuest/editEvent/:EventId', (req, res) => {
+    let event = req.body;
+
+    Event.findById(req.params.EventId).
+        then(eve => {
+            console.log(eve)
+            console.log(event)
+            eve.Title = event.Title;
+            eve.Date = event.Date;
+            eve.Location = event.Location;
+            eve.maxGuests = event.maxGuests;
+            eve.HostName = event.HostName;
+            // eve.tables = event.table;
+            // eve.invitations = event.invitations;
+            // eve.guests = event.guest;
+            eve.save();
+            res.send(eve)
+        })
+
+});
+
 //add guest
 app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     let newGuest = req.body;
@@ -274,9 +306,9 @@ app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
                     Guest.findByIdAndRemove({ _id: req.params.guestId });
                     Table.findOne({ guests: req.params.guestId })
                         .then(table => {
-                          if(table)
-                            return Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
-                          else res.send(null);
+                            if (table)
+                                return Table.findByIdAndUpdate(table._id, { $pull: { guests: req.params.guestId } }, { new: true })
+                            else res.send(null);
                         })
                         .then(updatedTable => res.send(updatedTable))
                         .catch(err => {
@@ -565,6 +597,12 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
             });
     })
 });
+
+// run build
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 
 const port = process.env.PORT || 3001;

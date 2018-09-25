@@ -51,16 +51,18 @@ class App extends Component {
         .then(response => {
           if (response.data !== "") {
             this.props.store.updateUser(response.data);
+            if (eventIndex !== null) {
+              console.log("eventIndex   ===" + eventIndex)
+              this.props.store.thisEventIndex(eventIndex)
+
+
+            }
           }
           else {
             console.log("no user Account ")
           }
         })
         .catch(function (error) { console.log(error); });
-    }
-
-    if (eventIndex != null) {
-      this.props.store.updateEventIndex(eventIndex);
     }
   }
 
@@ -107,13 +109,20 @@ class App extends Component {
             < EventManager /> : false}
           {/* <Test /> */}
           {!this.props.store.myEventPage && <EventPage />}
-
-          {!this.props.store.user.userLog && <AppDescription />}
-          <BrowserRouter>
+          {/* {!this.props.store.user.userLog && <AppDescription />} */}
+          {/* <BrowserRouter>
             <Route
               exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
               render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
             />
+          </BrowserRouter> */}
+          <BrowserRouter>
+            <div>
+              {!this.props.store.user.userLog && <Route exact path="/" component={AppDescription} />}
+              <Route exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+                render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
+              />
+            </div>
           </BrowserRouter>
         </div>
       </MuiThemeProvider>

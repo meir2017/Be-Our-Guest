@@ -140,7 +140,7 @@ class CreateGuest extends Component {
           Add Guest
         </Button>
 
-       
+        {this.state.modal &&
             <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
               <form action="" onSubmit={this.handleSaveGuest}>
                 <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
@@ -182,10 +182,11 @@ class CreateGuest extends Component {
                     id="notComing" label="Not coming" type="number" className="textField"
                     name="notComing" onChange={this.onChangeText} value={this.inputText}
                   />
-                  <FormControl required className={classes.formControl}>
+                  <FormControl required className={classes.formControl}  >
                     <InputLabel shrink htmlFor="category">category</InputLabel>
-                    <div className={classes.container} >
+                    <div className={classes.container} style={{ width: "170px" }} >
                       <Select
+
                         required
                         native
                         label="Category"
@@ -213,7 +214,7 @@ class CreateGuest extends Component {
                 </ModalFooter>
               </form>
             </Modal>
-
+        }
       </div>
     );
   }
@@ -225,3 +226,8 @@ CreateGuest.propTypes = {
 };
 
 export default withStyles(styles)(CreateGuest);
+
+
+// select#category {
+//   width: 200px;
+// }
