@@ -31,7 +31,7 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
-      endpoint: "http://127.0.0.1:3001",
+      endpoint: 'http://127.0.0.1:3001',
     }
   }
 
@@ -119,7 +119,7 @@ class App extends Component {
           <BrowserRouter>
             <div>
               {!this.props.store.user.userLog && <Route exact path="/" component={AppDescription} />}
-              <Route exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+              <Route exact path="/beourguest.herokuapp.com/beuorguest/rsvp/:vetId/:eventId/:guestId/"
                 render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
               />
             </div>
