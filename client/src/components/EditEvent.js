@@ -10,16 +10,20 @@ import { observer, inject } from 'mobx-react';
 
 @inject("store")
 @observer
-class CreateEvent extends Component {
+class EditEvent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false,
             Title: "",
             Date: "",
             Location: "",
             maxGuests: "",
-            HostName: ""
+            HostName: "",
+            // tables: [],
+            // invitations: [],
+            // guests: [],
+            modalEdit: "",
+
         };
         this.toggle = this.toggle.bind(this);
     }
@@ -28,30 +32,47 @@ class CreateEvent extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
     toggle() {
-        this.props.openModalCreate()
+        this.props.openEditeEvent(this.props.indexEvent)
     }
-    handlerSaveEven = (e) => {
+    handlerEditEven = (e) => {
         this.toggle();
         e.preventDefault();
-        axios.post('/beOurGuest/addNewEvent/' + this.props.store.user._Id, this.state)
+
+        axios.post('/beOurGuest/editEvent/' + this.props.store.user.events[this.props.indexEvent]._id, this.state)
             .then(response => {
-
-                console.log(" new event id  =" + response.data._id)
+                console.log(" edit event   =" + JSON.stringify(response.data))
+                this.props.store.editEvent(response.data, this.props.indexEvent)
                 this.props.store.ChangeMyEventPage(true)
-                this.props.store.addEvent(response.data)
-
-
 
             }).catch(err => console.log('Error: ', err));
     }
+
+    componentWillReceiveProps() {
+        const index = this.props.indexEvent;
+        this.setState({
+            Title: this.props.store.user.events[index].Title,
+            Date: this.props.store.user.events[index].Date,
+            Location: this.props.store.user.events[index].Location,
+            maxGuests: this.props.store.user.events[index].maxGuests,
+            HostName: this.props.store.user.events[index].HostName,
+            tables: this.props.store.user.events[index].table,
+            invitations: this.props.store.user.events[index].invitations,
+            guests: this.props.store.user.events[index].guest
+        }, () => {
+            this.setState({
+                modalEdit: this.props.modalEdit
+            })
+        })
+    }
     render() {
+
         return (
             <div>
                 <MyModal >
 
-                    <Modal style={{ width: "320px" }} isOpen={this.props.modalCreate} toggle={this.toggle} className="CreateNewEvent">
-                        <form action="" onSubmit={this.handlerSaveEven}>
-                            <ModalHeader toggle={this.toggle}>Create New Event</ModalHeader>
+                    <Modal style={{ width: "320px" }} isOpen={this.state.modalEdit} toggle={this.toggle} className="editEvent">
+                        <form action="" onSubmit={this.handlerEditEven}>
+                            <ModalHeader toggle={this.toggle}>Edit Event</ModalHeader>
                             <ModalBody>
                                 <TextField
                                     required
@@ -61,22 +82,22 @@ class CreateEvent extends Component {
                                 <br />
                                 <TextField
                                     id="Date" label="Date" type="date" className="textField"
-                                    name="Date" onChange={this.onChangeText} value={this.inputText}
+                                    name="Date" onChange={this.onChangeText} value={this.state.Date}
                                 />
                                 <br />
                                 <TextField
                                     id="Location" label="Location" type="text" className="textField"
-                                    name="Location" onChange={this.onChangeText} value={this.inputText}
+                                    name="Location" onChange={this.onChangeText} value={this.state.Location}
                                 />
                                 <br />
                                 <TextField
                                     id="maxGuests" label="Max guests" type="number" className="textField"
-                                    name="maxGuests" onChange={this.onChangeText} value={this.inputText}
+                                    name="maxGuests" onChange={this.onChangeText} value={this.state.maxGuests}
                                 />
                                 <br />
                                 <TextField
                                     id="HostName" label="Host name" type="text" className="textField"
-                                    name="HostName" onChange={this.onChangeText} value={this.inputText}
+                                    name="HostName" onChange={this.onChangeText} value={this.state.HostName}
                                 />
                                 <br />
                             </ModalBody>
@@ -94,4 +115,5 @@ class CreateEvent extends Component {
 }
 
 
-export default CreateEvent;
+
+export default EditEvent;
