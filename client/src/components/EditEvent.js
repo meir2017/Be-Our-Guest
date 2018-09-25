@@ -49,20 +49,21 @@ class EditEvent extends Component {
 
     componentWillReceiveProps() {
         const index = this.props.indexEvent;
-        this.setState({
-            Title: this.props.store.user.events[index].Title,
-            Date: this.props.store.user.events[index].Date,
-            Location: this.props.store.user.events[index].Location,
-            maxGuests: this.props.store.user.events[index].maxGuests,
-            HostName: this.props.store.user.events[index].HostName,
-            tables: this.props.store.user.events[index].table,
-            invitations: this.props.store.user.events[index].invitations,
-            guests: this.props.store.user.events[index].guest
-        }, () => {
+        if (index !== null)
             this.setState({
-                modalEdit: this.props.modalEdit
+                Title: this.props.store.user.events[index].Title,
+                Date: this.props.store.user.events[index].Date,
+                Location: this.props.store.user.events[index].Location,
+                maxGuests: this.props.store.user.events[index].maxGuests,
+                HostName: this.props.store.user.events[index].HostName,
+                tables: this.props.store.user.events[index].table,
+                invitations: this.props.store.user.events[index].invitations,
+                guests: this.props.store.user.events[index].guest
+            }, () => {
+                this.setState({
+                    modalEdit: this.props.modalEdit
+                })
             })
-        })
     }
     render() {
 
