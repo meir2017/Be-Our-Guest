@@ -44,8 +44,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const Event = require('./Models/EventModel');
 const Table = require('./Models/TableModel');
 const User = require('./Models/UserModel')
-const GlobalGuest = require('./Models/GlobalGuestModel')
-const Guest = require('./Models/GuestModel')``
+const GlobalGuest = require('./Models/GlobalGuestModel');
+const Guest = require('./Models/GuestModel');
 const Invitation = require('./Models/InvitationModel');
 const Category = require('./Models/CategoryModel');
 
@@ -213,25 +213,6 @@ app.post('/beOurGuest/editEvent/:EventId', (req, res) => {
             res.send(eve)
         })
 
-
-
-
-
-
-
-
-
-    // myEvent.save((err, event) => {
-    //     console.log(event.id)
-    //     User.findById(req.params.UserId).
-    //         then(user => {
-    //             let listEvent = user.events.concat();
-    //             listEvent.push(event.id);
-    //             user.events = listEvent;
-    //             user.save();
-    //             res.send(event);
-    //         });
-    // })
 });
 
 //add guest
