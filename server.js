@@ -6,12 +6,13 @@ const inlineCss = require('nodemailer-juice');
 const axios = require('axios');
 const app = express();
 const path = require('path');
-
 //socketIO
 const http = require('http')
 const socketIO = require('socket.io')
 const server = http.createServer(app)
-const io = socketIO(server)
+const io = require('socket.io')(server, { parameters });
+
+// io = socketIO(server)
 
 console.log("rsvp Change")
 io.on('connection', socket => {
