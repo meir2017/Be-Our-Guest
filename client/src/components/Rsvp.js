@@ -48,20 +48,22 @@ class Rsvp extends Component {
         let guestId = this.props.match.params.guestId;
         let eventId = this.props.match.params.eventId;
         // const socket = socketIOClient(this.state.endpoint);
+        const socket = socketIOClient();
+        socket.emit('real time', {
+            coming: this.state.coming,
+            notComing: this.state.notComing,
+            guestId: guestId,
+            eventId: eventId
+        })
+
+
+        // const socket = io.connect();
         // socket.emit('callRsvp', {
         //     coming: this.state.coming,
         //     notComing: this.state.notComing,
         //     guestId: guestId,
         //     eventId: eventId
         // })
-
-        const socket = io.connect();
-        socket.emit('callRsvp', {
-            coming: this.state.coming,
-            notComing: this.state.notComing,
-            guestId: guestId,
-            eventId: eventId
-        })
     }
 
     onSelectConfirmed = (e) => {

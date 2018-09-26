@@ -98,18 +98,20 @@ class App extends Component {
     }
   }
   render() {
-    const socket = io.connect()
-    // socket = socketIOClient(this.state.endpoint);
-    // socket.on('backRsvp', (obj) => {
-    //   console.log(JSON.stringify(obj))
-    //   this.updetGuset(obj)
-    // })
 
-
-    socket.on('backRsvp', function (data) {
+    // const socket = socketIOClient(this.state.endpoint);
+    const socket = socketIOClient();
+    socket.on('backRsvp', (obj) => {
       console.log(JSON.stringify(obj))
       this.updetGuset(obj)
-    });
+
+
+
+      // const socket = socketIOClient(this.state.endpoint);
+      // socket.on('backRsvp', function (data) {
+      //   console.log(JSON.stringify(obj))
+      //   this.updetGuset(obj)
+    })
     return (
       <MuiThemeProvider theme={theme}>
         <div className="App" >
