@@ -83,7 +83,7 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        res.send(error.msg)
+                        res.send("error fron mail:" + error)
                     } else {
                         res.send('Email sent to address  ' + req.params.userEmail + '  Check your email')
                     }
