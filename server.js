@@ -60,7 +60,10 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
             console.log(req.params.userEmail)
             if (user != null) {
                 var transporter = nodemailer.createTransport({
-                    service: 'gmail',
+                    host: 'smtp.gmail.com',
+                    tls: {
+                        rejectUnauthorized: false
+                    },
                     auth: {
                         type: 'OAuth2',
                         user: 'BeOurGuestMail@gmail.com',
