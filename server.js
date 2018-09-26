@@ -83,14 +83,17 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        console.log(error);
+                        res.send(error.msg)
                     } else {
-                        console.log('Email sent: ' + info.response);
+                        res.send('Email sent to address  ' + req.params.userEmail + '  Check your email')
                     }
+
                 });
-                res.send('Email sent to address  ' + req.params.userEmail + '  Check your email')
             }
-            res.send('There is no such email address')
+            else {
+                res.send('There is no such email address')
+
+            }
 
         });
 })
