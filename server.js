@@ -424,10 +424,17 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
 
                 /////
                 var transporter = nodemailer.createTransport({
-                    service: 'gmail',
+                    host: 'smtp.gmail.com',
+                    tls: {
+                        rejectUnauthorized: false
+                    },
                     auth: {
+                        type: 'OAuth2',
                         user: 'BeOurGuestMail@gmail.com',
-                        pass: 'guest2018'
+                        // pass: 'guest2018',
+                        clientId: '804468733579-5rf9if9l9ftva7s8jqhvu93o62jjsjlp.apps.googleusercontent.com',
+                        clientSecret: 'WS2n-o6JBbTkCfelHDrYeSpS',
+                        refreshToken: '1/pzH-OKFKM7Yu-CpIi0N4w9_en8IMDH90oENkS6REhko'
                     }
                 });
                 var mailOptions = {
