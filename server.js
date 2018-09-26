@@ -13,16 +13,17 @@ const socketIO = require('socket.io')
 const server = http.createServer(app)
 const io = socketIO(server)
 
-// io.on('connection', socket => {
-//     console.log('New client connected')
-//     socket.on('real time', (objGuest) => {
-//         console.log('rsvp Changed to: ', objGuest)
-//         io.sockets.emit('real timeBack', objGuest)
-//     })
-//     socket.on('disconnect', () => {
-//         console.log('user disconnected')
-//     })
-// })
+console.log("rsvp Change")
+io.on('connection', socket => {
+    // console.log('New client connected')
+    socket.on('callRsvp', (objGuest) => {
+        // console.log('rsvp Changed to: ', objGuest)
+        io.sockets.emit('backRsvp', objGuest)
+    })
+    socket.on('disconnect', () => {
+        // console.log('user disconnected')
+    })
+})
 // end socketIO
 
 // mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
