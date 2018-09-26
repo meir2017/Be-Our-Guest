@@ -100,7 +100,7 @@ class App extends Component {
   render() {
 
     // const socket = socketIOClient(this.state.endpoint);
-    const socket = socketIOClient();
+    const socket = io.connect()
     socket.on('backRsvp', (obj) => {
       console.log(JSON.stringify(obj))
       this.updetGuset(obj)
