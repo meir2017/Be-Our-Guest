@@ -31,7 +31,7 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
-      endpoint: "http://127.0.0.1:3505",
+      endpoint: "http://127.0.0.1:3001",
     }
   }
 
@@ -49,6 +49,7 @@ class App extends Component {
       // console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
         .then(response => {
+          debugger
           if (response.data !== "") {
             this.props.store.updateUser(response.data);
             if (eventIndex !== null) {
