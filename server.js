@@ -59,10 +59,10 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
         .then(user => {
             console.log(req.params.userEmail)
             if (user != null) {
-                var transporter = nodemailer.createTransport("SMTP", {
+                let transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'BeOurGuestMail@gmail.com',
+                        user: 'beouguestmail@gmail.com',
                         pass: 'guest2018'
                     }
                 });
@@ -88,8 +88,7 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
                         console.log('Email sent: ' + info.response);
                     }
                 });
-                res.send(port)
-                // res.send('Email sent to address  ' + req.params.userEmail + '  Check your email')
+                res.send('Email sent to address  ' + req.params.userEmail + '  Check your email' + port)
             }
             res.send('There is no such email address')
 
