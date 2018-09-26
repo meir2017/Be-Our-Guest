@@ -39,7 +39,7 @@ class Rsvp extends Component {
             returnRsvp: false,
 
             // endpoint: "http://127.0.0.1:3001",
-            endpoint: "https://beourguest.herokuapp.com",
+            endpoint: "https://beourguest.herokuapp.com/socket.io/?EIO=4&transport=websocket",
 
         }
     }
@@ -47,8 +47,7 @@ class Rsvp extends Component {
         debugger
         let guestId = this.props.match.params.guestId;
         let eventId = this.props.match.params.eventId;
-        // const socket = socketIOClient(this.state.endpoint);
-        const socket = io.connect()
+        const socket = socketIOClient(this.state.endpoint);
         socket.emit('real time', {
             coming: this.state.coming,
             notComing: this.state.notComing,

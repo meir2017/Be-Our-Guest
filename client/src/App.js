@@ -32,7 +32,7 @@ class App extends Component {
     this.state = {
       rsvpfunc: false,
       // endpoint: "http://127.0.0.1:3001",
-      endpoint: "https://beourguest.herokuapp.com",
+      endpoint: "https://beourguest.herokuapp.com/socket.io/?EIO=4&transport=websocket",
 
     }
   }
@@ -99,8 +99,7 @@ class App extends Component {
   }
   render() {
 
-    // const socket = socketIOClient(this.state.endpoint);
-    const socket = io.connect()
+    const socket = socketIOClient(this.state.endpoint);
     socket.on('backRsvp', (obj) => {
       console.log(JSON.stringify(obj))
       this.updetGuset(obj)
