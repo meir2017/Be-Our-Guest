@@ -59,10 +59,10 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
         .then(user => {
             console.log(req.params.userEmail)
             if (user != null) {
-                let transporter = nodemailer.createTransport({
+                var transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'beouguestmail@gmail.com',
+                        user: 'BeOurGuestMail@gmail.com',
                         pass: 'guest2018'
                     }
                 });
