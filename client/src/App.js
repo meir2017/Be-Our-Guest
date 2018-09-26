@@ -99,7 +99,7 @@ class App extends Component {
   }
   render() {
     const socket = socketIOClient(this.state.endpoint);
-    socket.on('real timeBack', (obj) => {
+    socket.on('backRsvp', (obj) => {
       console.log(JSON.stringify(obj))
       this.updetGuset(obj)
     })

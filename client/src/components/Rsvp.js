@@ -38,7 +38,9 @@ class Rsvp extends Component {
             vient: "",
             returnRsvp: false,
 
-            endpoint: "http://127.0.0.1:3001",
+            // endpoint: "http://127.0.0.1:3001",
+            endpoint: "https://beourguest.herokuapp.com",
+
         }
     }
     send = () => {
@@ -46,7 +48,7 @@ class Rsvp extends Component {
         let guestId = this.props.match.params.guestId;
         let eventId = this.props.match.params.eventId;
         const socket = socketIOClient(this.state.endpoint);
-        socket.emit('real time', {
+        socket.emit('callRsvp', {
             coming: this.state.coming,
             notComing: this.state.notComing,
             guestId: guestId,
@@ -228,7 +230,7 @@ class Rsvp extends Component {
                 <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.returnRsvp} toggle={this.toggleSendRsvp}>
                     <ModalHeader toggle={this.toggle}>Do you want to send your rsvp?</ModalHeader>
                     <ModalFooter className="btnSend" >
-                        <Button onClick={this.Submitfunc} style={{backgroundColor:'#560027'}}>Yes</Button>
+                        <Button onClick={this.Submitfunc} style={{ backgroundColor: '#560027' }}>Yes</Button>
                         <Button onClick={this.toggleSendRsvp} color="secondary" >No</Button>
                     </ModalFooter>
 

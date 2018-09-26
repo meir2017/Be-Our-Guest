@@ -436,7 +436,7 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
                         clientSecret: 'WS2n-o6JBbTkCfelHDrYeSpS',
                         refreshToken: '1/pzH-OKFKM7Yu-CpIi0N4w9_en8IMDH90oENkS6REhko'
                     }
-                });
+                });;
                 var mailOptions = {
                     from: 'Be Our Guest ',
                     to: guest.globalGuest_id.email,
@@ -486,13 +486,13 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
             // ................................
             console.log("rsvp Change")
             io.on('connection', socket => {
-                console.log('New client connected')
-                socket.on('real time', (objGuest) => {
-                    console.log('rsvp Changed to: ', objGuest)
-                    io.sockets.emit('real timeBack', objGuest)
+                // console.log('New client connected')
+                socket.on('callRsvp', (objGuest) => {
+                    // console.log('rsvp Changed to: ', objGuest)
+                    io.sockets.emit('backRsvp', objGuest)
                 })
                 socket.on('disconnect', () => {
-                    console.log('user disconnected')
+                    // console.log('user disconnected')
                 })
             })
             // ................................
@@ -501,14 +501,6 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
         })
 })
 
-
-// Guest.find({}).then((e) => {
-//     e.forEach(function (element) {
-//         element.seated = false;
-//         element.save()
-//     });
-
-// })
 //  Table //////
 //createTable
 app.post('/beOurGuest/addTable/:eventId/', (req, res) => {
