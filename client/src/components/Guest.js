@@ -57,14 +57,6 @@ class Guest extends Component {
     render() {
         const { classes, guest } = this.props;
         let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
-        // console.log(this.props.store.user.categories);
-        // console.log(guest.categories);
-        /*  let categories = guest.categories.splice(0);
-         categories.forEach(category => {
-             this.props.store.user[this.props.store.eventIndex].categories.find(category.Id)
-             category.name = 
-         }) */
-
         return (
             <Draggable draggableId={this.props.guest._id} index={this.props.index}>
                 {(provided) => (
