@@ -105,7 +105,7 @@ class App extends Component {
         <div className="App" >
 
           {!this.state.rsvpfunc && <Navbar />}
-          {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
+          {(!this.state.rsvpfunc && (this.props.store.eventIndex != null && this.props.store.user.userLog)) ?
             < EventManager /> : false}
           {!this.props.store.myEventPage && <EventPage />}
           <BrowserRouter>
