@@ -66,16 +66,14 @@ class Rsvp extends Component {
         // })
     }
 
-    componentWillMount() {
-        this.inSocket()
-    }
+
     inSocket = () => {
+        console.log(" befer connected ")
         const socket2 = socketIOClient(this.state.endpoint)
         socket2.on('connect', () => {
             console.log("connected ")
         })
         console.log(socket2)
-        this.setState({ socket2 })
     }
 
     onSelectConfirmed = (e) => {
@@ -133,6 +131,7 @@ class Rsvp extends Component {
     }
 
     componentWillMount = () => {
+        this.inSocket()
         let guestId = this.props.match.params.guestId;
 
         axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
