@@ -57,7 +57,12 @@ class Invitation extends Component {
         // alert(e.target.value)
     };
 
+    saveInvitationFromModal = (e) => {
+        e.preventDefault();
+        this.saveInvitation(e);
+        this.toggle();
 
+    }
     saveInvitation = (e) => {
         e.preventDefault();
 
@@ -75,12 +80,12 @@ class Invitation extends Component {
         }
         let indexEvent = this.props.store.eventIndex;
         let eventId = this.props.store.user.events[indexEvent]._id
-        console.log("eventId  " + eventId)
-        console.log("indexEvent  " + indexEvent)
+        // console.log("eventId  " + eventId)
+        // console.log("indexEvent  " + indexEvent)
         axios.post(`/beOurGuest/saveInvitation/${eventId}/`, InvitationObj)
             .then(response => {
-                console.log("save InvitationObj")
-                console.log((response.data))
+                // console.log("save InvitationObj")
+                // console.log((response.data))
                 this.props.store.addInvitation(response.data)
             })
     }
@@ -90,82 +95,85 @@ class Invitation extends Component {
         // this.props.vet != null ? this.renderpage() : false
         return (
             <div className="containerInvitation" >
+                <br />
+                <form action="" className="formInvitation" onSubmit={this.saveInvitation}>
+                    <div className="inputinvitation" style={{ textAlign: "left", marginTop: 30 }} >
+                        <input type="text" name="invitationName" required className="form-control" placeholder="Invitation name" onChange={this.onChangeText} value={this.state.invitationName} />
+                        <br />
 
-                <div className="inputinvitation" style={{ textAlign: "left", marginTop: 30 }} >
-                    <input type="text" name="invitationName" className="form-control" placeholder="Invitation name" onChange={this.onChangeText} value={this.state.invitationName} />
-                    <br />
-
-                    <input type="text" name="titleInput" className="form-control" placeholder="Title" onChange={this.onChangeText} value={this.state.titleInput} />
-                    <br />
-                    <textarea rows="6" cols="40" name="textInput" className="form-control" onChange={this.onChangeText} value={this.state.textInput} />
-                    <br />
-                    <input type="text" name="whenEvent" className="form-control" placeholder="when" onChange={this.onChangeText} value={this.state.whenEvent} />
-                    <br />
-                    <input type="text" name="whereEvent" className="form-control" placeholder="where" onChange={this.onChangeText} value={this.state.whereEvent} />
-                    <br />
-                </div>
+                        <input type="text" name="titleInput" required className="form-control" placeholder="Subject Title" onChange={this.onChangeText} value={this.state.titleInput} />
+                        <br />
+                        <textarea rows="6" cols="40" name="textInput" className="form-control" onChange={this.onChangeText} value={this.state.textInput} />
+                        <br />
+                        <input type="text" name="whenEvent" className="form-control" placeholder="when" onChange={this.onChangeText} value={this.state.whenEvent} />
+                        <br />
+                        <input type="text" name="whereEvent" className="form-control" placeholder="where" onChange={this.onChangeText} value={this.state.whereEvent} />
+                        <br />
+                    </div>
 
 
-                <div >
-                    <Button style={{ backgroundColor: '#7E0A3E' }} onClick={this.saveInvitation}>Save</Button>
-                    <Button className="divBtn" style={{ backgroundColor: '#560027' }} onClick={this.toggle}>Design</Button>
-                    {/* <Button className="divBtn" color="primary" onClick={this.saveInvitation}>Save</Button>
-                    <Button className="divBtn" color="success" onClick={this.sendInvitation}>Send</Button> */}
-                </div>
+                    <div >
+                        <Button style={{ backgroundColor: '#7E0A3E' }} type="Submit" >Save</Button>
+                        <Button className="divBtn" style={{ backgroundColor: '#560027' }} onClick={this.toggle}>Design</Button>
+                    </div>
+                </form>
 
                 <div>
                     <Modal isOpen={this.state.modal} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Design your Invitation</ModalHeader>
-                        <ModalBody>
-                            <div className="row">
-                                <div className="col-sm-6">
-                                    <div className="myColor">
-                                        <div >
-                                            <input className="color" type="color" onChange={this.onChangeText} id="background" value={this.state.background} name="background" />
-                                            <label htmlFor="background">background</label>
-                                        </div>
-                                        <div>
-                                            <input className="color" type="color" onChange={this.onChangeText} id="titleColor" value={this.state.titleColor} name="titleColor" />
-                                            <label htmlFor="titleColor">title Color</label>
-                                        </div>
-                                        <div >
-                                            <input className="color" type="color" onChange={this.onChangeText} id="bodyColor" value={this.state.bodyColor} name="bodyColor" />
-                                            <label htmlFor="bodyColor">body Text</label>
+                        <form action="" onSubmit={this.saveInvitationFromModal}>
+
+                            <ModalHeader toggle={this.toggle}>Design your Invitation</ModalHeader>
+                            <ModalBody>
+                                <input type="text" name="invitationName" required className="form-control" placeholder="Invitation name" onChange={this.onChangeText} value={this.state.invitationName} />
+
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <div className="myColor">
+                                            <div >
+                                                <input className="color" type="color" onChange={this.onChangeText} id="background" value={this.state.background} name="background" />
+                                                <label htmlFor="background">background</label>
+                                            </div>
+                                            <div>
+                                                <input className="color" type="color" onChange={this.onChangeText} id="titleColor" value={this.state.titleColor} name="titleColor" />
+                                                <label htmlFor="titleColor">title Color</label>
+                                            </div>
+                                            <div >
+                                                <input className="color" type="color" onChange={this.onChangeText} id="bodyColor" value={this.state.bodyColor} name="bodyColor" />
+                                                <label htmlFor="bodyColor">body Text</label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    font title: <select className="form-control" id="fontTitle" value={this.state.fontTitle} onChange={this.onChangeText} name="fontTitle">
-                                        {this.state.fontfamily.map((item, index) => {
-                                            return <option key={index + item}>{item} </option>
-                                        })}
-                                    </select>
-                                    font body:
+                                    <div className="col-sm-6">
+                                        font title: <select className="form-control" id="fontTitle" value={this.state.fontTitle} onChange={this.onChangeText} name="fontTitle">
+                                            {this.state.fontfamily.map((item, index) => {
+                                                return <option key={index + item}>{item} </option>
+                                            })}
+                                        </select>
+                                        font body:
                                         <select className="form-control" id="fontBody" value={this.state.fontBody} onChange={this.onChangeText} name="fontBody">
-                                        {this.state.fontfamily.map((item, index) => {
-                                            return <option key={index + item}>{item} </option>
-                                        })}
-                                    </select>
+                                            {this.state.fontfamily.map((item, index) => {
+                                                return <option key={index + item}>{item} </option>
+                                            })}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="display_result" style={{ backgroundColor: `${this.state.background}` }}>
+                                <div className="display_result" style={{ backgroundColor: `${this.state.background}` }}>
 
-                                <h3 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h3>
-                                <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
-                                    <h4 >{this.state.textInput}</h4>
+                                    <h3 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h3>
+                                    <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
+                                        <h4 >{this.state.textInput}</h4>
+                                    </div>
+                                    <p>{this.state.whenEvent} <br />
+                                        {this.state.whereEvent}</p>
                                 </div>
-                                <p>{this.state.whenEvent} <br />
-                                    {this.state.whereEvent}</p>
-                            </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button type="Submit" style={{ backgroundColor: '#560027' }}>Save</Button>
+                                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                            </ModalFooter>
+                        </form>
 
 
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button style={{ backgroundColor: '#560027' }} onClick={(e) => {
-                                this.saveInvitation(e), this.toggle()
-                            }}>Save</Button>
-                            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        </ModalFooter>
                     </Modal>
                 </div>
 

@@ -133,11 +133,11 @@ class Table extends Component {
 
     axios.post('/beOurGuest/updateGuestsInTable/', myTable)
       .then(response => {
-        console.log(response);
+        // console.log(response);
       }).then(res => {
         axios.post('/beOurGuest/updateEventGuest/', theGuest)
           .then(res1 => {
-            console.log(res1);
+            // console.log(res1);
           });
       })
       .catch(err => console.log('Error: ', err));
@@ -167,11 +167,11 @@ class Table extends Component {
 
     axios.post('/beOurGuest/deleteTable/' + currentEvent._id, { _id: this.props.table._id })
       .then(response => {
-        console.log(response);
+        // console.log(response);
       }).then(res => {
         axios.post('/beOurGuest/updateGuests/', guests)
           .then(res1 => {
-            console.log(res1);
+            // console.log(res1);
           });
       })
       .catch(err => console.log('Error: ', err));

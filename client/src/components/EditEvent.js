@@ -40,7 +40,7 @@ class EditEvent extends Component {
 
         axios.post('/beOurGuest/editEvent/' + this.props.store.user.events[this.props.indexEvent]._id, this.state)
             .then(response => {
-                console.log(" edit event   =" + JSON.stringify(response.data))
+                // console.log(" edit event   =" + JSON.stringify(response.data))
                 this.props.store.editEvent(response.data, this.props.indexEvent)
                 this.props.store.ChangeMyEventPage(true)
 

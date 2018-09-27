@@ -38,7 +38,7 @@ class InvitationManager extends Component {
 
     myIndex = (e) => {
         e.preventDefault();
-        console.log(e.target.id)
+        // console.log(e.target.id)
         this.props.store.theInvitationIndex(e.target.id)
     }
 
@@ -49,7 +49,7 @@ class InvitationManager extends Component {
     }
 
     removeInvitations = () => {
-        console.log(this.props.store.invitationIndex)
+        // console.log(this.props.store.invitationIndex)
         ///beOurGuest/removeInvitation/:eventId/:eventIndex/:index/
         let eventIndex = this.props.store.eventIndex;
         let eventId = this.props.store.user.events[eventIndex]._id;
@@ -57,8 +57,8 @@ class InvitationManager extends Component {
 
         axios.delete(`/beOurGuest/removeInvitation/${eventId}/${eventIndex}/${index}`)
             .then(response => {
-                console.log("remove Invitation")
-                console.log((response.data))
+                // console.log("remove Invitation")
+                // console.log((response.data))
                 this.props.store.removeInvitation(index)
             })
         this.toggleRemove();
@@ -67,7 +67,7 @@ class InvitationManager extends Component {
     }
     editInvitations = (e) => {
         e.preventDefault();
-        console.log(e.target.id)
+        // console.log(e.target.id)
         this.props.store.theInvitationIndex(e.target.id)
         this.setState({ num: this.state.num + 1 })
     }
@@ -94,17 +94,17 @@ class InvitationManager extends Component {
         let guestId = "temid"
         let getAllGuest = event.guests
 
-        console.log(JSON.stringify(getAllGuest))
+        // console.log(JSON.stringify(getAllGuest))
         let invet = event.invitations[i_Index];
-        console.log(invet.fontBody)
-        console.log(JSON.stringify(invet))
+        // console.log(invet.fontBody)
+        // console.log(JSON.stringify(invet))
         let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
-        console.log(linkRsvp2)
+        // console.log(linkRsvp2)
 
         axios.post(`/beOurGuest/rsvpEmail/${vetId}/${event._id}/`, invet)
             .then(response => {
                 console.log("send all email ")
-                console.log((response.data))
+                // console.log((response.data))
             })
         this.toggleSend();
 

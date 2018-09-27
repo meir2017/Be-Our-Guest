@@ -14,24 +14,27 @@ class SignIn extends Component {
         this.state = {
             inputText: "",
             passText: "",
-            ForgotPassword: false
+            ForgotPassword: false,
+            error: false
         }
     }
     onChangeText = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
     onClickBtn = (e) => {
+        this.setState({ error: false })
         e.preventDefault();
         axios.post('/beOurGuest/login', { name: this.state.inputText, pass: this.state.passText })
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 if (response.data !== "") {
                     // console.log("user login  " + JSON.stringify(response.data))
-                    this.props.store.updateUser(response.data)
+                    this.props.store.updateUser(response.data);
+                    this.props.store.openModalLogin();
                 } else {
-                    console.log("no user Account ")
+                    this.setState({ error: true })
                 }
-                this.props.store.openModalLogin();
+
             }).catch(function (error) { console.log(error); });
         this.setState({ inputText: "", passText: "" });
     }
@@ -56,14 +59,20 @@ class SignIn extends Component {
                         onChange={this.onChangeText} value={this.state.passText}
                     />
                     <br /> <br /><br />
-                    <Button variant="contained" onClick={this.onClickBtn} style={{backgroundColor:'#560027'}}>Login  </Button>
-                    <br /><br />
+                    <Button variant="contained" onClick={this.onClickBtn} style={{ backgroundColor: '#560027' }}>Login  </Button>
+
+                    <div>
+                        {this.state.error ? <p >
+                            <br />
+                            <span style={{ color: "red" }}> User does not exist <i className="fas fa-arrow-down"></i> </span></p> : <p> <br /><br /></p>}
+                    </div>
+
                 </ModalBody>
                 <CardBody>
                     <div className="pas">
-                        <p>Forgot <a onClick={() => { this.props.BtnPassword() }} className="blue-text">Password?</a></p>
+                        <p style={{ textDecoration: "underline", color: "blue" }}>Forgot <a onClick={() => { this.props.BtnPassword() }} className="blue-text">Password ?</a></p>
                     </div>
-
+                    <br /><br />
                 </CardBody>
             </div>
 

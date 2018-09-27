@@ -31,11 +31,11 @@ class CategoryManager extends Component {
     handlerSaveCate = (e) => {
         this.toggle();
         e.preventDefault();
-        console.log(this.props.store.user.UserId)
+        // console.log(this.props.store.user.UserId)
         axios.post('/beOurGuest/addNewCate/' + this.props.store.user._Id, this.state)
             .then(response => {
 
-                console.log(" new category id  =" + response.data._id)
+                // console.log(" new category id  =" + response.data._id)
                 this.props.store.addCategory(response.data)
 
             })

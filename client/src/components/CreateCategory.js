@@ -56,7 +56,7 @@ class CreateCategory extends Component {
     let userId = this.props.store.user._Id;
     axios.post('/beOurGuest/addNewCategory/' + userId, this.state)
       .then(response => {
-        console.log(" new Category ->id  =" + response.data._id)
+        // console.log(" new Category ->id  =" + response.data._id)
         this.props.store.addCategory(response.data)
       })
       .catch(err => console.log('Error: ', err));

@@ -45,7 +45,7 @@ class BeOurGuestStore {
 
   @action openModalLogin = () => {
     this.user.ModalLogin = !this.user.ModalLogin;
-    console.log(this.user.ModalLogin)
+    // console.log(this.user.ModalLogin)
   }
 
   @action updateUser = (item) => {
@@ -88,8 +88,8 @@ class BeOurGuestStore {
     let listEvents = this.user.events.concat();
     listEvents.push(newEvent);
     this.user.events = listEvents;
-    console.log(this.user.events.length);
-    console.log(this.user.events.length - 1);
+    // console.log(this.user.events.length);
+    // console.log(this.user.events.length - 1);
     this.thisEventIndex(this.user.events.length - 1)
 
   }
@@ -129,12 +129,12 @@ class BeOurGuestStore {
       phone: newGuest.phone
     };
 
-    console.log(newGuest);
+    // console.log(newGuest);
     // Add globalGuest to global guest list
     let guestList = this.user.guests.concat();
     guestList.push(globalGuest);
     this.user.guests = guestList;
-    console.log(JSON.stringify(this.user.guests));
+    // console.log(JSON.stringify(this.user.guests));
 
     let guest = {
       _id: newGuest.guestId,
@@ -152,7 +152,7 @@ class BeOurGuestStore {
     guestList = this.user.events[this.eventIndex].guests.concat();
     guestList.push(guest);
     this.user.events[this.eventIndex].guests = guestList;
-    console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
+    // console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
   }
 
   @action removeGuest = (guestIndex) => {
@@ -167,12 +167,12 @@ class BeOurGuestStore {
     let listinvitations = this.user.events[this.eventIndex].invitations.concat();
     listinvitations.push(newlistinvitations);
     this.user.events[this.eventIndex].invitations = listinvitations;
-    console.log(" save  invitations in client  ");
+    // console.log(" save  invitations in client  ");
   }
 
   @action theInvitationIndex = (index) => {
     this.invitationIndex = index;
-    console.log("theInvitationIndex   " + index);
+    // console.log("theInvitationIndex   " + index);
   }
 
   @action removeInvitation = (index) => {
@@ -187,7 +187,7 @@ class BeOurGuestStore {
     let listCategory = this.user.categories.concat();
     listCategory.push(newCategory);
     this.user.categories = listCategory;
-    console.log("New category " + newCategory._id);
+    // console.log("New category " + newCategory._id);
   }
 
 
@@ -198,23 +198,23 @@ class BeOurGuestStore {
   }
   @action updateTable = (table, index) => {
     this.user.events[this.eventIndex].tables[index] = table;
-    console.log(table);
+    // console.log(table);
   }
 
   @action updateTableById = (newTable) => {
     let index = this.user.events[this.eventIndex].tables.findIndex(table => table._id === newTable._id);
     this.user.events[this.eventIndex].tables[index] = newTable;
-    console.log(newTable);
+    // console.log(newTable);
   }
 
   @action updateTables = (newTables) => {
     this.user.events[this.eventIndex].tables = newTables;
-    console.log(newTables);
+    // console.log(newTables);
   }
 
   @action updateGuests = (newGuests) => {
     this.user.events[this.eventIndex].guests = newGuests;
-    console.log(newGuests);
+    // console.log(newGuests);
   }
 
 }

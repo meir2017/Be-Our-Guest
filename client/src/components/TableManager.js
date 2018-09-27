@@ -38,7 +38,7 @@ const styles = theme => ({
     margin: theme.spacing.unit / 4,
   },
   formControlLabel: {
-    color:'white',
+    color: 'white',
   }
 });
 
@@ -87,12 +87,12 @@ export class TableManager extends Component {
       const destinationIndex = currentEvent.tables.findIndex(table => table._id === result.destination.droppableId);
 
       let finish = currentEvent.tables[destinationIndex];
-     /*  let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
-      let myGuest = unseatedGuests[result.source.index]; */
-      
+      /*  let unseatedGuests = currentEvent.guests.filter(guest => guest.seated === false);
+       let myGuest = unseatedGuests[result.source.index]; */
+
       /* let guestSourceIndex = currentEvent.guests.findIndex(guest => guest._id === myGuest._id); */
       let newGuests = Array.from(currentEvent.guests);
-      let myGuest  = newGuests.find(guest => guest._id === result.draggableId);
+      let myGuest = newGuests.find(guest => guest._id === result.draggableId);
       myGuest.seated = true;
 
 
@@ -136,7 +136,7 @@ export class TableManager extends Component {
 
       axios.post('/beOurGuest/updateGuestsInTable/', start)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         }).then(res => {
           axios.post('/beOurGuest/updateEventGuest/', eventGuests[index])
             .then(res1 => {
@@ -173,7 +173,7 @@ export class TableManager extends Component {
       this.props.store.updateTable(newTable, sourceIndex);
       axios.post('/beOurGuest/updateGuestsInTable/', newTable)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         })
         .catch(err => console.log('Error: ', err));
       return;
@@ -200,11 +200,11 @@ export class TableManager extends Component {
 
     axios.post('/beOurGuest/updateGuestsInTable/', newStart)
       .then(response => {
-        console.log(response);
+        // console.log(response);
       }).then(res => {
         axios.post('/beOurGuest/updateGuestsInTable/', newFinish)
           .then(res1 => {
-            console.log(res1);
+            // console.log(res1);
           });
       })
       .catch(err => console.log('Error: ', err));
@@ -262,23 +262,23 @@ export class TableManager extends Component {
                     </MenuItem>
                   ))}
                 </Select>
-               
+
               </FormControl>
-              <FormControlLabel 
-              className={classes.formControlLabel}
-              
+              <FormControlLabel
+                className={classes.formControlLabel}
+
                 control={
                   <Checkbox
                     checked={this.state.checked}
                     onChange={this.handleChangeCheckbox('checked')}
                     value="checked"
-                    
-                    
+
+
                   />
                 }
                 label="Only Tables"
               />
-            
+
 
             </div>
           </div>

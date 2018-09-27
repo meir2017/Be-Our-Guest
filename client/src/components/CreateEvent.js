@@ -36,7 +36,7 @@ class CreateEvent extends Component {
         axios.post('/beOurGuest/addNewEvent/' + this.props.store.user._Id, this.state)
             .then(response => {
 
-                console.log(" new event id  =" + response.data._id)
+                // console.log(" new event id  =" + response.data._id)
                 this.props.store.ChangeMyEventPage(true)
                 this.props.store.addEvent(response.data)
 

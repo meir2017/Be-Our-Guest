@@ -51,14 +51,14 @@ class App extends Component {
           if (response.data !== "") {
             this.props.store.updateUser(response.data);
             if (eventIndex !== null) {
-              console.log("eventIndex   ===" + eventIndex)
+              // console.log("eventIndex   ===" + eventIndex)
               this.props.store.thisEventIndex(eventIndex)
 
 
             }
           }
           else {
-            console.log("no user Account ")
+            // console.log("no user Account ")
           }
         })
         .catch(function (error) { console.log(error); });
@@ -81,7 +81,7 @@ class App extends Component {
     for (let index = 0; index < events.length; index++) {  //get event index
       if (events[index]._id == obj.eventId) {
 
-        console.log("event index : " + index)
+        // console.log("event index : " + index)
         for (let i_g = 0; i_g < events[index].guests.length; i_g++) {// get gest indes
           if (events[index].guests[i_g]._id == obj.guestId) {
             debugger
@@ -97,7 +97,7 @@ class App extends Component {
 
     const socket = socketIOClient(this.state.endpoint);
     socket.on('backRsvp', (obj) => {
-      console.log(JSON.stringify(obj))
+      // console.log(JSON.stringify(obj))
       this.updetGuset(obj)
     })
     return (

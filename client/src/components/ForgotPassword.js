@@ -29,7 +29,7 @@ class ForgotPassword extends Component {
         this.setState({ send: !this.state.send, load: true });
         axios.get('/beOurGuest/ForgotPassword/' + this.state.inputText)
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 this.setState({ masg: response.data });
             }).catch(function (error) { console.log(error); });
         this.setState({ inputText: "", load: false });

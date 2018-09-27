@@ -67,7 +67,7 @@ class TableList extends Component {
 
     }
     saveTable = (e) => {
-        console.log("title  " + this.state.title + "    maxGuests " + this.state.maxGuests + "  category " + this.state.category)
+        // console.log("title  " + this.state.title + "    maxGuests " + this.state.maxGuests + "  category " + this.state.category)
 
 
         let tableInfo = {
@@ -80,7 +80,7 @@ class TableList extends Component {
         let eventId = this.props.store.user.events[indexEvent]._id
         axios.post(`/beOurGuest/createTable/${eventId}/`, tableInfo)
             .then(response => {
-                console.log((response.data))
+                // console.log((response.data))
                 this.props.store.addTable(response.data)
             })
         this.handleClose();

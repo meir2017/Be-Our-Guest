@@ -111,6 +111,8 @@ border-radius: 5px;
 width: 100%;
 height: 300px;
 border: solid grey 1px;
+overflow: auto;
+
 
 }
 
@@ -173,11 +175,20 @@ select#category {
     background-color: #7e0a3e !important
 
   }
-#SelectEvent .MuiInput-root-55>.MuiSelect-root-50>.MuiSvgIcon-root-68.MuiSelect-icon-54{
+#SelectEvent *{
   color:white;
 
 }
 
-.containerInvitation{
+/* .containerInvitation{
   margin: -12px;
+} */
+.Registration{
+  text-align: center;
+}
+.formInvitation{
+  border: #7E0A3E solid 1px;
+  border-radius: 10px; 
+box-shadow: #7E0A3E 5px 8px;
+/* border-top-color: #7E0A3E */
 }

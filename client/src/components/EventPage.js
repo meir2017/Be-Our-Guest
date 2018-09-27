@@ -31,7 +31,7 @@ class EventPage extends Component {
     }
     myIndex = (e) => {
         e.preventDefault();
-        console.log(e.target.id)
+        // console.log(e.target.id)
         // this.props.store.thisEventIndex(e.target.id)
 
         this.setState({ myEvent: e.target.id })
@@ -47,7 +47,7 @@ class EventPage extends Component {
         // this.handleClose(e);
     }
     openEditeEvent = (index) => {
-        console.log(index)
+        // console.log(index)
         this.setState({ myEvent: index }, () => {
             this.setState({ modalEdit: !this.state.modalEdit })
         });
@@ -65,15 +65,15 @@ class EventPage extends Component {
     }
     handlerRemoveEvent = (e) => {
         e.preventDefault();
-        console.log(e)
+        // console.log(e)
         let index = this.state.myEvent;
 
         let eventId = this.props.store.user.events[index]._id;
-        console.log("index  " + index)
-        console.log("eventId  " + eventId)
+        // console.log("index  " + index)
+        // console.log("eventId  " + eventId)
         axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/${index}/`)
             .then(response => {
-                console.log((response.data))
+                // console.log((response.data))
                 this.props.store.removEvent(index)
             })
         // this.handleClose(e)
@@ -91,7 +91,7 @@ class EventPage extends Component {
                     <br />
                     <br />
                     <div className="addEvent">
-                        <button type="button" className="AddEvent" onClick={this.openModalCreate} >Add Event</button>
+                        <Button type="button" style={{ backgroundColor: '#560027', borderRadius: "20px", height: "49px" }} className="AddEvent" onClick={this.openModalCreate} >Add Event</Button>
                     </div>
                     <div className="myEvent">
                         {this.props.store.user.events.map((eve, index) => {

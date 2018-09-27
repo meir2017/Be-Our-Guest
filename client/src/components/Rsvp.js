@@ -52,7 +52,7 @@ class Rsvp extends Component {
 
 
     inSocket = () => {
-        console.log(" befer connected ")
+        // console.log(" befer connected ")
         const socket2 = socketIOClient(this.state.endpoint)
         socket2.on('connect', () => {
             console.log("connected ")
@@ -66,20 +66,17 @@ class Rsvp extends Component {
         let numInvited = this.state.numInvited
         let vient = this.state.vient;
         if (e.target.name === "coming") {
-            console.log("coming")
             coming = e.target.value;
             numInvited = vient - coming - notComing;
             notComing = vient - coming;
         }
 
         if (e.target.name === "notComing") {
-            console.log("notComing")
             notComing = e.target.value;
             numInvited = vient - coming - notComing;
             coming = vient - notComing;
         }
 
-        console.log(this.state.coming)
         let setArryComing = [];
         let setArryNotComing = [];
 
@@ -95,8 +92,7 @@ class Rsvp extends Component {
     Submitfunc = (e) => {
         e.preventDefault();
         this.send();
-        console.log(this.state.numGuest);
-        console.log(this.state.checkedB);
+
         //send the info to evntid,gustid
         let objRsvp = {
             coming: this.state.coming,
@@ -106,7 +102,6 @@ class Rsvp extends Component {
             eventId: this.props.match.params.eventId
 
         }
-        console.log(this.props.match.params.guestId)
         axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
             .then(response => {
                 // console.log((response.data))
@@ -120,7 +115,7 @@ class Rsvp extends Component {
 
         axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
             .then(response => {
-                console.log("rsvpGuest")
+                // console.log("rsvpGuest")
                 let item = response.data;
                 this.setState({
                     numInvited: item.numInvited,
@@ -149,7 +144,7 @@ class Rsvp extends Component {
         let vetId = this.props.match.params.vetId;
         axios.get(`/beOurGuest/rsvpGuest/${vetId}`)
             .then(response => {
-                console.log("rsvpGuest")
+                console.log("rsvpGuest getUserInfo")
                 let item = response.data;
                 this.setState({
                     invitationName: item.invitationName,
@@ -174,7 +169,7 @@ class Rsvp extends Component {
                 <div className="row">
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6" >
-                        <br /><br />  <br />
+                        <br />
                         <Form className="display_rsvp" onSubmit={this.toggleSendRsvp} style={{ backgroundColor: `${this.state.background}` }} >
                             <div  >
                                 <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>

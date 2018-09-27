@@ -115,7 +115,7 @@ class Table0 extends Component {
         let index = -1;
         for (let i = 0; i < guest.categories.length; i++) {
             let category = this.props.store.user.categories.find(c => c._id === guest.categories[i]);
-            let index = this.props.filteredCategories.findIndex(cat => cat === category.name) 
+            let index = this.props.filteredCategories.findIndex(cat => cat === category.name)
             if (index != -1)
                 return index;
         }
@@ -171,7 +171,7 @@ class Table0 extends Component {
                                 {currentEvent.guests.slice().filter(guest => guest.seated === false)
                                     .filter(g => {
                                         if (this.props.filteredCategories.length == 0 || this.props.onlyTables) return true;
-                                       console.log( this.findInCategories(g));
+                                        {/* console.log( this.findInCategories(g)); */ }
                                         return this.findInCategories(g) != -1
                                     }
                                     )

@@ -15,10 +15,10 @@ class SignUp extends Component {
             emailText: "",
             passText: "",
             passConfirm: "",
-            load: false,
-            listing: false,
+            loading: false,
+            Registration: false,
             userSituation: "",
-            sigin: false
+            result: false
 
         }
     }
@@ -28,23 +28,23 @@ class SignUp extends Component {
     onClickBtn = (e) => {
         e.preventDefault();
         if (this.state.passText === this.state.passConfirm) {
-            this.setState({ load: true, listing: true })
+            this.setState({ loading: true, Registration: true })
 
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
-                    this.setState({ load: false });
-                    console.log(response.data)
+                    this.setState({ loading: false });
+                    // console.log(response.data)
                     if (response.data === "user") {
                         this.setState({ userSituation: "Username already registered" })
-                        console.log("Username already registered")
+                        // console.log("Username already registered")
                     }
                     else if (response.data === "email") {
                         this.setState({ userSituation: "The email address is already registered" })
-                        console.log("The email address is already registered")
+                        // console.log("The email address is already registered")
                     }
                     else {
                         this.setState({
-                            sigin: true,
+                            result: true,
                             userSituation: "Registration successful"
                         })
                         this.props.store.updateUser(response.data)
@@ -65,11 +65,9 @@ class SignUp extends Component {
         return <Button onClick={() => { this.props.store.openModalLogin() }} color="primary" >Enter  </Button>
     }
     failedSignUp = () => {
-        return <Button onClick={() => { this.setState({ listing: false, userSituation: "" }) }} color="primary" >Back</Button>
+        return <Button onClick={() => { this.setState({ Registration: false, userSituation: "" }) }} color="primary" >Back</Button>
     }
-    listing = () => {
 
-    }
     BtnChange = (e) => {
         this.props.ChangeOptions();
     }
@@ -79,7 +77,7 @@ class SignUp extends Component {
         return (
             <div>
 
-                {!this.state.listing && <form action="" onSubmit={this.onClickBtn}>
+                {!this.state.Registration && <form action="" onSubmit={this.onClickBtn}>
                     <ModalBody state={{ textAlign: "center" }}>
 
                         <TextField
@@ -120,16 +118,17 @@ class SignUp extends Component {
                     </ModalBody>
                 </form>}
 
-                {this.state.listing && <div className="lode">
-                    {this.state.load && <CircularProgress size={80} />}
-                    {!this.state.lode && <div>
+                {this.state.Registration && <div className="Registration">
+                    <br /><br />
+                    {this.state.loading && <CircularProgress size={80} />}
+                    {!this.state.loading && <div >
                         {this.state.userSituation}
                         <br />
                         <br />
-                        {this.state.sigin ? this.successSignUp() : this.failedSignUp()}
+                        {this.state.result ? this.successSignUp() : this.failedSignUp()}
                     </div>}
 
-
+                    <br /><br /> <br />
                 </div>}
 
 

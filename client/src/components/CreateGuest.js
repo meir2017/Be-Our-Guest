@@ -84,12 +84,12 @@ class CreateGuest extends Component {
 
   handleRemoveGuest = (e) => {
     //console.log(JSON.stringify(itemguest))
-    console.log(("Guest " + e.target.name + " will be deleted"))
+    // console.log(("Guest " + e.target.name + " will be deleted"))
     let index = e.target.name;
     let guestId = this.props.store.user.guests[index]._id;
     axios.delete(`/beOurGuest/removeGuest/${this.props.store.user._Id}/${guestId}/`)
       .then(response => {
-        console.log((response.data))
+        // console.log((response.data))
         this.store.removGuest(e.target.name)
       })
   }
@@ -97,18 +97,18 @@ class CreateGuest extends Component {
   handleSaveGuest = (e) => {
     this.toggle();
     e.preventDefault();
-    console.log(this.props.store.user.UserId)
+    // console.log(this.props.store.user.UserId)
     axios.post(
       '/beOurGuest/addNewGuest/' + this.props.store.user._Id +
       '/' + this.props.store.user.events[this.props.store.eventIndex]._id,
       this.state)
       .then(response => {
         if (response === null) {
-          console.log("Failed to add new guest!");
+          // console.log("Failed to add new guest!");
         }
         else {
-          console.log("New globalGuest " + response.data.globalGuestId);
-          console.log("New guest " + response.data.guestId);
+          // console.log("New globalGuest " + response.data.globalGuestId);
+          // console.log("New guest " + response.data.guestId);
           this.props.store.addGuest(response.data)
         }
       })
@@ -132,7 +132,7 @@ class CreateGuest extends Component {
     let { classes } = this.props;
     return (
       <div>
-        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggle} className={classes.addButton}>
+        <Button variant="extendedFab" color="secondary" style={{ position: "fixed" }} aria-label="Add" onClick={this.toggle} className={classes.addButton}>
           <AddIcon className={classes.addIcon} />
           Add Guest
         </Button>
