@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
 import '../App.css'
-//import styled from 'styled-components'
 import Table from './Table';
 import Table0 from './Table0';
 import AddTableModal from './CreateTablel'
-import { DragDropContext } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import {
     withStyles,
     Grid,
 }
     from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
-import AddIcon from '@material-ui/icons/Add';
+
 import axios from 'axios';
 
 
 const styles = theme => ({
     tableListWrapper: {
-       
+
         flex: 1,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: "flex-start",
-        /*   borderRadius: 5,
-          borderWidth: 4,
-          borderStyle: 'solid',
-          borderColor: 'primary', */
-       
-
     },
     tables: {
         flexWrap: 'nowrap',
@@ -43,10 +32,6 @@ const styles = theme => ({
         flexDirection: 'column',
         justifyContent: "flex-start",
 
-
-        /*     borderLeftWidth: 2,
-            borderLeftStyle: 'solid',
-            borderLeftColor: 'primary', */
     }
 
 
@@ -63,7 +48,6 @@ class TableList extends Component {
             category: '',
             anchorEl: null,
         }
-        //this.props.store.populateEvent();
     }
 
     handleClick = event => {
@@ -103,11 +87,11 @@ class TableList extends Component {
     }
 
     findInCategories = (categoryId) => {
-    let category = this.props.store.user.categories.find(c => c._id === categoryId);
+        let category = this.props.store.user.categories.find(c => c._id === categoryId);
         return this.props.filteredCategories.findIndex(cat => cat === category.name);
     }
 
-    sortByCategory = (a,b) => {
+    sortByCategory = (a, b) => {
         if (a.category < b.category) return -1;
         if (a.category > b.category) return 1;
         return 0;
@@ -128,14 +112,16 @@ class TableList extends Component {
                     <Table0 index={-1} onlyTables={this.props.onlyTables} filteredCategories={this.props.filteredCategories} />
                     <div className={classes.tables}>
                         {sortedTables
-                        .filter(t =>
-                            {if(this.props.filteredCategories.length == 0) return true; 
-                             return this.findInCategories(t.category) != -1}
+                            .filter(t => {
+                                if (this.props.filteredCategories.length == 0) return true;
+                                return this.findInCategories(t.category) != -1
+                            }
                             )
-                        .map((table, index) => {
-                            tableIndex = sortedTables.findIndex(eTable => eTable.category === table.category);
-                            return (<Table table={table} index={tableIndex} key={table._id} />)}
-                        )}
+                            .map((table, index) => {
+                                tableIndex = sortedTables.findIndex(eTable => eTable.category === table.category);
+                                return (<Table table={table} index={tableIndex} key={table._id} />)
+                            }
+                            )}
                     </div>
                 </div>
 

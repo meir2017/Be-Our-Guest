@@ -113,11 +113,7 @@ height: 300px;
 border: solid grey 1px;
 
 }
-/* .display_rsvp{
- width: 80%;
-height: 300px;
-border: solid grey 1px;
-} */
+
 .iteminvitations{
   text-align: center;
   width: 90%;
@@ -169,18 +165,15 @@ select#category {
 
   .dropdownOpen{
   float: left;
-  /* background-color: black;
-  border: none; */
   }
   
 .btn-dropdown{
-    /* background-color: red; */
     border: 0; 
     outline:0;
     background-color: #7e0a3e !important
 
   }
-.SelectEvent .MuiInput-root-55>.MuiSelect-root-50>.MuiSvgIcon-root-68.MuiSelect-icon-54{
+#SelectEvent .MuiInput-root-55>.MuiSelect-root-50>.MuiSvgIcon-root-68.MuiSelect-icon-54{
   color:white;
 
 }

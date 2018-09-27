@@ -1,15 +1,9 @@
 
 
 import React, { Component } from 'react';
-import Checkbox from "@material-ui/core/Checkbox";
 import { Button, Form } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import socketIOClient from "socket.io-client";
-
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 @inject("store")
@@ -55,15 +49,6 @@ class Rsvp extends Component {
             guestId: guestId,
             eventId: eventId
         })
-
-
-        // const socket = io.connect();
-        // socket.emit('callRsvp', {
-        //     coming: this.state.coming,
-        //     notComing: this.state.notComing,
-        //     guestId: guestId,
-        //     eventId: eventId
-        // })
     }
 
 
@@ -73,7 +58,7 @@ class Rsvp extends Component {
         socket2.on('connect', () => {
             console.log("connected ")
         })
-        console.log(socket2)
+        // console.log(socket2)
     }
 
     onSelectConfirmed = (e) => {
@@ -125,7 +110,7 @@ class Rsvp extends Component {
         console.log(this.props.match.params.guestId)
         axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
             .then(response => {
-                console.log((response.data))
+                // console.log((response.data))
             })
         this.toggleSendRsvp(e)
     }

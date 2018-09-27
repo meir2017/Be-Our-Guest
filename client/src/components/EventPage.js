@@ -85,8 +85,6 @@ class EventPage extends Component {
     render() {
         const item = this.props.store;
         const { classes } = this.props;
-
-        // console.log(JSON.stringify(this.props.store.user.events))
         return (
             <div className="row">
                 <div className="col-sm-4"></div>
@@ -141,10 +139,6 @@ class EventPage extends Component {
                     modalEdit={this.state.modalEdit}
                     indexEvent={this.state.myEvent} />
 
-
-                {/* {this.state.myEvent && <EditEvent openEditeEvent={this.openEditeEvent}
-                    modalEdit={this.state.modalEdit}
-                    indexEvent={this.state.myEvent} />} */}
 
                 <div>
                     <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >

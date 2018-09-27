@@ -32,7 +32,6 @@ class SignUp extends Component {
 
             axios.post('/beOurGuest/newUser', this.state)
                 .then(response => {
-                    // this.props.store.openModalLogin();
                     this.setState({ load: false });
                     console.log(response.data)
                     if (response.data === "user") {
@@ -83,16 +82,6 @@ class SignUp extends Component {
                 {!this.state.listing && <form action="" onSubmit={this.onClickBtn}>
                     <ModalBody state={{ textAlign: "center" }}>
 
-                        {/* <div className="form-group" style={{ width: "90%" }}>
-                            <input type="email" required className="form-control " style={{
-                                width: "60%", float: "left",
-                                marginLeft: "20px"
-                            }} name="email"
-                                placeholder="Email"
-                                value={this.state.email}
-                                onChange={this.handleUserInput} />
-                        </div> */}
-                        {/* <span style={{ color: "red" }}>email not invaled </span> */}
                         <TextField
                             minLength={6}
                             id="User" label="User name" type="text"

@@ -14,11 +14,10 @@ const styles = theme => ({
     },
     formControl: {
         margin: theme.spacing.unit,
-        minWidth: 120
+        minWidth: 120,
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
-        color: "green"
     }
 
 });
@@ -34,6 +33,7 @@ class SimpleSelect extends React.Component {
     handleChange = event => {
         // this.setState({ [event.target.name]: event.target.value });
         if (event.target.value !== null) {
+            debugger
             this.props.store.thisEventIndex(event.target.value)
             this.props.store.ChangeMyEventPage(true)
         }
@@ -46,9 +46,9 @@ class SimpleSelect extends React.Component {
         const { classes } = this.props;
 
         return (
-            <form className={classes.root} className="SelectEvent"
+            <form className={classes.root}
                 autoComplete="off" style={{ color: "white" }}>
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl} id="SelectEvent">
                     <Select
                         className="SelectEvent"
                         style={{ color: "white" }}
@@ -62,14 +62,12 @@ class SimpleSelect extends React.Component {
                         <MenuItem value={null}>
                             <em>Select Event</em>
                         </MenuItem>
-                        {this.props.store.user.events.length === 0 ? <MenuItem> No events </MenuItem> : this.props.store.user.events.map((eve, index) => {
+                        {this.props.store.user.events.length === 0 ? <MenuItem value={null}> No events </MenuItem> : this.props.store.user.events.map((eve, index) => {
                             return <MenuItem value={index} key={eve.HostName + eve.Location + index} id={index}
                             >    {eve.Title}</MenuItem>
                         })}
 
-
                     </Select>
-                    <FormHelperText>Without label</FormHelperText>
                 </FormControl>
             </form>
         );

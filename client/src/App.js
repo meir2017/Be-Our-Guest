@@ -22,8 +22,7 @@ const theme = createMuiTheme({
     secondary: { main: '#560027' },
   },
 });
-// primary #263238 P — Light #4f5b62 P — Dark #000a12
-//secondary #b0bec5 S — Light #e2f1f8 S — Dark #808e95
+
 @inject("store")
 @observer
 class App extends Component {
@@ -33,9 +32,6 @@ class App extends Component {
       rsvpfunc: false,
       // endpoint: "http://127.0.0.1:3001",
       endpoint: "https://beourguest.herokuapp.com",
-
-      // endpoint: "https://beourguest.herokuapp.com/socket.io/?EIO=4&transport=websocket",
-
     }
   }
 
@@ -105,13 +101,6 @@ class App extends Component {
     socket.on('backRsvp', (obj) => {
       console.log(JSON.stringify(obj))
       this.updetGuset(obj)
-
-
-
-      // const socket = socketIOClient(this.state.endpoint);
-      // socket.on('backRsvp', function (data) {
-      //   console.log(JSON.stringify(obj))
-      //   this.updetGuset(obj)
     })
     return (
       <MuiThemeProvider theme={theme}>

@@ -9,34 +9,20 @@ const path = require('path');
 
 //socketIO
 const http = require('http')
-const socketIO = require('socket.io')
 const server = http.Server(app)
 const io = require('socket.io')(server)
 
 
-
-
-//////////////////////
-
-
-
-
-//////////////
-// mongoose.connect('mongodb://localhost/beOurGuestDB', function () {
-//     console.log("DB connection established!!!");
-// });
-
 // let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
-// set a connection string for heroku
-mongoose.connect("mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest" || 'mongodb://localhost/beOurGuestDB', function () {
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
     console.log("DB connection established!!!");
 });
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-//modals   
 
+//modals   
 const Event = require('./Models/EventModel');
 const Table = require('./Models/TableModel');
 const User = require('./Models/UserModel')
@@ -45,21 +31,20 @@ const Guest = require('./Models/GuestModel');
 const Invitation = require('./Models/InvitationModel');
 const Category = require('./Models/CategoryModel');
 
-// app.get('/', (req, res) => res.send('Hello World!'))
+//  socket
 io.on('connection', socket => {
-    // console.log('New client connected')
+    console.log('New client connected')
     socket.on('callRsvp', (objGuest) => {
-        // console.log('rsvp Changed to: ', objGuest)
         io.sockets.emit('backRsvp', objGuest)
     })
     socket.on('disconnect', () => {
-        // console.log('user disconnected')
+        console.log('user disconnected')
     })
 })
-// ................................
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-
+//***************  Email ***************//
 // Forgot tPassword  
 app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
     User.findOne({ email: req.params.userEmail })
@@ -111,7 +96,74 @@ app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
 
         });
 })
+/// send rsvp to email
+app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
+    let item = req.body
+    let vetId = req.params.vetId;
+    let eventId = req.params.eventId;
+    // Guest. find({}). populate({ path: 'globalGuest_id', select: 'email' }).
+    Event.findById(req.params.eventId).
+        populate({
+            path: 'guests',
+            populate: {
+                path: 'globalGuest_id'
+            }
+        }).
+        exec(function (err, mYguest) {
+            if (err) return handleError(err);
+            console.log(mYguest)
+            mYguest.guests.forEach(guest => {
+                console.log(guest.globalGuest_id.email)
 
+                /////
+                var transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    tls: {
+                        rejectUnauthorized: false
+                    },
+                    auth: {
+                        type: 'OAuth2',
+                        user: 'BeOurGuestMail@gmail.com',
+                        // pass: 'guest2018',
+                        clientId: '804468733579-5rf9if9l9ftva7s8jqhvu93o62jjsjlp.apps.googleusercontent.com',
+                        clientSecret: 'WS2n-o6JBbTkCfelHDrYeSpS',
+                        refreshToken: '1/pzH-OKFKM7Yu-CpIi0N4w9_en8IMDH90oENkS6REhko'
+                    }
+                });;
+                var mailOptions = {
+                    from: 'Be Our Guest ',
+                    to: guest.globalGuest_id.email,
+                    subject: item.titleInput,
+                    html: `<div style="background-color:${item.background};padding:20px">
+            <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
+            <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
+            <h3>${item.textInput}</h3>
+            </div>
+            <p>${item.whenEvent}<br>
+            ${item.whereEvent}</p>
+            <button style="background-color:#91ff35;border-radius: 10px">
+            <a  href="https://beourguest.herokuapp.com/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
+            </button>
+
+            <br>
+          </div>  `
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
+                ////
+            });
+            res.send(JSON.stringify(mYguest))
+        });
+    ////
+
+})
+
+//***************  User ***************//
 //new user
 app.post('/beOurGuest/newUser', (req, res) => {
     let userinfo = req.body;
@@ -182,7 +234,7 @@ app.post('/beOurGuest/login', (req, res) => {
         });
 });
 
-
+//***************  Events ***************//
 //add event
 app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     let event = req.body;
@@ -210,7 +262,7 @@ app.post('/beOurGuest/addNewEvent/:UserId', (req, res) => {
     })
 });
 
-//add edit
+// edit event
 app.post('/beOurGuest/editEvent/:EventId', (req, res) => {
     let event = req.body;
 
@@ -223,15 +275,28 @@ app.post('/beOurGuest/editEvent/:EventId', (req, res) => {
             eve.Location = event.Location;
             eve.maxGuests = event.maxGuests;
             eve.HostName = event.HostName;
-            // eve.tables = event.table;
-            // eve.invitations = event.invitations;
-            // eve.guests = event.guest;
             eve.save();
             res.send(eve)
         })
 
 });
 
+// remove event
+app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
+    console.log("user id + " + req.params.userId)
+    console.log("event id + " + req.params.eventId)
+    User.findOne({ _id: req.params.userId })
+        .then(user => {
+            listEvents = user.events.concat();
+            listEvents.splice(req.params.index, 1);
+            user.events = listEvents;
+            user.save()
+                .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
+                .then(res.send("event deleted"))
+        })
+});
+
+//***************  Guset ***************//
 //add guest
 app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     let newGuest = req.body;
@@ -336,22 +401,7 @@ app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
         })
 });
 
-// remove event
-app.delete('/beOurGuest/removEvent/:userId/:eventId/:index', (req, res) => {
-    console.log("user id + " + req.params.userId)
-    console.log("event id + " + req.params.eventId)
-    User.findOne({ _id: req.params.userId })
-        .then(user => {
-            listEvents = user.events.concat();
-            listEvents.splice(req.params.index, 1);
-            user.events = listEvents;
-            user.save()
-                .then(() => Event.findByIdAndRemove({ _id: req.params.eventId }))
-                .then(res.send("event deleted"))
-        })
-});
-
-
+//***************  Invitation ***************//
 
 // add  Invitation
 app.post('/beOurGuest/saveInvitation/:eventId/', (req, res) => {
@@ -390,8 +440,9 @@ app.delete('/beOurGuest/removeInvitation/:eventId/:eventIndex/:index/', (req, re
 })
 
 
+//***************  Rsvp ***************//
 
-// get rsvp page
+// get Invitation for rsvp 
 app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
     let item = req.params
     console.log(item.vetId);
@@ -400,7 +451,7 @@ app.get('/beOurGuest/rsvpGuest/:vetId/', (req, res) => {
         res.send(vet);
     })
 })
-// get rsvp guestId
+// get guest for rsvp 
 app.get('/beOurGuest/rsvpGuest/guestId/:guestId/', (req, res) => {
     let item = req.params
     console.log(item.guestId);
@@ -410,74 +461,7 @@ app.get('/beOurGuest/rsvpGuest/guestId/:guestId/', (req, res) => {
     })
 })
 
-/// send rsvp to email
-app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
-    let item = req.body
-    let vetId = req.params.vetId;
-    let eventId = req.params.eventId;
-    // Guest. find({}). populate({ path: 'globalGuest_id', select: 'email' }).
-    Event.findById(req.params.eventId).
-        populate({
-            path: 'guests',
-            populate: {
-                path: 'globalGuest_id'
-            }
-        }).
-        exec(function (err, mYguest) {
-            if (err) return handleError(err);
-            console.log(mYguest)
-            mYguest.guests.forEach(guest => {
-                console.log(guest.globalGuest_id.email)
-
-                /////
-                var transporter = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
-                    tls: {
-                        rejectUnauthorized: false
-                    },
-                    auth: {
-                        type: 'OAuth2',
-                        user: 'BeOurGuestMail@gmail.com',
-                        // pass: 'guest2018',
-                        clientId: '804468733579-5rf9if9l9ftva7s8jqhvu93o62jjsjlp.apps.googleusercontent.com',
-                        clientSecret: 'WS2n-o6JBbTkCfelHDrYeSpS',
-                        refreshToken: '1/pzH-OKFKM7Yu-CpIi0N4w9_en8IMDH90oENkS6REhko'
-                    }
-                });;
-                var mailOptions = {
-                    from: 'Be Our Guest ',
-                    to: guest.globalGuest_id.email,
-                    subject: item.titleInput,
-                    html: `<div style="background-color:${item.background};padding:20px">
-            <h2 style="color:${item.titleColor}, font-family:${item.fontTitle}">${item.titleInput}</h2>
-            <div style="white-space: pre-wrap;padding: 10px;color:${item.bodyColor};font-family: ${item.fontBody}">
-            <h3>${item.textInput}</h3>
-            </div>
-            <p>${item.whenEvent}<br>
-            ${item.whereEvent}</p>
-            <button style="background-color:#91ff35;border-radius: 10px">
-            <a  href="https://beourguest.herokuapp.com/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
-            </button>
-
-            <br>
-          </div>  `
-                };
-                transporter.sendMail(mailOptions, function (error, info) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
-                ////
-            });
-            res.send(JSON.stringify(mYguest))
-        });
-    ////
-
-})
-
-// guest return Answer
+//  guest return  Answer for rsvp
 app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
 
     let item = req.body
@@ -490,25 +474,10 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
             guest.numNotComing = req.body.notComing;
             guest.numComing = req.body.coming;
             guest.save();
-            // ................................
-            // console.log("rsvp Change")
-            // io.on('connection', socket => {
-            //     // console.log('New client connected')
-            //     socket.on('callRsvp', (objGuest) => {
-            //         // console.log('rsvp Changed to: ', objGuest)
-            //         io.sockets.emit('backRsvp', objGuest)
-            //     })
-            //     socket.on('disconnect', () => {
-            //         // console.log('user disconnected')
-            //     })
-            // })
-            // // ................................
-
-            res.send()
         })
 })
 
-//  Table //////
+//***************  Table ***************//
 //createTable
 app.post('/beOurGuest/addTable/:eventId/', (req, res) => {
     let newTable = new Table(req.body)
@@ -590,8 +559,8 @@ app.post('/beOurGuest/updateGuests/', (req, res) => {
     res.send();
 })
 
-
-//createCtgory
+//***************  Category ***************//
+//createCategory
 app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     let item = req.body;
     let newCategory = new Category({
@@ -610,12 +579,6 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
             });
     })
 });
-
-// run build
-// app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
 
 
 const port = process.env.PORT || 3001;
