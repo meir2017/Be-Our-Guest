@@ -28,22 +28,6 @@ class CategoryManager extends Component {
     toggle() {
         this.props.openModalCreate()
     }
-
-    // handlerRemoveEvent = (e) => {
-
-    //     //console.log(JSON.stringify(itemEvent))
-    //     console.log((" Will be deleted  =" + e.target.name))
-    //     let index = e.target.name;
-    //     let eventId = this.props.store.user.events[index]._id;
-    //     axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/`)
-    //         .then(response => {
-    //             console.log((response.data))
-    //             this.store.removEvent(e.target.name)
-
-    //         })
-
-    // }
-
     handlerSaveCate = (e) => {
         this.toggle();
         e.preventDefault();
@@ -69,10 +53,6 @@ class CategoryManager extends Component {
                                 name="Title" onChange={this.onChangeText} value={this.inputText}
                             />
                             <br />
-                            {/* <TextField
-                                id="Color" label="Color" type="text" className="textField"
-                                name="Color" onChange={this.onChangeText} value={this.inputText}
-                            /> */}
                             <input className="color" type="color" onChange={this.onChangeText} id="color" value={this.state.color} name="color" />
                             <label htmlFor="background">background</label>
                             <br />

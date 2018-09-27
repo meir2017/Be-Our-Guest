@@ -11,9 +11,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import { observer, inject } from 'mobx-react';
 import { action } from "mobx";
 import Navbar from './components/Navbar';
-import { DragDropContext } from 'react-beautiful-dnd';
 import Rsvp from './components/Rsvp';
-import Test from './components/Test';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -109,15 +107,7 @@ class App extends Component {
           {!this.state.rsvpfunc && <Navbar />}
           {(this.props.store.eventIndex != null && this.props.store.user.userLog) ?
             < EventManager /> : false}
-          {/* <Test /> */}
           {!this.props.store.myEventPage && <EventPage />}
-          {/* {!this.props.store.user.userLog && <AppDescription />} */}
-          {/* <BrowserRouter>
-            <Route
-              exact path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
-              render={(props) => <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />}
-            />
-          </BrowserRouter> */}
           <BrowserRouter>
             <div>
               {!this.props.store.user.userLog && <Route exact path="/" component={AppDescription} />}

@@ -58,7 +58,6 @@ class GuestInfo extends Component {
 
   handleRemoveGuest = (e, index) => {
     e.preventDefault();
-    // console.log((" Will be deleted  =" + e.target.id))
     let guestId = this.props.store.user.events[this.props.store.eventIndex].guests[index]._id;
     let eventId = this.props.store.user.events[this.props.store.eventIndex]._id;
     axios.delete(
@@ -99,7 +98,7 @@ class GuestInfo extends Component {
     return (
 
       <div className="GuestsTabContainer">
-        <div className="addGuest" style={{textAlign:'center'}}>
+        <div className="addGuest" style={{ textAlign: 'center' }}>
           <CreateGuest
             openModalCreate={this.openModalCreate}
             modalCreate={this.state.modalCreate}

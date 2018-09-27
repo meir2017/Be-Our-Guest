@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios';
-import MyModal from './Modal';
 import AddIcon from '@material-ui/icons/Add';
 import { observer, inject } from 'mobx-react';
 
@@ -10,9 +9,6 @@ import {
   IconButton,
   withStyles,
   TextField,
-  Select,
-  FormControl,
-  InputLabel,
 } from '@material-ui/core';
 
 const styles = theme => ({
@@ -45,8 +41,6 @@ class CreateCategory extends Component {
     this.setState({
       modal: !this.state.modal
     });
-
-    // this.props.openModalCategory()
   }
 
   handleClose = () => {

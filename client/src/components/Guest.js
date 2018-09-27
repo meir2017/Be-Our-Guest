@@ -42,19 +42,12 @@ const styles = theme => ({
 
     },
     categoryList: {
-        paddingRight:1,
+        paddingRight: 1,
         paddingTop: 3
     }
 
 });
-/* 
-const Container = styled.div`
-  height: 30px;
-  background-color: blue;
-  width: 100%;
-`;
 
- */
 @inject("store")
 @observer
 class Guest extends Component {
@@ -89,7 +82,7 @@ class Guest extends Component {
                                                 if (!eCategory) {
                                                     eCategory = { colorCode: 'black' }
                                                 }
-                                                return (<Tooltip key={category._id}title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
+                                                return (<Tooltip key={category._id} title={eCategory.name} ><Avatar key={eCategory._id} className={classes.categoryAvatar}
                                                     style={{ backgroundColor: eCategory.colorCode }} /></Tooltip>
                                                 )
                                             }
@@ -97,7 +90,7 @@ class Guest extends Component {
 
 
                                         </Grid>
-                                        <Grid item xs={10} style={{paddingTop:8}}>
+                                        <Grid item xs={10} style={{ paddingTop: 8 }}>
                                             <Tooltip title={guest.numComing + "/" + (guest.numInvited - guest.numNotComing) + " confirmed"}>
                                                 <Chip
                                                     avatar={<Avatar>{guest.numComing}/{guest.numInvited - guest.numNotComing}</Avatar>}

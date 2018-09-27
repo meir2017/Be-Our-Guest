@@ -2,8 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const inlineCss = require('nodemailer-juice');
-const axios = require('axios');
 const app = express();
 const path = require('path');
 

@@ -5,8 +5,6 @@ import EditEvent from './EditEvent';
 import axios from 'axios';
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withStyles, IconButton, Icon } from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
-
 import { observer, inject } from 'mobx-react';
 const styles = theme => ({
     icon: {
@@ -93,7 +91,6 @@ class EventPage extends Component {
                     <br />
                     <br />
                     <div className="addEvent">
-                        {/* <Button color="#212121">meir</Button> */}
                         <button type="button" className="AddEvent" onClick={this.openModalCreate} >Add Event</button>
                     </div>
                     <div className="myEvent">
@@ -163,4 +160,3 @@ class EventPage extends Component {
 
 export default withStyles(styles)(EventPage);
 
-// export default EventPage;

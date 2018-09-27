@@ -192,7 +192,6 @@ class AddTableModal extends Component {
               <Button size="small" variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button>
               <Button size="small" variant="outlined" color="primary" type="Submit"> Save </Button>
             </DialogActions>
-            {/* </FormControl> */}
           </form >
         </Dialog >
       </React.Fragment >

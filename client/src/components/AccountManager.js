@@ -8,7 +8,6 @@ import LogIn from './LogIn';
 import YouLoginAs from './YouLoginAs';
 
 import { observer, inject } from 'mobx-react';
-import axios from 'axios';
 
 
 const styles = theme => ({
@@ -17,13 +16,6 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'flex-end',
     },
-
-    menuAccountButton: {
-        //  float: 'right',
-        //marginRight: 1520,
-        //marginLeft: 1150,
-    },
-
 });
 @inject("store")
 @observer

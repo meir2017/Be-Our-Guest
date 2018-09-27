@@ -8,18 +8,9 @@ import {
   Divider,
   Popover,
   withStyles,
-  Grid,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
   IconButton,
-  Typography,
-  Avatar,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Button,
   Select,
@@ -209,7 +200,7 @@ class EditTableModal extends Component {
           <Divider></Divider>
           <DialogActions>
             <Button size="small" variant="contained" color="secondary" onClick={this.editTable} > Save </Button>
-            <Button size="small" variant="contained"  onClick={this.handleClose}>Cancel</Button>
+            <Button size="small" variant="contained" onClick={this.handleClose}>Cancel</Button>
           </DialogActions>
         </Popover >
       </React.Fragment >

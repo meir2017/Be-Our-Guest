@@ -98,7 +98,6 @@ class CreateGuest extends Component {
     this.toggle();
     e.preventDefault();
     console.log(this.props.store.user.UserId)
-    // app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
     axios.post(
       '/beOurGuest/addNewGuest/' + this.props.store.user._Id +
       '/' + this.props.store.user.events[this.props.store.eventIndex]._id,

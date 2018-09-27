@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import classNames from 'classnames';
 import {
     AppBar,
     withStyles,
@@ -12,7 +11,6 @@ import DropdownEvent from './DropdownEvent';
 import AccountManager from './AccountManager';
 
 import { observer, inject } from 'mobx-react';
-import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -77,7 +75,6 @@ class Navbar extends Component {
             <div className={classes.root} >
                 <AppBar position="static">
                     <Toolbar className={classes.menu}>
-                        {/* <OurMenu className={classes.menuButton} /> */}
                         <DropdownEvent />
                         <AccountManager className={classes.account} />
                     </Toolbar>
