@@ -46,6 +46,17 @@ const Invitation = require('./Models/InvitationModel');
 const Category = require('./Models/CategoryModel');
 
 // app.get('/', (req, res) => res.send('Hello World!'))
+io.on('connection', socket => {
+    // console.log('New client connected')
+    socket.on('callRsvp', (objGuest) => {
+        // console.log('rsvp Changed to: ', objGuest)
+        io.sockets.emit('backRsvp', objGuest)
+    })
+    socket.on('disconnect', () => {
+        // console.log('user disconnected')
+    })
+})
+// ................................
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 
@@ -480,18 +491,18 @@ app.post('/beOurGuest/rsvp/guestAnswer/', (req, res) => {
             guest.numComing = req.body.coming;
             guest.save();
             // ................................
-            console.log("rsvp Change")
-            io.on('connection', socket => {
-                // console.log('New client connected')
-                socket.on('callRsvp', (objGuest) => {
-                    // console.log('rsvp Changed to: ', objGuest)
-                    io.sockets.emit('backRsvp', objGuest)
-                })
-                socket.on('disconnect', () => {
-                    // console.log('user disconnected')
-                })
-            })
-            // ................................
+            // console.log("rsvp Change")
+            // io.on('connection', socket => {
+            //     // console.log('New client connected')
+            //     socket.on('callRsvp', (objGuest) => {
+            //         // console.log('rsvp Changed to: ', objGuest)
+            //         io.sockets.emit('backRsvp', objGuest)
+            //     })
+            //     socket.on('disconnect', () => {
+            //         // console.log('user disconnected')
+            //     })
+            // })
+            // // ................................
 
             res.send()
         })
