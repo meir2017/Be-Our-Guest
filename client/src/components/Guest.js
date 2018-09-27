@@ -1,24 +1,13 @@
 import React, { Component } from 'react';
 import '../App.css'
-//import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd';
 import { observer, inject } from 'mobx-react';
 import { withStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
-import {
-    Grid,
-    Paper,
-    Chip,
-    Avatar,
-    IconButton,
-    Tooltip
-} from '@material-ui/core';
-
-
+import { Grid, Paper, Chip, Avatar, IconButton, Tooltip } from '@material-ui/core';
 
 const styles = theme => ({
     guestWrapper: {
-        // zIndex: 10,
         width: 'auto',
         padding: 3,
     },
@@ -47,7 +36,14 @@ const styles = theme => ({
     }
 
 });
+/* 
+const Container = styled.div`
+  height: 30px;
+  background-color: blue;
+  width: 100%;
+`;
 
+ */
 @inject("store")
 @observer
 class Guest extends Component {
