@@ -17,30 +17,11 @@ const styles = theme => ({
     marginRight: 260,
     backgroundColor: "#bdbdbd",
     opacity: 0.8
+  },
+  bogImage: {
+    backgroundImage: "url(" + imgUrl + ")",
+    backgroundRepeat: "round"
   }
-  // ,
-  // paper: {
-  //   height: 140,
-  //   width: 100
-  // },
-
-  // categoryAvatar: {
-  //   height: 10,
-  //   width: 10,
-  //   marginTop: 5
-  // },
-  // iconButton: {
-  //   height: 20,
-  //   width: 20
-  // },
-  // icon: {
-  //   height: 15,
-  //   width: 15
-  // },
-  // categoryList: {
-  //   paddingRight: 1,
-  //   paddingTop: 3
-  // }
 });
 
 @inject("store")
@@ -48,20 +29,12 @@ const styles = theme => ({
 class AppDescription extends Component {
   render() {
     const { classes } = this.props;
-    // let Background = "./../pic3.jpg"
     return (
-      <div
-        style={{
-          backgroundImage: "url(" + imgUrl + ")",
-          backgroundRepeat: "round"
-        }}
-      >
-        {/* <img src="./../pic3.jpg" alt=""/> */}
+      <div className={classes.bogImage}>
         <br />
         <br />
         <div className={classes.description}>
           <Container>
-            {/* <Jumbotron style={{ backgroundColor: "" }}> */}
             <i>
               <Row>
                 <Col sm="12" md={{ size: 6, offset: 3 }}>
@@ -82,7 +55,6 @@ class AppDescription extends Component {
               </Row>
               <h2>Sign in to create new event!</h2>
             </i>
-            {/* </Jumbotron> */}
           </Container>
         </div>
         <br />
