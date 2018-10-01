@@ -35,8 +35,6 @@ class AppDescription extends Component {
         <div className={classes.bogImage}>
           <br />
           <br />
-          <br />
-          <br />
           <div className={classes.description}>
             <Container>
               <i>
@@ -62,7 +60,7 @@ class AppDescription extends Component {
             </Container>
           </div>
           <br />
-          <br />
+
 
         </div>
       </div>

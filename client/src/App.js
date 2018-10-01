@@ -21,6 +21,7 @@ const theme = createMuiTheme({
   },
 });
 
+
 @inject("store")
 @observer
 class App extends Component {
