@@ -62,10 +62,12 @@ class SimpleSelect extends React.Component {
                                 <MenuItem value={null}>
                                     <em>Select Event</em>
                                 </MenuItem>
-                                {this.props.store.user.events.length === 0 ? <MenuItem value={null}> No events </MenuItem> : this.props.store.user.events.map((eve, index) => {
-                                    return <MenuItem value={index} key={eve.HostName + eve.Location + index} id={index}
-                                    >    {eve.Title}</MenuItem>
-                                })}
+                                <MenuItem value={null}>
+                                    <em>Select Event</em>
+                                </MenuItem>
+                                <MenuItem value={null}>
+                                    <em>Select Event</em>
+                                </MenuItem>
 
                             </Select>
                         </FormControl>
