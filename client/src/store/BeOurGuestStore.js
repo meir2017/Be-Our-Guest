@@ -23,11 +23,11 @@ class BeOurGuestStore {
     this.myEventPage = item;
   }
   @action test = (obj) => {
-    debugger
+
     let g1 = this.user.events[0].guests[0];
     g1.numComing = obj.numComing;
     g1.numNotComing = obj.numNotComing;
-    debugger
+
 
   }
 
@@ -148,12 +148,36 @@ class BeOurGuestStore {
       seated: newGuest.seated
     };
 
+
+
+
     // Add guest to event's guest list
     guestList = this.user.events[this.eventIndex].guests.concat();
     guestList.push(guest);
     this.user.events[this.eventIndex].guests = guestList;
     // console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
   }
+
+
+  // ---------------
+  @action handleSaveChangeGuest = (index, newGuest) => {
+    const myGuest = this.user.events[this.eventIndex].guests[index]; //on store
+    console.log(JSON.stringify(myGuest))
+    console.log(JSON.stringify(newGuest))
+    console.log(index)
+
+
+    myGuest.categories[0] = newGuest.categories;
+    myGuest.numInvited = newGuest.numInvited
+    myGuest.numComing = newGuest.numComing
+    myGuest.numNotComing = newGuest.numNotComing
+
+    myGuest.globalGuest_id.name = newGuest.globalGuest.name;
+    myGuest.globalGuest_id.email = newGuest.globalGuest.email
+    myGuest.globalGuest_id.phone = newGuest.globalGuest.phone;
+
+  }
+  // --------
 
   @action removeGuest = (guestIndex) => {
     let guestList = this.user.events[this.eventIndex].guests.concat();
