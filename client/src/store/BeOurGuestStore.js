@@ -161,6 +161,7 @@ class BeOurGuestStore {
 
   // ---------------
   @action handleSaveChangeGuest = (index, newGuest) => {
+
     const myGuest = this.user.events[this.eventIndex].guests[index]; //on store
     console.log(JSON.stringify(myGuest))
     console.log(JSON.stringify(newGuest))
