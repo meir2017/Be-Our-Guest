@@ -208,11 +208,11 @@ class Table extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCloseDeleteTable} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleDeleteTable} color="primary" autoFocus>
+            <Button onClick={this.handleDeleteTable} color="secondary" autoFocus>
               Remove
+            </Button>
+            <Button onClick={this.handleCloseDeleteTable} >
+              Cancel
             </Button>
           </DialogActions>
         </Dialog>
