@@ -30,37 +30,44 @@ class AppDescription extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.bogImage}>
+      <div>
         <br />
-        <br />
-        <div className={classes.description}>
-          <Container>
-            <i>
-              <Row>
-                <Col sm="12" md={{ size: 6, offset: 3 }}>
-                  <h1>Be Our Guest!</h1>
-                  <h2>
-                    The ultimate app to create and manage your event:
+        <div className={classes.bogImage}>
+          <br />
+          <br />
+          <br />
+          <br />
+          <div className={classes.description}>
+            <Container>
+              <i>
+                <Row>
+                  <Col sm="12" md={{ size: 6, offset: 3 }}>
+                    <h1>Be Our Guest!</h1>
+                    <h2>
+                      The ultimate app to create and manage your event:
                   </h2>{" "}
-                  <h5>
-                    <ul className="intro-list">
-                      <li>create a guest list</li>
-                      <li>crate and send invitations</li>
-                      <li>track RSVPs</li>
-                      <li>arrange guest seating</li>
-                    </ul>
-                  </h5>
-                  <h3>and much, much more...</h3>{" "}
-                </Col>
-              </Row>
-              <h2>Sign in to create new event!</h2>
-            </i>
-          </Container>
+                    <h5>
+                      <ul className="intro-list">
+                        <li>create a guest list</li>
+                        <li>crate and send invitations</li>
+                        <li>track RSVPs</li>
+                        <li>arrange guest seating</li>
+                      </ul>
+                    </h5>
+                    <h3>and much, much more...</h3>{" "}
+                  </Col>
+                </Row>
+                <h2>Sign in to create new event!</h2>
+              </i>
+            </Container>
+          </div>
+          <br />
+          <br />
+          <br />
+          <br />  <br />
+          <br />
+          <br />   <br />
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     );
   }
