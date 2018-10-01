@@ -109,7 +109,7 @@ class InvitationManager extends Component {
     toggleDialogSend = () => {
         this.setState({ opebDialogSend: !this.state.opebDialogSend });
     };
-    
+
     sendInvitations = () => {
         let item = this.props.store
         let e_index = item.eventIndex;
@@ -153,14 +153,14 @@ class InvitationManager extends Component {
             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={this.removeInvitations} color="secondary" autoFocus>
+                        <Button onClick={this.removeInvitations} color="secondary" autoFocus>
                             Remove
             </Button>
                         <Button onClick={this.toggleDialogInvitation}>
                             Cancel
-            </Button>                        
+            </Button>
                     </DialogActions>
-                </Dialog>                
+                </Dialog>
 
                 <Dialog
                     open={this.state.opebDialogSend}
@@ -174,11 +174,11 @@ class InvitationManager extends Component {
             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                       
+
                         <Button onClick={this.sendInvitations} color="secondary" autoFocus>
-                            Remove
+                            Send
             </Button>
-            <Button onClick={this.toggleDialogSend} >
+                        <Button onClick={this.toggleDialogSend} >
                             Cancel
             </Button>
                     </DialogActions>

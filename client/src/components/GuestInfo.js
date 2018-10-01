@@ -72,6 +72,7 @@ class GuestInfo extends Component {
 
   handleEdit = (e, index) => {
     e.preventDefault();
+    alert("index: " + index);
   }
 
   createData = (id, name, email, phone, coming, undecided, notComing) => {
