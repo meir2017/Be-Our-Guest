@@ -15,9 +15,6 @@ import {
   withStyles,
   Grid,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
   IconButton,
   Avatar,
@@ -25,7 +22,6 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   Button,
   Tooltip
 

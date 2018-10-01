@@ -228,25 +228,6 @@ class InvitationManager extends Component {
                     </div>
 
                 </div>
-
-                 {/* <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
-                     <ModalHeader toggle={this.toggleSend}>Do you want to send an invitation to all your guests</ModalHeader>
-                     <ModalFooter>
-                         <Button style={{ backgroundColor: '#560027' }} onClick={this.sendInvitations}>Send</Button>{' '}
-                         <Button color="secondary" onClick={this.toggleSend}>Cancel</Button>
-                     </ModalFooter>
-                 </Modal> */}
-
-               {/* <div>
-                     <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
-                        <ModalHeader toggle={this.toggle}>Do you want to delete this invitation?</ModalHeader>
-                        <ModalFooter className="btnSend" >
-                            <Button onClick={this.removeInvitations} style={{ backgroundColor: '#560027' }}>Yes</Button>
-                            <Button onClick={this.toggleRemove} color="secondary" >No</Button>
-                        </ModalFooter>
-
-                    </Modal> 
-                </div>*/}
             </div>
 
 

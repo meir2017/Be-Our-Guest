@@ -17,6 +17,7 @@ mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGues
 });
 
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
