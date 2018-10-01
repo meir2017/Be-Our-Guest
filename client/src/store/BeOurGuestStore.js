@@ -1,249 +1,162 @@
-import { observable, action, computed, observer, reaction } from "mobx";
+import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+
+import CreateGuest from './CreateGuest.js';
+import PropTypes from 'prop-types';
+import {
+  withStyles,
+  Paper,
+  IconButton,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table
+} from "@material-ui/core";
+import ClearIcon from '@material-ui/icons/Clear';
+import EditIcon from '@material-ui/icons/Edit';
+import axios from 'axios';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 1000,
+  },
+  iconButton: {
+    height: 35,
+    width: 35,
 
 
-class BeOurGuestStore {
-  @observable user = {
-    userLog: false,
-    _Id: "",
-    username: "",
-    password: "",
-    email: "",
-    events: [],
-    guests: [],
-    categories: [],
+  },
+  icon: {
+    height: 20,
+    width: 20,
 
-    ModalLogin: false
-  }
-  @observable eventIndex = null;
-  @observable invitationIndex = null;
+  },
 
-  @observable myEventPage = true;
+});
 
-  @action ChangeMyEventPage = (item) => {
-    this.myEventPage = item;
-  }
-  @action test = (obj) => {
+@inject("store")
+@observer
+class GuestInfo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalCreate: false,
+      endpoint: "http://127.0.0.1:3001",
 
-    let g1 = this.user.events[0].guests[0];
-    g1.numComing = obj.numComing;
-    g1.numNotComing = obj.numNotComing;
-
-
-  }
-
-  @action realTimeRsvp = (i_events, i_guest, Coming, NotComing) => {
-    let item = this.user.events[i_events].guests[i_guest]
-    item.numComing = Coming;
-    item.numNotComing = NotComing;
-
-  }
-  // user function
-  @action LogoutUser = () => {
-    this.user.userLog = false;
-    console.log("user logout")
-  }
-
-  @action openModalLogin = () => {
-    this.user.ModalLogin = !this.user.ModalLogin;
-    // console.log(this.user.ModalLogin)
-  }
-
-  @action updateUser = (item) => {
-    //let userInfo = item.user;
-    let userInfo = item;
-    this.user.userLog = true;
-    this.user._Id = userInfo._id
-    this.user.email = userInfo.email
-    this.user.username = userInfo.username;
-    this.user.events = userInfo.events;
-    this.user.guests = userInfo.guests;
-    this.user.categories = userInfo.categories;
-    //this.user.categories = item.userCategories;
-    // console.log(JSON.stringify(this.user.events))
-
-    // console.log(JSON.stringify(this.user.categories))
-
-    let user = {
-      username: item.username,
-      password: item.password
-    }
-
-
-
-    localStorage.setItem("beOurGuestUser", JSON.stringify(user));
-  }
-
-
-
-  //****************************************************** */
-
-  // evnte function
-  @action thisEventIndex = (index) => {
-    this.eventIndex = index;
-    // console.log("event index is  " + index);
-    localStorage.setItem("beOurGuestEventIndex", JSON.stringify(index));
-  }
-
-  @action addEvent = (newEvent) => {
-    let listEvents = this.user.events.concat();
-    listEvents.push(newEvent);
-    this.user.events = listEvents;
-    // console.log(this.user.events.length);
-    // console.log(this.user.events.length - 1);
-    this.thisEventIndex(this.user.events.length - 1)
-
-  }
-
-
-  @action editEvent = (newEvent, index) => {
-    let theEvent = this.user.events[index];
-    theEvent.Title = newEvent.Title;
-    theEvent.Date = newEvent.Date;
-    theEvent.Location = newEvent.Location;
-    theEvent.maxGuests = newEvent.maxGuests
-    theEvent.HostName = newEvent.HostName;
-
-    this.thisEventIndex(index)
-
-  }
-
-  @action removEvent = (eventIndex) => {
-    let listEvents = this.user.events.concat();
-    listEvents.splice(eventIndex, 1);
-    this.user.events = listEvents;
-
-    // If current active event is being removed
-    if (this.eventIndex === eventIndex) {
-      this.eventIndex = null;
-      localStorage.setItem("beOurGuestEventIndex", JSON.stringify(this.eventIndex));
-    }
-  }
-  //****************************************************** */
-
-  /// Guest  function
-  @action addGuest = (newGuest) => {
-    let globalGuest = {
-      _id: newGuest.globalGuestId,
-      name: newGuest.name,
-      email: newGuest.email,
-      phone: newGuest.phone
     };
-
-    // console.log(newGuest);
-    // Add globalGuest to global guest list
-    let guestList = this.user.guests.concat();
-    guestList.push(globalGuest);
-    this.user.guests = guestList;
-    // console.log(JSON.stringify(this.user.guests));
-
-    let guest = {
-      _id: newGuest.guestId,
-      globalGuest_id: globalGuest,
-      invitations: newGuest.invitations,
-      categories: newGuest.categories,
-      comment: newGuest.comment,
-      numInvited: newGuest.numInvited,
-      numComing: newGuest.numComing,
-      numNotComing: newGuest.numNotComing,
-      seated: newGuest.seated
-    };
-
-
-
-
-    // Add guest to event's guest list
-    guestList = this.user.events[this.eventIndex].guests.concat();
-    guestList.push(guest);
-    this.user.events[this.eventIndex].guests = guestList;
-    // console.log(JSON.stringify(this.user.events[this.eventIndex].guests));
   }
 
-
-  // ---------------
-  @action handleSaveChangeGuest = (index, newGuest) => {
-
-    const myGuest = this.user.events[this.eventIndex].guests[index]; //on store
-    console.log(JSON.stringify(myGuest))
-    console.log(JSON.stringify(newGuest))
-    console.log(index)
-
-
-    myGuest.categories[0] = newGuest.categories;
-    myGuest.numInvited = newGuest.numInvited
-    myGuest.numComing = newGuest.numComing
-    myGuest.numNotComing = newGuest.numNotComing
-
-    myGuest.globalGuest_id.name = newGuest.globalGuest.name;
-    myGuest.globalGuest_id.email = newGuest.globalGuest.email
-    myGuest.globalGuest_id.phone = newGuest.globalGuest.phone;
-
-  }
-  // --------
-
-  @action removeGuest = (guestIndex) => {
-    let guestList = this.user.events[this.eventIndex].guests.concat();
-    guestList.splice(guestIndex, 1);
-    this.user.events[this.eventIndex].guests = guestList;
-  }
-  //****************************************************** */
-
-  // Invitation function
-  @action addInvitation = (newlistinvitations) => {
-    let listinvitations = this.user.events[this.eventIndex].invitations.concat();
-    listinvitations.push(newlistinvitations);
-    this.user.events[this.eventIndex].invitations = listinvitations;
-    // console.log(" save  invitations in client  ");
+  openModalCreate = (e) => {
+    this.setState({ modalCreate: !this.state.modalCreate });
   }
 
-  @action theInvitationIndex = (index) => {
-    this.invitationIndex = index;
-    // console.log("theInvitationIndex   " + index);
+  handleRemoveGuest = (e, index) => {
+    e.preventDefault();
+    let guestId = this.props.store.user.events[this.props.store.eventIndex].guests[index]._id;
+    let eventId = this.props.store.user.events[this.props.store.eventIndex]._id;
+    axios.delete(
+      '/beOurGuest/removeGuest/' + eventId + '/' + guestId + '/' + index)
+      .then(response => {
+        console.log((response.data));
+        this.props.store.removeGuest(index);
+        if (response.data != null) {
+          this.props.store.updateTableById(response.data);
+        }
+      })
   }
 
-  @action removeInvitation = (index) => {
-    let listInvitations = this.user.events[this.eventIndex].invitations.concat();
-    listInvitations.splice(index, 1);
-    this.user.events[this.eventIndex].invitations = listInvitations;
-  }
-  //****************************************************** */
-
-  /// Category  function
-  @action addCategory = (newCategory) => {
-    let listCategory = this.user.categories.concat();
-    listCategory.push(newCategory);
-    this.user.categories = listCategory;
-    // console.log("New category " + newCategory._id);
+  handleEdit = (e, index) => {
+    e.preventDefault();
+    alert("index: " + index);
   }
 
-
-  /// Table function
-  @action addTable = (newTable) => {
-    let tables = this.user.events[this.eventIndex].tables.push(newTable);
-    // console.log(this.user.events[this.eventIndex].tables);
-  }
-  @action updateTable = (table, index) => {
-    this.user.events[this.eventIndex].tables[index] = table;
-    // console.log(table);
+  createData = (id, name, email, phone, coming, undecided, notComing) => {
+    return { id, name, email, phone, coming, undecided, notComing };
   }
 
-  @action updateTableById = (newTable) => {
-    let index = this.user.events[this.eventIndex].tables.findIndex(table => table._id === newTable._id);
-    this.user.events[this.eventIndex].tables[index] = newTable;
-    // console.log(newTable);
-  }
+  rowData = (guest, index) => {
+    return (
+      this.createData(index, guest.name, guest.email, guest.phone, guest.coming, guest.undecided, guest.notComing)
+    )
+  };
 
-  @action updateTables = (newTables) => {
-    this.user.events[this.eventIndex].tables = newTables;
-    // console.log(newTables);
+  displayCategoryName = guest => {
+    let categoryInfo = this.props.store.user.categories.find(category =>
+      category._id === guest.categories[0]);
+    return categoryInfo.name;
   }
+  render() {
 
-  @action updateGuests = (newGuests) => {
-    this.user.events[this.eventIndex].guests = newGuests;
-    // console.log(newGuests);
+    let { classes } = this.props;
+    let guests = this.props.store.user.events[this.props.store.eventIndex].guests;
+    return (
+
+      <div className="GuestsTabContainer">
+        <div className="addGuest" style={{ textAlign: 'center' }}>
+          <CreateGuest
+            openModalCreate={this.openModalCreate}
+            modalCreate={this.state.modalCreate}
+          />
+        </div>
+
+        <Paper className={this.props.classes.root}>
+          <Table className={this.props.classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell numeric>Coming</TableCell>
+                <TableCell numeric>Not coming</TableCell>
+                <TableCell numeric>Undecided</TableCell>
+                {/* <TableCell>Comment</TableCell> */}
+                <TableCell>Edit/Delete</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {guests.map((guest, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {guest.globalGuest_id.name}
+                    </TableCell>
+                    <TableCell>{guest.globalGuest_id.email}</TableCell>
+                    <TableCell>{guest.globalGuest_id.phone}</TableCell>
+                    <TableCell>{this.displayCategoryName(guest)}</TableCell>
+                    <TableCell numeric>{guest.numComing}</TableCell>
+                    <TableCell numeric>{guest.numNotComing}</TableCell>
+                    <TableCell numeric>{guest.numInvited - guest.numComing - guest.numNotComing}</TableCell>
+                    {/* <TableCell>{guest.comment}</TableCell> */}
+                    <TableCell>
+                      <IconButton aria-label="Edit" className={classes.iconButton} onClick={(e) => this.handleEdit(e, index)}>
+                        <EditIcon className={classes.icon} />
+                      </IconButton>
+                      <IconButton aria-label="Delete" className={classes.iconButton} onClick={(e) => this.handleRemoveGuest(e, index)} >
+                        <ClearIcon className={classes.icon} />
+                      </IconButton>
+
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Paper>
+
+      </div>
+    );
   }
-
 }
 
-const store = new BeOurGuestStore();
+GuestInfo.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-export default store;
+export default withStyles(styles)(GuestInfo);
