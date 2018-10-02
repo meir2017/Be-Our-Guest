@@ -43,35 +43,6 @@ io.on('connection', socket => {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = {
-    entry: './app/index.js',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'index_bundle.js',
-        publicPath: '/'
-    },
-    module: {
-        rules: [
-            { test: /\.(js)$/, use: 'babel-loader' },
-            { test: /\.css$/, use: ['style-loader', 'css-loader'] }
-        ]
-    },
-    devServer: {
-        historyApiFallback: true,
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: 'app/index.html'
-        })
-    ]
-};
-
-
-
-
 //***************  Email ***************//
 // Forgot tPassword  
 app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
