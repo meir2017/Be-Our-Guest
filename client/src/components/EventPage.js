@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import CreateEvent from './CreateEvent';
 import EditEvent from './EditEvent';
@@ -40,7 +39,7 @@ class EventPage extends Component {
     handleEvent = (index) => {
         this.props.store.thisEventIndex(index)
         this.props.store.ChangeMyEventPage(true)
-
+        this.props.store.ChangeMyCategoryPage(true)
     }
     openModalCreate = (e) => {
         this.setState({ modalCreate: !this.state.modalCreate });

@@ -19,15 +19,20 @@ class BeOurGuestStore {
 
   @observable myEventPage = true;
 
+  @observable myCategoryPage = true;
+
   @action ChangeMyEventPage = (item) => {
     this.myEventPage = item;
   }
+
+  @action ChangeMyCategoryPage = (item) => {
+    this.myCategoryPage = item;
+  }
+
   @action test = (obj) => {
-    debugger
     let g1 = this.user.events[0].guests[0];
     g1.numComing = obj.numComing;
     g1.numNotComing = obj.numNotComing;
-    debugger
 
   }
 
@@ -189,6 +194,13 @@ class BeOurGuestStore {
     this.user.categories = listCategory;
     // console.log("New category " + newCategory._id);
   }
+  @action removeCategory = (index) => {
+    let listCategory = this.user.categories.concat();
+    listCategory.splice(index, 1);
+    this.user.categories = listCategory;
+    // console.log("New category " + newCategory._id);
+  }
+
 
 
   /// Table function

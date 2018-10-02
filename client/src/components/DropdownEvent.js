@@ -32,9 +32,9 @@ class SimpleSelect extends React.Component {
     handleChange = event => {
         // this.setState({ [event.target.name]: event.target.value });
         if (event.target.value !== null) {
-            debugger
             this.props.store.thisEventIndex(event.target.value)
             this.props.store.ChangeMyEventPage(true)
+            this.props.store.ChangeMyCategoryPage(true)
         }
     };
 

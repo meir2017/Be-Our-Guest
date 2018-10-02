@@ -59,7 +59,6 @@ class AccountManager extends Component {
         localStorage.clear()
     }
     openProfile = (e) => {
-        debugger
         this.setState({
             profileModal: !this.state.profileModal,
         })

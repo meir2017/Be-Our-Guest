@@ -18,6 +18,13 @@ const styles = theme => ({
     width: 200,
     fontSize: 12
   },
+  addButton: {
+    marginTop: theme.spacing.unit * 8,
+    // position: 'absolute',
+    // bottom: theme.spacing.unit * 10,
+    // right: theme.spacing.unit * 8,
+    // zIndex: 10
+  },
 })
 
 
@@ -27,19 +34,18 @@ class CreateCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      modalCategory: false,
       name: String,
       colorCode: String
     };
-    // this.toggle = this.toggle.bind(this);
   }
 
   onChangeText = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
-  toggle = () => {
+  toggleCategory = () => {
     this.setState({
-      modal: !this.state.modal
+      modalCategory: !this.state.modalCategory
     });
   }
 
@@ -47,12 +53,12 @@ class CreateCategory extends Component {
     this.setState({
       name: '',
       colorCode: "",
-      modal: false,
+      modalCategory: false,
     });
   }
 
   handlerSaveCategory = (e) => {
-    e.preventDefault();
+   // e.stopImmediatePropagation();
     let userId = this.props.store.user._Id;
     axios.post('/beOurGuest/addNewCategory/' + userId, this.state)
       .then(response => {
@@ -66,14 +72,22 @@ class CreateCategory extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <IconButton aria-label="add" style={{ left: "50px" }} className={classes.iconButton} onClick={this.toggle} >
+        {this.props.store.myCategoryPage ?
+        <IconButton aria-label="add" style={{ left: "20px" }} className={classes.iconButton} onClick={this.toggleCategory} >
           <AddIcon className={classes.icon} />
-        </IconButton>
-        <Modal style={{ width: "300px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewCategory">
-          <form action="" onSubmit={this.handlerSaveCategory}>
-            <ModalHeader toggle={this.toggle}>Create New Category</ModalHeader>
+        </IconButton> :      
+
+        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggleCategory} className={classes.addButton}>
+            <AddIcon className={classes.addIcon} />
+            Add Category
+                    </Button>}
+
+        <Modal style={{ width: "300px" }} isOpen={this.state.modalCategory} toggle={this.toggleCategory} className="CreateNewCategory">
+          <form id="category" action="" onSubmit={this.handlerSaveCategory}>
+            <ModalHeader toggle={this.toggleCategory}>Create New Category</ModalHeader>
             <ModalBody>
               <TextField
+              form="category"
                 required
                 id="name"
                 label="Category Name"
@@ -86,12 +100,12 @@ class CreateCategory extends Component {
               <br />
               <label htmlFor="colorCode" style={{ padding: "20px" }}>color: </label>
 
-              <input type="color" required onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
+              <input type="color" form="category" required onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
 
               <br />
             </ModalBody>
             <ModalFooter>
-              <Button size="small" variant="contained" color="secondary" type="Submit"> Save </Button>
+              <Button size="small" variant="contained" color="secondary" type="Submit" > Save </Button>
               <Button size="small" variant="contained" onClick={this.handleClose}>Cancel</Button>
             </ModalFooter>
           </form>

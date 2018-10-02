@@ -47,14 +47,11 @@ class App extends Component {
       // console.log(user.username);
       axios.post('/beOurGuest/login', { name: user.username, pass: user.password })
         .then(response => {
-          debugger
           if (response.data !== "") {
             this.props.store.updateUser(response.data);
             if (eventIndex !== null) {
               // console.log("eventIndex   ===" + eventIndex)
               this.props.store.thisEventIndex(eventIndex)
-
-
             }
           }
           else {
