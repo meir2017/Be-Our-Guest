@@ -67,6 +67,4 @@ class AppDescription extends Component {
     );
   }
 }
-
-// export default AppDescription;
 export default withStyles(styles)(AppDescription);
