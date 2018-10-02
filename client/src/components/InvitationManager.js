@@ -18,7 +18,7 @@ import {
 
 const styles = theme => ({
     icon: {
-        color: 'white',
+        color:  theme.palette.secondary.main,
         fontSize: 20
     },
     iconButton: {

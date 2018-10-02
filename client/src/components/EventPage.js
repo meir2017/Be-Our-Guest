@@ -3,18 +3,25 @@ import React, { Component } from 'react';
 import CreateEvent from './CreateEvent';
 import EditEvent from './EditEvent';
 import axios from 'axios';
-import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withStyles, IconButton, Icon } from "@material-ui/core";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withStyles, IconButton, Icon, Button } from "@material-ui/core";
+import AddIcon from '@material-ui/icons/Add';
 import { observer, inject } from 'mobx-react';
 const styles = theme => ({
     icon: {
-        color: 'white',
+        color: theme.palette.secondary.main,
         fontSize: 20
     },
     iconButton: {
         height: 35,
         width: 35
-    }
+    },
+    addButton: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 10,
+        right: theme.spacing.unit * 8,
+        zIndex: 10
+    },
 });
 @inject("store")
 @observer
@@ -85,14 +92,22 @@ class EventPage extends Component {
         const { classes } = this.props;
         return (
             <div className="row">
+                <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.openModalCreate} className={classes.addButton}>
+                    <AddIcon className={classes.addIcon} />
+                    Add Event
+                    </Button>
                 <div className="col-sm-4"></div>
                 <div className="eventPage col-sm-4">
                     <br />
                     <br />
                     <br />
-                    <div className="addEvent">
-                        <Button type="button" style={{ backgroundColor: '#560027', borderRadius: "20px", height: "49px" }} className="AddEvent" onClick={this.openModalCreate} >Add Event</Button>
+                    <div>
+
+
                     </div>
+                 {/*    <div className="addEvent">
+                        <Button type="button" style={{ backgroundColor: '#560027', borderRadius: "20px", height: "49px" }} className="AddEvent" onClick={this.openModalCreate} >Add Event</Button>
+                    </div> */}
                     <div className="myEvent">
                         {this.props.store.user.events.map((eve, index) => {
                             return (
