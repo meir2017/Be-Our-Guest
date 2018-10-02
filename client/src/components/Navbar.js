@@ -75,7 +75,7 @@ class Navbar extends Component {
             <div className={classes.root} >
                 <AppBar position="static">
                     <Toolbar className={classes.menu}>
-                        <DropdownEvent />
+                        {this.props.store.user.userLog && <DropdownEvent />}
                         <AccountManager className={classes.account} />
                     </Toolbar>
                 </AppBar>
