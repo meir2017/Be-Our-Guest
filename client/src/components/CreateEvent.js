@@ -1,7 +1,16 @@
 
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import TextField from '@material-ui/core/TextField';
+import {Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+    Button,
+    withStyles,
+    MenuItem,
+    TextField,
+    Select,
+    InputLabel,
+    FormHelperText,
+    FormControl,
+  } from '@material-ui/core';
 import axios from 'axios';
 import MyModal from './Modal';
 
@@ -81,8 +90,8 @@ class CreateEvent extends Component {
                                 <br />
                             </ModalBody>
                             <ModalFooter style={{ textAlign: "center" }}>
-                                <Button style={{ backgroundColor: '#560027' }} variant="contained" type="Submit" >Save</Button>
-                                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                                <Button  size="small" variant="contained" color="secondary" type="Submit" >Save</Button>
+                                <Button size="small" variant="contained" onClick={this.toggle}>Cancel</Button>
                             </ModalFooter>
                         </form>
                     </Modal>
