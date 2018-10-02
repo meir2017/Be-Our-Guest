@@ -48,8 +48,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './app/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'index_bundle.js',
+        path: path.resolve(__dirname, 'client/build'),
+        filename: 'index.js',
         publicPath: '/'
     },
     module: {
