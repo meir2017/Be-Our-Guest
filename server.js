@@ -43,31 +43,6 @@ io.on('connection', socket => {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = {
-    entry: './app/index.js',
-    output: {
-        path: path.resolve(__dirname, 'client/build'),
-        filename: 'index.js',
-        publicPath: '/'
-    },
-    module: {
-        rules: [
-            { test: /\.(js)$/, use: 'babel-loader' },
-            { test: /\.css$/, use: ['style-loader', 'css-loader'] }
-        ]
-    },
-    devServer: {
-        historyApiFallback: true,
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: 'app/index.html'
-        })
-    ]
-};
-
 //***************  Email ***************//
 // Forgot tPassword  
 app.get('/beOurGuest/ForgotPassword/:userEmail', (req, res) => {
@@ -125,6 +100,7 @@ app.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
     let item = req.body
     let vetId = req.params.vetId;
     let eventId = req.params.eventId;
+    // Guest. find({}). populate({ path: 'globalGuest_id', select: 'email' }).
     Event.findById(req.params.eventId).
         populate({
             path: 'guests',
