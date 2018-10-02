@@ -17,6 +17,7 @@ mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGues
 });
 
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -373,6 +374,33 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
             console.log(err);
         })
 });
+
+
+app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) => {
+    const newGuest = req.body;
+    Guest.findOne({ _id: req.params.GustId })
+        .then(gust => {
+            gust.numInvited = newGuest.numInvited
+            gust.numComing = newGuest.numComing;
+            gust.numNotComing = newGuest.numNotComing
+            gust.categories = newGuest.categories;
+            gust.save()
+                .then(() => {
+                    GlobalGuest.findOne({ _id: req.params.GlobalGuestId })
+                        .then(gustGlonal => {
+                            gustGlonal.name = newGuest.globalGuest.name;
+                            gustGlonal.email = newGuest.globalGuest.email;
+                            gustGlonal.phone = newGuest.globalGuest.phone;
+                            gustGlonal.save()
+                            res.send("Change Guest")
+                        })
+                }
+                ).then(console.log("Change Guest"));
+        });
+})
+
+
+
 
 // remove guest
 app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {

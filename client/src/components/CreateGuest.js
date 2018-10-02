@@ -32,7 +32,7 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 200,
     fontSize: 12
-  },  
+  },
   addIcon: {
     marginRight: theme.spacing.unit,
   },
@@ -40,7 +40,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120,
   },
- 
+
   addButton: {
     position: 'absolute',
     bottom: theme.spacing.unit * 10,
@@ -140,75 +140,75 @@ class CreateGuest extends Component {
         </Button>
 
         {this.state.modal &&
-            <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
-              <form action="" onSubmit={this.handleSaveGuest}>
-                <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
-                <ModalBody>
-                  <TextField
-                    required
-                    id="name" label="Name" type="text" className="textField"
-                    name="name" onChange={this.onChangeText} value={this.inputText}
-                  />
-                  <br />
-                  <TextField
-                    required
-                    id="email" label="Email" type="email" className="textField"
-                    name="email" onChange={this.onChangeText} value={this.inputText}
-                  />
-                  <br />
-                  <TextField
+          <Modal style={{ width: "320px" }} isOpen={this.state.modal} toggle={this.toggle} className="CreateNewguest">
+            <form action="" onSubmit={this.handleSaveGuest}>
+              <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
+              <ModalBody>
+                <TextField
+                  required
+                  id="name" label="Name" type="text" className="textField"
+                  name="name" onChange={this.onChangeText} value={this.inputText}
+                />
+                <br />
+                <TextField
+                  required
+                  id="email" label="Email" type="email" className="textField"
+                  name="email" onChange={this.onChangeText} value={this.inputText}
+                />
+                <br />
+                <TextField
 
-                    id="phone" label="Phone" type="text" className="textField"
-                    name="phone" onChange={this.onChangeText} value={this.inputText}
-                  />
+                  id="phone" label="Phone" type="text" className="textField"
+                  name="phone" onChange={this.onChangeText} value={this.inputText}
+                />
 
-                  <br />
+                <br />
 
-                  <TextField
+                <TextField
 
-                    id="invited" label="Invited" inputProps={{ min: "1", max: "10", step: "1" }} type="number" className="textField"
-                    name="invited" onChange={this.onChangeText} value={this.inputText}
-                    required
-                  />
-                  <br />
-                  <TextField
+                  id="invited" label="Invited" inputProps={{ min: "1", max: "10", step: "1" }} type="number" className="textField"
+                  name="invited" onChange={this.onChangeText} value={this.inputText}
+                  required
+                />
+                <br />
+                <TextField
 
-                    id="coming" label="Coming" type="number" className="textField"
-                    name="coming" onChange={this.onChangeText} value={this.inputText}
-                  />
-                  <br />
-                  <TextField
-                    id="notComing" label="Not coming" type="number" className="textField"
-                    name="notComing" onChange={this.onChangeText} value={this.inputText}
-                  />
-                  <FormControl required className={classes.formControl}  >
-                    <InputLabel shrink htmlFor="category">category</InputLabel>
-                    <div className={classes.container} style={{ width: "170px" }} >
-                      <Select
+                  id="coming" label="Coming" type="number" className="textField"
+                  name="coming" onChange={this.onChangeText} value={this.inputText}
+                />
+                <br />
+                <TextField
+                  id="notComing" label="Not coming" type="number" className="textField"
+                  name="notComing" onChange={this.onChangeText} value={this.inputText}
+                />
+                <FormControl required className={classes.formControl}  >
+                  <InputLabel shrink htmlFor="category">category</InputLabel>
+                  <div className={classes.container} style={{ width: "170px" }} >
+                    <Select
 
-                        required
-                        native
-                        label="Category"
-                        value={this.state.category}
-                        id="category"
-                        name="categoryName"
-                        onChange={this.handleChange} >
-                        <option disabled value="" />
-                        {this.props.store.user.categories.map((item, index) => {
-                          return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
-                        })}
-                      </Select>
-                      <CreateCategory />
-                    </div>
-                    <FormHelperText>Select category or create new</FormHelperText>
-                  </FormControl>
-                </ModalBody>
-                <ModalFooter>
-                  <Button size="small" variant="contained" color="secondary" type="Submit"> Save </Button>
-                  <Button size="small" variant="contained" onClick={this.toggle}>Cancel</Button>
-                </ModalFooter>
-              </form>
-            </Modal>
+                      required
+                      native
+                      label="Category"
+                      value={this.state.category}
+                      id="category"
+                      name="categoryName"
+                      onChange={this.handleChange} >
+                      <option disabled value="" />
+                      {this.props.store.user.categories.map((item, index) => {
+                        return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
+                      })}
+                    </Select>
+                    <CreateCategory />
+                  </div>
+                  <FormHelperText>Select category or create new</FormHelperText>
+                </FormControl>
+              </ModalBody>
+              <ModalFooter>
+                <Button size="small" variant="contained" color="secondary" type="Submit"> Save </Button>
+                <Button size="small" variant="contained" onClick={this.toggle}>Cancel</Button>
+              </ModalFooter>
+            </form>
+          </Modal>
         }
       </div>
     );

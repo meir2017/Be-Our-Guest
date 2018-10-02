@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Invitation from './Invitation';
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 
@@ -10,26 +9,16 @@ import {
     Icon,
     Button,
     withStyles,
-    Grid,
-    Paper,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
     IconButton,
-    Avatar,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
-    Tooltip
-
 } from '@material-ui/core';
 
 const styles = theme => ({
     icon: {
-        color: 'white',
+        color:  theme.palette.secondary.main,
         fontSize: 20
     },
     iconButton: {
@@ -59,27 +48,16 @@ class InvitationManager extends Component {
 
     myIndex = (e) => {
         e.preventDefault();
-        // console.log(e.target.id)
         this.props.store.theInvitationIndex(e.target.id)
     }
 
-    // toggleRemove = () => {
-    //     this.setState({
-    //         modalRemove: !this.state.modalRemove
-    //     });
-    // }
-
     removeInvitations = () => {
-        // console.log(this.props.store.invitationIndex)
-        ///beOurGuest/removeInvitation/:eventId/:eventIndex/:index/
         let eventIndex = this.props.store.eventIndex;
         let eventId = this.props.store.user.events[eventIndex]._id;
         let index = this.props.store.invitationIndex;
 
         axios.delete(`/beOurGuest/removeInvitation/${eventId}/${eventIndex}/${index}`)
             .then(response => {
-                // console.log("remove Invitation")
-                // console.log((response.data))
                 this.props.store.removeInvitation(index)
             })
         this.toggleDialogInvitation();
@@ -88,16 +66,9 @@ class InvitationManager extends Component {
     }
     editInvitations = (e) => {
         e.preventDefault();
-        // console.log(e.target.id)
         this.props.store.theInvitationIndex(e.target.id)
         this.setState({ num: this.state.num + 1 })
     }
-
-    // toggleSendEmail = () => {
-    //     this.setState({
-    //         modalEmail: !this.state.modalEmail
-    //     });
-    // }
     toggleSend = () => {
         this.setState({
             modal: !this.state.modal
@@ -109,7 +80,7 @@ class InvitationManager extends Component {
     toggleDialogSend = () => {
         this.setState({ opebDialogSend: !this.state.opebDialogSend });
     };
-    
+
     sendInvitations = () => {
         let item = this.props.store
         let e_index = item.eventIndex;
@@ -120,18 +91,14 @@ class InvitationManager extends Component {
         let vetId = vet._id;
         let guestId = "temid"
         let getAllGuest = event.guests
-
-        // console.log(JSON.stringify(getAllGuest))
         let invet = event.invitations[i_Index];
-        // console.log(invet.fontBody)
-        // console.log(JSON.stringify(invet))
         let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
-        // console.log(linkRsvp2)
 
+        // let linkRsvp2 = `https://beourguest.herokuapp.com/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
+        console.log(linkRsvp2)
         axios.post(`/beOurGuest/rsvpEmail/${vetId}/${event._id}/`, invet)
             .then(response => {
                 console.log("send all email ")
-                // console.log((response.data))
             })
         this.toggleDialogSend();
 
@@ -153,14 +120,14 @@ class InvitationManager extends Component {
             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={this.removeInvitations} color="secondary" autoFocus>
+                        <Button onClick={this.removeInvitations} color="secondary" autoFocus>
                             Remove
             </Button>
                         <Button onClick={this.toggleDialogInvitation}>
                             Cancel
-            </Button>                        
+            </Button>
                     </DialogActions>
-                </Dialog>                
+                </Dialog>
 
                 <Dialog
                     open={this.state.opebDialogSend}
@@ -174,11 +141,11 @@ class InvitationManager extends Component {
             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                       
+
                         <Button onClick={this.sendInvitations} color="secondary" autoFocus>
-                            Remove
+                            Send
             </Button>
-            <Button onClick={this.toggleDialogSend} >
+                        <Button onClick={this.toggleDialogSend} >
                             Cancel
             </Button>
                     </DialogActions>
@@ -228,25 +195,6 @@ class InvitationManager extends Component {
                     </div>
 
                 </div>
-
-                 {/* <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modal} toggle={this.toggleSend} >
-                     <ModalHeader toggle={this.toggleSend}>Do you want to send an invitation to all your guests</ModalHeader>
-                     <ModalFooter>
-                         <Button style={{ backgroundColor: '#560027' }} onClick={this.sendInvitations}>Send</Button>{' '}
-                         <Button color="secondary" onClick={this.toggleSend}>Cancel</Button>
-                     </ModalFooter>
-                 </Modal> */}
-
-               {/* <div>
-                     <Modal className="modalm smallModal" style={{ width: "240px" }} isOpen={this.state.modalRemove} toggle={this.toggleRemove}>
-                        <ModalHeader toggle={this.toggle}>Do you want to delete this invitation?</ModalHeader>
-                        <ModalFooter className="btnSend" >
-                            <Button onClick={this.removeInvitations} style={{ backgroundColor: '#560027' }}>Yes</Button>
-                            <Button onClick={this.toggleRemove} color="secondary" >No</Button>
-                        </ModalFooter>
-
-                    </Modal> 
-                </div>*/}
             </div>
 
 
