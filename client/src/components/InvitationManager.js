@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Invitation from './Invitation';
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 
@@ -10,21 +9,11 @@ import {
     Icon,
     Button,
     withStyles,
-    Grid,
-    Paper,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
     IconButton,
-    Avatar,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
-    Tooltip
-
 } from '@material-ui/core';
 
 const styles = theme => ({
@@ -59,27 +48,16 @@ class InvitationManager extends Component {
 
     myIndex = (e) => {
         e.preventDefault();
-        // console.log(e.target.id)
         this.props.store.theInvitationIndex(e.target.id)
     }
 
-    // toggleRemove = () => {
-    //     this.setState({
-    //         modalRemove: !this.state.modalRemove
-    //     });
-    // }
-
     removeInvitations = () => {
-        // console.log(this.props.store.invitationIndex)
-        ///beOurGuest/removeInvitation/:eventId/:eventIndex/:index/
         let eventIndex = this.props.store.eventIndex;
         let eventId = this.props.store.user.events[eventIndex]._id;
         let index = this.props.store.invitationIndex;
 
         axios.delete(`/beOurGuest/removeInvitation/${eventId}/${eventIndex}/${index}`)
             .then(response => {
-                // console.log("remove Invitation")
-                // console.log((response.data))
                 this.props.store.removeInvitation(index)
             })
         this.toggleDialogInvitation();
@@ -88,16 +66,9 @@ class InvitationManager extends Component {
     }
     editInvitations = (e) => {
         e.preventDefault();
-        // console.log(e.target.id)
         this.props.store.theInvitationIndex(e.target.id)
         this.setState({ num: this.state.num + 1 })
     }
-
-    // toggleSendEmail = () => {
-    //     this.setState({
-    //         modalEmail: !this.state.modalEmail
-    //     });
-    // }
     toggleSend = () => {
         this.setState({
             modal: !this.state.modal
@@ -120,18 +91,14 @@ class InvitationManager extends Component {
         let vetId = vet._id;
         let guestId = "temid"
         let getAllGuest = event.guests
-
-        // console.log(JSON.stringify(getAllGuest))
         let invet = event.invitations[i_Index];
-        // console.log(invet.fontBody)
-        // console.log(JSON.stringify(invet))
         let linkRsvp2 = `http://localhost:3000/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
-        // console.log(linkRsvp2)
 
+        // let linkRsvp2 = `https://beourguest.herokuapp.com/beuorguest/rsvp/${vetId}/${event._id}/${guestId}/`
+        console.log(linkRsvp2)
         axios.post(`/beOurGuest/rsvpEmail/${vetId}/${event._id}/`, invet)
             .then(response => {
                 console.log("send all email ")
-                // console.log((response.data))
             })
         this.toggleDialogSend();
 
