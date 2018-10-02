@@ -122,11 +122,13 @@ overflow: auto;
   border: solid 2px #d1d1d1;
 padding-top: 10px;
 padding-bottom: 10px;
-background-color: #7e0a3e;
-color: white;
+background-color: #99919436;
+color: #4d0827;
 font-size: 16px;
 margin: 10px;
 border-radius: 10px;
+font-style: italic;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0, 0, 0, 0.11);
 }
 
 .btnicon i{
@@ -190,5 +192,7 @@ select#category {
   border: #7E0A3E solid 1px;
   border-radius: 10px; 
 box-shadow: #7E0A3E 5px 8px;
+box-shadow: 0 6px 10px 0 rgba(70, 9, 37, 0.452), 0 8px 22px 0  rgba(70, 9, 37, 0.452);
+padding: 10px;
 /* border-top-color: #7E0A3E */
 }
