@@ -50,7 +50,7 @@ class SimpleSelect extends React.Component {
                 <FormControl className={classes.formControl} id="SelectEvent">
                     <Select
                         className="SelectEvent"
-                        style={{ color: "white" }}
+                        style={{ color: "white", marginTop:'0' }}
                         value={this.state.event}
                         onChange={this.handleChange}
                         value={this.props.store.eventIndex}
@@ -58,7 +58,7 @@ class SimpleSelect extends React.Component {
                         name="event"
                         className={classes.selectEmpty}
                     >
-                        <MenuItem value={null}>
+                        <MenuItem value={null} disabled>
                             <em>Select Event</em>
                         </MenuItem>
                         {this.props.store.user.events.length === 0 ? <MenuItem value={null}> No events </MenuItem> : this.props.store.user.events.map((eve, index) => {
