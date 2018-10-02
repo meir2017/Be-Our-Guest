@@ -28,13 +28,13 @@ class App extends Component {
     super(props);
     this.state = {
       rsvpfunc: false,
-      endpoint: "http://127.0.0.1:3001"
-      // endpoint: "https://beourguest.herokuapp.com"
+      // endpoint: "http://127.0.0.1:3001"
+      endpoint: "https://beourguest1.herokuapp.com"
     };
   }
 
   @action
-  updateTablesInDb = () => {};
+  updateTablesInDb = () => { };
 
   @action
   componentWillMount() {
@@ -57,7 +57,7 @@ class App extends Component {
             // console.log("no user Account ")
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     }
@@ -108,12 +108,12 @@ class App extends Component {
         <div className="App">
           {!this.state.rsvpfunc && <Navbar />}
           {!this.state.rsvpfunc &&
-          (this.props.store.eventIndex != null &&
-            this.props.store.user.userLog) ? (
-            <EventManager />
-          ) : (
-            false
-          )}
+            (this.props.store.eventIndex != null &&
+              this.props.store.user.userLog) ? (
+              <EventManager />
+            ) : (
+              false
+            )}
           {!this.props.store.myEventPage && <EventPage />}
           <BrowserRouter>
             <div
