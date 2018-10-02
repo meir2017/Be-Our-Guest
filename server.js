@@ -589,7 +589,7 @@ app.post('/beOurGuest/updateGuests/', (req, res) => {
 })
 
 //***************  Category ***************//
-//createCategory
+//create Category
 app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     let item = req.body;
     let newCategory = new Category({

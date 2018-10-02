@@ -31,9 +31,17 @@ class AccountManager extends Component {
     openMyEventPage = () => {
         this.props.store.thisEventIndex(null)
         this.props.store.ChangeMyEventPage(false)
+        this.props.store.ChangeMyCategoryPage(true)
         this.handleCloseMenuAccount();
-
     }
+
+    openMyCategoryPage = () => {
+        this.props.store.thisEventIndex(null)        
+        this.props.store.ChangeMyCategoryPage(false)
+        this.props.store.ChangeMyEventPage(true)
+        this.handleCloseMenuAccount();
+    }
+
     handleMenuAccount = event => {
         if (this.props.store.user.userLog)
             this.setState({ anchorMenuAccount: event.currentTarget });
@@ -103,6 +111,7 @@ class AccountManager extends Component {
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.openProfile}>Profile</MenuItem>
                     <MenuItem onClick={this.openMyEventPage} >My Events</MenuItem>
+                    <MenuItem onClick={this.openMyCategoryPage} >My Category</MenuItem>
                 </Menu>
                 <Modal className="modalm smallModal" style={{ width: "350px" }} isOpen={this.state.profileModal} toggle={this.openProfile} >
                     <ModalHeader toggle={this.openProfile} ><h3 style={{ textAlign: "center" }}> Profile</h3>

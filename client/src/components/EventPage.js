@@ -58,11 +58,6 @@ class EventPage extends Component {
             this.setState({ modalEdit: !this.state.modalEdit })
         });
     }
-
-
-
-
-
     toggleRemove = () => {
         // this.handleClose(e)
         this.setState({

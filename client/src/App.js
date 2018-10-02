@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
 import EventPage from "./components/EventPage";
+import CategoryPage from './components/CategoryPage'
 import "./App.css";
 import EventManager from "./components/EventManager";
 import AppDescription from "./components/AppDescription";
@@ -46,7 +47,6 @@ class App extends Component {
       axios
         .post("/beOurGuest/login", { name: user.username, pass: user.password })
         .then(response => {
-          debugger;
           if (response.data !== "") {
             this.props.store.updateUser(response.data);
             if (eventIndex !== null) {
@@ -83,7 +83,6 @@ class App extends Component {
         for (let i_g = 0; i_g < events[index].guests.length; i_g++) {
           // get gest indes
           if (events[index].guests[i_g]._id == obj.guestId) {
-            debugger;
             console.log("guest index : " + i_g);
             this.props.store.realTimeRsvp(
               index,
@@ -115,6 +114,7 @@ class App extends Component {
             false
           )}
           {!this.props.store.myEventPage && <EventPage />}
+          {!this.props.store.myCategoryPage && <CategoryPage />}
           <BrowserRouter>
             <div
               style={{
