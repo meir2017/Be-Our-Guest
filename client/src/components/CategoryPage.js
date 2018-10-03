@@ -132,7 +132,7 @@ class CategoryPage extends Component {
 
                 <div className="col-sm-4"></div>
                 <div className="eventPage col-sm-4">
-                    <div className="myEvent">
+                    <div className="myEvent categoriesContainer">
                         {this.props.store.user.categories.map((category, index) => {
                             return (
                                 <div className="iteminvitations container" style={{ cursor: 'pointer' }}>
@@ -141,7 +141,7 @@ class CategoryPage extends Component {
                                             id={index}
                                             style={{
                                                 display: 'flex',
-                                                justifyContent: 'center', /* align horizontal */
+                                                justifyContent: 'left', /* align horizontal */
                                                 alignItems: 'center'
                                             }}>
                                             <Avatar

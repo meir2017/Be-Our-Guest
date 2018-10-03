@@ -20,7 +20,7 @@ const styles = theme => ({
   },
   addButton: {
     //marginTop: theme.spacing.unit * 8,
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
     zIndex: 10
