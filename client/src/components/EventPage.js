@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import CreateEvent from './CreateEvent';
 import EditEvent from './EditEvent';
 import axios from 'axios';
+
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withStyles, IconButton, Icon, Button } from "@material-ui/core";
+import {
+    withStyles, IconButton, Icon, Button, Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import { observer, inject } from 'mobx-react';
+
 const styles = theme => ({
     icon: {
         color: theme.palette.secondary.main,
@@ -58,11 +65,6 @@ class EventPage extends Component {
             this.setState({ modalEdit: !this.state.modalEdit })
         });
     }
-
-
-
-
-
     toggleRemove = () => {
         // this.handleClose(e)
         this.setState({
@@ -142,7 +144,7 @@ class EventPage extends Component {
                 </div>
                 <CreateEvent openModalCreate={this.openModalCreate}
                     modalCreate={this.state.modalCreate} />
-                <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
+                {/* <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
                     <ModalHeader toggle={this.toggleRemove}>Do you want to delete this event?</ModalHeader>
                     <ModalFooter className="btnSend" >
                         <Button color="secondary" variant="contained" onClick={this.handlerRemoveEvent}>Yes</Button>
@@ -150,23 +152,37 @@ class EventPage extends Component {
 
                     </ModalFooter>
 
-                </Modal>
+                </Modal> */}
+
+                <div className="removdelog">
+                    <Dialog
+                        open={this.state.modalRemove}
+                        onClose={this.toggleRemove}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-Invitation"
+                    >
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-Invitation">
+                                Are you sure you want to remove this event?
+            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handlerRemoveEvent} color="secondary" autoFocus>
+                                Remove
+            </Button>
+                            <Button onClick={this.toggleRemove}>
+                                Cancel
+            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+
+
                 <EditEvent openEditeEvent={this.openEditeEvent}
                     modalEdit={this.state.modalEdit}
                     indexEvent={this.state.myEvent} />
 
 
-                <div>
-                    {/* <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
-                        <ModalHeader toggle={this.toggleRemove}>Do you want to delete this event?</ModalHeader>
-                        <ModalFooter className="btnSend" >
-                            <Button color="secondary" variant="contained" onClick={this.handlerRemoveEvent}>Yes</Button>
-                            <Button variant="contained" onClick={this.toggleRemove} className={classes.cancelButton}>No</Button>
-
-                        </ModalFooter>
-
-                    </Modal> */}
-                </div>
 
 
             </div>

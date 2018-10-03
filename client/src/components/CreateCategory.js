@@ -19,12 +19,13 @@ const styles = theme => ({
     fontSize: 12
   },
   addButton: {
-    marginTop: theme.spacing.unit * 8,
-    // position: 'absolute',
-    // bottom: theme.spacing.unit * 10,
-    // right: theme.spacing.unit * 8,
-    // zIndex: 10
+    //marginTop: theme.spacing.unit * 8,
+    position: 'absolute',
+    bottom: theme.spacing.unit * 10,
+    right: theme.spacing.unit * 8,
+    zIndex: 10
   },
+
 })
 
 
@@ -35,8 +36,8 @@ class CreateCategory extends Component {
     super(props);
     this.state = {
       modalCategory: false,
-      name: String,
-      colorCode: String
+      name: "",
+      colorCode: "#000000"
     };
   }
 
@@ -52,13 +53,15 @@ class CreateCategory extends Component {
   handleClose = () => {
     this.setState({
       name: '',
-      colorCode: "",
+      colorCode: "#000000",
       modalCategory: false,
     });
   }
 
   handlerSaveCategory = (e) => {
-   // e.stopImmediatePropagation();
+    //this.handleClose();
+    let currentEvent = this.state;
+    e.preventDefault();
     let userId = this.props.store.user._Id;
     axios.post('/beOurGuest/addNewCategory/' + userId, this.state)
       .then(response => {
@@ -73,21 +76,20 @@ class CreateCategory extends Component {
     return (
       <div>
         {this.props.store.myCategoryPage ?
-        <IconButton aria-label="add" style={{ left: "20px" }} className={classes.iconButton} onClick={this.toggleCategory} >
-          <AddIcon className={classes.icon} />
-        </IconButton> :      
+          <IconButton aria-label="add" style={{ left: "20px" }} className={classes.iconButton} onClick={this.toggleCategory} >
+            <AddIcon className={classes.icon} />
+          </IconButton> :
 
-        <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggleCategory} className={classes.addButton}>
+          <Button variant="extendedFab" color="secondary" aria-label="Add" onClick={this.toggleCategory} className={classes.addButton}>
             <AddIcon className={classes.addIcon} />
             Add Category
                     </Button>}
 
         <Modal style={{ width: "300px" }} isOpen={this.state.modalCategory} toggle={this.toggleCategory} className="CreateNewCategory">
-          <form id="category" action="" onSubmit={this.handlerSaveCategory}>
+          <form action="" onSubmit={this.handlerSaveCategory}>
             <ModalHeader toggle={this.toggleCategory}>Create New Category</ModalHeader>
             <ModalBody>
               <TextField
-              form="category"
                 required
                 id="name"
                 label="Category Name"
@@ -98,9 +100,9 @@ class CreateCategory extends Component {
                 name="name"
               />
               <br />
-              <label htmlFor="colorCode" style={{ padding: "20px" }}>color: </label>
+              <label htmlFor="colorCode" style={{ padding: "20px" }}>Select color</label>
 
-              <input type="color" form="category" required onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
+              <input type="color" required onChange={this.onChangeText} value={this.state.colorCode} name="colorCode" id="colorCode" />
 
               <br />
             </ModalBody>

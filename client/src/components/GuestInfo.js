@@ -90,7 +90,7 @@ class GuestInfo extends Component {
       name_g: myGuest.globalGuest_id.name,
       email_g: myGuest.globalGuest_id.email,
       phone_g: myGuest.globalGuest_id.phone,
-      category_g: myGuest.categories,
+      category_g: myGuest.categories[0],
       // categoryName: this.props.store.user.guests[index].categoryName,
       invited_g: myGuest.numInvited,
       coming_g: myGuest.numComing,
@@ -125,7 +125,7 @@ class GuestInfo extends Component {
     const GustId = this.props.store.user.events[this.props.store.eventIndex].guests[this.state.index_guest]._id;
     const GlobalGuestId = this.props.store.user.events[this.props.store.eventIndex].guests[this.state.index_guest].globalGuest_id._id;
 
-
+    debugger
     axios.post(
       '/beOurGuest/handleSaveChangeGuest/' + GustId + '/' + GlobalGuestId, objGuest)
       .then(response => {
