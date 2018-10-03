@@ -166,7 +166,31 @@ class BeOurGuestStore {
     this.user.events[this.eventIndex].guests = guestList;
   }
   //****************************************************** */
+  @action handleSaveChangeGuest = (index, newGuest) => {
 
+    const myGuest = this.user.events[this.eventIndex].guests[index]; //on store
+    console.log(JSON.stringify(myGuest))
+    console.log(JSON.stringify(newGuest))
+    console.log(index)
+
+
+    myGuest.categories[0] = newGuest.categories;
+    myGuest.numInvited = newGuest.numInvited
+    myGuest.numComing = newGuest.numComing
+    myGuest.numNotComing = newGuest.numNotComing
+
+    myGuest.globalGuest_id.name = newGuest.globalGuest.name;
+    myGuest.globalGuest_id.email = newGuest.globalGuest.email
+    myGuest.globalGuest_id.phone = newGuest.globalGuest.phone;
+
+  }
+  // --------
+
+  @action removeGuest = (guestIndex) => {
+    let guestList = this.user.events[this.eventIndex].guests.concat();
+    guestList.splice(guestIndex, 1);
+    this.user.events[this.eventIndex].guests = guestList;
+  }
   // Invitation function
   @action addInvitation = (newlistinvitations) => {
     let listinvitations = this.user.events[this.eventIndex].invitations.concat();
