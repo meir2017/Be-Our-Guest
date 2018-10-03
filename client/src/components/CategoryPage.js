@@ -53,21 +53,59 @@ class CategoryPage extends Component {
         super(props);
         this.state = {
             currentCategory: null,
+            currentCategoryNum: -1,
             openDeleteCategory: false
         }
     }
-    handleOpenDeleteTable = () => {
+    handleOpenDeleteCategory = () => {
         this.setState({ openDeleteCategory: !this.state.openDeleteCategory });
     };
 
-    handleCloseDeleteTable = () => {
+    handleCloseDeleteCategory = () => {
         this.setState({ openDeleteCategory: !this.state.openDeleteCategory });
     };
 
     myIndex = (e) => {
         e.preventDefault();
-        this.setState({ currentCategory: e.target.id })
+        this.setState({ currentCategory: this.props.store.user.categories[e.target.id]})
     }
+
+    handleDeleteCategory = () => {
+        this.handleCloseDeleteCategory();
+        let currentEvent = this.props.store.user.categories[this.state.currentCategoryNum];
+       // let currentEventTest = this.state.currentCategory;
+        for (let i = 0; i < this.props.store.user.events.length; i++)
+        let i = 0;
+        // let tables = Array.from(currentEvent.tables);
+        // let guests = Array.from(currentEvent.guests);
+
+        // let myTable = tables.find(table => this.props.table._id === table._id);
+        // let tableIndex = tables.findIndex(
+        //   table => this.props.table._id === table._id
+        // );
+        // for (let i = 0; i < myTable.guests.length; i++) {
+        //   let myGuests = guests.find(guest => guest._id === myTable.guests[i]);
+        //   myGuests.seated = false;
+        // }
+        // tables.splice(tableIndex, 1);
+
+        // this.props.store.updateGuests(guests);
+        // this.props.store.updateTables(tables);
+
+        // axios
+        //   .post("/beOurGuest/deleteTable/" + currentEvent._id, {
+        //     _id: this.props.table._id
+        //   })
+        //   .then(response => {
+        //     // console.log(response);
+        //   })
+        //   .then(res => {
+        //     axios.post("/beOurGuest/updateGuests/", guests).then(res1 => {
+        //       // console.log(res1);
+        //     });
+        //   })
+        //   .catch(err => console.log("Error: ", err));
+    };
 
     // toggleRemove = () => {
     //     // this.handleClose(e)
@@ -110,13 +148,9 @@ class CategoryPage extends Component {
             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            onClick={this.handleDeleteTable}
-                            color="secondary"
-                            autoFocus
-                        >
+                        <Button onClick={this.handleDeleteCategory} color="secondary" autoFocus >
                             Remove
-            </Button>
+                        </Button>
                         <Button onClick={this.handleCloseDeleteCategory}>Cancel</Button>
                     </DialogActions>
                 </Dialog>
@@ -152,13 +186,11 @@ class CategoryPage extends Component {
                                             {category.name}
                                         </div>
                                         <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>
-                                            <IconButton
-                                                aria-label="Delete"
-                                                className={classes.iconButton}                                                
-                                            >
-                                                <ClearIcon className={classes.icon} />
+                                            <IconButton className={classes.iconButton} >
+                                                {/* <ClearIcon id={index} onClick={e => { this.myIndex(e); this.handleOpenDeleteCategory() }} id={index} className={classes.icon} /> */}
+                                                <Icon id={index} onClick={e => { this.myIndex(e); this.handleOpenDeleteCategory() }} id={index} className={classes.icon}>clear_icon</Icon>
                                             </IconButton>
-                                            {/* onClick={this.handleOpenDeleteTable} <IconButton className={classes.iconButton}>
+                                            {/* onClick={this.handleOpenDeleteCategory} <IconButton className={classes.iconButton}>
                                                 <Icon id={index} onClick={e => { this.openEditeEvent(e.target.id) }} id={index} className={classes.icon}>edit_icon</Icon>
                                             </IconButton> */}
                                             {/* <IconButton className={classes.iconButton}>
