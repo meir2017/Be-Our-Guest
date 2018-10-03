@@ -12,7 +12,7 @@ const io = require('socket.io')(server)
 
 
 // let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
-mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB_test', function () {
     console.log("DB connection established!!!");
 });
 
@@ -375,7 +375,7 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
         })
 });
 
-
+// edit guest
 app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) => {
     const newGuest = req.body;
     Guest.findOne({ _id: req.params.GustId })
@@ -383,7 +383,13 @@ app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) 
             gust.numInvited = newGuest.numInvited
             gust.numComing = newGuest.numComing;
             gust.numNotComing = newGuest.numNotComing
-            gust.categories = newGuest.categories;
+            // gust.categories = newGuest.categories;
+            // gust.categories[0] = newGuest.categories;
+            ///
+            let guestList = gust.categories.concat();
+            guestList[0] = newGuest.categories;
+            gust.categories = guestList;
+            ///
             gust.save()
                 .then(() => {
                     GlobalGuest.findOne({ _id: req.params.GlobalGuestId })
@@ -391,6 +397,7 @@ app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) 
                             gustGlonal.name = newGuest.globalGuest.name;
                             gustGlonal.email = newGuest.globalGuest.email;
                             gustGlonal.phone = newGuest.globalGuest.phone;
+                            console.log(gust.categories);
                             gustGlonal.save()
                             res.send("Change Guest")
                         })
@@ -398,9 +405,6 @@ app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) 
                 ).then(console.log("Change Guest"));
         });
 })
-
-
-
 
 // remove guest
 app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {

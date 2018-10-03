@@ -77,10 +77,15 @@ class EventPage extends Component {
         let eventId = this.props.store.user.events[index]._id;
         // console.log("index  " + index)
         // console.log("eventId  " + eventId)
+        this.setState({ myEvent: null })
+
         axios.delete(`/beOurGuest/removEvent/${this.props.store.user._Id}/${eventId}/${index}/`)
             .then(response => {
                 // console.log((response.data))
-                this.props.store.removEvent(index)
+
+                this.props.store.thisEventIndex(null);
+                this.props.store.removEvent(index);
+
             })
         // this.handleClose(e)
         this.props.store.thisEventIndex(null)
@@ -104,7 +109,7 @@ class EventPage extends Component {
 
 
                     </div>
-                 {/*    <div className="addEvent">
+                    {/*    <div className="addEvent">
                         <Button type="button" style={{ backgroundColor: '#560027', borderRadius: "20px", height: "49px" }} className="AddEvent" onClick={this.openModalCreate} >Add Event</Button>
                     </div> */}
                     <div className="myEvent">
@@ -152,7 +157,7 @@ class EventPage extends Component {
 
 
                 <div>
-                    <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
+                    {/* <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.modalRemove} >
                         <ModalHeader toggle={this.toggleRemove}>Do you want to delete this event?</ModalHeader>
                         <ModalFooter className="btnSend" >
                             <Button color="secondary" variant="contained" onClick={this.handlerRemoveEvent}>Yes</Button>
@@ -160,7 +165,7 @@ class EventPage extends Component {
 
                         </ModalFooter>
 
-                    </Modal>
+                    </Modal> */}
                 </div>
 
 
