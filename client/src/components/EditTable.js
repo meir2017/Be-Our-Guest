@@ -199,7 +199,7 @@ class EditTableModal extends Component {
           </DialogContent>
           <Divider></Divider>
           <DialogActions>
-            <Button size="small" variant="contained" color="secondary" onClick={this.editTable} > Save </Button>
+            <Button size="small" variant="contained" color="secondary" onClick={this.editTable} > Edit </Button>
             <Button size="small" variant="contained" onClick={this.handleClose}>Cancel</Button>
           </DialogActions>
         </Popover >

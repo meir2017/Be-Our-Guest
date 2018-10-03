@@ -47,6 +47,11 @@ const styles = theme => ({
     width: 20,
 
   },
+  addCategoryButton: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 14,
+    right: theme.spacing.unit * 6,
+  }
 
 });
 
@@ -222,7 +227,7 @@ class GuestInfo extends Component {
         </Paper>
         <Modal style={{ width: "320px" }} isOpen={this.state.modelEdit} toggle={this.toggle} className="CreateNewguest">
           <form action="" onSubmit={this.handleSaveChangeGuest}>
-            <ModalHeader toggle={this.toggle}>Create New Guest</ModalHeader>
+            <ModalHeader toggle={this.toggle}>Edit Guest</ModalHeader>
             <ModalBody>
               <TextField
                 required
@@ -278,7 +283,6 @@ class GuestInfo extends Component {
                       return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
                     })}
                   </Select>
-                  <CreateCategory />
                 </div>
                 <FormHelperText>Select category or create new</FormHelperText>
               </FormControl>
@@ -288,7 +292,11 @@ class GuestInfo extends Component {
               <Button size="small" variant="contained" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
           </form>
+          <div className={classes.addCategoryButton} >
+            <CreateCategory />
+          </div>
         </Modal>
+
       </div>
     );
   }

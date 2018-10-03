@@ -63,6 +63,7 @@ class AccountManager extends Component {
         this.props.store.LogoutUser();
         this.handleCloseMenuAccount();
         this.props.store.thisEventIndex(null)
+        this.props.store.ChangeMyCategoryPage(true)
         this.props.store.ChangeMyEventPage(true)
         localStorage.clear()
     }

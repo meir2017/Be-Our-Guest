@@ -103,7 +103,7 @@ class EditEvent extends Component {
                                 <br />
                             </ModalBody>
                             <ModalFooter style={{ textAlign: "center" }}>
-                                <Button style={{ backgroundColor: '#560027' }} variant="contained" type="Submit" >Save event</Button>
+                                <Button style={{ backgroundColor: '#560027' }} variant="contained" type="Submit" >Edit event</Button>
                                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                             </ModalFooter>
                         </form>
