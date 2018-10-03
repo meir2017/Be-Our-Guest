@@ -18,7 +18,7 @@ import {
 
 const styles = theme => ({
     icon: {
-        color:  theme.palette.secondary.main,
+        color: theme.palette.secondary.main,
         fontSize: 20
     },
     iconButton: {
@@ -153,7 +153,7 @@ class InvitationManager extends Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        You have {item.user.events[item.eventIndex].invitations.length} invitations
+                        {/* You have {item.user.events[item.eventIndex].invitations.length} invitations */}
                         <br />
                         <br />
                         <div className="listinvitations" style={{ height: '100%', textAlign: 'center', paddingLeft: 30, paddingRight: 30 }}>
