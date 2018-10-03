@@ -12,7 +12,7 @@ const io = require('socket.io')(server)
 
 
 // let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
-mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB_test', function () {
     console.log("DB connection established!!!");
 });
 
@@ -375,7 +375,7 @@ app.post('/beOurGuest/addNewGuest/:userId/:eventId/', (req, res) => {
         })
 });
 
-
+// edit guest
 app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) => {
     const newGuest = req.body;
     Guest.findOne({ _id: req.params.GustId })
@@ -383,7 +383,13 @@ app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) 
             gust.numInvited = newGuest.numInvited
             gust.numComing = newGuest.numComing;
             gust.numNotComing = newGuest.numNotComing
-            gust.categories = newGuest.categories;
+            // gust.categories = newGuest.categories;
+            // gust.categories[0] = newGuest.categories;
+            ///
+            let guestList = gust.categories.concat();
+            guestList[0] = newGuest.categories;
+            gust.categories = guestList;
+            ///
             gust.save()
                 .then(() => {
                     GlobalGuest.findOne({ _id: req.params.GlobalGuestId })
@@ -391,6 +397,7 @@ app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) 
                             gustGlonal.name = newGuest.globalGuest.name;
                             gustGlonal.email = newGuest.globalGuest.email;
                             gustGlonal.phone = newGuest.globalGuest.phone;
+                            console.log(gust.categories);
                             gustGlonal.save()
                             res.send("Change Guest")
                         })
@@ -398,9 +405,6 @@ app.post('/beOurGuest/handleSaveChangeGuest/:GustId/:GlobalGuestId', (req, res) 
                 ).then(console.log("Change Guest"));
         });
 })
-
-
-
 
 // remove guest
 app.delete('/beOurGuest/removeGuest/:eventId/:guestId/:index', (req, res) => {
@@ -560,9 +564,7 @@ app.post('/beOurGuest/updateEventGuest/', (req, res) => {
 
 app.post('/beOurGuest/deleteTable/:eventId', (req, res) => {
     console.log("entered delteTable");
-
     let table_id = req.body._id;
-
     Event.findByIdAndUpdate(req.params.eventId, { $pull: { tables: { _id: table_id } } }, { 'new': true })
         .then(eve => {
             console.log(eve);
@@ -589,7 +591,7 @@ app.post('/beOurGuest/updateGuests/', (req, res) => {
 })
 
 //***************  Category ***************//
-//create Category
+//create category
 app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     let item = req.body;
     let newCategory = new Category({
@@ -605,9 +607,28 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
                 user.categories = listCategory;
                 user.save();
                 res.send(category);
+            }).catch(err => {
+                console.log(err);
             });
     })
 });
+
+//remove category
+app.delete('/beOurGuest/removeCategory/:userId', (req, res) => {
+    // User.findById(req.params.userId)
+    // .then(user => {      
+    //     user.categories.findByIdAndRemove(req.body._id).then(removed => {
+    //             console.log("succesfully removed category");
+    //             res.send(removed);
+    //         }).catch(err => {
+    //             console.log(err);
+    //         });
+    //     res.send(category);
+    // }).catch(err => {
+    //     console.log(err);
+    // });
+});
+
 
 
 const port = process.env.PORT || 3001;

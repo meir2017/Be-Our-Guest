@@ -50,7 +50,7 @@ class SimpleSelect extends React.Component {
                 <FormControl className={classes.formControl} id="SelectEvent">
                     <Select
                         className="SelectEvent"
-                        style={{ color: "white", marginTop:'0' }}
+                        style={{ color: "white", marginTop: '0' }}
                         value={this.state.event}
                         onChange={this.handleChange}
                         value={this.props.store.eventIndex}

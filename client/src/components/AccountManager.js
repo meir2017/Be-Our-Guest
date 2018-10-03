@@ -36,7 +36,7 @@ class AccountManager extends Component {
     }
 
     openMyCategoryPage = () => {
-        this.props.store.thisEventIndex(null)        
+        this.props.store.thisEventIndex(null)
         this.props.store.ChangeMyCategoryPage(false)
         this.props.store.ChangeMyEventPage(true)
         this.handleCloseMenuAccount();

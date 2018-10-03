@@ -36,8 +36,8 @@ class CreateCategory extends Component {
     super(props);
     this.state = {
       modalCategory: false,
-      name: String,
-      colorCode: String
+      name: "",
+      colorCode: "#000000"
     };
   }
 
@@ -53,13 +53,12 @@ class CreateCategory extends Component {
   handleClose = () => {
     this.setState({
       name: '',
-      colorCode: "",
+      colorCode: "#000000",
       modalCategory: false,
     });
   }
 
   handlerSaveCategory = (e) => {
-    //this.handleClose();
     e.preventDefault();
     let userId = this.props.store.user._Id;
     axios.post('/beOurGuest/addNewCategory/' + userId, this.state)
@@ -99,9 +98,9 @@ class CreateCategory extends Component {
                 name="name"
               />
               <br />
-              <label htmlFor="colorCode" style={{ padding: "20px" }}>color: </label>
+              <label htmlFor="colorCode" style={{ padding: "20px" }}>Select color</label>
 
-              <input type="color" required onChange={this.onChangeText} value={this.colorCode} name="colorCode" name="colorCode" id="colorCode" />
+              <input type="color" required onChange={this.onChangeText} value={this.state.colorCode} name="colorCode" id="colorCode" />
 
               <br />
             </ModalBody>

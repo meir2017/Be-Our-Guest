@@ -44,13 +44,17 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120,
   },
-  
   addButton: {
     position: 'fixed',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
     zIndex: 10
   },
+  addCategoryButton: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 14,
+    right: theme.spacing.unit * 6,
+  }
 });
 
 function Transition(props) {
@@ -239,7 +243,7 @@ class AddTableModal extends Component {
                     return <option key={item._id} value={item._id} data-name={item.name}>{item.name}</option>
                   })}
                 </Select>
-                <CreateCategory />
+
               </div>
               <FormHelperText>Select category or create new</FormHelperText>
             </FormControl>
@@ -251,6 +255,9 @@ class AddTableModal extends Component {
               <Button color="secondary" onClick={this.toggle}>Cancel</Button> */}
           </ModalFooter>
         </form>
+        <div className={classes.addCategoryButton} >
+          <CreateCategory />
+        </div>
       </Modal>
     )
   }
