@@ -59,8 +59,6 @@ class CreateCategory extends Component {
   }
 
   handlerSaveCategory = (e) => {
-    //this.handleClose();
-    let currentEvent = this.state;
     e.preventDefault();
     let userId = this.props.store.user._Id;
     axios.post('/beOurGuest/addNewCategory/' + userId, this.state)
