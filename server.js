@@ -560,9 +560,7 @@ app.post('/beOurGuest/updateEventGuest/', (req, res) => {
 
 app.post('/beOurGuest/deleteTable/:eventId', (req, res) => {
     console.log("entered delteTable");
-
     let table_id = req.body._id;
-
     Event.findByIdAndUpdate(req.params.eventId, { $pull: { tables: { _id: table_id } } }, { 'new': true })
         .then(eve => {
             console.log(eve);
@@ -589,7 +587,7 @@ app.post('/beOurGuest/updateGuests/', (req, res) => {
 })
 
 //***************  Category ***************//
-//create Category
+//create category
 app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
     let item = req.body;
     let newCategory = new Category({
@@ -605,9 +603,28 @@ app.post('/beOurGuest/addNewCategory/:UserId', (req, res) => {
                 user.categories = listCategory;
                 user.save();
                 res.send(category);
+            }).catch(err => {
+                console.log(err);
             });
     })
 });
+
+//remove category
+app.delete('/beOurGuest/removeCategory/:userId', (req, res) => {
+    // User.findById(req.params.userId)
+    // .then(user => {      
+    //     user.categories.findByIdAndRemove(req.body._id).then(removed => {
+    //             console.log("succesfully removed category");
+    //             res.send(removed);
+    //         }).catch(err => {
+    //             console.log(err);
+    //         });
+    //     res.send(category);
+    // }).catch(err => {
+    //     console.log(err);
+    // });
+});
+
 
 
 const port = process.env.PORT || 3001;

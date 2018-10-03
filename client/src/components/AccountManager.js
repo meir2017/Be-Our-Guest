@@ -111,7 +111,7 @@ class AccountManager extends Component {
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.openProfile}>Profile</MenuItem>
                     <MenuItem onClick={this.openMyEventPage} >My Events</MenuItem>
-                    <MenuItem onClick={this.openMyCategoryPage} >My Category</MenuItem>
+                    <MenuItem onClick={this.openMyCategoryPage} >My Categories</MenuItem>
                 </Menu>
                 <Modal className="modalm smallModal" style={{ width: "350px" }} isOpen={this.state.profileModal} toggle={this.openProfile} >
                     <ModalHeader toggle={this.openProfile} ><h3 style={{ textAlign: "center" }}> Profile</h3>
