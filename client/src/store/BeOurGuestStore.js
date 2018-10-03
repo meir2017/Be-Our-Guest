@@ -73,8 +73,6 @@ class BeOurGuestStore {
       password: item.password
     }
 
-
-
     localStorage.setItem("beOurGuestUser", JSON.stringify(user));
   }
 

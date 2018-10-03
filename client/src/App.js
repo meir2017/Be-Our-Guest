@@ -39,6 +39,9 @@ class App extends Component {
 
   @action
   componentWillMount() {
+    if (sessionStorage.getItem("page1") !== null) {
+      sessionStorage.setItem("page1", window.location.href)
+    }
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
     let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
 

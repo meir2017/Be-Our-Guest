@@ -28,7 +28,7 @@ class Rsvp extends Component {
       numInvited: "",
       vient: "",
       returnRsvp: false,
-     // endpoint: "http://127.0.0.1:3001"
+      // endpoint: "http://127.0.0.1:3001"
       endpoint: "https://beourguest.herokuapp.com",
       // endpoint: "https://beourguest.herokuapp.com/socket.io/?EIO=4&transport=websocket",
     };
