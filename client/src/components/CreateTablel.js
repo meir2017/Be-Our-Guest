@@ -45,7 +45,7 @@ const styles = theme => ({
     minWidth: 120,
   },
   addButton: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
     zIndex: 10
@@ -209,9 +209,8 @@ class AddTableModal extends Component {
               label="Max number of guests"
               type="number"
               required
-              inputProps={{ min: "4", max: "20", step: "1" }}
+              inputProps={{ min: "1", step: "1" }}
               value={this.state.tableSize}
-              placeholder="Between 4 and 20"
               onChange={this.handleTextChange}
               className={classes.textField}
               InputLabelProps={{

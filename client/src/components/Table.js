@@ -43,7 +43,7 @@ const styles = theme => ({
     // backgroundColor:
     fontFamily: "Roboto Slab, serif",
     position: "relative",
-    minHeight: 55
+    minHeight: 64
     // justifyContent: '',
   },
   tableHeader: {

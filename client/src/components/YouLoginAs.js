@@ -11,8 +11,11 @@ class YouLoginAs extends Component {
     }
     render() {
         return (
-            <div className="youLoggedAs" style={{ padding: "10px" }}>
-                <h6> {this.props.store.user.username} </h6>
+            <div className="youLoggedAs" style={{
+                padding: "10px", display: 'flex',
+                alignItems: 'center'
+            }}>
+                <h6 style={{ display: 'inline-block', verticalAlign: 'middle', marginBottom: 3 }}> {this.props.store.user.username} </h6>
             </div>
         );
     }
