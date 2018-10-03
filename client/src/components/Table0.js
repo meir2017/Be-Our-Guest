@@ -37,7 +37,7 @@ const styles = theme => ({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'lightgrey',
+        backgroundColor: '#99919436',
         // backgroundColor: theme.palette.primary.main,
         // transition: width 2s, height 4s;
         // transition: background-color 0.2s ease;
@@ -48,9 +48,11 @@ const styles = theme => ({
         // justifyContent: '', 
         overflow: 'hidden',
         borderRadius: 5,
-        borderWidth: 2,
+        /* borderWidth: 2,
         borderStyle: 'solid',
-        borderColor: 'darkgrey',
+        borderColor: 'darkgrey', */
+        border: 'solid 2px #a9a9a95e',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0, 0, 0, 0.11)',
 
 
 
@@ -87,6 +89,8 @@ const styles = theme => ({
 
     whiteTypography: {
         color: 'white',
+        weight: 100
+    
     },
 
     guestListWrapper: {

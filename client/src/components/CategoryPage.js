@@ -30,7 +30,7 @@ const styles = theme => ({
     width: 35
   },
   addButton: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
     zIndex: 10
@@ -138,7 +138,7 @@ class CategoryPage extends Component {
                       id={index}
                       style={{
                         display: 'flex',
-                        justifyContent: 'center', /* align horizontal */
+                        justifyContent: 'left', /* align horizontal */
                         alignItems: 'center'
                       }}>
                       <Avatar
