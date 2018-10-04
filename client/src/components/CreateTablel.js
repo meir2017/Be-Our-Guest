@@ -104,8 +104,10 @@ class AddTableModal extends Component {
 
   onChangeCategory = e => {
     this.setState({ category: e.target.value });
+    if(this.state.tableName === "" || this.state.tableName === " "){
     let category = this.props.store.user.categories.find(category => category._id === e.target.value);
     this.setState({ tableName: category.name });
+    }
   }
 
   addTable = (e) => {

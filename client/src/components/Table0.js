@@ -185,7 +185,7 @@ class Table0 extends Component {
                                         return 0;
                                     })
                                     .map((guest, index) => (
-                                        <Guest key={guest._id} index={index} guest={guest} handleOnClick={this.handleOnClick} />
+                                        <Guest key={guest._id} index={index} guest={guest} handleOnClick={this.handleOnClick} seated={false}/>
                                     ))}
                                 {provided.placeholder}
                             </div>
