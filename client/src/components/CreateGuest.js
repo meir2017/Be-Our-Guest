@@ -112,11 +112,13 @@ class CreateGuest extends Component {
       .then(response => {
         if (response === null) {
           // console.log("Failed to add new guest!");
+          this.setState({ category: "" })
         }
         else {
           // console.log("New globalGuest " + response.data.globalGuestId);
           // console.log("New guest " + response.data.guestId);
           this.props.store.addGuest(response.data)
+          this.setState({ category: "" })
         }
       })
       .catch(err => console.log('Error: ', err));
@@ -196,7 +198,6 @@ class CreateGuest extends Component {
                       label="Category"
                       value={this.state.category}
                       id="category"
-                      name="categoryName"
                       onChange={this.handleChange} >
                       <option disabled value="" />
                       {this.props.store.user.categories.map((item, index) => {

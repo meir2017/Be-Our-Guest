@@ -40,9 +40,6 @@ const styles = theme => ({
     width: 40,
     color: "black",
     marginBottom: 5,
-    //   borderRadius: 2,
-    /*         borderWidth:2,
-            borderStyle:'solid', */
     fontSize: 15
   },
 });
@@ -117,7 +114,7 @@ class CategoryPage extends Component {
                         id={index}
                         style={{
                           display: 'flex',
-                          justifyContent: 'center', /* align horizontal */
+                          justifyContent: 'lift', /* align horizontal */
                           alignItems: 'center'
                         }}>
                         <Avatar
@@ -130,14 +127,8 @@ class CategoryPage extends Component {
                       <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>
                         <IconButton className={classes.iconButton} >
                           <ClearIcon className={classes.icon} />
-                          {/* <Icon id={index} onClick={e => { this.myIndex(e); this.handleOpenDeleteCategory() }} id={index} className={classes.icon}>clear_icon</Icon> */}
                         </IconButton>
-                        {/* onClick={this.handleOpenDeleteCategory} <IconButton className={classes.iconButton}>
-                                                <Icon id={index} onClick={e => { this.openEditeEvent(e.target.id) }} id={index} className={classes.icon}>edit_icon</Icon>
-                                            </IconButton> */}
-                        {/* <IconButton className={classes.iconButton}>
-                                                <Icon id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }} id={index} className={classes.icon}>clear_icon</Icon>
-                                            </IconButton> */}
+
                       </div>
                     </div>
                   </div>
@@ -146,11 +137,6 @@ class CategoryPage extends Component {
             </div>
           </div>
           <CreateCategory />
-
-
-          {/* <EditEvent openEditeEvent={this.openEditeEvent}
-                    modalEdit={this.state.modalEdit}
-                    indexEvent={this.state.myEvent} /> */}
         </div>
       </div>
     );
