@@ -11,6 +11,7 @@ import { observer, inject } from "mobx-react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ClearIcon from "@material-ui/icons/Clear";
 import EditIcon from "@material-ui/icons/Edit";
+import ErrorIcon from "@material-ui/icons/Error";
 import {
   withStyles,
   Grid,
@@ -91,6 +92,18 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  tableNumberContainer: {
+    position: 'relative'
+  },
+  errorIcon: {
+    width: 20,
+    height: 20,
+    color: 'red',
+    position: 'absolute',
+    top: -2,
+    left: 48
   }
 });
 
@@ -219,10 +232,15 @@ class Table extends Component {
         </Dialog>
         <Paper className={classes.tableHeader}>
           <Grid container spacing={0}>
-            <Grid item xs={6} align="left">
+            <Grid item xs={6} align="left" className={classes.tableNumberContainer}>
               <Typography variant="caption" gutterBottom align="left">
-                Table {this.props.index + 1}
+                Table {this.props.index + 1} 
+                {sumGuests > this.props.table.maxGuests && 
+                (<Tooltip title="You have exceeded max number of guests in this table">
+                 <ErrorIcon className={classes.errorIcon} />
+                 </Tooltip>) }
               </Typography>
+
               <Typography
                 variant="title"
                 gutterBottom
@@ -231,6 +249,7 @@ class Table extends Component {
               >
                 {this.props.table.title}
               </Typography>
+
             </Grid>
             <Grid
               item
@@ -284,6 +303,7 @@ class Table extends Component {
                         key={guest._id}
                         guest={guest}
                         handleOnClick={this.handleRemoveGuestClick}
+                        seated={true}
                       />
                     );
                   return null;
@@ -303,39 +323,3 @@ Table.propTypes = {
 };
 
 export default withStyles(styles)(Table);
-/* @inject("store")
-@observer
-class GuestContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const { classes } = this.props;
-        return (<Grid item xs={12}
-            innerRef={this.props.provided.innerRef}
-            {...this.props.provided.droppableProps}
-        >
-            <Paper className={classes.paper}>
-                <ListItem className={classes.listItem}>
-                    <ListItemText primary={this.props.table.title}/>
-                </ListItem>
-                {this.props.table.guests.map((guest, index) => (
-                    <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-                ))}
-                {this.props.provided.placeholder}
-            </Paper>
-        </Grid>);
-    } */
-/*     render() {
-        return (<Container
-            innerRef={this.props.provided.innerRef}
-            {...this.props.provided.droppableProps}
-           >
-            {this.props.table.guests.map((guest, index) => (
-                <Guest table={this.props.table} index={index} key={guest._id} guest={guest} />
-            ))}
-            {this.props.provided.placeholder}
-        </Container>);
-    }
- }*/
