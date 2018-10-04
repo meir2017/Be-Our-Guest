@@ -49,9 +49,10 @@ const styles = theme => ({
   },
   addCategoryButton: {
     position: 'absolute',
-    bottom: theme.spacing.unit * 14,
-    right: theme.spacing.unit * 6,
+    right: 28,
+    bottom: 89,
   }
+
 
 });
 

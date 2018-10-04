@@ -137,7 +137,7 @@ class InvitationManager extends Component {
                 >
                     <DialogContent>
                         <DialogContentText id="alert-dialog-send">
-                            Are you sure you want to send an invitation to all your guests?
+                            Are you sure you want to send this invitation to all your guests?
             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
