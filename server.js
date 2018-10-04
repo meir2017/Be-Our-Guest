@@ -40,6 +40,7 @@ io.on('connection', socket => {
         console.log('user disconnected')
     })
 })
+//sds
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('/*', function (req, res) {
