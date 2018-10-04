@@ -12,7 +12,8 @@ import {
   Select,
   ListItemText,
   Chip,
-  Checkbox
+  Checkbox,
+  Divider
 
 } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -28,7 +29,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 300,
     maxWidth: 500,
-    minHeight: 80,
+    minHeight: 75,
   },
   chips: {
     display: 'flex',
@@ -39,6 +40,13 @@ const styles = theme => ({
   },
   formControlLabel: {
     color: 'white',
+  },
+  checkbox: {
+    width: 30,
+    marginLeft: 10
+  }, 
+  divider: {
+    marginBottom: 20
   }
 });
 
@@ -272,17 +280,20 @@ export class TableManager extends Component {
                     checked={this.state.checked}
                     onChange={this.handleChangeCheckbox('checked')}
                     value="checked"
-
-
+                    className={classes.checkbox}
                   />
                 }
-                label="Only Tables"
+                label="Only filter tables"
               />
-
+              
 
             </div>
+
           </div>
+
         </div>
+        <Divider  className={classes.divider}/>
+
         <TableList filteredCategories={this.state.name} onlyTables={this.state.checked} />
       </DragDropContext>
 
