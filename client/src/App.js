@@ -99,6 +99,7 @@ class App extends Component {
       }
     }
   };
+
   render() {
     const socket = socketIOClient(this.state.endpoint);
     socket.on("backRsvp", obj => {
