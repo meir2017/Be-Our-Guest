@@ -1,152 +1,248 @@
-import React, { Component } from "react";
-import axios from "axios";
+
+import React, { Component } from 'react';
+import { Button, Form } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import socketIOClient from "socket.io-client";
-import EventPage from "./components/EventPage";
-import CategoryPage from './components/CategoryPage'
-import "./App.css";
-import EventManager from "./components/EventManager";
-import AppDescription from "./components/AppDescription";
-
-import { BrowserRouter, Route } from "react-router-dom";
-import { observer, inject } from "mobx-react";
-import { action } from "mobx";
-import Navbar from "./components/Navbar";
-import Rsvp from "./components/Rsvp";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: "#212121", light: "#9e9e9e" }, // Purple and green play nicely together.
-    secondary: { main: "#560027" }
-  }
-});
-
-
+import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 @inject("store")
 @observer
-class App extends Component {
+class Rsvp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rsvpfunc: false,
-      // endpoint: "http://127.0.0.1:3001"
-      endpoint: "https://miertest.herokuapp.com"
-    };
+      invitationName: "",
+      titleInput: '',
+      textInput: '',
+      background: "",
+      titleColor: "",
+      bodyColor: "",
+      fontTitle: "",
+      fontBody: "",
+      whenEvent: "",
+      whereEvent: "",
+
+
+      arryComing: [],
+      arryNotComing: [],
+      coming: 0,
+      notComing: 0,
+      numInvited: "",
+      vient: "",
+      returnRsvp: false,
+
+      // endpoint: "http://127.0.0.1:3001",
+      endpoint: "https://http://miertest.herokuapp.com",
+      // endpoint: "https://beourguest.herokuapp.com/socket.io/?EIO=4&transport=websocket",
+
+    }
+  }
+  send = () => {
+    debugger
+    let guestId = this.props.match.params.guestId;
+    let eventId = this.props.match.params.eventId;
+    const socket = socketIOClient(this.state.endpoint);
+    socket.emit('callRsvp', {
+      coming: this.state.coming,
+      notComing: this.state.notComing,
+      guestId: guestId,
+      eventId: eventId
+    })
   }
 
-  @action
-  updateTablesInDb = () => { };
 
-  @action
-  componentWillMount() {
-    if (sessionStorage.getItem("page1") !== null) {
-      sessionStorage.setItem("page1", window.location.href)
+  inSocket = () => {
+    console.log(" befer connected ")
+    const socket2 = socketIOClient(this.state.endpoint)
+    socket2.on('connect', () => {
+      console.log("connected ")
+    })
+    // console.log(socket2)
+  }
+
+  onSelectConfirmed = (e) => {
+    let coming = this.state.coming
+    let notComing = this.state.notComing
+    let numInvited = this.state.numInvited
+    let vient = this.state.vient;
+    if (e.target.name === "coming") {
+      console.log("coming")
+      coming = e.target.value;
+      numInvited = vient - coming - notComing;
+      notComing = vient - coming;
     }
-    let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
-    let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
 
-    if (user !== null) {
-      // console.log(user.username);
-      axios
-        .post("/beOurGuest/login", { name: user.username, pass: user.password })
-        .then(response => {
-          if (response.data !== "") {
-            this.props.store.updateUser(response.data);
-            if (eventIndex !== null) {
-              // console.log("eventIndex   ===" + eventIndex)
-              this.props.store.thisEventIndex(eventIndex);
-            }
-          } else {
-            // console.log("no user Account ")
-          }
+    if (e.target.name === "notComing") {
+      console.log("notComing")
+      notComing = e.target.value;
+      numInvited = vient - coming - notComing;
+      coming = vient - notComing;
+    }
+
+    console.log(this.state.coming)
+    let setArryComing = [];
+    let setArryNotComing = [];
+
+    for (let index = 0; index <= coming; index++) {
+      setArryComing.push(index)
+    }
+    for (let index = 0; index <= notComing; index++) {
+      setArryNotComing.push(index)
+    }
+
+    this.setState({ [e.target.name]: e.target.value, arryComing: setArryComing, arryNotComing: setArryNotComing, numInvited: numInvited });
+  };
+  Submitfunc = (e) => {
+    e.preventDefault();
+    this.send();
+    console.log(this.state.numGuest);
+    console.log(this.state.checkedB);
+    //send the info to evntid,gustid
+    let objRsvp = {
+      coming: this.state.coming,
+      notComing: this.state.notComing,
+      numInvited: this.state.numInvited,
+      guestId: this.props.match.params.guestId,
+      eventId: this.props.match.params.eventId
+
+    }
+    console.log(this.props.match.params.guestId)
+    axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
+      .then(response => {
+        // console.log((response.data))
+      })
+    this.toggleSendRsvp(e)
+  }
+
+  componentWillMount = () => {
+    this.inSocket()
+    let guestId = this.props.match.params.guestId;
+
+    axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
+      .then(response => {
+        console.log("rsvpGuest")
+        let item = response.data;
+        this.setState({
+          numInvited: item.numInvited,
+          vient: item.numInvited
         })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+
+        let newArry = [];
+        for (let index = 0; index <= item.numInvited; index++) {
+          newArry.push(index)
+        }
+        this.setState({ arryComing: newArry, arryNotComing: newArry })
+        this.props.ChangeToRsvpPage();
+        this.getUserInfo();
+
+      })
+  }
+  toggleSendRsvp = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      returnRsvp: !this.state.returnRsvp
+    });
   }
 
-  onDragStart = result => {
-    console.log("start");
-  };
+  getUserInfo = () => {
+    let vetId = this.props.match.params.vetId;
+    axios.get(`/beOurGuest/rsvpGuest/${vetId}`)
+      .then(response => {
+        console.log("rsvpGuest")
+        let item = response.data;
+        this.setState({
+          invitationName: item.invitationName,
+          titleInput: item.titleInput,
+          textInput: item.textInput,
+          whenEvent: item.whenEvent,
+          whereEvent: item.whereEvent,
+          background: item.background,
+          titleColor: item.titleColor,
+          bodyColor: item.bodyColor,
+          fontTitle: item.fontTitle,
+          fontBody: item.fontBody,
+          display_rsvp: true
+        })
+      });
 
-  onDragUpdate = result => {
-    console.log("update");
-  };
-
-  ChangeToRsvpPage = e => {
-    this.setState({ rsvpfunc: true });
-  };
-  updetGuset = obj => {
-    let events = this.props.store.user.events;
-    for (let index = 0; index < events.length; index++) {
-      //get event index
-      if (events[index]._id == obj.eventId) {
-        // console.log("event index : " + index)
-        for (let i_g = 0; i_g < events[index].guests.length; i_g++) {
-          // get gest indes
-          if (events[index].guests[i_g]._id == obj.guestId) {
-            console.log("guest index : " + i_g);
-            this.props.store.realTimeRsvp(
-              index,
-              i_g,
-              obj.coming,
-              obj.notComing
-            );
-            break;
-          }
-        }
-      }
-    }
-  };
+  }
 
   render() {
-    const socket = socketIOClient(this.state.endpoint);
-    socket.on("backRsvp", obj => {
-      // console.log(JSON.stringify(obj))
-      this.updetGuset(obj);
-    });
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="App">
-          {!this.state.rsvpfunc && <Navbar />}
-          {!this.state.rsvpfunc &&
-            (this.props.store.eventIndex != null &&
-              this.props.store.user.userLog) ? (
-              <EventManager />
-            ) : (
-              false
-            )}
-          {!this.props.store.myEventPage && <EventPage />}
-          {!this.props.store.myCategoryPage && <CategoryPage />}
-          <BrowserRouter>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                height: "100%",
-                width: "100%",
-                zIndex: -1
-              }}
-            >
-              {!this.props.store.user.userLog && (
-                <Route exact path="/" component={AppDescription} />
-              )}
-              <Route
-                exact
-                path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
-                render={props => (
-                  <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />
-                )}
-              />
-            </div>
-          </BrowserRouter>
+      <div>
+        <div className="row">
+          <div className="col-sm-3"></div>
+          <div className="col-sm-6" >
+            <br /><br />  <br />
+            <Form className="display_rsvp" onSubmit={this.toggleSendRsvp} style={{ backgroundColor: `${this.state.background}` }} >
+              <div  >
+                <h2 style={{ color: `${this.state.titleColor}`, fontFamily: `${this.state.fontTitle}` }}>{this.state.titleInput}</h2>
+                <div style={{ whiteSpace: "pre-wrap", padding: "10px", color: `${this.state.bodyColor}`, fontFamily: `${this.state.fontBody}` }}>
+                  <h4 >{this.state.textInput}</h4>
+                </div>
+                <p>{this.state.whenEvent}  <br />  {this.state.whereEvent}</p>
+              </div>
+              <hr />
+              <div className="row">
+                <div className="col-sm-4">
+                  <label htmlFor="">Coming</label>
+                  <div className="rsvpInput">
+                    {/* {this.SetComing(this.state.coming)} */}
+                    <select className="form-control" id="coming" value={this.state.coming} onChange={this.onSelectConfirmed} name="coming">
+                      {this.state.arryComing.map((item, index) => {
+                        return <option key={index + item}>{item} </option>
+
+                      })}
+
+                    </select>
+                  </div>
+                </div>
+                <div className="col-sm-4 rsvpForm m2">
+                  <label htmlFor="">Not Coming</label>
+                  <div className="rsvpInput">
+                    <select className="form-control" id="notComing" value={this.state.notComing} onChange={this.onSelectConfirmed} name="notComing">
+                      {this.state.arryNotComing.map((item, index) => {
+                        return <option key={index + item}>{item} </option>
+
+                      })}
+                    </select>
+                  </div>
+
+                </div>
+                <div className="col-sm-4">
+                  <label htmlFor="">Undecided</label>
+
+                  <div className="Undecided" id="Undecided">
+                    <div className="Undecided1">
+                      {this.state.numInvited}
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+              <br />
+              <Button>Submit</Button>
+
+              <br />  <br />
+            </Form>
+          </div>
+          <div className="col-sm-3"></div>
         </div>
-      </MuiThemeProvider>
+
+        <Modal className="modalm" style={{ width: "240px" }} isOpen={this.state.returnRsvp} toggle={this.toggleSendRsvp}>
+          <ModalHeader toggle={this.toggle}>Do you want to send your rsvp?</ModalHeader>
+          <ModalFooter className="btnSend" >
+            <Button onClick={this.Submitfunc} style={{ backgroundColor: '#560027' }}>Yes</Button>
+            <Button onClick={this.toggleSendRsvp} color="secondary" >No</Button>
+          </ModalFooter>
+
+        </Modal>
+      </div>
     );
   }
 }
 
-export default App;
+export default Rsvp;
