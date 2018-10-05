@@ -35,8 +35,8 @@ class Rsvp extends Component {
   }
   send = () => {
     debugger;
-    let guestId = this.props.match.params.guestId;
-    let eventId = this.props.match.params.eventId;
+    var guestId = this.props.match.params.guestId;
+    var eventId = this.props.match.params.eventId;
     const socket = socketIOClient(this.state.endpoint);
     socket.emit("callRsvp", {
       coming: this.state.coming,
@@ -56,10 +56,10 @@ class Rsvp extends Component {
   };
 
   onSelectConfirmed = e => {
-    let coming = this.state.coming;
-    let notComing = this.state.notComing;
-    let numInvited = this.state.numInvited;
-    let vient = this.state.vient;
+    var coming = this.state.coming;
+    var notComing = this.state.notComing;
+    var numInvited = this.state.numInvited;
+    var vient = this.state.vient;
     if (e.target.name === "coming") {
       coming = e.target.value;
       numInvited = vient - coming - notComing;
@@ -72,13 +72,13 @@ class Rsvp extends Component {
       coming = vient - notComing;
     }
 
-    let setArryComing = [];
-    let setArryNotComing = [];
+    var setArryComing = [];
+    var setArryNotComing = [];
 
-    for (let index = 0; index <= coming; index++) {
+    for (var index = 0; index <= coming; index++) {
       setArryComing.push(index);
     }
-    for (let index = 0; index <= notComing; index++) {
+    for (var index = 0; index <= notComing; index++) {
       setArryNotComing.push(index);
     }
 
@@ -94,7 +94,7 @@ class Rsvp extends Component {
     this.send();
 
     //send the info to evntid,gustid
-    let objRsvp = {
+    var objRsvp = {
       coming: this.state.coming,
       notComing: this.state.notComing,
       numInvited: this.state.numInvited,
@@ -109,18 +109,18 @@ class Rsvp extends Component {
 
   componentWillMount = () => {
     this.inSocket();
-    let guestId = this.props.match.params.guestId;
+    var guestId = this.props.match.params.guestId;
 
     axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`).then(response => {
       // console.log("rsvpGuest")
-      let item = response.data;
+      var item = response.data;
       this.setState({
         numInvited: item.numInvited,
         vient: item.numInvited
       });
 
-      let newArry = [];
-      for (let index = 0; index <= item.numInvited; index++) {
+      var newArry = [];
+      for (var index = 0; index <= item.numInvited; index++) {
         newArry.push(index);
       }
       this.setState({ arryComing: newArry, arryNotComing: newArry });
@@ -137,10 +137,10 @@ class Rsvp extends Component {
   };
 
   getUserInfo = () => {
-    let vetId = this.props.match.params.vetId;
+    var vetId = this.props.match.params.vetId;
     axios.get(`/beOurGuest/rsvpGuest/${vetId}`).then(response => {
       console.log("rsvpGuest getUserInfo");
-      let item = response.data;
+      var item = response.data;
       this.setState({
         invitationName: item.invitationName,
         titleInput: item.titleInput,
