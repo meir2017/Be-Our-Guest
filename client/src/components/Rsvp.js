@@ -1,8 +1,14 @@
 
 import React, { Component } from 'react';
+import Checkbox from "@material-ui/core/Checkbox";
 import { Button, Form } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import socketIOClient from "socket.io-client";
+
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
 @inject("store")
@@ -31,12 +37,7 @@ class Rsvp extends Component {
       vient: "",
       returnRsvp: false,
 
-      // endpoint: "http://127.0.0.1:3001",
-      // endpoint: "https://beourguest.herokuapp.com",
-      endpoint: "https://http://miertest.herokuapp.com",
-
-      // endpoint: "https://beourguest.herokuapp.com/socket.io/?EIO=4&transport=websocket",
-
+      endpoint: "http://127.0.0.1:3001",
     }
   }
   send = () => {
@@ -44,22 +45,12 @@ class Rsvp extends Component {
     let guestId = this.props.match.params.guestId;
     let eventId = this.props.match.params.eventId;
     const socket = socketIOClient(this.state.endpoint);
-    socket.emit('callRsvp', {
+    socket.emit('real time', {
       coming: this.state.coming,
       notComing: this.state.notComing,
       guestId: guestId,
       eventId: eventId
     })
-  }
-
-
-  inSocket = () => {
-    console.log(" befer connected ")
-    const socket2 = socketIOClient(this.state.endpoint)
-    socket2.on('connect', () => {
-      console.log("connected ")
-    })
-    // console.log(socket2)
   }
 
   onSelectConfirmed = (e) => {
@@ -111,13 +102,12 @@ class Rsvp extends Component {
     console.log(this.props.match.params.guestId)
     axios.post('/beOurGuest/rsvp/guestAnswer/', objRsvp)
       .then(response => {
-        // console.log((response.data))
+        console.log((response.data))
       })
     this.toggleSendRsvp(e)
   }
 
   componentWillMount = () => {
-    this.inSocket()
     let guestId = this.props.match.params.guestId;
 
     axios.get(`/beOurGuest/rsvpGuest/guestId/${guestId}`)
