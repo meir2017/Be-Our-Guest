@@ -124,7 +124,7 @@ class Rsvp extends Component {
         newArry.push(index);
       }
       this.setState({ arryComing: newArry, arryNotComing: newArry });
-      this.props.ChangeToRsvpPage();
+      // this.props.ChangeToRsvpPage();
       this.getUserInfo();
     });
   };

@@ -129,13 +129,12 @@ class App extends Component {
               {!this.props.store.user.userLog && (
                 <Route exact path="/" component={AppDescription} />
               )}
-              <Rsvp />
-              {/* <Route
+              <Route
                 exact
                 path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
                 render={props => (
-                  <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />
-                )} */}
+                  <Rsvp />
+                )}
               />
             </div>
           </BrowserRouter>
