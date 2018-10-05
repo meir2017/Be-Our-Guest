@@ -30,9 +30,7 @@ class App extends Component {
     this.state = {
       rsvpfunc: false,
       // endpoint: "http://127.0.0.1:3001"
-      // endpoint: "https://beourguest.herokuapp.com"
-      endpoint: "https://http://miertest.herokuapp.com",
-
+      endpoint: "https://beourguest.herokuapp.com"
     };
   }
 
