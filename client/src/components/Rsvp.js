@@ -20,7 +20,6 @@ class Rsvp extends Component {
       fontBody: "",
       whenEvent: "",
       whereEvent: "",
-
       arryComing: [],
       arryNotComing: [],
       coming: 0,
