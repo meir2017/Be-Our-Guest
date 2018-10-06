@@ -30,7 +30,7 @@ class App extends Component {
     this.state = {
       rsvpfunc: false,
       // endpoint: "http://127.0.0.1:3001"
-      endpoint: "https://beourguest1.herokuapp.com"
+      endpoint: "https://beourguest.herokuapp.com"
     };
   }
 
@@ -118,6 +118,7 @@ class App extends Component {
           <BrowserRouter>
             <div
               style={{
+                position: "absolute",
                 top: 0,
                 bottom: 0,
                 left: 0,
