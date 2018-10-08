@@ -1,13 +1,11 @@
 const express = require('express');
+const nodemailer = require('nodemailer');
 const router = express.Router();
 //modals   
  const Event = require('./../Models/EventModel');
- //const Table = require('./Models/TableModel');
 const User = require('./../Models/UserModel')
-//const GlobalGuest = require('./Models/GlobalGuestModel');
 const Guest = require('./../Models/GuestModel');
 const Invitation = require('./../Models/InvitationModel');
-//const Category = require('./Models/CategoryModel');
 
 //***************  Email ***************//
 // Forgot tPassword  

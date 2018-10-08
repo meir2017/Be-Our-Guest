@@ -6,8 +6,7 @@ const router = express.Router();
 const User = require('./../Models/UserModel')
 const GlobalGuest = require('./../Models/GlobalGuestModel');
 const Guest = require('./../Models/GuestModel');
-//const Invitation = require('./Models/InvitationModel');
-//const Category = require('./Models/CategoryModel');
+
 
 //***************  Guest ***************//
 //add guest
