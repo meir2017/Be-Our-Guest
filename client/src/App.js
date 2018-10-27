@@ -8,6 +8,8 @@ import EventManager from "./components/EventManager";
 import AppDescription from "./components/AppDescription";
 
 import { BrowserRouter, Route } from "react-router-dom";
+var browserHistory = ReactRouter.browserHistory;
+
 import { observer, inject } from "mobx-react";
 import { action } from "mobx";
 import Navbar from "./components/Navbar";
@@ -115,7 +117,7 @@ class App extends Component {
             )}
           {!this.props.store.myEventPage && <EventPage />}
           {!this.props.store.myCategoryPage && <CategoryPage />}
-          <BrowserRouter>
+          <Router history={browserHistory} >
             <div
               style={{
                 top: 0,
@@ -137,7 +139,7 @@ class App extends Component {
                 )}
               />
             </div>
-          </BrowserRouter>
+          </Router>
         </div>
       </MuiThemeProvider>
     );
