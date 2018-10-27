@@ -105,7 +105,7 @@ router.post('/beOurGuest/rsvpEmail/:vetId/:eventId/', (req, res) => {
             <p>${item.whenEvent}<br>
             ${item.whereEvent}</p>
             <button style="background-color:#91ff35;border-radius: 10px">
-            <a  href="https://beourguest.herokuapp.com/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
+            <a  href="https://myguests.herokuapp.com/beuorguest/rsvp/${vetId}/${eventId}/${guest._id}/">Confirm your arrival</a>
             </button>
 
             <br>

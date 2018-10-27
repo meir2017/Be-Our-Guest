@@ -38,7 +38,16 @@ class AppDescription extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.bogImage}>
+      <div className={classes.bogImage}
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          height: "100%",
+          width: "100%",
+          zIndex: -1
+        }}>
         <br />
         <br />
         <br />
