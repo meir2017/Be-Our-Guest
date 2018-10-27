@@ -53,9 +53,6 @@ io.on('connection', socket => {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('*', function (request, response) {
-    response.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
-})
 app.use(userRoute);
 app.use(eventRoute);
 app.use(guestRoute);
