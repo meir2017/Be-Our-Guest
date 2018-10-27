@@ -22,7 +22,7 @@ const userRoute = require('./routes/userRoute.js');
 
 
 // let CONNECTION_STRING = "mongodb://root:Meir6646@ds155252.mlab.com:55252/beourguest"
-mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB_test', function () {
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beOurGuestDB', function () {
     console.log("DB connection established!!!");
 });
 
