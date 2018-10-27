@@ -44,7 +44,7 @@ const styles = theme => ({
   checkbox: {
     width: 30,
     marginLeft: 10
-  }, 
+  },
   divider: {
     marginBottom: 20
   }
@@ -77,6 +77,7 @@ export class TableManager extends Component {
   }
 
   onDragEnd = result => {
+    console.log("end drop")
     let currentEvent = this.props.store.user.events[this.props.store.eventIndex];
 
     if (result.destination === null)
@@ -285,14 +286,14 @@ export class TableManager extends Component {
                 }
                 label="Only filter tables"
               />
-              
+
 
             </div>
 
           </div>
 
         </div>
-        <Divider  className={classes.divider}/>
+        <Divider className={classes.divider} />
 
         <TableList filteredCategories={this.state.name} onlyTables={this.state.checked} />
       </DragDropContext>
