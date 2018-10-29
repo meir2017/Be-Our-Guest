@@ -6,6 +6,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { observer, inject } from 'mobx-react';
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
     root: {
@@ -34,7 +35,9 @@ class SimpleSelect extends React.Component {
         if (event.target.value !== null) {
             this.props.store.thisEventIndex(event.target.value)
             this.props.store.ChangeMyEventPage(true)
-            this.props.store.ChangeMyCategoryPage(true)
+            this.props.store.ChangeMyCategoryPage(true);
+            this.props.history.push("/" + this.props.store.user._Id + "/event/" + this.props.store.user.events[this.props.store.eventIndex]._id + "/");
+
         }
     };
 
@@ -77,4 +80,4 @@ SimpleSelect.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SimpleSelect);
+export default withRouter(withStyles(styles)(SimpleSelect));

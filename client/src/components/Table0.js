@@ -51,8 +51,13 @@ const styles = theme => ({
         /* borderWidth: 2,
         borderStyle: 'solid',
         borderColor: 'darkgrey', */
-        border: 'solid 2px #a9a9a95e',
-        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0, 0, 0, 0.11)',
+       // border: 'solid 2px #a9a9a95e',
+      //  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0, 0, 0, 0.11)',
+        border: 'solid 3px #eeeeee',
+       // backgroundColor: '#999194c9',
+        
+       // border-radius: 10px;
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.342), 0 6px 20px 0 #2121219c',
 
 
 
@@ -61,7 +66,7 @@ const styles = theme => ({
     tableHeader: {
         padding: 10,
         color: 'white',
-        backgroundColor: 'darkgrey'
+        backgroundColor: theme.palette.secondary.main
 
     },
 
@@ -89,7 +94,10 @@ const styles = theme => ({
 
     whiteTypography: {
         color: 'white',
-        weight: 100
+        weight: 100,
+        fontSize: 20,
+        marginBottom: 0,
+
     
     },
 

@@ -31,7 +31,7 @@ const styles = theme => ({
   paper: {},
   tableWrapper: {
     margin: 8,
-    marginBottom: 30,
+    marginBottom: 10,
     marginTop: 0,
     width: "98%",
     flex: 1,
@@ -44,8 +44,13 @@ const styles = theme => ({
     // backgroundColor:
     fontFamily: "Roboto Slab, serif",
     position: "relative",
-    minHeight: 64
+    minHeight: 64,
     // justifyContent: '',
+    border: 'solid 3px #eeeeee',
+    backgroundColor: '#b9b9b9',
+    
+   // border-radius: 10px;
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.342), 0 6px 20px 0 #2121219c',
   },
   tableHeader: {
     padding: 5,

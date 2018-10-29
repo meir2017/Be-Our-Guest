@@ -26,7 +26,9 @@ const styles = theme => ({
         position: 'fixed',
         bottom: theme.spacing.unit * 10,
         right: theme.spacing.unit * 8,
-        zIndex: 10
+        zIndex: 10,
+        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.71), 0 6px 20px 0 #212121",
+    border:'solid',
     },
 });
 @inject("store")
@@ -54,6 +56,7 @@ class EventPage extends Component {
         this.props.store.thisEventIndex(index)
         this.props.store.ChangeMyEventPage(true)
         this.props.store.ChangeMyCategoryPage(true)
+        this.props.store.currentPageChange("");
     }
     openModalCreate = (e) => {
         this.setState({ modalCreate: !this.state.modalCreate });
@@ -117,7 +120,7 @@ class EventPage extends Component {
                     <div className="myEvent">
                         {this.props.store.user.events.map((eve, index) => {
                             return (
-                                <div className="iteminvitations container" style={{ cursor: 'pointer' }}>
+                                <div className="iteminvitations eventItem clickableItem container" style={{ cursor: 'pointer' }}>
                                     <div name={index} key={eve.HostName + eve.Location + index} className="row">
                                         <div className="col-sm-7 text2"
                                             id={index} onClick={(e) => { this.handleEvent(index) }}

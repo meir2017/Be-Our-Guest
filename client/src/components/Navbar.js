@@ -14,7 +14,8 @@ import { observer, inject } from 'mobx-react';
 
 const styles = theme => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 0,
+       // zIndex:10,
     },
     menu: {
         flexGrow: 1,

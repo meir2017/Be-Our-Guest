@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
-import EventPage from "./components/EventPage";
+
 import CategoryPage from './components/CategoryPage'
 import "./App.css";
 import EventManager from "./components/EventManager";
 import AppDescription from "./components/AppDescription";
 
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, withRouter, Switch } from "react-router-dom";
 import { observer, inject } from "mobx-react";
 import { action } from "mobx";
 import Navbar from "./components/Navbar";
 import Rsvp from "./components/Rsvp";
+import EventsPage from './components/EventsPage'
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#212121", light: "#9e9e9e" }, // Purple and green play nicely together.
-    secondary: { main: "#560027" }
+    primary: { main: "#212121", light: "#9e9e9e" },
+    secondary: { main: "#560027" },
+    white: { main: '#fff' }
   }
 });
 
@@ -40,6 +42,8 @@ class App extends Component {
   @action
   componentWillMount() {
     let user = JSON.parse(localStorage.getItem("beOurGuestUser"));
+    console.log("WILL MOUNT");
+    console.log(user);
     let eventIndex = JSON.parse(localStorage.getItem("beOurGuestEventIndex"));
 
     if (user !== null) {
@@ -97,52 +101,72 @@ class App extends Component {
     }
   };
   render() {
+    const store = this.props.store;
     const socket = socketIOClient(this.state.endpoint);
     socket.on("backRsvp", obj => {
       // console.log(JSON.stringify(obj))
       this.updetGuset(obj);
     });
+
+    console.log(store.user.userLog);
+    console.log(store.eventIndex);
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="App">
+        <div className="App" >
           {!this.state.rsvpfunc && <Navbar />}
-          {!this.state.rsvpfunc &&
-            (this.props.store.eventIndex != null &&
-              this.props.store.user.userLog) ? (
-              <EventManager />
-            ) : (
-              false
-            )}
-          {!this.props.store.myEventPage && <EventPage />}
-          {!this.props.store.myCategoryPage && <CategoryPage />}
-          <BrowserRouter>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                height: "100%",
-                width: "100%",
-                zIndex: -1
-              }}
-            >
-              {!this.props.store.user.userLog && (
-                <Route exact path="/" component={AppDescription} />
-              )}
-              <Route
-                exact
-                path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
-                render={props => (
-                  <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />
-                )}
-              />
+
+            <div style={{
+              /*  position: "absolute",
+               top: 64,
+               bottom: 0,
+               left: 0,
+               height: "100%",
+               width: "100%", */
+              flex: " 1 1 auto",
+            }}>
+            {/*   {!this.state.rsvpfunc &&
+                store.eventIndex != null &&
+                  store.user.userLog && store.currentPage === "" && <Redirect to={"/" + store.user._Id + "/event/"
+                    + store.user.events[store.eventIndex]._id + "/"} />} */}
+           {/*    {store.user.userLog && !this.props.store.eventIndex &&  store.currentPage === "" && <Redirect to={"/user/" + store.user._Id} />} */}
+             {/*  { store.user.userLog && store.currentPage === "events"  && !this.state.rsvpfunc &&
+                store.eventIndex == null && <Redirect to={"/" + store.user._Id + "/events/"} />}
+              { store.user.userLog &&  store.currentPage === "categories" && store.eventIndex == null && !this.state.rsvpfunc &&
+              <Redirect to={"/" + store.user._Id + "/categories/"} />} */}
+
+
+
+
+              <Switch>
+                {
+                  <Route exact path="/" component={() =>
+                   !store.user.userLog ? <AppDescription/>
+                    : (store.eventIndex ?
+                     <Redirect to={"/" + store.user._Id + "/event/"
+                    + store.user.events[store.eventIndex]._id + "/"} /> 
+                    :  <Redirect to={"/" + store.user._Id + "/events/"} />)} />
+                }
+
+               
+                <Route exact path="/:userId/events/" component={EventsPage} />
+                <Route exact path="/:userId/event/:eventId" component={EventManager} />
+
+                <Route exact path="/:userId/categories/" component={CategoryPage} />
+
+
+                <Route
+                  exact
+                  path="/beuorguest/rsvp/:vetId/:eventId/:guestId/"
+                  render={props => (
+                    <Rsvp {...props} ChangeToRsvpPage={this.ChangeToRsvpPage} />
+                  )}
+                />
+              </Switch>
             </div>
-          </BrowserRouter>
         </div>
       </MuiThemeProvider>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

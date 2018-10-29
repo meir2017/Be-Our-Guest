@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-
+import { observer, inject } from 'mobx-react';
 import GuestInfo from './GuestInfo';
 import TableManager from './TableManager';
 import InvitationManager from './InvitationManager';
@@ -43,7 +43,19 @@ const styles = theme => ({
   },
 });
 
+@inject("store")
+@observer
 class EventManager extends React.Component {
+  constructor(props){
+    super(props);
+    if(props.store.eventIndex === null){
+      let eventId = props.match.params.eventId;
+      let eventIndex = props.store.user.events.findIndex(event => event._id === eventId);
+      this.props.store.thisEventIndex(eventIndex);
+
+    }
+    
+  }
   state = {
     value: 'one',
   };
@@ -52,8 +64,10 @@ class EventManager extends React.Component {
     this.setState({ value });
   };
 
+
+
   render() {
-    const { classes } = this.props;
+    const { classes, match } = this.props;
     const { value } = this.state;
 
     return (
