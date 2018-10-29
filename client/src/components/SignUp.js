@@ -4,6 +4,7 @@ import { Button, ModalBody } from 'reactstrap';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import { observer, inject } from 'mobx-react';
+import { withRouter } from "react-router-dom";
 
 @inject("store")
 @observer
@@ -47,8 +48,13 @@ class SignUp extends Component {
                             result: true,
                             userSituation: "Registration successful"
                         })
-                        this.props.store.updateUser(response.data)
+                        this.props.store.updateUser(response.data);
+                        this.props.store.openModalLogin();
+                        this.props.history.push("/" + this.props.store.user._Id + "/events/");
+                       
+                        
                     }
+
 
                 })
             this.setState({
@@ -62,7 +68,8 @@ class SignUp extends Component {
             alert("Your passwords do not match")
     }
     successSignUp = () => {
-        return <Button onClick={() => { this.props.store.openModalLogin() }} color="primary" >Enter  </Button>
+        return <Button onClick={() => {    this.props.store.openModalLogin();
+            this.props.history.push("/" + this.props.store.user._Id + "/events/");}} color="primary" >Enter  </Button>
     }
     failedSignUp = () => {
         return <Button onClick={() => { this.setState({ Registration: false, userSituation: "" }) }} color="primary" >Back</Button>
@@ -137,4 +144,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default withRouter(SignUp);

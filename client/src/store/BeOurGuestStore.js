@@ -20,6 +20,11 @@ class BeOurGuestStore {
   @observable myEventPage = true;
 
   @observable myCategoryPage = true;
+  @observable currentPage = null;
+
+  @action currentPageChange = (pageName) => {
+    this.currentPage = pageName;
+  }
 
   @action ChangeMyEventPage = (item) => {
     this.myEventPage = item;

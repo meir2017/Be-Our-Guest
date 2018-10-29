@@ -2,6 +2,7 @@
     html,
     #root {
         height: 100%;
+        padding:0px;
     }
     
     .App {
@@ -9,6 +10,8 @@
         /* background-color:lightslategray; */
         overflow-x: hidden;
         min-height: 100%;
+        display: flex;
+        flex-flow: column;
     }
     
     .App-logo {
@@ -90,6 +93,8 @@
     .modal-body {
         text-align: center !important
     }
+
+   
     
     .pas {
         float: left;
@@ -99,7 +104,8 @@
     
     .AppBar {
         text-align: center;
-        margin-top: -55px
+        margin-top: -55px;
+        z-index: 100;
     }
     
     .itemEvent,
@@ -131,18 +137,25 @@
         overflow: auto;
     }
     
-    .iteminvitations {
+   /*  .iteminvitations {
         text-align: center;
         width: 90%;
-        border: solid 2px #d1d1d1;
+        border: solid 4px #d1d1d1;
         padding-top: 10px;
         padding-bottom: 10px;
-        background-color: #7e0a3e;
+        background-color: #999194d4;
         color: white;
-        font-size: 16px;
+        font-size: 20px;
+        font-weight: 500;
         margin: 10px;
         border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0, 0, 0, 0.11);
+    } */
+
+    .clickableItem:hover{
+        border: solid 4px #7e0a3e;
     }
+
     
     .btnicon i {
         padding-left: 20px
@@ -155,16 +168,21 @@
     .iteminvitations {
         text-align: center;
         width: 90%;
-        border: solid 2px #d1d1d1;
+        border: solid 3px #eeeeee;
         padding-top: 10px;
         padding-bottom: 10px;
-        background-color: #99919436;
+        background-color: #999194c9;
         color: #4d0827;
-        font-size: 16px;
-        margin: 10px;
+        font-size: 20px;
+        font-weight: 500;
+        margin: 15px;
         border-radius: 10px;
-        font-style: italic;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.068), 0 6px 20px 0 rgba(0, 0, 0, 0.11);
+        /* font-style: italic; */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.342), 0 6px 20px 0 #2121219c;
+    }
+
+    .eventItem {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.71), 0 6px 20px 0 #212121;
     }
     
     .addTable {
@@ -227,6 +245,11 @@
         box-shadow: 0 6px 10px 0 rgba(70, 9, 37, 0.452), 0 8px 22px 0 rgba(70, 9, 37, 0.452);
         padding: 10px;
         /* border-top-color: #7E0A3E */
+    }
+
+    .menu-nav-link {
+        color: #212121;
+        text-align: left;
     }
 
     

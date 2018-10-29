@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { Button, ModalBody, CardBody } from 'reactstrap';
 // import ForgotPassword from './components/ForgotPassword';
 
+import { withRouter } from "react-router-dom";
 import { observer, inject } from 'mobx-react';
 import axios from 'axios';
 
@@ -15,7 +16,7 @@ class SignIn extends Component {
             inputText: "",
             passText: "",
             ForgotPassword: false,
-            error: false
+            error: false,
         }
     }
     onChangeText = (e) => {
@@ -31,6 +32,8 @@ class SignIn extends Component {
                     // console.log("user login  " + JSON.stringify(response.data))
                     this.props.store.updateUser(response.data);
                     this.props.store.openModalLogin();
+                    this.props.history.push("/" + this.props.store.user._Id + "/events/");
+                    
                 } else {
                     this.setState({ error: true })
                 }
@@ -41,6 +44,7 @@ class SignIn extends Component {
     forgot_password = () => {
         this.setState({ ForgotPassword: true })
     }
+
     render() {
         return (
             <div>
@@ -74,10 +78,8 @@ class SignIn extends Component {
                     </div>
                     <br /><br />
                 </CardBody>
-            </div>
-
-        )
+            </div >)
     }
 }
 
-export default SignIn;
+export default withRouter(SignIn);

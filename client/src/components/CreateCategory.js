@@ -23,7 +23,9 @@ const styles = theme => ({
     position: 'fixed',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
-    zIndex: 10
+    zIndex: 10,
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.71), 0 6px 20px 0 #212121",
+    border:'solid',
   },
 
 })

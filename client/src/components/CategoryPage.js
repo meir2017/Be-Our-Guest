@@ -33,18 +33,23 @@ const styles = theme => ({
     position: 'fixed',
     bottom: theme.spacing.unit * 10,
     right: theme.spacing.unit * 8,
-    zIndex: 10
+    zIndex: 10,
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.71), 0 6px 20px 0 #212121",
+    border: 'solid',
   },
   tableAvatar: {
-    height: 40,
-    width: 40,
+    height: 20,
+    width: 20,
     color: "black",
-    marginBottom: 5,
     //   borderRadius: 2,
     /*         borderWidth:2,
             borderStyle:'solid', */
     fontSize: 15
   },
+  categoriesHeader: {
+    color: '#cecccc',
+
+  }
 });
 @inject("store")
 @observer
@@ -54,7 +59,8 @@ class CategoryPage extends Component {
     this.state = {
       currentCategory: null,
       categoryIndex: -1,
-      openDeleteCategory: false
+      openDeleteCategory: false,
+      isEmpty: true,
     }
   }
   handleClose = () => {
@@ -108,7 +114,7 @@ class CategoryPage extends Component {
     const item = this.props.store;
     const { classes } = this.props;
     return (
-      <div className="row">
+      <div className="row" style={{overflowY: 'auto', height: '90vh', width: '101%'}}>
         <Dialog
           open={this.state.openDeleteCategory}
           onClose={this.handleCloseDeleteCategory}
@@ -127,52 +133,54 @@ class CategoryPage extends Component {
             <Button onClick={this.handleCloseDeleteCategory}>Cancel</Button>
           </DialogActions>
         </Dialog>
-        <div className="col-sm-4"></div>
-        <div className="eventPage col-sm-4">
-          <div className="myEvent">
-            {this.props.store.user.categories.map((category, index) => {
-              return (
-                <div className="iteminvitations container" style={{ cursor: 'pointer' }}>
-                  <div name={index} key={category._id} className="row">
-                    <div className="col-sm-7 text2"
-                      id={index}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'left', /* align horizontal */
-                        alignItems: 'center'
-                      }}>
-                      <Avatar
-                        className={classes.tableAvatar}
-                        style={{ backgroundColor: category.colorCode, marginRight: "20px" }}
-                      >
-                      </Avatar>
-                      {category.name}
-                    </div>
-                    <div className="col-sm-5 btnicon" style={{ textAlign: 'right' }}>
-                      <IconButton className={classes.iconButton} >
-                        <ClearIcon className={classes.icon} />
-                        {/* <Icon id={index} onClick={e => { this.myIndex(e); this.handleOpenDeleteCategory() }} id={index} className={classes.icon}>clear_icon</Icon> */}
-                      </IconButton>
-                      {/* onClick={this.handleOpenDeleteCategory} <IconButton className={classes.iconButton}>
+
+        <div className="eventPage col-md-4 offset-md-4">
+          {this.props.store.user.categories.length == 0 &&
+            < h3 className={classes.categoriesHeader}>You have no categories</h3>}
+          <div className="myEvent" style={{ margin: 50 }}>
+          {this.props.store.user.categories.map((category, index) => {
+            return (
+              <div className="iteminvitations container" style={{ cursor: 'pointer', width: 'auto', }}>
+                <div name={index} key={category._id} className="row text2" id={index}>
+
+                  <div className="col-md-2">
+                    <Avatar
+                      className={classes.tableAvatar}
+                      style={{ backgroundColor: category.colorCode, marginRight: "20px" }}
+                    >
+
+                    </Avatar>
+                  </div>
+                  <div className="col-md-8">
+                    {category.name}
+                  </div>
+
+                  <div className="col-md-2 btnicon" style={{ textAlign: 'right' }}>
+                    <IconButton className={classes.iconButton} >
+                      <ClearIcon className={classes.icon} />
+                      {/* <Icon id={index} onClick={e => { this.myIndex(e); this.handleOpenDeleteCategory() }} id={index} className={classes.icon}>clear_icon</Icon> */}
+                    </IconButton>
+                    {/* onClick={this.handleOpenDeleteCategory} <IconButton className={classes.iconButton}>
                                                 <Icon id={index} onClick={e => { this.openEditeEvent(e.target.id) }} id={index} className={classes.icon}>edit_icon</Icon>
                                             </IconButton> */}
-                      {/* <IconButton className={classes.iconButton}>
+                    {/* <IconButton className={classes.iconButton}>
                                                 <Icon id={index} onClick={e => { this.myIndex(e); this.toggleRemove() }} id={index} className={classes.icon}>clear_icon</Icon>
                                             </IconButton> */}
-                    </div>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+
+            )
+          })}
         </div>
-        <CreateCategory />
+      </div>
+      <CreateCategory />
 
 
         {/* <EditEvent openEditeEvent={this.openEditeEvent}
                     modalEdit={this.state.modalEdit}
                     indexEvent={this.state.myEvent} /> */}
-      </div>
+      </div >
     );
   }
 }

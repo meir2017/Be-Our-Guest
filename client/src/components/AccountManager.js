@@ -6,8 +6,9 @@ import { withStyles, MenuItem, Menu, IconButton } from "@material-ui/core"
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogIn from './LogIn';
 import YouLoginAs from './YouLoginAs';
-
+import { withRouter } from "react-router-dom";
 import { observer, inject } from 'mobx-react';
+
 
 
 const styles = theme => ({
@@ -29,17 +30,26 @@ class AccountManager extends Component {
     };
 
     openMyEventPage = () => {
+        this.props.store.currentPageChange("events");
+        console.log(this.props.store.currentPage);
         this.props.store.thisEventIndex(null)
+        console.log(this.props.store.eventIndex);
+        console.log(this.props.store.user.userLog);
         this.props.store.ChangeMyEventPage(false)
         this.props.store.ChangeMyCategoryPage(true)
         this.handleCloseMenuAccount();
-    }
+        this.props.history.push("/" + this.props.store.user._Id + "/events/");
+        
+        
+      }
 
     openMyCategoryPage = () => {
+        this.props.store.currentPageChange("categories");
         this.props.store.thisEventIndex(null)
         this.props.store.ChangeMyCategoryPage(false)
-        this.props.store.ChangeMyEventPage(true)
+        this.props.store.ChangeMyEventPage(true);
         this.handleCloseMenuAccount();
+        this.props.history.push("/" + this.props.store.user._Id + "/categories/");
     }
 
     handleMenuAccount = event => {
@@ -52,6 +62,8 @@ class AccountManager extends Component {
 
     handleCloseMenuAccount = () => {
         this.setState({ anchorMenuAccount: null, expanded: false });
+        this.props.store.currentPageChange("");
+
     };
 
     handleChange = panel => (event, expanded) => {
@@ -64,7 +76,9 @@ class AccountManager extends Component {
         this.handleCloseMenuAccount();
         this.props.store.thisEventIndex(null)
         this.props.store.ChangeMyEventPage(true)
-        localStorage.clear()
+        localStorage.clear();
+        this.props.history.push("/");
+
     }
     openProfile = (e) => {
         this.setState({
@@ -80,7 +94,6 @@ class AccountManager extends Component {
         const openMenuAccount = Boolean(anchorMenuAccount);
         const openEvent = Boolean(expanded);
         return (
-
             <div className={classes.root} >
                 {(this.props.store.user.userLog) ? <YouLoginAs /> : false}
                 <IconButton
@@ -110,7 +123,7 @@ class AccountManager extends Component {
                 >
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     <MenuItem onClick={this.openProfile}>Profile</MenuItem>
-                    <MenuItem onClick={this.openMyEventPage} >My Events</MenuItem>
+                    <MenuItem onClick={this.openMyEventPage}>My Events</MenuItem>
                     <MenuItem onClick={this.openMyCategoryPage} >My Categories</MenuItem>
                 </Menu>
                 <Modal className="modalm smallModal" style={{ width: "350px" }} isOpen={this.state.profileModal} toggle={this.openProfile} >
@@ -130,5 +143,5 @@ class AccountManager extends Component {
 
 //export default Navbar;
 
-export default withStyles(styles)(AccountManager);
+export default withRouter(withStyles(styles)(AccountManager));
 
