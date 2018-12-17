@@ -10,6 +10,7 @@ import LogIn from './LogIn';
 import { observer, inject } from "mobx-react";
 import axios from "axios";
 
+
 // let imgUrl = "./../pic3.jpg";
 let imgUrl = "./../summer_09.jpg";
 const styles = theme => ({
